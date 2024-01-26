@@ -48,8 +48,4 @@ Copy the contents from .env.template adding your custom variables
    npm run dev
 
 
-   
-
-
-
 
