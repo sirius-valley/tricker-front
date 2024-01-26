@@ -46,6 +46,3 @@ Copy the contents from .env.template adding your custom variables
 
    ```bash
    npm run dev
-
-
-
