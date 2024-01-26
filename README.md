@@ -29,7 +29,7 @@ Tricker is a dynamic, real-time ticket tracking application designed to streamli
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/your-repository/tricker-frontend.git
+   git clone https://github.com/sirius-valley/tricker-front.git
    cd tricker-frontend
 
 2. **Install Dependencies**
