@@ -2,7 +2,7 @@ import '../../index.css'
 import React from "react";
 import { cva, VariantProps } from "class-variance-authority";
 
-const pillVariants = cva(["rounded-[91px] py-[4px] px-[8px] max-w-fit max-h-fit font-Inter text-[12px] leading-[15px] text-left "], {
+const pillVariants = cva(["rounded-[91px] py-[4px] px-[8px] max-w-fit max-h-fit font-inter text-[12px] leading-[15px] text-left "], {
     variants: {
         variant: {
             default: [
