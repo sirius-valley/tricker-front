@@ -13,6 +13,5 @@ type Story = StoryObj<typeof Body2>;
 export const Primary: Story = {
   args: {
     children: 'Body 2',
-    className: '',
   },
 };

@@ -13,6 +13,5 @@ type Story = StoryObj<typeof H2>;
 export const Primary: Story = {
   args: {
     children: 'Heading 2',
-    className: '',
   },
 };

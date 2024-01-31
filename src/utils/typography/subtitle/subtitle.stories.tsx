@@ -13,6 +13,5 @@ type Story = StoryObj<typeof Subtitle>;
 export const Primary: Story = {
   args: {
     children: 'Subtitle 1',
-    className: '',
   },
 };
