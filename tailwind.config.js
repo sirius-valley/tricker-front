@@ -49,6 +49,9 @@ export default {
       backgroundImage: { // you can use this applying "bg-gradient" class
         gradient: 'linear-gradient(114deg, #D795FF 1.41%, #43FFDD 98.59%)',
       },
+      fontFamily: {
+        'Inter': ['Inter']
+      },
     },
   },
   plugins: [],
