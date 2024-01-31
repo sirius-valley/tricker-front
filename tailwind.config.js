@@ -50,7 +50,7 @@ export default {
         gradient: 'linear-gradient(114deg, #D795FF 1.41%, #43FFDD 98.59%)',
       },
       fontFamily: {
-        'Inter': ['Inter']
+        inter: ["Inter"],
       },
     },
   },
