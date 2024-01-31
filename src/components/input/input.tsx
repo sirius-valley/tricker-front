@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import config from "../../../tailwind.config.js";
 import { cva, VariantProps } from "class-variance-authority";
+import Body2 from "../../utils/typography/body2/body2";
 
 const colors = config.theme.extend.colors;
 
@@ -11,7 +12,11 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
-        default: ["text-white cursor-pointer", "hover:border-2 border-gray-300", "focus:border-primary-400"],
+        default: [
+          "text-white cursor-pointer",
+          "hover:border-2 border-gray-300",
+          "focus:border-primary-400",
+        ],
         error: ["border-error-500"],
         disabled: ["bg-gray-400", "cursor-not-allowed"],
       },
@@ -21,7 +26,6 @@ const inputVariants = cva(
     },
   }
 );
-
 export interface InputProps
   extends VariantProps<typeof inputVariants>,
     React.HTMLAttributes<HTMLInputElement> {
@@ -52,14 +56,20 @@ const Input = ({
   placeholder = "",
 }: InputProps) => {
   return (
-    <div className="bg-gray-600 w-full h-screen flex justify-center items-center">
-      {label !== "" && <label>{label}</label>}
+    <div className="bg-gray-600 w-full h-screen flex justify-center items-center flex-col">
+      {label !== "" && (
+        <Body2 className="text-white flex">
+          {label}
+          {required && <Body2 className="text-error-500 flex">*</Body2>}
+        </Body2>
+      )}
+
       <input
         className={inputVariants({ variant, className })}
         value={value}
         type={type}
         required={required}
-        placeholder="This input is quite long"
+        placeholder={placeholder}
         onChange={onChange}
         disabled={variant === "disabled"}
       />
