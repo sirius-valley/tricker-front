@@ -1,9 +1,9 @@
 import React from 'react';
-import {TypographyTypes} from "./typography.types";
+import {TypographyTypes} from "../typography.types";
 
 const Subtitle: React.FC<TypographyTypes> = ({className, children}) => {
   return (
-      <h4 className={`font-inter font-medium text-base ${className}`}>
+      <h4 className={`font-inter font-medium text-base leading-[17.6px] ${className}`}>
         {children}
       </h4>
   );

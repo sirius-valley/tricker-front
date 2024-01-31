@@ -1,9 +1,9 @@
 import React from 'react';
-import {TypographyTypes} from "./typography.types";
+import {TypographyTypes} from "../typography.types";
 
 const H1: React.FC<TypographyTypes> = ({className, children}) => {
   return (
-      <h1 className={`font-inter font-bold text-26px ${className}`}>
+      <h1 className={`font-inter font-bold text-[26px] leading-[28.6px] ${className}`}>
         {children}
       </h1>
   );
