@@ -7,16 +7,41 @@ const meta: Meta<typeof Input> = {
   tags: ["autodocs"],
   argTypes: {
     variant: {
-      options: ["default", "error", "disabled"],
       defaultValue: "default",
+      options: ["default", "error", "disabled"],
       control: {
         type: "select",
       },
     },
-    children: {
-      defaultValue: "Input",
+    type: {
+      defaultValue: ["text"],
+      options: ["text", "password"],
+      control: {
+        type: "radio",
+      },
+    },
+    label: {
+      defaultValue: "Input Label Text",
       control: {
         type: "text",
+      },
+    },
+    helpertext: {
+      defaultValue: "Input Helper Text",
+      control: {
+        type: "text",
+      },
+    },
+    placeholder: {
+      defaultValue: "This input is quite long",
+      control: {
+        type: "text",
+      },
+    },
+    required: {
+      defaultValue: true,
+      control: {
+        type: "boolean",
       },
     },
   },
@@ -29,7 +54,13 @@ type Story = StoryObj<typeof Input>;
 export const Primary: Story = {
   tags: ["autodocs"],
   args: {
+    variant: "default",
+    label: "Input Label Text",
     placeholder: "This input is quite long",
+    helpertext: "Input Label Text",
+    type: "text",
+    required: true,
+    icon: false,
   },
-  render: (args) => <Input {...args}/>,
+  render: (args) => <Input {...args} />,
 };
