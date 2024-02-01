@@ -1,7 +1,6 @@
 import {Meta, StoryObj} from "@storybook/react";
 import {GradientRoundedButton} from "./GradientRoundedButton";
-import PlayIcon from "../../utils/icons/PlayIcon";
-import StopIcon from "../../utils/icons/StopIcon";
+import Icon from "../Icon/Icon";
 
 const meta: Meta<typeof GradientRoundedButton> = {
   title: "Components/GradientRoundedButton",
@@ -30,7 +29,7 @@ type Story = StoryObj<typeof GradientRoundedButton>;
 export const Play: Story = {
   tags: ["autodocs"],
   args: {
-    icon: <PlayIcon fillColor="black"/>,
+    icon: <Icon name="PlayIcon" fillColor="black"/>,
     size: "lg"
   },
   render: (args) => <GradientRoundedButton {...args} />,
@@ -39,7 +38,7 @@ export const Play: Story = {
 export const Stop: Story = {
   tags: ["autodocs"],
   args: {
-    icon: <StopIcon fillColor="black"/>,
+    icon: <Icon name="StopIcon" fillColor="black"/>,
     size: "lg"
   },
   render: (args) => <GradientRoundedButton {...args} />,
