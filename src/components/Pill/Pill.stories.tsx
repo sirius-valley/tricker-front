@@ -26,10 +26,28 @@ export default meta;
 
 type Story = StoryObj<typeof Pill>;
 
-export const Primary: Story = {
+export const Default: Story = {
   tags: ["autodocs"],
   args: {
-    children: "Primary",
+    children: "Default",
+  },
+  render: (args) => <Pill {...args}>{args.children}</Pill>,
+};
+
+export const Gradient: Story = {
+  tags: ["autodocs"],
+  args: {
+    children: "Gradient",
+    variant: "gradient",
+  },
+  render: (args) => <Pill {...args}>{args.children}</Pill>,
+};
+
+export const Error: Story = {
+  tags: ["autodocs"],
+  args: {
+    children: "Blocked",
+    variant: "error",
   },
   render: (args) => <Pill {...args}>{args.children}</Pill>,
 };
