@@ -19,6 +19,11 @@ const meta: Meta<typeof NavbarItem> = {
       control: {
         type: "text",
       }
+    },
+    icon: {
+      control: {
+        type: null,
+      }
     }
   }
 };
@@ -27,11 +32,31 @@ export default meta;
 
 type Story = StoryObj<typeof NavbarItem>;
 
-export const Primary: Story = {
+export const Default: Story = {
   tags: ["autodocs"],
   args: {
     icon: <HomeIcon width="20" height="20" />,
     children: "Texto"
+  },
+  render: (args) => <NavbarItem {...args}>{args.children}</NavbarItem>,
+};
+
+export const Selected: Story = {
+  tags: ["autodocs"],
+  args: {
+    icon: <HomeIcon width="20" height="20" />,
+    children: "Texto",
+    variant: "selected"
+  },
+  render: (args) => <NavbarItem {...args}>{args.children}</NavbarItem>,
+};
+
+export const Disabled: Story = {
+  tags: ["autodocs"],
+  args: {
+    icon: <HomeIcon width="20" height="20" />,
+    children: "Texto",
+    variant: "disabled"
   },
   render: (args) => <NavbarItem {...args}>{args.children}</NavbarItem>,
 };
