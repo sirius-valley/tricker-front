@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from "@storybook/react";
 import {NavbarItem} from "./NavbarItem";
-import HomeIcon from "../../utils/icons/HomeIcon";
+import Icon from "../Icon/Icon";
 
 const meta: Meta<typeof NavbarItem> = {
   title: "Components/NavbarItem",
@@ -35,7 +35,7 @@ type Story = StoryObj<typeof NavbarItem>;
 export const Default: Story = {
   tags: ["autodocs"],
   args: {
-    icon: <HomeIcon width="20" height="20" />,
+    icon: <Icon name="HomeIcon" width="20" height="20" />,
     children: "Texto"
   },
   render: (args) => <NavbarItem {...args}>{args.children}</NavbarItem>,
@@ -44,7 +44,7 @@ export const Default: Story = {
 export const Selected: Story = {
   tags: ["autodocs"],
   args: {
-    icon: <HomeIcon width="20" height="20" />,
+    icon: <Icon name="HomeIcon" width="20" height="20" />,
     children: "Texto",
     variant: "selected"
   },
@@ -54,7 +54,7 @@ export const Selected: Story = {
 export const Disabled: Story = {
   tags: ["autodocs"],
   args: {
-    icon: <HomeIcon width="20" height="20" />,
+    icon: <Icon name="HomeIcon" width="20" height="20" />,
     children: "Texto",
     variant: "disabled"
   },
