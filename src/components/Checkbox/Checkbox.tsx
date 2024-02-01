@@ -23,7 +23,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({ onChecked }) => {
           id={checkboxId}
           type="checkbox"
           onClick={handleChange}
-          className="absolute left-0 h-[16.25px] w-[16.25px] border-[1.11px] rounded-[4.44px] appearance-none cursor-pointer peer bg-transparent checked:bg-primary-400 hover:bg-gray-300/20 checked:hover:bg-primary-500 checked:border-none"
+          className="absolute left-0 h-[16.25px] w-[16.25px] border-gray-300 border-[1.11px] rounded-[4.44px] appearance-none cursor-pointer peer bg-transparent checked:bg-primary-400 hover:bg-gray-300/20 checked:hover:bg-primary-500 checked:border-none"
         />
         {checked && (
           <label
