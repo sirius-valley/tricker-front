@@ -50,11 +50,23 @@ export const RoundedIconButton: React.FC<RoundedIconButtonProps> = ({
   }
 
   const colors = config.theme.extend.colors;
+  let color 
+  switch (variant) {
+    case "blocked":
+      color = colors.white
+      break;
+    case "default":
+      color = colors.gray[200]
+      break;
+    case "disabled":
+      color = colors.gray[200]+"33" // 33: 20% opacity
+      break;
+  }
 
   const IconComponent = React.cloneElement(icon as React.ReactElement, {
     width: iconSize,
     height: iconSize,
-    fillColor: (variant === "disabled") ? colors.gray[200]+"33" : colors.gray[200], // 33: 20% opacity
+    fillColor: color, 
   });
 
   return (
