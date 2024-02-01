@@ -7,12 +7,12 @@ const gradientRoundedButtonVariants = cva(
   {
     variants: {
       size: {
-        sm: "w-[40px] h-[40px]",
-        md: "w-[56px] h-[56px]",
+        md: "w-[40px] h-[40px]",
+        lg: "w-[56px] h-[56px]",
       },
     },
     defaultVariants: {
-      size: "md",
+      size: "lg",
     },
   }
 );
@@ -31,10 +31,10 @@ export const GradientRoundedButton: React.FC<GradientRoundedButtonProps> = ({
 }) => {
   let iconSize;
   switch (size) {
-    case "sm":
+    case "md":
       iconSize = "30px"
       break;
-    case "md":
+    case "lg":
       iconSize = "40px"
       break;
     default:
