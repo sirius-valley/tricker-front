@@ -60,16 +60,16 @@ const Input = ({
       : "text-white";
 
   return (
-    <div className="">
+    <div>
       {label !== "" && (
         <Body2
           className={` ${
             variant === "disabled" ? "text-gray-300" : "text-white"
-          } flex`}
+          } flex text-sm`}
         >
           {label}
           {variant !== "disabled" && required && (
-            <Body2 className="text-error-500 flex">*</Body2>
+            <Body2 className="text-error-500 flex text-sm">*</Body2>
           )}
         </Body2>
       )}
