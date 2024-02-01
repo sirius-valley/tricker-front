@@ -28,7 +28,7 @@ export const Play: Story = {
   render: (args) => <SquaredIconButton {...args} />,
 };
 
-export const TrackinTime: Story = {
+export const TrackingTime: Story = {
   tags: ["autodocs"],
   args: {
     icon: <StopIcon fillColor="white" />,
