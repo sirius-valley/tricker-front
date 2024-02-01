@@ -6,13 +6,13 @@ const pillVariants = cva(["rounded-[91px] py-[4px] px-[8px] max-w-fit max-h-fit 
     variants: {
         variant: {
             default: [
-                "bg-gray-400 text-white font-[400]"
+                "bg-gray-400 text-white font-normal"
             ],
             gradient: [
-                "bg-gradient text-black font-[600]"
+                "bg-gradient text-black font-semibold"
             ],
             error: [
-                "bg-error-500 text-white font-[600]"
+                "bg-error-500 text-white font-semibold"
             ],
         },
     },
