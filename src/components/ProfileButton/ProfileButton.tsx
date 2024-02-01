@@ -16,7 +16,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
     <button
       onClick={onClick}
     >
-      <img src={img} alt="User's profile picture" className="bg-gradient p-0.5 rounded-[40px] cursor-pointer w-9 h-9"/>
+      <img src={img} alt="User's profile picture" className="bg-gradient p-0.5 rounded-[40px] cursor-pointer w-10 h-10"/>
     </button>
   );
 };
