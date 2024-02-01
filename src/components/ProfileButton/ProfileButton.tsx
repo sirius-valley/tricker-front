@@ -13,10 +13,12 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
   onClick,
 }) => {
   return (
-    <button
-      onClick={onClick}
-    >
-      <img src={img} alt="User's profile picture" className="bg-gradient p-0.5 rounded-[40px] cursor-pointer w-10 h-10"/>
+    <button onClick={onClick}>
+      <img
+        src={img}
+        alt="User's profile picture"
+        className={`bg-gradient p-0.5 rounded-[40px] cursor-pointer w-10 h-10 ${className}`}
+      />
     </button>
   );
 };
