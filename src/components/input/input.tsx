@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from "react";
 import config from "../../../tailwind.config.js";
 import { cva, VariantProps } from "class-variance-authority";
 import Body2 from "../../utils/typography/body2/body2";
+import HelperText from "../../utils/typography/helpertext/helpertext";
 
 const colors = config.theme.extend.colors;
 
@@ -30,7 +31,7 @@ export interface InputProps
   extends VariantProps<typeof inputVariants>,
     React.HTMLAttributes<HTMLInputElement> {
   value?: string;
-  type?: InputType;
+  type?: "text" | "password";
   helpertext?: string;
   icon?: boolean;
   label?: string;
@@ -38,16 +39,12 @@ export interface InputProps
   placeholder?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
-enum InputType {
-  PASSWORD = "password",
-  TEXT = "text",
-}
 
 const Input = ({
   className,
   variant,
   value = "",
-  type = InputType.TEXT,
+  type = "text",
   helpertext = "",
   icon = false,
   label = "",
@@ -55,12 +52,25 @@ const Input = ({
   onChange,
   placeholder = "",
 }: InputProps) => {
+  const textColor =
+    variant === "error"
+      ? "text-error-500"
+      : variant === "disabled"
+      ? "text-gray-300"
+      : "text-white";
+
   return (
-    <div className="bg-gray-600 w-full h-screen flex justify-center items-center flex-col">
+    <div className="">
       {label !== "" && (
-        <Body2 className="text-white flex">
+        <Body2
+          className={` ${
+            variant === "disabled" ? "text-gray-300" : "text-white"
+          } flex`}
+        >
           {label}
-          {required && <Body2 className="text-error-500 flex">*</Body2>}
+          {variant !== "disabled" && required && (
+            <Body2 className="text-error-500 flex">*</Body2>
+          )}
         </Body2>
       )}
 
@@ -73,7 +83,9 @@ const Input = ({
         onChange={onChange}
         disabled={variant === "disabled"}
       />
-      {helpertext !== "" && <label>{helpertext}</label>}
+      {helpertext !== "" && (
+        <HelperText className={textColor}>{helpertext}</HelperText>
+      )}
     </div>
   );
 };
