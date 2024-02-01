@@ -2,16 +2,16 @@ import "../../index.css";
 import React from "react";
 import { cva, VariantProps } from "class-variance-authority";
 import config from "../../../tailwind.config.js";
-import StatsIcon from "../../utils/icons/StatsIcon.js";
 import HomeIcon from "../../utils/icons/HomeIcon.js";
 import TeamIcon from "../../utils/icons/TeamIcon.js";
 import FolderIcon from "../../utils/icons/FolderIcon.js";
 import { ProfileButton } from "../ProfileButton/ProfileButton.js";
+import ChartDonutIcon from "../../utils/icons/ChartDonutIcon.js";
 
 const colors = config.theme.extend.colors;
 
 const navButtonVariants = cva(
-  ["flex p-3 gap-2.5 rounded-lg w-14 h-14 items-center"],
+  ["flex p-3 gap-2.5 rounded-lg w-14 h-14 items-center justify-center"],
   {
     variants: {
       state: {
@@ -30,7 +30,7 @@ const iconVariant = (
 ): React.ReactElement => {
   switch (variant) {
     case "profile":
-      return <ProfileButton img={profilePicture ?? ""} />;
+      return <ProfileButton img={profilePicture ?? ""} className="w-8 h-8" />;
     case "projects":
       return <FolderIcon width="32px" height="32px" />;
     case "home":
@@ -38,7 +38,7 @@ const iconVariant = (
     case "team":
       return <TeamIcon width="32px" height="32px" />;
     case "stats":
-      return <StatsIcon width="32px" height="32px" />;
+      return <ChartDonutIcon width="32px" height="32px" />;
     default:
       return <></>;
   }
@@ -62,7 +62,7 @@ export const NavButton: React.FC<NavButtonProps> = ({
 }) => {
   return (
     <button className={navButtonVariants({ state, className })} {...props}>
-      {iconVariant(variant)}
+      {iconVariant(variant, profilePicture)}
     </button>
   );
 };
