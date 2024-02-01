@@ -1,4 +1,3 @@
-import React from 'react'
 import * as icons from './index.ts'
 
 export interface IconProps {
