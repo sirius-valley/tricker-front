@@ -10,17 +10,19 @@ export const Switch: React.FC<SwitchProps> = ({ onChecked }) => {
     onChecked && onChecked(e.target.checked);
   };
 
+  const inputId = Math.random().toString(36).substring(7);
+
   return (
     <div className="inline-flex items-center">
       <div className="relative inline-block w-[50px] h-[27px] rounded-full cursor-pointer">
         <input
-          id="switch-input"
+          id={inputId}
           type="checkbox"
           onChange={handle}
           className="absolute left-0 w-[50px] h-[27px] transition-colors duration-300 rounded-full appearance-none cursor-pointer peer bg-gray-200 checked:bg-primary-500"
         />
         <label
-          htmlFor="switch-input"
+          htmlFor={inputId}
           className="absolute ml-[4px] left-0 top-[3px] h-[21px] w-[21px] cursor-pointer rounded-full bg-white shadow-sm transition-all duration-300  peer-checked:translate-x-full"
         ></label>
       </div>
