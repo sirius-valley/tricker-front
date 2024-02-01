@@ -17,7 +17,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
       <img
         src={img}
         alt="User's profile picture"
-        className={`bg-gradient p-0.5 rounded-[40px] cursor-pointer w-10 h-10 ${className}`}
+        className={`bg-gradient p-0.5 rounded-[40px] cursor-pointer w-10 h-10 object-cover ${className}`}
       />
     </button>
   );
