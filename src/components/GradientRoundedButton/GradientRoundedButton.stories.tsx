@@ -14,8 +14,8 @@ const meta: Meta<typeof GradientRoundedButton> = {
       }
     },
     size: {
-      options: ["sm", "md"],
-      defaultValue: "md",
+      options: ["md", "lg"],
+      defaultValue: "lg",
       control: {
         type: "select",
       }
@@ -31,7 +31,7 @@ export const Play: Story = {
   tags: ["autodocs"],
   args: {
     icon: <PlayIcon fillColor="black"/>,
-    size: "md"
+    size: "lg"
   },
   render: (args) => <GradientRoundedButton {...args} />,
 };
@@ -40,7 +40,7 @@ export const Stop: Story = {
   tags: ["autodocs"],
   args: {
     icon: <StopIcon fillColor="black"/>,
-    size: "md"
+    size: "lg"
   },
   render: (args) => <GradientRoundedButton {...args} />,
 };
