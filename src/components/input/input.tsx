@@ -1,8 +1,9 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import config from "../../../tailwind.config.js";
 import { cva, VariantProps } from "class-variance-authority";
 import Body2 from "../../utils/typography/body2/body2.js";
 import HelperText from "../../utils/typography/helpertext/helpertext.js";
+import React from "react";
 
 const colors = config.theme.extend.colors;
 
@@ -30,35 +31,38 @@ const inputVariants = cva(
 export interface InputProps
   extends VariantProps<typeof inputVariants>,
     React.HTMLAttributes<HTMLInputElement> {
-  value?: string;
   type?: "text" | "password";
   helpertext?: string;
-  icon?: boolean;
+  icon?: string;
   label?: string;
   required?: boolean;
   placeholder?: string;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleValue: (value: string) => void;
 }
 
 const Input = ({
   className,
   variant,
-  value = "",
   type = "text",
   helpertext = "",
-  icon = false,
+  icon = "",
   label = "",
   required = false,
-  onChange,
+  handleValue,
   placeholder = "",
 }: InputProps) => {
-  const textColor =
+  const [value, setValue] = useState<string>("");
+  const textColor: string =
     variant === "error"
       ? "text-error-500"
       : variant === "disabled"
       ? "text-gray-300"
       : "text-white";
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+    handleValue(e.target.value);
+  };
   return (
     <div className="gap-2 flex flex-col">
       {label !== "" && (
@@ -73,16 +77,16 @@ const Input = ({
           )}
         </Body2>
       )}
-
       <input
         className={inputVariants({ variant, className })}
         value={value}
         type={type}
         required={required}
         placeholder={placeholder}
-        onChange={onChange}
+        onChange={handleChange}
         disabled={variant === "disabled"}
       />
+
       {helpertext !== "" && (
         <HelperText className={textColor}>{helpertext}</HelperText>
       )}
