@@ -15,7 +15,7 @@ const Tag: React.FC<TagProps> = ({ className, name, ...props }) => {
     >
       <Body2 className="text-white text-sm">{name}</Body2>
       <div className="w-px h-[18px] bg-gray-600" />
-      <button className="hover:bg-gray-400/30 rounded-sm">
+      <button className="hover:bg-gray-300/30 rounded-sm">
         <DismissIcon width="18px" height="18px" />
       </button>
     </div>
