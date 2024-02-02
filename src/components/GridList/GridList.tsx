@@ -22,8 +22,8 @@ export const GridList: React.FC<GridListProps> = ({ onChecked, checked, disabled
     selectedColor = disabled ? "#FFFFFF"+80 : selectedColor;
 
     return (
-        <label htmlFor="Toggle4" className="flex justify-center items-center cursor-pointer bg-white/10 rounded-[4px] max-w-max ">
-            <input id="Toggle4" type="checkbox" className="hidden peer" onChange={handle} disabled={disabled} />
+        <label htmlFor="Toggle4" className={"flex justify-center items-center bg-white/10 rounded-[4px] max-w-max " + (disabled === true  ? "cursor-not-allowed" : "cursor-pointer")}>
+            <input id="Toggle4" type="checkbox" className={"hidden peer" } onChange={handle} disabled={disabled} />
             <span className={state ? "flex items-center justify-center h-[28px] w-[30px] pl-[6px] bg-gray-400 bg-transparent border rounded-[4px] border-transparent transition-all duration-100 ease-in" : "transition-all duration-100 ease-in flex items-center justify-center w-[36px] h-[28px]  bg-gray-400 border border-white/30 rounded-[4px]"}>
                 <Icon name={"GridIcon"} width="20" height="20" fillColor={state ? "#FFFFFF"+80 : selectedColor}/>
             </span>
