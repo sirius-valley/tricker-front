@@ -1,8 +1,8 @@
 import { ChangeEvent, useState } from "react";
 import config from "../../../tailwind.config.js";
 import { cva, VariantProps } from "class-variance-authority";
-import Body2 from "../../utils/typography/body2/body2";
-import HelperText from "../../utils/typography/helpertext/helpertext";
+import Body2 from "../../utils/typography/body2/body2.js";
+import HelperText from "../../utils/typography/helpertext/helpertext.js";
 
 const colors = config.theme.extend.colors;
 
@@ -18,7 +18,7 @@ const inputVariants = cva(
           "hover:border-2 border-gray-300",
           "focus:border-primary-400",
         ],
-        error: ["border-error-500"],
+        error: ["border-error-500", "focus:border-primary-400"],
         disabled: ["bg-gray-400", "cursor-not-allowed"],
       },
     },
@@ -60,7 +60,7 @@ const Input = ({
       : "text-white";
 
   return (
-    <div>
+    <div className="gap-2 flex flex-col">
       {label !== "" && (
         <Body2
           className={` ${
