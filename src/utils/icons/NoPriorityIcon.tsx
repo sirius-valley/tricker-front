@@ -5,13 +5,13 @@ const NoPriorityIcon = (props: IconProps) => {
 
   return (
     <svg
-      width={width}
-      height={height}
-      viewBox="0 0 16 2"
-      fill="white"
+      width={width || 24}
+      height={height || 24}
+      viewBox="0 0 24 24"
+      fill={fillColor || "#FEFEFE"}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width="16" height="2" fill={fillColor} />
+      <rect x="4" y="11" width="16" height="2" fill={fillColor || "#FEFEFE"} />
     </svg>
   );
 };

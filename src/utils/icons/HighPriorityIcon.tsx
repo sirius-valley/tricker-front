@@ -5,15 +5,15 @@ const HighPriorityIcon = (props: IconProps) => {
 
   return (
     <svg
-      width={width}
-      height={height}
-      viewBox="0 0 16 16"
-      fill="white"
+      width={width || 24}
+      height={height || 24}
+      viewBox="0 0 24 24"
+      fill={fillColor || "#FEFEFE"}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect y="10" width="4" height="6" fill={fillColor} />
-      <rect x="6" y="5" width="4" height="11" fill={fillColor} />
-      <rect x="12" width="4" height="16" fill={fillColor} />
+      <rect x="4" y="14" width="4" height="6" fill={fillColor || "#FEFEFE"} />
+      <rect x="10" y="9" width="4" height="11" fill={fillColor || "#FEFEFE"} />
+      <rect x="16" y="4" width="4" height="16" fill={fillColor || "#FEFEFE"} />
     </svg>
   );
 };
