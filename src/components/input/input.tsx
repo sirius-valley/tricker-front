@@ -1,8 +1,8 @@
 import { useState } from "react";
-import config from "../../../tailwind.config.js";
+import config from "../../../tailwind.config";
 import { cva, VariantProps } from "class-variance-authority";
-import Body2 from "../../utils/typography/body2/body2.js";
-import HelperText from "../../utils/typography/helpertext/helpertext.js";
+import Body2 from "../../utils/typography/body2/body2";
+import HelperText from "../../utils/typography/helpertext/helpertext";
 import React from "react";
 
 const colors = config.theme.extend.colors;
@@ -20,7 +20,7 @@ const inputVariants = cva(
           "focus:border-primary-400",
         ],
         error: ["border-error-500", "focus:border-primary-400"],
-        disabled: ["bg-gray-400", "cursor-not-allowed"],
+        disabled: ["disabled:bg-gray-300/20", "cursor-not-allowed"],
       },
     },
     defaultVariants: {
