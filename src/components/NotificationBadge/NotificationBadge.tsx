@@ -25,7 +25,7 @@ export interface NotificationBadgeProps
   extends VariantProps<typeof notificationBadgeVariants>,
     React.HTMLAttributes<HTMLDivElement> {}
 
-export const Pill: React.FC<NotificationBadgeProps> = ({
+const NotificationBadge: React.FC<NotificationBadgeProps> = ({
   className,
   variant,
   children,
@@ -40,3 +40,5 @@ export const Pill: React.FC<NotificationBadgeProps> = ({
     </div>
   );
 };
+
+export default NotificationBadge;
