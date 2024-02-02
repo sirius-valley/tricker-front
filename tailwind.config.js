@@ -52,6 +52,9 @@ const config = {
       fontFamily: {
         inter: ["Inter"],
       },
+      boxShadow: {
+        '1': '0 4px 4px 0px rgba(182, 143, 189, 0.06)',
+      }
     },
   },
   plugins: [],

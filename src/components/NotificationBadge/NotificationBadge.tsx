@@ -4,7 +4,7 @@ import Body1 from "../../utils/typography/body1/body1";
 
 const notificationBadgeVariants = cva(
   [
-    "gap-2.5 p-6 rounded-xl w-[358px] h-fit text-center ",
+    "gap-2.5 p-6 rounded-xl w-[358px] h-fit text-center shadow-1",
   ],
   {
     variants: {
