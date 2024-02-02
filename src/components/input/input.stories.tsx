@@ -60,7 +60,7 @@ export const Default: Story = {
     helpertext: "Input Label Text",
     type: "text",
     required: true,
-    icon: false,
+    icon: "",
   },
   render: (args) => <Input {...args} />,
 };
@@ -74,7 +74,7 @@ export const Disabled: Story = {
     helpertext: "Input Label Text",
     type: "text",
     required: true,
-    icon: false,
+    icon: "",
   },
   render: (args) => <Input {...args} />,
 };
@@ -88,7 +88,7 @@ export const Error: Story = {
     helpertext: "Input Label Text",
     type: "text",
     required: true,
-    icon: false,
+    icon: "",
   },
   render: (args) => <Input {...args} />,
 };
