@@ -51,10 +51,38 @@ export default meta;
 
 type Story = StoryObj<typeof Input>;
 
-export const Primary: Story = {
+export const Default: Story = {
   tags: ["autodocs"],
   args: {
     variant: "default",
+    label: "Input Label Text",
+    placeholder: "This input is quite long",
+    helpertext: "Input Label Text",
+    type: "text",
+    required: true,
+    icon: false,
+  },
+  render: (args) => <Input {...args} />,
+};
+
+export const Disabled: Story = {
+  tags: ["autodocs"],
+  args: {
+    variant: "disabled",
+    label: "Input Label Text",
+    placeholder: "This input is quite long",
+    helpertext: "Input Label Text",
+    type: "text",
+    required: true,
+    icon: false,
+  },
+  render: (args) => <Input {...args} />,
+};
+
+export const Error: Story = {
+  tags: ["autodocs"],
+  args: {
+    variant: "error",
     label: "Input Label Text",
     placeholder: "This input is quite long",
     helpertext: "Input Label Text",
