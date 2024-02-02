@@ -4,7 +4,7 @@ import Body1 from "../../utils/typography/body1/body1";
 
 const notificationBadgeVariants = cva(
   [
-    "p-6 rounded-xl w-[358px] h-fit text-center ",
+    "gap-2.5 p-6 rounded-xl w-[358px] h-fit text-center ",
   ],
   {
     variants: {
@@ -36,7 +36,7 @@ const NotificationBadge: React.FC<NotificationBadgeProps> = ({
       className={notificationBadgeVariants({ variant, className })}
       {...props}
     >
-      <Body1 className={"font-[14px] leading-[15.4px]"}>{children}</Body1>
+      <Body1 className={"text-[14px] leading-[15.4px]"}>{children}</Body1>
     </div>
   );
 };
