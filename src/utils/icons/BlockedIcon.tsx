@@ -5,13 +5,20 @@ const BlockedIcon = (props: IconProps) => {
 
   return (
     <svg
-      width={width}
-      height={height}
-      viewBox="0 0 15 17"
-      fill="white"
+      width={width || 24}
+      height={height || 24}
+      viewBox="0 0 24 24"
+      fill={fillColor || "#FEFEFE"}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M9.4 2L9 0H0V17H2V10H7.6L8 12H15V2H9.4Z" fill={fillColor} />
+      <g clip-path="url(#clip0_494_865)">
+        <path d="M14.4 6L14 4H5V21H7V14H12.6L13 16H20V6H14.4Z" fill={fillColor || "#FEFEFE"} />
+      </g>
+      <defs>
+        <clipPath id="clip0_494_865">
+          <rect width="24" height="24" fill={fillColor || "#FEFEFE"} />
+        </clipPath>
+      </defs>
     </svg>
   );
 };
