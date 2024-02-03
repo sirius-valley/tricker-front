@@ -10,19 +10,21 @@ export interface ToggleSwitchProps {
   secondOption?: string;
   label?: string;
   required?: boolean;
+  size?: "mobile" | "desktop";
 }
 
- export const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
+export const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
   onChecked,
   disabled,
   firstOption = "",
   secondOption = "",
   label = "",
   required = false,
+  size,
 }) => {
-  const [checked, setChecked] = React.useState<boolean>(false);
+  const [checked, setChecked] = React.useState<boolean>(true);
 
-  const handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setChecked(!checked);
     onChecked && onChecked(!checked);
   };
@@ -37,8 +39,18 @@ export interface ToggleSwitchProps {
         (disabled === true ? "cursor-not-allowed" : "cursor-pointer")
       }
     >
-        <ToggleSwitchButton text={firstOption}/>
-        <ToggleSwitchButton text={secondOption}/>
+      <ToggleSwitchButton
+        size={size}
+        handleClick={handleClick}
+        state={disabled ? "disabled" : checked? "active" : "default"}
+        text={firstOption}
+      />
+      <ToggleSwitchButton
+        size={size}
+        handleClick={handleClick}
+        state={disabled ? "disabled" : checked? "default" : "active"}
+        text={secondOption}
+      />
     </div>
   );
 };
