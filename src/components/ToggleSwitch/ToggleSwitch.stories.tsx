@@ -41,7 +41,6 @@ const meta: Meta<typeof ToggleSwitch> = {
         type: "text",
       },
       description: "Second button text",
-
     },
   },
 };

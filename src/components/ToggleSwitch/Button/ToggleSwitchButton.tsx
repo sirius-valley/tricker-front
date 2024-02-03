@@ -2,7 +2,9 @@ import Subtitle from "../../../utils/typography/subtitle/subtitle";
 import { VariantProps, cva } from "class-variance-authority";
 
 const toggleSwitchButtonVariants = cva(
-  ["h-[33px] py-2 px-4 rounded-[32px] gap-2 cursor-pointer transition-all duration-200"],//Figma has h-[33px] for both cases
+  [
+    "h-[33px] py-2 px-4 rounded-[32px] gap-2 cursor-pointer transition-all duration-200",
+  ], //Figma has h-[33px] for both cases
   {
     variants: {
       state: {
@@ -11,8 +13,8 @@ const toggleSwitchButtonVariants = cva(
         disabled: "bg-transparent hover:cursor-not-allowed",
       },
       size: {
-        mobile: "w-[150px]",//Figma has w-[139.5px] for mobile designs
-        desktop: "w-[300px]",//Figma has w-[143px] for desktop designs
+        mobile: "w-[150px]", //Figma has w-[139.5px] for mobile designs
+        desktop: "w-[300px]", //Figma has w-[143px] for desktop designs
       },
     },
     defaultVariants: {
