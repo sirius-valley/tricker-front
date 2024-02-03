@@ -5,7 +5,8 @@ import ToggleSwitchButton from "./Button/ToggleSwitchButton";
 
 export interface ToggleSwitchProps {
   onChecked?: (checked: boolean) => void;
-  disabled?: boolean;
+  disableFirstOption?: boolean;
+  disableSecondOption?: boolean;
   firstOption?: string;
   secondOption?: string;
   label?: string;
@@ -15,7 +16,8 @@ export interface ToggleSwitchProps {
 
 export const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
   onChecked,
-  disabled,
+  disableFirstOption = false,
+  disableSecondOption = false,
   firstOption = "",
   secondOption = "",
   label = "",
@@ -24,31 +26,28 @@ export const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
 }) => {
   const [checked, setChecked] = React.useState<boolean>(true);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = () => {
     setChecked(!checked);
     onChecked && onChecked(!checked);
   };
 
-  let selectedColor = "#FFFFFF";
-  selectedColor = disabled ? "#FFFFFF" + 80 : selectedColor;
-
   return (
     <div
       className={
-        "w-fit h-[41px] rounded-[32px] border border-gray-300 p-1 gap-1 flex items-center justify-center" +
-        (disabled === true ? "cursor-not-allowed" : "cursor-pointer")
+        `w-fit h-[41px] rounded-[32px] border border-gray-300 p-1 gap-1 flex items-center justify-center
+        ${disableFirstOption || disableSecondOption ? "cursor-not-allowed" : "cursor-pointer"}`
       }
     >
       <ToggleSwitchButton
         size={size}
         handleClick={handleClick}
-        state={disabled ? "disabled" : checked? "active" : "default"}
+        state={disableFirstOption ? "disabled" : disableFirstOption? "active" : checked? "active" : "default"}
         text={firstOption}
       />
       <ToggleSwitchButton
         size={size}
         handleClick={handleClick}
-        state={disabled ? "disabled" : checked? "default" : "active"}
+        state={disableSecondOption ? "disabled" : disableFirstOption? "active" : checked? "default" : "active"}
         text={secondOption}
       />
     </div>

@@ -2,17 +2,17 @@ import Subtitle from "../../../utils/typography/subtitle/subtitle";
 import { VariantProps, cva } from "class-variance-authority";
 
 const toggleSwitchButtonVariants = cva(
-  ["h-[33px] py-2 px-4 rounded-[32px] gap-2 cursor-pointer"],
+  ["h-[33px] py-2 px-4 rounded-[32px] gap-2 cursor-pointer transition-all duration-200"],//Figma has h-[33px] for both cases
   {
     variants: {
       state: {
         default: "bg-transparent hover:bg-primary-400/10",
         active: "bg-primary-400 hover:opacity-80",
-        disabled: "bg-transparent cursor-not-allowed",
+        disabled: "bg-transparent hover:cursor-not-allowed",
       },
       size: {
-        mobile: "w-[139.5px]",
-        desktop: "w-[143px]",
+        mobile: "w-[150px]",//Figma has w-[139.5px] for mobile designs
+        desktop: "w-[300px]",//Figma has w-[143px] for desktop designs
       },
     },
     defaultVariants: {
@@ -25,7 +25,7 @@ const toggleSwitchButtonVariants = cva(
 export interface ToggleSwitchButtonProps
   extends VariantProps<typeof toggleSwitchButtonVariants>,
     React.ButtonHTMLAttributes<HTMLButtonElement> {
-  handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleClick: () => void;
   text: string;
 }
 
@@ -38,12 +38,13 @@ const ToggleSwitchButton: React.FC<ToggleSwitchButtonProps> = ({
   state,
   className,
 }) => {
-  const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    state !== "active" && handleClick(e);
+  const handleOnClick = () => {
+    state !== "active" && handleClick();
   };
   return (
     <button
-      onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleOnClick(e)}
+      disabled={state === "disabled"}
+      onClick={() => handleOnClick()}
       className={toggleSwitchButtonVariants({ state, size, className })}
     >
       <Subtitle
