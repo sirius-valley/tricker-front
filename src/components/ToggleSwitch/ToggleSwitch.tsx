@@ -1,31 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Subtitle from "../../utils/typography/subtitle/subtitle";
 import { VariantProps, cva } from "class-variance-authority";
+import ToggleSwitchButton from "./Button/ToggleSwitchButton";
 
-const toggleSwitchVariants = cva(
-  ["h-[33px] py-2 px-4 rounded-[32px] gap-2 bg-transparent cursor-pointer"],
-  {
-    variants: {
-      state: {
-        default: "hover:bg-primary-400/10",
-        active: "bg-primary-400 hover:opacity-80",
-        disabled: "cursor-not-allowed",
-      },
-      size: {
-        sm: "w-[139.5px]",
-        lg: "w-[143px]",
-      },
-    },
-    defaultVariants: {
-      size: "lg",
-      state: "active",
-    },
-  }
-);
-
-export interface ToggleSwitchProps
-  extends VariantProps<typeof toggleSwitchVariants>,
-    React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ToggleSwitchProps {
   onChecked?: (checked: boolean) => void;
   disabled?: boolean;
   firstOption?: string;
@@ -34,16 +12,13 @@ export interface ToggleSwitchProps
   required?: boolean;
 }
 
-export const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
+ export const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
   onChecked,
   disabled,
   firstOption = "",
   secondOption = "",
   label = "",
   required = false,
-  size,
-  state,
-  className
 }) => {
   const [checked, setChecked] = React.useState<boolean>(false);
 
@@ -62,16 +37,8 @@ export const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
         (disabled === true ? "cursor-not-allowed" : "cursor-pointer")
       }
     >
-      <button className={toggleSwitchVariants({state, size, className})}>
-        <Subtitle className="text-[14px] leading-[16.94px] capitalize">
-          {firstOption}
-        </Subtitle>
-      </button>
-      <button className={toggleSwitchVariants({state, size, className})}>
-        <Subtitle className="text-[14px] leading-[16.94px] capitalize">
-          {secondOption}
-        </Subtitle>
-      </button>
+        <ToggleSwitchButton text={firstOption}/>
+        <ToggleSwitchButton text={secondOption}/>
     </div>
   );
 };
