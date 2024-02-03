@@ -30,12 +30,6 @@ function App() {
       </p>
     </>
   )
-}/* 
-<ToggleSwitch
-  disableFirstOption
-  firstOption="Nº of tickets"
-  secondOption="Nº of hours"
-  size="desktop"
-/>
-*/
+}
+
 export default App

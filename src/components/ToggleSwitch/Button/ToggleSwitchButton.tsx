@@ -7,7 +7,7 @@ const toggleSwitchButtonVariants = cva(
     variants: {
       state: {
         default: "bg-transparent hover:bg-primary-400/10",
-        active: "bg-primary-400 hover:opacity-80",
+        active: "bg-primary-400 hover:bg-primary-400/90",
         disabled: "bg-transparent hover:cursor-not-allowed",
       },
       size: {

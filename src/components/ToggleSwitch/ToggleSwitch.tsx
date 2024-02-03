@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Subtitle from "../../utils/typography/subtitle/subtitle";
-import { VariantProps, cva } from "class-variance-authority";
+import React from "react";
 import ToggleSwitchButton from "./Button/ToggleSwitchButton";
 
 export interface ToggleSwitchProps {
