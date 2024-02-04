@@ -1,37 +1,37 @@
-import { Meta, StoryObj } from "@storybook/react";
-import SquaredIconButton from "./SquaredIconButton";
-import PlayIcon from "../../utils/icons/PlayIcon";
-import StopIcon from "../../utils/icons/StopIcon";
+import { type Meta, type StoryObj } from '@storybook/react'
+import SquaredIconButton from './SquaredIconButton'
+import PlayIcon from '../../utils/icons/PlayIcon'
+import StopIcon from '../../utils/icons/StopIcon'
 
 const meta: Meta<typeof SquaredIconButton> = {
-  title: "Components/SquaredIconButton",
+  title: 'Components/SquaredIconButton',
   component: SquaredIconButton,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
     icon: {
       control: {
-        type: null,
-      },
-    },
-  },
-};
+        type: null
+      }
+    }
+  }
+}
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof SquaredIconButton>;
+type Story = StoryObj<typeof SquaredIconButton>
 
 export const Play: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
-    icon: <PlayIcon fillColor="white" />,
+    icon: <PlayIcon fillColor="white" />
   },
-  render: (args) => <SquaredIconButton {...args} />,
-};
+  render: (args) => <SquaredIconButton {...args} />
+}
 
 export const TrackingTime: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
-    icon: <StopIcon fillColor="white" />,
+    icon: <StopIcon fillColor="white" />
   },
-  render: (args) => <SquaredIconButton {...args} />,
-};
+  render: (args) => <SquaredIconButton {...args} />
+}

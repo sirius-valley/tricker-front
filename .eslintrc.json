@@ -11,9 +11,6 @@
     "plugin:storybook/recommended",
     "plugin:react-hooks/recommended",
     "plugin:promise/recommended",
-    "plugin:n/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
     "plugin:prettier/recommended"
   ],
   "parserOptions": {
@@ -27,8 +24,6 @@
     "storybook",
     "react-hooks",
     "promise",
-    "n",
-    "import",
     "prettier"
   ],
   "rules": {
@@ -40,7 +35,19 @@
       }
     ],
     "linebreak-style": ["error", "windows"],
-    "typescript-eslint/explicit-function-return-type": "off",
-    "typescript-eslint/strict-boolean-expressions": "off"
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
+    "@typescript-eslint/strict-boolean-expressions": [2, { "allowNullableString": true, "allowNullableNumber": true }],
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": false
+      }
+    ],
+    "@typescript-eslint/no-extraneous-class": [
+      2,
+      {
+        "allowStaticOnly": true
+      }
+    ]
   }
 }

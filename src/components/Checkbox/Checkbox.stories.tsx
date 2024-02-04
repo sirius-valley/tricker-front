@@ -1,31 +1,31 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { Checkbox } from "./Checkbox";
+import { type Meta, type StoryObj } from '@storybook/react'
+import { Checkbox } from './Checkbox'
 
 const meta: Meta<typeof Checkbox> = {
-  title: "Components/Checkbox",
+  title: 'Components/Checkbox',
   component: Checkbox,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   parameters: {
     controls: { expanded: true },
-    layout: "centered",
+    layout: 'centered'
   },
   argTypes: {
     onChecked: {
       table: {
         type: {
-          summary: "function",
-        },
+          summary: 'function'
+        }
       },
-      description: "Callback when the checkbox is toggled, returning a boolean",
-    },
-  },
-};
+      description: 'Callback when the checkbox is toggled, returning a boolean'
+    }
+  }
+}
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof Checkbox>;
+type Story = StoryObj<typeof Checkbox>
 
 export const Primary: Story = {
-  tags: ["autodocs"],
-  render: (args) => <Checkbox {...args} />,
-};
+  tags: ['autodocs'],
+  render: (args) => <Checkbox {...args} />
+}

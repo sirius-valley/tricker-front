@@ -1,10 +1,10 @@
-import React from "react";
-import { DismissIcon } from "../Icon";
-import Body2 from "../../utils/typography/body2/body2";
+import React from 'react'
+import { DismissIcon } from '../Icon'
+import Body2 from '@utils/typography/body2/body2'
 
 export interface TagProps {
-  className?: string;
-  name: string;
+  className?: string
+  name: string
 }
 
 const Tag: React.FC<TagProps> = ({ className, name, ...props }) => {
@@ -19,7 +19,7 @@ const Tag: React.FC<TagProps> = ({ className, name, ...props }) => {
         <DismissIcon width="18px" height="18px" />
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default Tag;
+export default Tag
