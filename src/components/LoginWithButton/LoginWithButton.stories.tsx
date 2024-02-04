@@ -38,7 +38,7 @@ type Story = StoryObj<typeof LoginWithButton>;
 export const ProfilePictureButton: Story = {
   tags: ["autodocs"],
   args: {
-    title: "Login In With Google",
+    title: "Log In With Google",
     iconName: "GoogleIcon",
     redirectUrl: "https://www.google.com/",
   },
