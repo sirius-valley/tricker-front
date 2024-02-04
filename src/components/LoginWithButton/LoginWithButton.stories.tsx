@@ -35,7 +35,7 @@ export default meta;
 
 type Story = StoryObj<typeof LoginWithButton>;
 
-export const ProfilePictureButton: Story = {
+export const Primary: Story = {
   tags: ["autodocs"],
   args: {
     title: "Log In With Google",
