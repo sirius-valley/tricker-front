@@ -1,0 +1,46 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "standard-with-typescript",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:storybook/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:promise/recommended",
+    "plugin:n/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "react-refresh",
+    "@typescript-eslint",
+    "storybook",
+    "react-hooks",
+    "promise",
+    "n",
+    "import",
+    "prettier"
+  ],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "linebreak-style": ["error", "windows"],
+    "typescript-eslint/explicit-function-return-type": "off",
+    "typescript-eslint/strict-boolean-expressions": "off"
+  }
+}
