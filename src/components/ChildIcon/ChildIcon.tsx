@@ -1,27 +1,21 @@
-import React from 'react'
-import Icon from '@components/Icon/Icon'
+import React from "react";
+import Icon from "@components/Icon/Icon";
 
 export interface ChildIconProps {
-  iconName:
-    | 'BugIcon'
-    | 'FeatureIcon'
-    | 'ImprovementIcon'
-    | 'NoPriorityIcon'
-    | 'LowPriorityIcon'
-    | 'MediumPriorityIcon'
-    | 'HighPriorityIcon'
-    | 'UrgentIcon'
+  iconName: "BugIcon" | "FeatureIcon" | "ImprovementIcon" | "NoPriorityIcon" | "LowPriorityIcon" | "MediumPriorityIcon" | "HighPriorityIcon" | "UrgentIcon";
 }
 
-const ChildIcon: React.FC<ChildIconProps> = ({ iconName, ...props }) => {
+const ChildIcon: React.FC<ChildIconProps> = ({
+  iconName,
+  ...props
+}) => {
+
+
   return (
-    <div
-      className="border rounded-sm flex w-[20px] h-[20px] justify-center items-center"
-      {...props}
-    >
+    <div className="border rounded-sm flex w-[20px] h-[20px] justify-center items-center" {...props}>
       <Icon width=" " height="" name={iconName} />
     </div>
-  )
-}
+  );
+};
 
-export default ChildIcon
+export default ChildIcon;
