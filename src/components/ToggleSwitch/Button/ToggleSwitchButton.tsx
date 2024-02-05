@@ -13,8 +13,8 @@ const toggleSwitchButtonVariants = cva(
         disabled: "bg-transparent hover:cursor-not-allowed",
       },
       size: {
-        mobile: "w-[150px]", //Figma has w-[139.5px] for mobile designs
-        desktop: "w-[300px]", //Figma has w-[143px] for desktop designs
+        mobile: "w-[139.5px]", //Figma has w-[139.5px] for mobile designs
+        desktop: "w-[143px]", //Figma has w-[143px] for desktop designs
       },
     },
     defaultVariants: {
