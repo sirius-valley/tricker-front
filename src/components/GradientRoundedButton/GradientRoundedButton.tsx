@@ -1,25 +1,25 @@
-import React from "react";
-import { cva, VariantProps } from "class-variance-authority";
+import React from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
 
 const gradientRoundedButtonVariants = cva(
-  ["bg-gradient rounded-full flex items-center justify-center cursor-pointer"],
+  ['bg-gradient rounded-full flex items-center justify-center cursor-pointer'],
   {
     variants: {
       size: {
-        md: "w-[40px] h-[40px]",
-        lg: "w-[56px] h-[56px]",
-      },
+        md: 'w-[40px] h-[40px]',
+        lg: 'w-[56px] h-[56px]'
+      }
     },
     defaultVariants: {
-      size: "lg",
-    },
+      size: 'lg'
+    }
   }
-);
+)
 
 export interface GradientRoundedButtonProps
   extends VariantProps<typeof gradientRoundedButtonVariants>,
     React.ButtonHTMLAttributes<HTMLButtonElement> {
-  icon?: React.ReactNode;
+  icon?: React.ReactNode
 }
 
 export const GradientRoundedButton: React.FC<GradientRoundedButtonProps> = ({
@@ -28,26 +28,29 @@ export const GradientRoundedButton: React.FC<GradientRoundedButtonProps> = ({
   size,
   ...props
 }) => {
-  let iconSize;
+  let iconSize
   switch (size) {
-    case "md":
-      iconSize = "30px"
-      break;
-    case "lg":
-      iconSize = "40px"
-      break;
+    case 'md':
+      iconSize = '30px'
+      break
+    case 'lg':
+      iconSize = '40px'
+      break
     default:
-      iconSize = "40px"
+      iconSize = '40px'
   }
 
   const IconComponent = React.cloneElement(icon as React.ReactElement, {
     width: iconSize,
-    height: iconSize,
-  });
+    height: iconSize
+  })
 
   return (
-    <button className={gradientRoundedButtonVariants({ size, className })} {...props}>
+    <button
+      className={gradientRoundedButtonVariants({ size, className })}
+      {...props}
+    >
       {IconComponent}
     </button>
-  );
-};
+  )
+}

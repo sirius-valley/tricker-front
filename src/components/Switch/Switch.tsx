@@ -1,17 +1,17 @@
-import "../../index.css";
-import React from "react";
-import { v4 as uuidv4 } from "uuid";
+import '../../index.css'
+import React from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
 export interface SwitchProps extends React.HTMLAttributes<HTMLInputElement> {
-  onChecked?: (checked: boolean) => void;
+  onChecked?: (checked: boolean) => void
 }
 
 export const Switch: React.FC<SwitchProps> = ({ onChecked }) => {
-  const handle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChecked && onChecked(e.target.checked);
-  };
+  const handle = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    onChecked && onChecked(e.target.checked)
+  }
 
-  const inputId: string = uuidv4();
+  const inputId: string = uuidv4()
 
   return (
     <div className="inline-flex items-center">
@@ -28,5 +28,5 @@ export const Switch: React.FC<SwitchProps> = ({ onChecked }) => {
         ></label>
       </div>
     </div>
-  );
-};
+  )
+}

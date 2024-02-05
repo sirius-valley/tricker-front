@@ -1,31 +1,31 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { Switch } from "./Switch";
+import { type Meta, type StoryObj } from '@storybook/react'
+import { Switch } from './Switch'
 
 const meta: Meta<typeof Switch> = {
-  title: "Components/Switch",
+  title: 'Components/Switch',
   component: Switch,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   parameters: {
     controls: { expanded: true },
-    layout: "centered",
+    layout: 'centered'
   },
   argTypes: {
     onChecked: {
       table: {
         type: {
-          summary: "function",
-        },
+          summary: 'function'
+        }
       },
-      description: "Callback when the switch is toggled, returns a Boolean",
-    },
-  },
-};
+      description: 'Callback when the switch is toggled, returns a Boolean'
+    }
+  }
+}
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof Switch>;
+type Story = StoryObj<typeof Switch>
 
 export const Primary: Story = {
-  tags: ["autodocs"],
-  render: (args) => <Switch {...args} />,
-};
+  tags: ['autodocs'],
+  render: (args) => <Switch {...args} />
+}
