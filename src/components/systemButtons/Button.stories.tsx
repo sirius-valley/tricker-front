@@ -1,70 +1,75 @@
 // import React from 'react';
 import { Meta, Story } from '@storybook/react';
-import Button,{ButtonProps} from './systemButtons';
+import Button, { ButtonProps } from './Button';
 
-export default {
+const Template: Story<ButtonProps> = ({ variant, ...args }) => {
+  const isDisabled = variant === 'disabled';
+  return <Button {...args} disabled={isDisabled} />;
+};
+
+const meta: Meta<typeof Button> = {
   title: 'components/Button',
   component: Button,
   argTypes: {
-    children: { control: 'text' },
+    variant: {
+      options: ["filled", "outline", "ghost"],
+    },
+    children: {
+      control: {
+        type: 'text',
+      },
+    },
   },
-} as Meta;
+};
 
-const Template: Story<ButtonProps> = (args) => <Button {...args} />;
+export default meta;
 
 // Filled Variants
 export const FilledDefaultLarge = Template.bind({});
 FilledDefaultLarge.args = {
   size: 'large',
   variant: 'filled',
-  state: 'default',
   children: 'Add Time',
-  typography: 'filleddefault',
 };
 
 export const FilledDefaultMedium = Template.bind({});
 FilledDefaultMedium.args = {
   size: 'medium',
   variant: 'filled',
-  state: 'default',
+  disabled: true,
   children: 'Add Time',
-  typography: 'filleddefault',
 };
 
 export const FilledHoverLarge = Template.bind({});
 FilledHoverLarge.args = {
   size: 'large',
   variant: 'filled',
-  state: 'hover',
+  // state: 'hover',
   children: 'Add Time',
-  typography: 'filleddefault',
 };
 
 export const FilledHoverMedium = Template.bind({});
 FilledHoverMedium.args = {
   size: 'medium',
   variant: 'filled',
-  state: 'hover',
+  // state: 'hover',
   children: 'Add Time',
-  typography: 'filleddefault',
 };
 
 export const FilledDisabledLarge = Template.bind({});
 FilledDisabledLarge.args = {
   size: 'large',
   variant: 'filled',
-  state: 'disabled',
+  disabled: true,
   children: 'Add Time',
-  typography: 'filleddisabled',
 };
 
 export const FilledDisabledMedium = Template.bind({});
 FilledDisabledMedium.args = {
   size: 'medium',
   variant: 'filled',
-  state: 'disabled',
+  disabled: true,
   children: 'Add Time',
-  typography: 'filleddisabled',
 };
 
 // Outline Variants
@@ -72,9 +77,9 @@ export const OutlineDefaultLarge = Template.bind({});
 OutlineDefaultLarge.args = {
   size: 'large',
   variant: 'outline',
-  state: 'defaultoutline',
+  // state:'outlinedefault',
+  // disabled:true,
   children: 'Add Time',
-  typography: 'defaultoutline',
 
 };
 
@@ -82,45 +87,40 @@ export const OutlineDefaultMedium = Template.bind({});
 OutlineDefaultMedium.args = {
   size: 'medium',
   variant: 'outline',
-  state: 'defaultoutline',
+  // state: 'defaultoutline',
   children: 'Add Time',
-  typography: 'defaultoutline',
 };
 
 export const OutlineHoverLarge = Template.bind({});
 OutlineHoverLarge.args = {
   size: 'large',
   variant: 'outline',
-  state: 'hoveroutline',
+  // state: 'hoveroutline',
   children: 'Add Time',
-  typography: 'hoveroutline',
 };
 
 export const OutlineHoverMedium = Template.bind({});
 OutlineHoverMedium.args = {
   size: 'medium',
   variant: 'outline',
-  state: 'hoveroutline',
+  // state: 'hoveroutline',
   children: 'Add Time',
-  typography: 'hoveroutline',
 };
 
 export const OutlineDisabledLarge = Template.bind({});
 OutlineDisabledLarge.args = {
   size: 'large',
   variant: 'outline',
-  state: 'disabled',
+  disabled: true,
   children: 'Add Time',
-  typography: 'disabledoutline',
 };
 
 export const OutlineDisabledMedium = Template.bind({});
 OutlineDisabledMedium.args = {
   size: 'medium',
   variant: 'outline',
-  state: 'disabled',
+  disabled: true,
   children: 'Add Time',
-  typography: 'disabledoutline',
 };
 
 // Ghost Variants
@@ -128,52 +128,43 @@ export const GhostDefaultLarge = Template.bind({});
 GhostDefaultLarge.args = {
   size: 'large',
   variant: 'ghost',
-  state: 'ghostdefault',
   children: 'Add Time',
-  typography: 'defaultghost',
 };
 
 export const GhostDefaultMedium = Template.bind({});
 GhostDefaultMedium.args = {
   size: 'medium',
   variant: 'ghost',
-  state: 'ghostdefault',
+  // state: 'ghostdefault',
   children: 'Add Time',
-  typography: 'defaultghost',
 };
 
 export const GhostHoverLarge = Template.bind({});
 GhostHoverLarge.args = {
   size: 'large',
   variant: 'ghost',
-  state: 'ghosthover',
+  // state: 'ghosthover',
   children: 'Add Time',
-  typography: 'defaultghost',
 };
 
 export const GhostHoverMedium = Template.bind({});
 GhostHoverMedium.args = {
   size: 'medium',
   variant: 'ghost',
-  state: 'ghosthover',
   children: 'Add Time',
-  typography: 'defaultghost',
 };
 
 export const GhostDisabledLarge = Template.bind({});
 GhostDisabledLarge.args = {
   size: 'large',
   variant: 'ghost',
-  state: 'disabled',
   children: 'Add Time',
-  typography: 'filleddisabled',
 };
 
 export const GhostDisabledMedium = Template.bind({});
 GhostDisabledMedium.args = {
   size: 'medium',
   variant: 'ghost',
-  state: 'ghostdefault',
+  disabled: true,
   children: 'Add Time',
-  typography: 'disabledoutline',
 };
