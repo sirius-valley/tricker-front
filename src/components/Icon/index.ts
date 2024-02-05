@@ -36,3 +36,4 @@ export { default as TeamIcon } from '../../utils/icons/TeamIcon';
 export { default as TrashIcon } from '../../utils/icons/TrashIcon';
 export { default as UrgentIcon } from '../../utils/icons/UrgentIcon';
 export { default as UserIcon } from '../../utils/icons/UserIcon';
+export { default as GoogleIcon } from '../../utils/icons/GoogleIcon';
