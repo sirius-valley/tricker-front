@@ -13,10 +13,5 @@ type Story = StoryObj<typeof NeedHelpButton>
 
 export const Primary: Story = {
   tags: ['autodocs'],
-  args: {
-    title: 'Log In With Google',
-    iconName: 'GoogleIcon',
-    redirectUrl: 'https://www.google.com/'
-  },
   render: (args) => <NeedHelpButton {...args} />
 }
