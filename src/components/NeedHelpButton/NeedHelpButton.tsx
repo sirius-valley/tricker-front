@@ -15,7 +15,7 @@ export const NeedHelpButton: React.FC = () => {
         name="EnvelopeIcon"
         width="20"
         height="20"
-        fillColor={colors.primary[400]}
+        fillColor={colors.primary[500]}
       />
       <Subtitle className="text-gray-300 text-sm">¿Need Help?</Subtitle>
     </a>
