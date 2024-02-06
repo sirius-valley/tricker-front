@@ -23,6 +23,7 @@ const meta: Meta<typeof Icon> = {
         'CloudIcon',
         'CopyIcon',
         'DismissIcon',
+        'EnvelopeIcon',
         'FeatureIcon',
         'FilterIcon',
         'FolderIcon',
