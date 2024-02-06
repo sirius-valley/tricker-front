@@ -1,7 +1,7 @@
-import { IconProps } from "@utils/types";
+import { type IconProps } from '@utils/types'
 
-const GoogleIcon = (props: IconProps) => {
-  const { width, height } = props;
+const GoogleIcon = (props: IconProps): JSX.Element => {
+  const { width, height } = props
 
   return (
     <svg
@@ -11,7 +11,7 @@ const GoogleIcon = (props: IconProps) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_1571_12876)">
+      <g clipPath="url(#clip0_1571_12876)">
         <path
           d="M20.3442 12.1842C20.3442 11.6403 20.3001 11.0936 20.206 10.5586H12.6602V13.6392H16.9813C16.802 14.6328 16.2258 15.5117 15.3822 16.0703V18.0692H17.9602C19.4741 16.6758 20.3442 14.6181 20.3442 12.1842Z"
           fill="#9357F7"
@@ -40,7 +40,7 @@ const GoogleIcon = (props: IconProps) => {
         </clipPath>
       </defs>
     </svg>
-  );
-};
+  )
+}
 
-export default GoogleIcon;
+export default GoogleIcon
