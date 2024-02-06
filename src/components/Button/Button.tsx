@@ -8,7 +8,7 @@ const colors = config.theme.extend.colors
 
 const buttonVariants = cva(
   [
-    'rounded-lg flex items-center justify-center cursor-pointer',
+    'rounded-xl flex items-center justify-center cursor-pointer',
     'transition-all duration-300 ease-in-out focus:outline-none',
     'disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed'
   ],
@@ -54,7 +54,6 @@ const Button: React.FC<ButtonProps> = ({
 
   let iconColor
 
-  // if (disabled) {
   if (disabled != null && disabled !== undefined) {
     iconColor = disabled ? colors.gray['400'] : colors.black
   } else {
