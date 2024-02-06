@@ -1,22 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 interface InitalStateType {
-  id: string;
+  id: string
+  //add more properties as needed
 }
 
 const initialState: InitalStateType = {
-  id: "",
+  id: ''
+  //set initial states for each property
 }
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    // updateProfilePicture: (state, action) => {
-    //     state.profilePicture = action.payload;
-    // },
+    // future reducers
   }
 })
-
 
 export default userSlice.reducer
