@@ -1,19 +1,18 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react'
 
-import ListIcon from './ListIcon';
+import ListIcon from './ListIcon'
 
 const meta: Meta<typeof ListIcon> = {
-  component: ListIcon,
-};
+  component: ListIcon
+}
 
-export default meta;
-type Story = StoryObj<typeof ListIcon>;
-
+export default meta
+type Story = StoryObj<typeof ListIcon>
 
 export const Primary: Story = {
   args: {
     fillColor: 'white',
     width: '20',
-    height: '20',
-  },
-};
+    height: '20'
+  }
+}

@@ -1,37 +1,62 @@
-import {Meta, StoryObj} from "@storybook/react";
-import {NavbarItem} from "./NavbarItem";
-import HomeIcon from "../../utils/icons/HomeIcon";
+import { type Meta, type StoryObj } from '@storybook/react'
+import { NavbarItem } from './NavbarItem'
+import Icon from '../Icon/Icon'
 
 const meta: Meta<typeof NavbarItem> = {
-  title: "Components/NavbarItem",
+  title: 'Components/NavbarItem',
   component: NavbarItem,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
     variant: {
-      options: ["default", "selected", "disabled"],
-      defaultValue: "default",
+      options: ['default', 'selected', 'disabled'],
+      defaultValue: 'default',
       control: {
-        type: "select",
+        type: 'select'
       }
     },
     children: {
-      defaultValue: "NavbarItem",
+      defaultValue: 'NavbarItem',
       control: {
-        type: "text",
+        type: 'text'
+      }
+    },
+    icon: {
+      control: {
+        type: null
       }
     }
   }
-};
+}
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof NavbarItem>;
+type Story = StoryObj<typeof NavbarItem>
 
-export const Primary: Story = {
-  tags: ["autodocs"],
+export const Default: Story = {
+  tags: ['autodocs'],
   args: {
-    icon: <HomeIcon width="20" height="20" />,
-    children: "Texto"
+    icon: <Icon name="HomeIcon" width="20" height="20" />,
+    children: 'Texto'
   },
-  render: (args) => <NavbarItem {...args}>{args.children}</NavbarItem>,
-};
+  render: (args) => <NavbarItem {...args}>{args.children}</NavbarItem>
+}
+
+export const Selected: Story = {
+  tags: ['autodocs'],
+  args: {
+    icon: <Icon name="HomeIcon" width="20" height="20" />,
+    children: 'Texto',
+    variant: 'selected'
+  },
+  render: (args) => <NavbarItem {...args}>{args.children}</NavbarItem>
+}
+
+export const Disabled: Story = {
+  tags: ['autodocs'],
+  args: {
+    icon: <Icon name="HomeIcon" width="20" height="20" />,
+    children: 'Texto',
+    variant: 'disabled'
+  },
+  render: (args) => <NavbarItem {...args}>{args.children}</NavbarItem>
+}

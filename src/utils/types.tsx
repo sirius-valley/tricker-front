@@ -1,6 +1,5 @@
-export type IconProps = {
-  fillColor?: string;
-  width: string;
-  height: string;
-};
-
+export interface IconProps {
+  fillColor?: string
+  width?: string
+  height?: string
+}
