@@ -8,7 +8,7 @@ const colors = config.theme.extend.colors
 export const NeedHelpButton: React.FC = () => {
   return (
     <a
-      href={'mailto:email@example.com'}
+      href={'mailto:ignacioferrari@sirius.com.ar'}
       className="flex items-center gap-2 text-white w-[113px] h-[22px] border-b border-transparent hover:border-gray-300 transition-all"
     >
       <Icon
