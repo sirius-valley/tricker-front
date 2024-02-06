@@ -38,4 +38,3 @@ export { default as UrgentIcon } from '@utils/icons/UrgentIcon'
 export { default as UserIcon } from '@utils/icons/UserIcon'
 export { default as EnvelopeIcon } from '@utils/icons/EnvelopeIcon'
 export { default as GoogleIcon } from '@utils/icons/GoogleIcon'
-

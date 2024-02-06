@@ -44,4 +44,3 @@ export const Primary: Story = {
   },
   render: (args) => <LoginWithButton {...args} />
 }
-
