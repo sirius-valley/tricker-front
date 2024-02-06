@@ -1,7 +1,7 @@
 import React from 'react'
-import Icon from '../Icon/Icon'
-import type * as icons from '../Icon/index.ts'
-import Subtitle from '../../utils/typography/subtitle/subtitle'
+import Icon from '@components/Icon/Icon'
+import type * as icons from '@components/Icon/index.ts'
+import Subtitle from '@utils/typography/subtitle/subtitle'
 
 interface LoginWithButtonProps {
   title: string
