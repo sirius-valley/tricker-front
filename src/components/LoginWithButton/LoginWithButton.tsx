@@ -1,15 +1,19 @@
-import React from 'react';
-import Icon from '../Icon/Icon';
-import * as icons from "../Icon/index.ts";
-import Subtitle from "../../utils/typography/subtitle/subtitle";
+import React from 'react'
+import Icon from '../Icon/Icon'
+import type * as icons from '../Icon/index.ts'
+import Subtitle from '../../utils/typography/subtitle/subtitle'
 
 interface LoginWithButtonProps {
-  title: string;
-  iconName: keyof typeof icons;
-  redirectUrl: string;
+  title: string
+  iconName: keyof typeof icons
+  redirectUrl: string
 }
 
-export const LoginWithButton: React.FC<LoginWithButtonProps> = ({ title, iconName, redirectUrl }) => {
+export const LoginWithButton: React.FC<LoginWithButtonProps> = ({
+  title,
+  iconName,
+  redirectUrl
+}) => {
   return (
     <a
       href={redirectUrl}
@@ -18,5 +22,5 @@ export const LoginWithButton: React.FC<LoginWithButtonProps> = ({ title, iconNam
       <Icon name={iconName} width="24" height="24" />
       <Subtitle className="text-white">{title}</Subtitle>
     </a>
-  );
-};
+  )
+}

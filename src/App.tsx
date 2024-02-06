@@ -1,16 +1,16 @@
-import { Children, useState } from 'react'
+import { useState } from 'react'
 import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import Button from './components/systemButtons/Button'
+import viteLogo from '../../../../../../../vite.svg'
 import './App.css'
 
-function App() {
+// function App() {
+const App: React.FC = () => {
   const [count, setCount] = useState(0)
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
+        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blank" rel="noreferrer">
@@ -32,10 +32,7 @@ function App() {
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
-      </p> */}
-      <div className='bg-black w-screen h-screen flex justify-center items-center'>
-      <Button variant="ghost">Add time</Button>
-      </div>
+      </p>
     </>
   )
 }
