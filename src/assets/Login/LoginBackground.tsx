@@ -1,6 +1,6 @@
-import * as React from "react"
-import { SVGProps } from "react"
-const LoginBackground = (props: SVGProps<SVGSVGElement>) => (
+import { type SVGProps } from 'react'
+
+const LoginBackground = (props: SVGProps<SVGSVGElement>): JSX.Element => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="1em"

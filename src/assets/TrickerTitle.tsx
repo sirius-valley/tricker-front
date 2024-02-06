@@ -1,15 +1,15 @@
-import { IconProps } from '@utils/types'
+import { type IconProps } from '@utils/types'
 import React from 'react'
 
-const TrickerLogo = (props: IconProps) => {
+const TrickerLogo = (props: IconProps): JSX.Element => {
   const { fillColor, width, height } = props
 
   return (
     <svg
-      width={width ?? "188"}
-      height={height ?? "31"}
+      width={width ?? '188'}
+      height={height ?? '31'}
       viewBox="0 0 188 31"
-      fill={fillColor ?? "#FEFEFE"}
+      fill={fillColor ?? '#FEFEFE'}
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
