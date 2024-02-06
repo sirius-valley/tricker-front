@@ -1,53 +1,53 @@
-import {Meta, StoryObj} from "@storybook/react";
-import {Pill} from "./Pill";
+import { type Meta, type StoryObj } from '@storybook/react'
+import { Pill } from './Pill'
 
 const meta: Meta<typeof Pill> = {
-  title: "Components/Pill",
+  title: 'Components/Pill',
   component: Pill,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
     variant: {
-      options: ["default", "gradient", "error"],
-      defaultValue: "default",
+      options: ['default', 'gradient', 'error'],
+      defaultValue: 'default',
       control: {
-        type: "select",
+        type: 'select'
       }
     },
     children: {
-      defaultValue: "Pill",
+      defaultValue: 'Pill',
       control: {
-        type: "text",
+        type: 'text'
       }
     }
   }
-};
+}
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof Pill>;
+type Story = StoryObj<typeof Pill>
 
 export const Default: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
-    children: "Default",
+    children: 'Default'
   },
-  render: (args) => <Pill {...args}>{args.children}</Pill>,
-};
+  render: (args) => <Pill {...args}>{args.children}</Pill>
+}
 
 export const Gradient: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
-    children: "Gradient",
-    variant: "gradient",
+    children: 'Gradient',
+    variant: 'gradient'
   },
-  render: (args) => <Pill {...args}>{args.children}</Pill>,
-};
+  render: (args) => <Pill {...args}>{args.children}</Pill>
+}
 
 export const Error: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
-    children: "Blocked",
-    variant: "error",
+    children: 'Blocked',
+    variant: 'error'
   },
-  render: (args) => <Pill {...args}>{args.children}</Pill>,
-};
+  render: (args) => <Pill {...args}>{args.children}</Pill>
+}

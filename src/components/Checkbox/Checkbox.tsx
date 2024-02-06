@@ -1,20 +1,20 @@
-import config from "../../../tailwind.config";
-import CheckIcon from "../../utils/icons/CheckIcon";
-import React from "react";
-import { v4 as uuidv4 } from "uuid";
+import config from '../../../tailwind.config'
+import CheckIcon from '@utils/icons/CheckIcon'
+import React from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
 export interface CheckboxProps extends React.HTMLAttributes<HTMLInputElement> {
-  onChecked?: (checked: boolean) => void;
+  onChecked?: (checked: boolean) => void
 }
 
 export const Checkbox: React.FC<CheckboxProps> = ({ onChecked }) => {
-  const [checked, setChecked] = React.useState<boolean>(false);
-  const checkboxId: string = uuidv4();
-  const handleChange = (e: React.MouseEvent<HTMLInputElement>) => {
-    setChecked(!checked);
-    onChecked && onChecked(!checked);
-  };
-  const checkColor: string = config.theme.extend.colors["gray"][500];
+  const [checked, setChecked] = React.useState<boolean>(false)
+  const checkboxId: string = uuidv4()
+  const handleChange = (): void => {
+    setChecked(!checked)
+    onChecked && onChecked(!checked)
+  }
+  const checkColor: string = config.theme.extend.colors.gray[500]
 
   return (
     <div className="inline-flex items-center">
@@ -31,15 +31,15 @@ export const Checkbox: React.FC<CheckboxProps> = ({ onChecked }) => {
             className="absolute left-0 h-[16.25px] w-[16.25px] cursor-pointer bg-transparent"
           >
             <CheckIcon
-              width={"16.25px"}
-              height={"16.25px"}
+              width={'16.25px'}
+              height={'16.25px'}
               fillColor={checkColor}
             />
           </label>
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Checkbox;
+export default Checkbox

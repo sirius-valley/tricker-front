@@ -1,72 +1,73 @@
-import { Meta, StoryObj } from "@storybook/react";
-import NotificationBadge from "./NotificationBadge";
+import { type Meta, type StoryObj } from '@storybook/react'
+import NotificationBadge from './NotificationBadge'
 
-const genericText: string = "Lorem ipsum dolor sit amet consectetur adipisicing elit.";
+const genericText: string =
+  'Lorem ipsum dolor sit amet consectetur adipisicing elit.'
 
 const meta: Meta<typeof NotificationBadge> = {
-  title: "Components/NotificationBadge",
+  title: 'Components/NotificationBadge',
   component: NotificationBadge,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
     variant: {
-      options: ["default", "success", "error", "warning"],
-      defaultValue: "default",
+      options: ['default', 'success', 'error', 'warning'],
+      defaultValue: 'default',
       control: {
-        type: "select",
-      },
+        type: 'select'
+      }
     },
     children: {
       defaultValue: genericText,
       control: {
-        type: "text",
-      },
-    },
-  },
-};
+        type: 'text'
+      }
+    }
+  }
+}
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof NotificationBadge>;
+type Story = StoryObj<typeof NotificationBadge>
 
 export const Default: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
-    children: genericText,
+    children: genericText
   },
   render: (args) => (
     <NotificationBadge {...args}>{args.children}</NotificationBadge>
-  ),
-};
+  )
+}
 
 export const Success: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
     children: genericText,
-    variant: "success",
+    variant: 'success'
   },
   render: (args) => (
     <NotificationBadge {...args}>{args.children}</NotificationBadge>
-  ),
-};
+  )
+}
 
 export const Error: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
     children: genericText,
-    variant: "error",
+    variant: 'error'
   },
   render: (args) => (
     <NotificationBadge {...args}>{args.children}</NotificationBadge>
-  ),
-};
+  )
+}
 
 export const Warning: Story = {
-    tags: ["autodocs"],
-    args: {
-      children: genericText,
-      variant: "warning",
-    },
-    render: (args) => (
-      <NotificationBadge {...args}>{args.children}</NotificationBadge>
-    ),
-  };
+  tags: ['autodocs'],
+  args: {
+    children: genericText,
+    variant: 'warning'
+  },
+  render: (args) => (
+    <NotificationBadge {...args}>{args.children}</NotificationBadge>
+  )
+}

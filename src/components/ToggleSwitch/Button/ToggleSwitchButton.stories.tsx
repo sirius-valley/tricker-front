@@ -1,61 +1,61 @@
-import { Meta, StoryObj } from "@storybook/react";
-import ToggleSwitchButton from "./ToggleSwitchButton";
+import { type Meta, type StoryObj } from '@storybook/react'
+import ToggleSwitchButton from './ToggleSwitchButton'
 
 const meta: Meta<typeof ToggleSwitchButton> = {
-  title: "Components/ToggleSwitchButton",
+  title: 'Components/ToggleSwitchButton',
   component: ToggleSwitchButton,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
     state: {
-      options: ["default", "active", "disabled"],
-      defaultValue: "active",
+      options: ['default', 'active', 'disabled'],
+      defaultValue: 'active',
       control: {
-        type: "select",
-      },
+        type: 'select'
+      }
     },
     size: {
-      options: ["mobile", "desktop"],
-      defaultValue: "desktop",
+      options: ['mobile', 'desktop'],
+      defaultValue: 'desktop',
       control: {
-        type: "select",
-      },
+        type: 'select'
+      }
     },
     text: {
-      defaultValue: "Nº of tickets",
+      defaultValue: 'Nº of tickets',
       control: {
-        type: "text",
-      },
-    },
-  },
-};
+        type: 'text'
+      }
+    }
+  }
+}
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof ToggleSwitchButton>;
+type Story = StoryObj<typeof ToggleSwitchButton>
 
 export const Default: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
-    state: "default",
-    text: "Nº of tickets",
+    state: 'default',
+    text: 'Nº of tickets'
   },
-  render: (args) => <ToggleSwitchButton {...args} />,
-};
+  render: (args) => <ToggleSwitchButton {...args} />
+}
 
 export const Active: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
-    state: "active",
-    text: "Nº of tickets",
+    state: 'active',
+    text: 'Nº of tickets'
   },
-  render: (args) => <ToggleSwitchButton {...args} />,
-};
+  render: (args) => <ToggleSwitchButton {...args} />
+}
 
 export const Disabled: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
-    state: "disabled",
-    text: "Nº of tickets",
+    state: 'disabled',
+    text: 'Nº of tickets'
   },
-  render: (args) => <ToggleSwitchButton {...args} />,
-};
+  render: (args) => <ToggleSwitchButton {...args} />
+}

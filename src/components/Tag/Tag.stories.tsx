@@ -1,27 +1,27 @@
-import { Meta, StoryObj } from "@storybook/react";
-import Tag from "./Tag";
+import { type Meta, type StoryObj } from '@storybook/react'
+import Tag from './Tag'
 
 const meta: Meta<typeof Tag> = {
-  title: "Components/Tag",
+  title: 'Components/Tag',
   component: Tag,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
     name: {
       control: {
-        type: "text",
-      },
-    },
-  },
-};
+        type: 'text'
+      }
+    }
+  }
+}
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof Tag>;
+type Story = StoryObj<typeof Tag>
 
 export const Primary: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
-    name: "John Doe",
+    name: 'John Doe'
   },
-  render: (args) => <Tag {...args} />,
-};
+  render: (args) => <Tag {...args} />
+}

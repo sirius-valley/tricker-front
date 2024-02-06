@@ -1,45 +1,45 @@
-import {Meta, StoryObj} from "@storybook/react";
-import {GradientRoundedButton} from "./GradientRoundedButton";
-import Icon from "../Icon/Icon";
+import { type Meta, type StoryObj } from '@storybook/react'
+import { GradientRoundedButton } from './GradientRoundedButton'
+import Icon from '../Icon/Icon'
 
 const meta: Meta<typeof GradientRoundedButton> = {
-  title: "Components/GradientRoundedButton",
+  title: 'Components/GradientRoundedButton',
   component: GradientRoundedButton,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
-    icon:{
+    icon: {
       control: {
         type: null
       }
     },
     size: {
-      options: ["md", "lg"],
-      defaultValue: "lg",
+      options: ['md', 'lg'],
+      defaultValue: 'lg',
       control: {
-        type: "select",
+        type: 'select'
       }
     }
   }
-};
+}
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof GradientRoundedButton>;
+type Story = StoryObj<typeof GradientRoundedButton>
 
 export const Play: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
-    icon: <Icon name="PlayIcon" fillColor="black"/>,
-    size: "lg"
+    icon: <Icon name="PlayIcon" fillColor="black" />,
+    size: 'lg'
   },
-  render: (args) => <GradientRoundedButton {...args} />,
-};
+  render: (args) => <GradientRoundedButton {...args} />
+}
 
 export const Stop: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
-    icon: <Icon name="StopIcon" fillColor="black"/>,
-    size: "lg"
+    icon: <Icon name="StopIcon" fillColor="black" />,
+    size: 'lg'
   },
-  render: (args) => <GradientRoundedButton {...args} />,
-};
+  render: (args) => <GradientRoundedButton {...args} />
+}

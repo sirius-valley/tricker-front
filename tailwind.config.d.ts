@@ -1,12 +1,10 @@
-//this file is used to define the types of the tailwindcss configuration
+// this file is used to define the types of the tailwindcss configuration
 declare const config: {
   theme: {
     extend: {
-      colors: {
-        [color: string]: string;
-      };
-    };
-  };
-};
+      colors: Record<string, string>
+    }
+  }
+}
 
-export default config;
+export default config

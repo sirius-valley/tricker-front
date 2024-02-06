@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react'
 
 interface ProfileButtonProps {
-  className?: string;
-  img: string;
-  onClick?: () => void;
+  className?: string
+  img: string
+  onClick?: () => void
 }
 
 export const ProfileButton: React.FC<ProfileButtonProps> = ({
-  className = "",
+  className = '',
   img,
-  onClick,
+  onClick
 }) => {
   return (
     <button onClick={onClick}>
@@ -19,5 +19,5 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
         className={`bg-gradient p-0.5 rounded-[40px] cursor-pointer w-10 h-10 object-cover ${className}`}
       />
     </button>
-  );
-};
+  )
+}

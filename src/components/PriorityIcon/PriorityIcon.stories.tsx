@@ -1,31 +1,31 @@
-import { Meta, StoryObj } from "@storybook/react";
-import PriorityIcon from "./PriorityIcon";
+import { type Meta, type StoryObj } from '@storybook/react'
+import PriorityIcon from './PriorityIcon'
 
 const meta: Meta<typeof PriorityIcon> = {
-  title: "Components/PriorityIcon",
+  title: 'Components/PriorityIcon',
   component: PriorityIcon,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
     variant: {
       control: {
-        type: null,
+        type: null
       },
-      options: ["feature", "improvement", "bug"],
+      options: ['feature', 'improvement', 'bug'],
       table: {
         type: {
-          summary: "feature | improvement | bug",
-        },
-      },
-    },
-  },
-};
+          summary: 'feature | improvement | bug'
+        }
+      }
+    }
+  }
+}
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof PriorityIcon>;
+type Story = StoryObj<typeof PriorityIcon>
 
 export const PriorityIcons: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   render: () => (
     <div className="flex gap-2">
       <PriorityIcon variant="feature" />
@@ -33,4 +33,4 @@ export const PriorityIcons: Story = {
       <PriorityIcon variant="bug" />
     </div>
   )
-};
+}

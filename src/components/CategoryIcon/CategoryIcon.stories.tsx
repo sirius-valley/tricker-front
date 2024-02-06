@@ -1,31 +1,38 @@
-import { Meta, StoryObj } from "@storybook/react";
-import CategoryIcon from "./CategoryIcon";
+import { type Meta, type StoryObj } from '@storybook/react'
+import CategoryIcon from './CategoryIcon'
 
 const meta: Meta<typeof CategoryIcon> = {
-  title: "Components/CategoryIcon",
+  title: 'Components/CategoryIcon',
   component: CategoryIcon,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
     variant: {
       control: {
-        type: null,
+        type: null
       },
-      options: ["no-priority", "low-priority", "medium-priority", "high-priority", "urgent"],
+      options: [
+        'no-priority',
+        'low-priority',
+        'medium-priority',
+        'high-priority',
+        'urgent'
+      ],
       table: {
         type: {
-          summary: "no-priority | low-priority | medium-priority | high-priority | urgent",
-        },
-      },
-    },
-  },
-};
+          summary:
+            'no-priority | low-priority | medium-priority | high-priority | urgent'
+        }
+      }
+    }
+  }
+}
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof CategoryIcon>;
+type Story = StoryObj<typeof CategoryIcon>
 
 export const CategoryIcons: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   render: () => (
     <div className="flex gap-2">
       <CategoryIcon variant="no-priority" />
@@ -35,5 +42,4 @@ export const CategoryIcons: Story = {
       <CategoryIcon variant="urgent" />
     </div>
   )
-};
-
+}

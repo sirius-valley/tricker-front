@@ -1,13 +1,13 @@
 import * as icons from './index.ts'
 
 export interface IconProps {
-  width?: string;
-  height?: string;
-  fillColor?: string;
-  name: keyof typeof icons;
+  width?: string
+  height?: string
+  fillColor?: string
+  name: keyof typeof icons
 }
 
-const Icon = ({ name, ...props }: IconProps) => {
+const Icon = ({ name, ...props }: IconProps): JSX.Element => {
   const Component = icons[name]
   return <Component {...props} />
 }

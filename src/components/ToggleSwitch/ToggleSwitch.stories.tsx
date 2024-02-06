@@ -1,64 +1,64 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { ToggleSwitch } from "./ToggleSwitch";
+import { type Meta, type StoryObj } from '@storybook/react'
+import { ToggleSwitch } from './ToggleSwitch'
 
 const meta: Meta<typeof ToggleSwitch> = {
-  title: "Components/ToggleSwitch",
+  title: 'Components/ToggleSwitch',
   component: ToggleSwitch,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
     disableFirstOption: {},
     onChecked: {
       table: {
         type: {
-          summary: "function",
-        },
+          summary: 'function'
+        }
       },
-      description: "Callback when the switch is toggled, returns a Boolean",
+      description: 'Callback when the switch is toggled, returns a Boolean'
     },
     label: {
-      defaultValue: "Label text",
+      defaultValue: 'Label text',
       control: {
-        type: "text",
-      },
+        type: 'text'
+      }
     },
     size: {
-      options: ["mobile", "desktop"],
-      defaultValue: "desktop",
+      options: ['mobile', 'desktop'],
+      defaultValue: 'desktop',
       control: {
-        type: "select",
-      },
+        type: 'select'
+      }
     },
     firstOption: {
-      defaultValue: "Nº of tickets",
+      defaultValue: 'Nº of tickets',
       control: {
-        type: "text",
+        type: 'text'
       },
-      description: "First button text",
+      description: 'First button text'
     },
     secondOption: {
-      defaultValue: "Nº of tickets",
+      defaultValue: 'Nº of tickets',
       control: {
-        type: "text",
+        type: 'text'
       },
-      description: "Second button text",
-    },
-  },
-};
+      description: 'Second button text'
+    }
+  }
+}
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof ToggleSwitch>;
+type Story = StoryObj<typeof ToggleSwitch>
 
 export const Default: Story = {
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
     disableFirstOption: false,
     disableSecondOption: false,
-    firstOption: "Nº of tickets",
-    secondOption: "Nº of hours",
-    label: "Label text",
+    firstOption: 'Nº of tickets',
+    secondOption: 'Nº of hours',
+    label: 'Label text',
     required: false,
-    size: "desktop",
+    size: 'desktop'
   },
-  render: (args) => <ToggleSwitch {...args} />,
-};
+  render: (args) => <ToggleSwitch {...args} />
+}
