@@ -40,7 +40,7 @@ const ToggleSwitchButton: React.FC<ToggleSwitchButtonProps> = ({
   state,
   className
 }) => {
-  const handleOnClick = () => {
+  const handleOnClick = (): void => {
     state !== 'active' && handleClick()
   }
   return (

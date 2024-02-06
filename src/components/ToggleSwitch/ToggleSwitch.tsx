@@ -25,7 +25,7 @@ export const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
 }) => {
   const [checked, setChecked] = React.useState<boolean>(true)
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     setChecked(!checked)
     onChecked && onChecked(!checked)
   }
