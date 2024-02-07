@@ -2,6 +2,8 @@ import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import Subtitle from '../../utils/typography/subtitle/subtitle'
 import config from '../../../tailwind.config'
+import Icon from '@components/Icon/Icon'
+import * as icons from '@components/Icon/index.ts'
 
 const colors = config.theme.extend.colors
 
@@ -35,7 +37,7 @@ const buttonVariants = cva(
 
 export interface ButtonProps extends VariantProps<typeof buttonVariants> {
   children: React.ReactNode
-  icon?: React.ReactNode
+  icon?: keyof typeof icons
   disabled?: boolean
 }
 
@@ -68,17 +70,11 @@ const Button: React.FC<ButtonProps> = ({
     }
   }
 
-  const IconComponent = React.cloneElement(icon as React.ReactElement, {
-    fillColor: iconColor,
-    width: '24px',
-    height: '24px'
-  })
-
   return (
     <button className={buttonClass} {...props} disabled={disabled}>
-      {IconComponent}
+      {icon && <Icon name={icon} fillColor={iconColor}/>}
       <Subtitle>{children}</Subtitle>
-      {IconComponent}
+      {icon && <Icon name={icon} fillColor={iconColor}/>}
     </button>
   )
 }
