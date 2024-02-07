@@ -1,6 +1,6 @@
 import { type IconProps } from '@utils/types'
 
-const GoogleIcon = (props: IconProps): React.ReactElement => {
+const GoogleIcon = (props: IconProps): JSX.Element => {
   const { width, height } = props
 
   return (
