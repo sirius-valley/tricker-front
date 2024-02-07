@@ -1,5 +1,4 @@
-import LoginBackground from '@assets/Login/LoginBackground'
-import LoginImage from '@assets/Login/LoginImage.png'
+import LoginImage from '@assets/Login/LoginImage.svg'
 import TrickerLogo from '@assets/TrickerLogo'
 import TrickerTitle from '@assets/TrickerTitle'
 
@@ -8,8 +7,10 @@ import { NeedHelpButton } from '@components/NeedHelpButton/NeedHelpButton'
 
 const LoginPage = (): JSX.Element => {
   return (
-    <div className="flex bg-gray-700">
-      <div className="flex justify-center w-[454px] h-screen items-end">
+    <div
+      className={`flex bg-login bg-cover`}
+    >
+      <div className="flex justify-center w-[542px] h-screen items-end bg-gray-700">
         <div className="mb-[54px] flex flex-col w-[210px] h-[59%] items-center justify-between">
           <div className="flex flex-col items-center gap-6">
             <TrickerLogo />
@@ -23,12 +24,9 @@ const LoginPage = (): JSX.Element => {
           <NeedHelpButton />
         </div>
       </div>
-      <LoginBackground className="w-screen h-screen" />
-      <img
-        src={LoginImage}
-        className="absolute  h-[634px] bottom-0 right-0"
-        alt="Login image"
-      />
+      <div className="flex justify-end items-end h-screen w-full">
+        <img src={LoginImage} alt="Login image" />
+      </div>
     </div>
   )
 }
