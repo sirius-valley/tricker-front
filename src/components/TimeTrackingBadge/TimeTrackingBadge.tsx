@@ -20,9 +20,13 @@ const TimeTrackingBadge: React.FC<TimeTrackingBadgeProps> = ({
       </div>
 
       <GradientRoundedButton
-        icon={<Icon name={paused? "PlayIcon" : "StopIcon"} fillColor="black" />}
+        icon={
+          <Icon name={paused ? 'PlayIcon' : 'StopIcon'} fillColor="black" />
+        }
         size="lg"
-        onClick={() => setPaused(!paused)}
+        onClick={() => {
+          setPaused(!paused)
+        }}
       />
     </div>
   )
