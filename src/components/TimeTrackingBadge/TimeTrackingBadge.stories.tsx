@@ -11,6 +11,15 @@ const meta: Meta<typeof TimeTrackingBadge> = {
       control: {
         type: 'text'
       }
+    },
+    handleElapsedTime: {
+      table: {
+        type: {
+          summary: 'function'
+        }
+      },
+      description:
+        'Callback that retrieves the elapsed time since it was paused.'
     }
   }
 }
