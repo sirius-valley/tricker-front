@@ -1,12 +1,12 @@
 import React from 'react'
 
 interface DividerProps {
-  color: string
+  color?: string
   vertical?: boolean
 }
 
 const Divider: React.FC<DividerProps> = ({
-  color,
+  color = 'white',
   vertical = false
 }): JSX.Element => (
   <div className={`${vertical ? 'w-px h-full' : 'w-full h-px'} bg-${color}`} />
