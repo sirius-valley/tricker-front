@@ -45,7 +45,6 @@ const config = {
           500: '#BD7CE5',
           600: '#A462CC',
         },
-        gradient: 'linear-gradient(114deg, #D795FF 1.41%, #43FFDD 98.59%)',
       },
       backgroundImage: { // you can use this applying "bg-gradient" class
         gradient: 'linear-gradient(114deg, #D795FF 1.41%, #43FFDD 98.59%)',
