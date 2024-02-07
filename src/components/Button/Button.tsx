@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import Subtitle from '../../utils/typography/subtitle/subtitle'
 import config from '../../../tailwind.config'
 import Icon from '@components/Icon/Icon'
-import * as icons from '@components/Icon/index.ts'
+import type * as icons from '@components/Icon/index.ts'
 
 const colors = config.theme.extend.colors
 
@@ -72,9 +72,9 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button className={buttonClass} {...props} disabled={disabled}>
-      {icon && <Icon name={icon} fillColor={iconColor}/>}
+      {icon && <Icon name={icon} fillColor={iconColor} />}
       <Subtitle>{children}</Subtitle>
-      {icon && <Icon name={icon} fillColor={iconColor}/>}
+      {icon && <Icon name={icon} fillColor={iconColor} />}
     </button>
   )
 }
