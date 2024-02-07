@@ -75,11 +75,7 @@ const Button: React.FC<ButtonProps> = ({
   })
 
   return (
-    <button
-      className={buttonClass}
-      {...props}
-      disabled={disabled}
-    >
+    <button className={buttonClass} {...props} disabled={disabled}>
       {IconComponent}
       <Subtitle>{children}</Subtitle>
       {IconComponent}
@@ -87,4 +83,4 @@ const Button: React.FC<ButtonProps> = ({
   )
 }
 
-export default Button;
+export default Button
