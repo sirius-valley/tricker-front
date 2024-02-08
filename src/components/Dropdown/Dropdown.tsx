@@ -65,7 +65,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
           </div>
         </button>
         {isOpen && (
-          <ul className="absolute z-10 ml-6 w-[297px] rounded-lg py-2 border b-gray-300 bg-gray-500">
+          <ul className="absolute z-10 ml-6 w-[297px] rounded-lg py-2 border border-gray-300 bg-gray-500">
             {options.map((option, index) => (
               <li
                 key={index}
