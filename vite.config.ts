@@ -10,6 +10,18 @@ export default defineConfig({
       {
         find: '@components',
         replacement: path.resolve(path.join(__dirname, '/src/components'))
+      },
+      {
+        find: '@pages',
+        replacement: path.resolve(path.join(__dirname, '/src/pages'))
+      },
+      {
+        find: '@assets',
+        replacement: path.resolve(path.join(__dirname, '/src/assets'))
+      },
+      {
+        find: '@utils',
+        replacement: path.resolve(path.join(__dirname, '/src/utils'))
       }
     ]
   }
