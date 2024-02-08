@@ -1,7 +1,6 @@
 import { type IconProps } from '@utils/types'
-import React from 'react'
 
-const TrickerLogo = (props: IconProps): JSX.Element => {
+const TrickerTitle = (props: IconProps): JSX.Element => {
   const { fillColor, width, height } = props
 
   return (
@@ -21,4 +20,4 @@ const TrickerLogo = (props: IconProps): JSX.Element => {
   )
 }
 
-export default TrickerLogo
+export default TrickerTitle
