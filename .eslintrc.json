@@ -49,5 +49,10 @@
         "allowStaticOnly": true
       }
     ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

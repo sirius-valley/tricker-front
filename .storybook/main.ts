@@ -18,6 +18,7 @@ const config: StorybookConfig = {
     autodocs: 'tag'
   },
   viteFinal: async (config) => {
+    (config.define = { 'process.env': {} });
     if (config.resolve) {
       config.define = { 'process.env': {} }
       config.resolve.alias = {
