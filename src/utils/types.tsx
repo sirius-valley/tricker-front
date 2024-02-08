@@ -8,8 +8,6 @@ export interface User {
   id: string
   profileImage?: string | null
   createdAt: Date
-  updatedAt?: Date | null
-  deletedAt?: Date | null
   projectsRoleAssigned: UserProjectRole[]
   emittedUserProjectRole: UserProjectRole[]
   emittedBlockerStatusModif: BlockerStatusModification[]
@@ -92,7 +90,7 @@ export interface LogWebhooks {
   id: string
   statusId: string
   sourceId: string
-  //payload: Record<string, any> // JSON type //linter does not accept type 'any'
+  // payload: Record<string, any> // JSON type //linter does not accept type 'any'
   createdAt: Date
   status: WebhookOutcomeStatus
   source: WebhookSource
