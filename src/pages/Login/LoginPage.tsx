@@ -9,7 +9,7 @@ const LoginPage = (): JSX.Element => {
   return (
     <div className={`flex bg-login bg-cover`}>
       <div className="flex justify-center w-[542px] h-screen items-end bg-gray-700">
-        <div className="mb-[54px] flex flex-col w-[211px] h-[59%] items-center justify-between">
+        <div className="mb-[54px] flex flex-col w-fit h-[59%] items-center justify-between">
           <div className="flex flex-col items-center gap-6">
             <TrickerLogo />
             <TrickerTitle />
