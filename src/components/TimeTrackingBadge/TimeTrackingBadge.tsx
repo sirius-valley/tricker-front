@@ -6,7 +6,7 @@ import React from 'react'
 
 export interface TimeTrackingBadgeProps {
   ticketId: string
-  elapsedTime: number
+  elapsedTime?: number
   handleElapsedTime?: (elapsedTime: number) => void
 }
 
@@ -40,9 +40,8 @@ const TimeTrackingBadge: React.FC<TimeTrackingBadgeProps> = ({
             {ticketId}
           </Subtitle>
           <Body2 className="leading-[19.36px] text-white">
-            {Math.floor(time / 3600000)}:
-            {('0' + Math.floor((time / 60000) % 60)).slice(-2)}:
-            {('0' + Math.floor((time / 1000) % 60)).slice(-2)}
+            {Math.floor(time / 3600000).toString().padStart(2, "0")}:
+            {('0' + Math.floor((time / 60000) % 60)).slice(-2)}hs
           </Body2>
         </div>
 
@@ -50,7 +49,7 @@ const TimeTrackingBadge: React.FC<TimeTrackingBadgeProps> = ({
           icon={
             <Icon name={paused ? 'PlayIcon' : 'StopIcon'} fillColor="black" />
           }
-          size="lg"
+          size="md"
           onClick={() => {
             setPaused(!paused)
           }}
