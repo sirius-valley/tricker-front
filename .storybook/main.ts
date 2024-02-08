@@ -1,4 +1,4 @@
-import type { StorybookConfig } from "@storybook/react-vite";
+import type { StorybookConfig } from '@storybook/react-vite'
 
 import path from 'path'
 
@@ -18,7 +18,9 @@ const config: StorybookConfig = {
     autodocs: 'tag'
   },
   viteFinal: async (config) => {
-    (config.define = { 'process.env': {} });
+    config.define = { 
+      'process.env': {} 
+    }
     if (config.resolve) {
       config.resolve.alias = {
         ...config.resolve.alias,
@@ -26,12 +28,10 @@ const config: StorybookConfig = {
         '@components': path.resolve(__dirname, '../src/components'),
         '@hooks': path.resolve(__dirname, '../src/hooks'),
         '@styles': path.resolve(__dirname, '../src/styles'),
-        '@assets': path.resolve(__dirname, '../src/assets'),
+        '@assets': path.resolve(__dirname, '../src/assets')
       }
     }
     return config
   }
 }
-export default config;
-
-
+export default config
