@@ -40,8 +40,10 @@ const TimeTrackingBadge: React.FC<TimeTrackingBadgeProps> = ({
             {ticketId}
           </Subtitle>
           <Body2 className="leading-[19.36px] text-white">
-            {Math.floor(time / 3600000).toString().padStart(2, "0")}:
-            {('0' + Math.floor((time / 60000) % 60)).slice(-2)}hs
+            {Math.floor(time / 3600000)
+              .toString()
+              .padStart(2, '0')}
+            :{('0' + Math.floor((time / 60000) % 60)).slice(-2)}hs
           </Body2>
         </div>
 
