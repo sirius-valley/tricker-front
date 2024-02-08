@@ -19,6 +19,7 @@ const config: StorybookConfig = {
   },
   viteFinal: async (config) => {
     if (config.resolve) {
+      config.define = { 'process.env': {} }
       config.resolve.alias = {
         ...config.resolve.alias,
         '@utils': path.resolve(__dirname, '../src/utils'),
@@ -28,6 +29,7 @@ const config: StorybookConfig = {
         '@assets': path.resolve(__dirname, '../src/assets'),
       }
     }
+
     return config
   }
 }
