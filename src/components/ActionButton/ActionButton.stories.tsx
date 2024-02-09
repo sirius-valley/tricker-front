@@ -19,6 +19,14 @@ const meta: Meta<typeof ActionButton> = {
       control: {
         type: 'boolean'
       }
+    },
+    onClick: {
+      table: {
+        type: {
+          summary: 'function'
+        }
+      },
+      description: 'Callback that is called when the button is clicked.'
     }
   }
 }
