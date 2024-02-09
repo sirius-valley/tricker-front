@@ -35,6 +35,11 @@
       }
     ],
     "linebreak-style": ["error", "windows"],
+    "promise/no-promise-in-callback": "off",
+    "@typescript-eslint/consistent-type-assertions": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/prefer-nullish-coalescing": "off",
     "@typescript-eslint/strict-boolean-expressions": [2, { "allowNullableString": true, "allowNullableNumber": true }],
     "@typescript-eslint/no-misused-promises": [
@@ -49,5 +54,10 @@
         "allowStaticOnly": true
       }
     ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }
