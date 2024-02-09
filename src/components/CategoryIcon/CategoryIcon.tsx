@@ -8,9 +8,14 @@ export interface CategoryIconProps {
     | 'medium-priority'
     | 'high-priority'
     | 'urgent'
+  fillColor?: string
 }
 
-const CategoryIcon: React.FC<CategoryIconProps> = ({ variant, ...props }) => {
+const CategoryIcon: React.FC<CategoryIconProps> = ({
+  variant,
+  fillColor = 'white',
+  ...props
+}) => {
   let iconName:
     | 'NoPriorityIcon'
     | 'LowPriorityIcon'
@@ -35,7 +40,7 @@ const CategoryIcon: React.FC<CategoryIconProps> = ({ variant, ...props }) => {
       break
   }
 
-  return <ChildIcon iconName={iconName} {...props} />
+  return <ChildIcon fillColor={fillColor} iconName={iconName} {...props} />
 }
 
 export default CategoryIcon

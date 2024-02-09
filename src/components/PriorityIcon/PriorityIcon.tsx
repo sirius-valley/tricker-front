@@ -3,9 +3,14 @@ import ChildIcon from '@components/ChildIcon/ChildIcon'
 
 export interface PriorityIconProps {
   variant: 'feature' | 'improvement' | 'bug'
+  fillColor?: string
 }
 
-const PriorityIcon: React.FC<PriorityIconProps> = ({ variant, ...props }) => {
+const PriorityIcon: React.FC<PriorityIconProps> = ({
+  variant,
+  fillColor = 'white',
+  ...props
+}) => {
   let iconName: 'BugIcon' | 'FeatureIcon' | 'ImprovementIcon'
   switch (variant) {
     case 'feature':
@@ -19,7 +24,7 @@ const PriorityIcon: React.FC<PriorityIconProps> = ({ variant, ...props }) => {
       break
   }
 
-  return <ChildIcon iconName={iconName} {...props} />
+  return <ChildIcon fillColor={fillColor} iconName={iconName} {...props} />
 }
 
 export default PriorityIcon
