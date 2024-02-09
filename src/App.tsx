@@ -1,8 +1,8 @@
+import { Layout } from '@components/Layout/Layout'
 import './App.css'
-import LoginPage from '@pages/Login/LoginPage'
 
 function App(): JSX.Element {
-  return <LoginPage></LoginPage>
+  return <Layout />
 }
 
 export default App
