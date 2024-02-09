@@ -11,7 +11,6 @@ export interface TickerCardProps {
   ticketId: string
   title?: string
   status?: 'default' | 'gradient' | 'error'
-  active?: boolean
   priority?: 'feature' | 'improvement' | 'bug'
   category?:
     | 'no-priority'
@@ -28,23 +27,26 @@ const TickerCard: React.FC<TickerCardProps> = ({
   ticketId,
   title,
   status,
-  active = false,
   priority,
   category,
   elapsedTime,
   isProjectManager = false,
   associatedUserProfile
 }): JSX.Element => {
+  const [isActive, setIsActive] = React.useState<boolean>(false)
   const colors = config.theme.extend.colors
   const activeColor = (color: string): string => {
-    return active ? 'primary-400' : color
+    return isActive ? 'primary-400' : color
   }
   return (
-    <div
+    <button
       className={`w-[345px] h-[114px] bg-${activeColor(`white`)}/5 border border-${activeColor(`gray-400`)} py-4 px-6 gap-4 rounded-xl flex flex-col justify-center items-center`}
+      onClick={() => {
+        setIsActive(true)
+      }}
     >
       <div className={`flex items-start gap-1`}>
-        <div className={`flex flex-col gap-2 w-[277px] h-[46px]`}>
+        <div className={`flex flex-col items-start gap-2 w-[277px] h-[46px]`}>
           <Body2 className={`leading-[19.36px] text-${activeColor(`white`)}`}>
             {ticketId}
           </Body2>
@@ -63,18 +65,22 @@ const TickerCard: React.FC<TickerCardProps> = ({
           <div className="flex gap-1">
             {category && (
               <CategoryIcon
-                fillColor={active ? colors.primary[400] : 'white'}
+                fillColor={isActive ? colors.primary[400] : 'white'}
                 variant={category}
               />
             )}
             {priority && (
               <PriorityIcon
-                fillColor={active ? colors.primary[400] : 'white'}
+                fillColor={isActive ? colors.primary[400] : 'white'}
                 variant={priority}
               />
             )}
           </div>
-          {status && <Pill variant={status}>Blocked</Pill>}
+          {status && (
+            <Pill variant={status}>
+              {status === 'error' ? 'Blocked' : 'Tracking time'}
+            </Pill>
+          )}
         </div>
         <div className="flex justify-end items-center w-2/4]">
           {elapsedTime && (
@@ -88,7 +94,7 @@ const TickerCard: React.FC<TickerCardProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </button>
   )
 }
 

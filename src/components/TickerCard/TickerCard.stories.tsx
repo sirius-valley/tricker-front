@@ -22,27 +22,21 @@ const meta: Meta<typeof TickerCard> = {
     status: {
       defaultValue: 'error',
       control: {
-        type: null
+        type: 'select'
       },
       options: ['default', 'gradient', 'error']
-    },
-    active: {
-      defaultValue: false,
-      control: {
-        type: 'boolean'
-      }
     },
     priority: {
       defaultValue: 'feature',
       control: {
-        type: null
+        type: 'select'
       },
       options: ['feature', 'improvement', 'bug']
     },
     category: {
       defaultValue: 'urgent',
       control: {
-        type: null
+        type: 'select'
       },
       options: [
         'no-priority',
@@ -83,7 +77,6 @@ export const Default: Story = {
     ticketId: 'TKT-000',
     title: 'Ticket looooong name',
     status: 'error',
-    active: false,
     priority: 'feature',
     category: 'urgent',
     elapsedTime: 200,
