@@ -48,15 +48,23 @@ const TickerCard: React.FC<TickerCardProps> = ({
         )}
       </div>
       <div className="flex justify-between items-center w-full">
-        <div className="flex justify-between w-2/4">
+        <div className="flex justify-between items-center w-2/4">
           <div className="flex gap-1">
-            {priority && <PriorityIcon variant={priority} />}
             {category && <CategoryIcon variant={category} />}
+            {priority && <PriorityIcon variant={priority} />}
           </div>
           {status && <Pill variant={status}>Blocked</Pill>}
         </div>
         <div className="flex justify-end items-center w-2/4]">
-          <Body1 className="leading=[19.36px] text-white">{elapsedTime}</Body1>
+          {elapsedTime && (
+            <Body1 className="leading=[19.36px] text-white">
+              {Math.floor(elapsedTime / 3600000)
+                .toString()
+                .padStart(2, '0')}
+              :{('0' + Math.floor((elapsedTime / 60000) % 60)).slice(-2)}
+              :{('0' + Math.floor((elapsedTime / 1000) % 60)).slice(-2)}
+            </Body1>
+          )}
         </div>
       </div>
     </div>
