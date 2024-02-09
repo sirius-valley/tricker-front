@@ -1,20 +1,32 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { type User } from '@utils/types'
 
-interface InitalStateType {
-  id: string
-  // add more properties as needed
+interface InitialStateType {
+  user: User
 }
 
-const initialState: InitalStateType = {
-  id: ''
-  // set initial states for each property
+const initialState: InitialStateType = {
+  user: {
+    id: '',
+    profileImage: '',
+    createdAt: new Date(),
+    projectsRoleAssigned: [],
+    emittedUserProjectRole: [],
+    emittedBlockerStatusModif: [],
+    authoredIssues: [],
+    asignedIssues: [],
+    emittedIssueChangeLogs: [],
+    emittedManualTimeModif: []
+  }
 }
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    // future reducers
+    setUser: (state, action: PayloadAction<User>) => {
+      state.user = action.payload
+    }
   }
 })
 
