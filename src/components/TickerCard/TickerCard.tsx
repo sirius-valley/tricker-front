@@ -35,11 +35,11 @@ const TickerCard: React.FC<TickerCardProps> = ({
   associatedUserProfile
 }): JSX.Element => {
   return (
-    <div className="w-[345px] h-[114px] bg-white/7 border border-gray-400 py-4 px-6 gap-4 rounded-xl flex flex-col justify-center items-center">
-      <div className="flex gap-1">
+    <div className="w-[345px] h-[114px] bg-gray-500 border border-gray-400 py-4 px-6 gap-4 rounded-xl flex flex-col justify-center items-center">
+      <div className="flex items-start gap-1">
         <div className="flex flex-col gap-2 w-[277px] h-[46px]">
-          <Body2 className="leading-[19.36px]">{ticketId}</Body2>
-          <Body1 className="leading=[19.36px] overflow-hidden overflow-ellipsis whitespace-nowrap">
+          <Body2 className="leading-[19.36px] text-white">{ticketId}</Body2>
+          <Body1 className="leading=[19.36px] overflow-hidden overflow-ellipsis whitespace-nowrap text-white">
             {title}
           </Body1>
         </div>
@@ -47,16 +47,16 @@ const TickerCard: React.FC<TickerCardProps> = ({
           <ProfileButton img={associatedUserProfile} className="w-6 h-6" />
         )}
       </div>
-      <div className="">
+      <div className="flex justify-between items-center w-full">
         <div className="flex justify-between w-2/4">
-          <div className="w-fit h-fit gap-1">
+          <div className="flex gap-1">
             {priority && <PriorityIcon variant={priority} />}
             {category && <CategoryIcon variant={category} />}
           </div>
           {status && <Pill variant={status}>Blocked</Pill>}
         </div>
-        <div className="flex justify-end items-center w-2/4">
-          <Body1 className="leading=[19.36px]">{elapsedTime}</Body1>
+        <div className="flex justify-end items-center w-2/4]">
+          <Body1 className="leading=[19.36px] text-white">{elapsedTime}</Body1>
         </div>
       </div>
     </div>
