@@ -9,25 +9,25 @@ interface NavBarProps {
 const NavBar: React.FC<NavBarProps> = ({ isProjectManager = false }) => {
   return (
     <div className="absolute bottom-0 w-screen h-[70px] py-1 px-6 flex justify-between items-center bg-black border-t border-gray-400">
-      <NavLink to={`/`}>
+      <NavLink to={`/stats`}>
         {({ isActive }) => (
           <NavButton variant="stats" state={isActive ? 'on' : 'off'} />
         )}
       </NavLink>
       {isProjectManager && (
-        <NavLink to={`/`}>
+        <NavLink to={`/projects`}>
           {({ isActive }) => (
             <NavButton variant="projects" state={isActive ? 'on' : 'off'} />
           )}
         </NavLink>
       )}
-      <NavLink to={`/`}>
+      <NavLink to={`/home`}>
         {({ isActive }) => (
           <NavButton variant="home" state={isActive ? 'on' : 'off'} />
         )}
       </NavLink>
       {isProjectManager && (
-        <NavLink to={`/`}>
+        <NavLink to={`/team`}>
           {({ isActive }) => (
             <NavButton variant="team" state={isActive ? 'on' : 'off'} />
           )}
