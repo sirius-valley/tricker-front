@@ -21,6 +21,8 @@ export interface TicketCardProps {
   elapsedTime?: number
   isProjectManager?: boolean
   associatedUserProfile: string
+  selectedCard: boolean
+  handleClick: () => void
 }
 
 const TicketCard: React.FC<TicketCardProps> = ({
@@ -31,19 +33,18 @@ const TicketCard: React.FC<TicketCardProps> = ({
   category,
   elapsedTime,
   isProjectManager = false,
-  associatedUserProfile
+  associatedUserProfile,
+  selectedCard = false,
+  handleClick
 }): JSX.Element => {
-  const [isActive, setIsActive] = React.useState<boolean>(false)
   const colors = config.theme.extend.colors
   const activeColor = (color: string): string => {
-    return isActive ? 'primary-400' : color
+    return selectedCard ? 'primary-400' : color
   }
   return (
     <button
       className={`w-[345px] h-[114px] bg-${activeColor(`white`)}/5 border border-${activeColor(`gray-400`)} py-4 px-6 gap-4 rounded-xl flex flex-col justify-center items-center`}
-      onClick={() => {
-        setIsActive(true)
-      }}
+      onClick={handleClick}
     >
       <div className={`flex items-start gap-1`}>
         <span className={`flex flex-col text-left gap-2 w-[260px] h-[46px]`}>
@@ -65,13 +66,13 @@ const TicketCard: React.FC<TicketCardProps> = ({
           <div className="flex gap-1">
             {category && (
               <CategoryIcon
-                fillColor={isActive ? colors.primary[400] : 'white'}
+                fillColor={selectedCard ? colors.primary[400] : 'white'}
                 variant={category}
               />
             )}
             {priority && (
               <PriorityIcon
-                fillColor={isActive ? colors.primary[400] : 'white'}
+                fillColor={selectedCard ? colors.primary[400] : 'white'}
                 variant={priority}
               />
             )}
