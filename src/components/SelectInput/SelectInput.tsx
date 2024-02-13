@@ -58,7 +58,7 @@ const SelectInput = ({
         ? 'text-gray-300'
         : 'text-white'
 
-  const toggleOptions = ():void => {
+  const toggleOptions = (): void => {
     setIsOpen(!isOpen)
     setDisplayHelperText(false)
     setTimeout(() => {
@@ -66,7 +66,7 @@ const SelectInput = ({
     }, 0)
   }
 
-  const handleOptionSelect = (value: string):void => {
+  const handleOptionSelect = (value: string): void => {
     setSelectedOption(value)
     setIsOpen(false)
     setDisplayHelperText(true)
