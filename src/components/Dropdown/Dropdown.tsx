@@ -6,7 +6,7 @@ import config from '../../../tailwind.config'
 
 const colors = config.theme.extend.colors
 
-interface DropdownOption {
+export interface DropdownOption {
   title: string
   image: string
 }
@@ -37,10 +37,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
   }
 
   useEffect(() => {
-    setSelectedOption(options[0])
     document.addEventListener('mousedown', handleClickOutside)
     handleSelect(selectedOption)
-  }, [selectedOption, handleSelect, options])
+  }, [selectedOption, handleSelect])
 
   return (
     <div className="w-[224px] h-[48px]" ref={dropdownRef}>
