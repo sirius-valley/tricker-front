@@ -66,9 +66,9 @@ const meta: Meta<typeof TicketCard> = {
     selectedCard: {
       defaultValue: false,
       control: {
-        type: "boolean"
+        type: 'boolean'
       },
-      description: "It is true when the card is selected."
+      description: 'It is true when the card is selected.'
     },
     handleClick: {
       table: {
