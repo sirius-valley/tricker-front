@@ -7,7 +7,7 @@ import Body2 from '@utils/typography/body2/body2'
 import React from 'react'
 import config from '../../../tailwind.config'
 
-export interface TickerCardProps {
+export interface TicketCardProps {
   ticketId: string
   title?: string
   status?: 'default' | 'gradient' | 'error'
@@ -23,7 +23,7 @@ export interface TickerCardProps {
   associatedUserProfile: string
 }
 
-const TickerCard: React.FC<TickerCardProps> = ({
+const TicketCard: React.FC<TicketCardProps> = ({
   ticketId,
   title,
   status,
@@ -98,4 +98,4 @@ const TickerCard: React.FC<TickerCardProps> = ({
   )
 }
 
-export default TickerCard
+export default TicketCard

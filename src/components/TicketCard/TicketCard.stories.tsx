@@ -1,10 +1,9 @@
 import { type Meta, type StoryObj } from '@storybook/react'
-import TickerCard from './TickerCard'
-import React from 'react'
+import TicketCard from './TicketCard'
 
-const meta: Meta<typeof TickerCard> = {
-  title: 'Components/TickerCard',
-  component: TickerCard,
+const meta: Meta<typeof TicketCard> = {
+  title: 'Components/TicketCard',
+  component: TicketCard,
   tags: ['autodocs'],
   argTypes: {
     ticketId: {
@@ -69,7 +68,7 @@ const meta: Meta<typeof TickerCard> = {
 
 export default meta
 
-type Story = StoryObj<typeof TickerCard>
+type Story = StoryObj<typeof TicketCard>
 
 export const Default: Story = {
   tags: ['autodocs'],
@@ -84,5 +83,5 @@ export const Default: Story = {
     associatedUserProfile:
       'https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg'
   },
-  render: (args) => <TickerCard {...args} />
+  render: (args) => <TicketCard {...args} />
 }
