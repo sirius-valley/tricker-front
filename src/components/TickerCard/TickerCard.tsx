@@ -46,17 +46,15 @@ const TickerCard: React.FC<TickerCardProps> = ({
       }}
     >
       <div className={`flex items-start gap-1`}>
-        <span
-          className={`flex flex-col text-left gap-2 w-[260px] h-[46px]`}
-        >
+        <span className={`flex flex-col text-left gap-2 w-[260px] h-[46px]`}>
           <Body2 className={`leading-[19.36px] text-${activeColor(`white`)}`}>
             {ticketId}
           </Body2>
-            <Body1
-              className={`leading-[19.36px] truncate text-${activeColor(`white`)}`}
-            >
-              {title}
-            </Body1>
+          <Body1
+            className={`leading-[19.36px] truncate text-${activeColor(`white`)}`}
+          >
+            {title}
+          </Body1>
         </span>
         {isProjectManager && (
           <ProfileButton img={associatedUserProfile} size={'sm'} />

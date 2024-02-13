@@ -21,7 +21,11 @@ const ChildIcon: React.FC<ChildIconProps> = ({
 }) => {
   return (
     <div
-      className={`border-${fillColor} border rounded-sm flex w-[20px] h-[20px] justify-center items-center`}
+      className={
+        'border-[' +
+        fillColor +
+        '] border rounded-sm flex w-[20px] h-[20px] justify-center items-center'
+      }
       {...props}
     >
       <Icon fillColor={fillColor} width="" height="" name={iconName} />
