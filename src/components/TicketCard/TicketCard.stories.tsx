@@ -62,6 +62,21 @@ const meta: Meta<typeof TicketCard> = {
       control: {
         type: 'text'
       }
+    },
+    selectedCard: {
+      defaultValue: false,
+      control: {
+        type: "boolean"
+      },
+      description: "It is true when the card is selected."
+    },
+    handleClick: {
+      table: {
+        type: {
+          summary: 'function'
+        }
+      },
+      description: 'Callback when the card is clicked to manage selected state.'
     }
   }
 }
