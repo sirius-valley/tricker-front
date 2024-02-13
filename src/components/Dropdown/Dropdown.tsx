@@ -37,9 +37,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
   }
 
   useEffect(() => {
+    setSelectedOption(options[0])
     document.addEventListener('mousedown', handleClickOutside)
     handleSelect(selectedOption)
-  }, [selectedOption, handleSelect])
+  }, [selectedOption, handleSelect, options])
 
   return (
     <div className="w-[224px] h-[48px]" ref={dropdownRef}>
