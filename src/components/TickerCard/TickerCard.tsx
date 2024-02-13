@@ -46,18 +46,20 @@ const TickerCard: React.FC<TickerCardProps> = ({
       }}
     >
       <div className={`flex items-start gap-1`}>
-        <div className={`flex flex-col items-start gap-2 w-[277px] h-[46px]`}>
+        <span
+          className={`flex flex-col text-left gap-2 w-[260px] h-[46px]`}
+        >
           <Body2 className={`leading-[19.36px] text-${activeColor(`white`)}`}>
             {ticketId}
           </Body2>
-          <Body1
-            className={`leading=[19.36px] overflow-hidden overflow-ellipsis whitespace-nowrap text-${activeColor(`white`)}`}
-          >
-            {title}
-          </Body1>
-        </div>
+            <Body1
+              className={`leading-[19.36px] truncate text-${activeColor(`white`)}`}
+            >
+              {title}
+            </Body1>
+        </span>
         {isProjectManager && (
-          <ProfileButton img={associatedUserProfile} className="w-6 h-6" />
+          <ProfileButton img={associatedUserProfile} size={'sm'} />
         )}
       </div>
       <div className="flex justify-between items-center w-full">
@@ -82,9 +84,9 @@ const TickerCard: React.FC<TickerCardProps> = ({
             </Pill>
           )}
         </div>
-        <div className="flex justify-end items-center w-2/4]">
+        <div className="flex justify-end items-center w-2/4">
           {elapsedTime && (
-            <Body1 className={`leading=[19.36px] text-${activeColor(`white`)}`}>
+            <Body1 className={`leading-[19.36px] text-${activeColor(`white`)}`}>
               {Math.floor(elapsedTime / 3600000)
                 .toString()
                 .padStart(2, '0')}
