@@ -8,7 +8,7 @@ const searchBarVariants = cva(
     variants: {
       variant: {
         desktop: ['border border-white/30 py-1 px-2 rounded'],
-        mobile: ['py-2 px-4 w-[289px] rounded-lg']
+        mobile: ['py-2 px-4 w-[288px] rounded-lg']
       }
     },
     defaultVariants: {
@@ -57,12 +57,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           value={value}
           placeholder="Search"
           onChange={handleChange}
-          className={`flex bg-transparent focus:outline-none placeholder:font-inter placeholder:text-gray-300 text-white focus:font-inter w-full`}
+          className={`flex bg-transparent focus:outline-none placeholder:text-gray-300 text-white w-full`}
         />
         {value && (
           <div>
             <div
-              className="hover:bg-gray-300/10 rounded-xl px-1"
+              className="hover:bg-gray-300/10 rounded-xl px-1 cursor-pointer"
               onClick={() => {
                 setValue('')
               }}
