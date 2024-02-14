@@ -8,7 +8,7 @@ import type * as icons from '@components/Icon/index.ts'
 
 const selectInputVariants = cva(
   [
-    'outline-none placeholder-gray-300 bg-transparent border rounded-lg py-3 px-4 w-[306px] h-[43px] text-gray-300'
+    'outline-none placeholder-gray-300 bg-transparent border rounded-lg py-2 px-4 w-[306px] h-[43px] text-gray-300'
   ],
   {
     variants: {
