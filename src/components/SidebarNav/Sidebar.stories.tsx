@@ -2,7 +2,7 @@ import { type Meta, type StoryObj } from '@storybook/react'
 import { SidebarNav } from './SidebarNav'
 import { MemoryRouter } from 'react-router-dom'
 import { type DropdownOption } from '@components/Dropdown/Dropdown'
-import { type User } from '@utils/types'
+import { type User, type TimeTracking, type Issue } from '@utils/types'
 
 const dropdownOptions = [
   { title: 'Option 1', image: 'https://imageplaceholder.net/20x20' },
@@ -26,6 +26,14 @@ const user: User = {
 
 const handleDropdownSelect = (option: DropdownOption): void => {
   console.log(option)
+}
+
+const timeTracking: TimeTracking = {
+  id: 'TKT-123',
+  issueId: '',
+  startTime: 0,
+  endTime: 0,
+  issue: {} as Issue
 }
 
 const meta: Meta<typeof SidebarNav> = {
@@ -55,6 +63,12 @@ const meta: Meta<typeof SidebarNav> = {
         type: 'select'
       },
       options: ['pm', 'dev']
+    },
+    timeTracking: {
+      description: 'The time tracking information.',
+      control: {
+        type: 'object'
+      }
     }
   }
 }
@@ -69,7 +83,8 @@ export const DevView: Story = {
     variant: 'dev',
     user,
     dropdownOptions,
-    handleDropdownSelect
+    handleDropdownSelect,
+    timeTracking
   },
   render: (args) => <SidebarNav {...args} />
 }
@@ -80,7 +95,8 @@ export const PMView: Story = {
     variant: 'pm',
     user,
     dropdownOptions,
-    handleDropdownSelect
+    handleDropdownSelect,
+    timeTracking
   },
   render: (args) => <SidebarNav {...args} />
 }
