@@ -49,18 +49,20 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         className={`${searchBarVariants({ variant, className })}`}
         onClick={handleClick}
       >
-        <SearchIcon width={iconSize} height={iconSize} />
+        <div className={'min-w-[' + iconSize + ']'}>
+          <SearchIcon width={iconSize} height={iconSize} />
+        </div>
         <input
           ref={inputRef}
           value={value}
           placeholder="Search"
           onChange={handleChange}
-          className={`bg-transparent focus:outline-none placeholder:font-inter placeholder:text-gray-300 text-white focus:font-inter ${variant === 'desktop' && value ? 'w-[120px]' : 'w-[148px]'}`}
+          className={`flex bg-transparent focus:outline-none placeholder:font-inter placeholder:text-gray-300 text-white focus:font-inter w-full`}
         />
         {value && (
           <div>
             <div
-              className="hover:bg-gray-300/10 rounded-xl p-px"
+              className="hover:bg-gray-300/10 rounded-xl px-1"
               onClick={() => {
                 setValue('')
               }}

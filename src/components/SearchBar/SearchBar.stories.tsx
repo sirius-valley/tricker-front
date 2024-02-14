@@ -13,6 +13,13 @@ const meta: Meta<typeof SearchBar> = {
         }
       },
       description: 'Callback when the input value changes.'
+    },
+    variant: {
+      defaultValue: 'desktop',
+      options: ['desktop', 'mobile'],
+      control: {
+        type: 'radio'
+      }
     }
   }
 }
@@ -21,7 +28,7 @@ export default meta
 
 type Story = StoryObj<typeof SearchBar>
 
-export const Desktop: Story = {
+export const Default: Story = {
   tags: ['autodocs'],
   args: {
     variant: 'desktop'
