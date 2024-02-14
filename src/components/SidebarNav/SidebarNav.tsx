@@ -27,8 +27,6 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   timeTracking,
   handleDropdownSelect
 }) => {
-  const path = window.location.pathname
-
   return (
     <div className="flex flex-col w-[224px] h-screen pt-10 gap-20 bg-gray-500">
       <NavLink to="/">
@@ -42,13 +40,15 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
           {variant === 'pm' && (
             <div className="px-6">
               <NavLink to="/projects">
-                <NavbarItem
-                  title="Projects"
-                  icon={<Icon name="FolderIcon" width="20" height="20" />}
-                  variant={path === '/projects' ? 'selected' : 'default'}
-                >
-                  {'My projects'}
-                </NavbarItem>
+                {({ isActive }) => (
+                  <NavbarItem
+                    title="Projects"
+                    icon={<Icon name="FolderIcon" width="20" height="20" />}
+                    variant={isActive ? 'selected' : 'default'}
+                  >
+                    {'My projects'}
+                  </NavbarItem>
+                )}
               </NavLink>
             </div>
           )}
@@ -60,33 +60,39 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
           />
           <div className="flex flex-col gap-2 px-6">
             <NavLink to="/">
-              <NavbarItem
-                title="Home"
-                icon={<Icon name="HomeIcon" width="20" height="20" />}
-                variant={path === '/' ? 'selected' : 'default'}
-              >
-                {'Home'}
-              </NavbarItem>
+              {({ isActive }) => (
+                <NavbarItem
+                  title="Home"
+                  icon={<Icon name="HomeIcon" width="20" height="20" />}
+                  variant={isActive ? 'selected' : 'default'}
+                >
+                  {'Home'}
+                </NavbarItem>
+              )}
             </NavLink>
             {variant === 'pm' && (
               <NavLink to="/team">
-                <NavbarItem
-                  title="Team"
-                  icon={<Icon name="TeamIcon" width="20" height="20" />}
-                  variant={path === '/team' ? 'selected' : 'default'}
-                >
-                  {'Team'}
-                </NavbarItem>
+                {({ isActive }) => (
+                  <NavbarItem
+                    title="Team"
+                    icon={<Icon name="TeamIcon" width="20" height="20" />}
+                    variant={isActive ? 'selected' : 'default'}
+                  >
+                    {'Team'}
+                  </NavbarItem>
+                )}
               </NavLink>
             )}
             <NavLink to="/statistics">
-              <NavbarItem
-                title="Statistics"
-                icon={<Icon name="ChartDonutIcon" width="20" height="20" />}
-                variant={path === '/statistics' ? 'selected' : 'default'}
-              >
-                {'Statistics'}
-              </NavbarItem>
+              {({ isActive }) => (
+                <NavbarItem
+                  title="Statistics"
+                  icon={<Icon name="ChartDonutIcon" width="20" height="20" />}
+                  variant={isActive ? 'selected' : 'default'}
+                >
+                  {'Statistics'}
+                </NavbarItem>
+              )}
             </NavLink>
           </div>
         </div>
