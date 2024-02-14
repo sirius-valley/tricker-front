@@ -1,34 +1,31 @@
-// SearchButton.tsx
 import React, { useState } from 'react'
 import Icon from '@components/Icon/Icon'
 import type * as icons from '@components/Icon/index.ts'
+import Checkbox from '@components/Checkbox/Checkbox'
 
 export interface SearchButtonProps {
-  statusOptions: string[]
-  priorityOptions: string[]
+  statusOptions: { option: string; color: string }[]
+  priorityOptions: { option: string; icon: keyof typeof icons }[]
   searchIcon?: keyof typeof icons
   statusIcon?: keyof typeof icons
   priorityIcon?: keyof typeof icons
-  checkboxIcon?: keyof typeof icons
 }
 
 const SearchButton: React.FC<SearchButtonProps> = ({
   statusOptions,
   priorityOptions,
   searchIcon,
-  statusIcon,
   priorityIcon,
-  checkboxIcon
 }) => {
   const [showStatusOptions, setShowStatusOptions] = useState(false)
   const [showPriorityOptions, setShowPriorityOptions] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
 
   const filteredStatusOptions = statusOptions.filter((option) =>
-    option.toLowerCase().includes(searchTerm.toLowerCase())
+    option.option.toLowerCase().includes(searchTerm.toLowerCase())
   )
   const filteredPriorityOptions = priorityOptions.filter((option) =>
-    option.toLowerCase().includes(searchTerm.toLowerCase())
+    option.option.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const handleSearchChange = (
@@ -37,14 +34,12 @@ const SearchButton: React.FC<SearchButtonProps> = ({
     setSearchTerm(event.target.value)
   }
 
-  const handleStatusOptionSelect = (option: string) : void => {
+  const handleStatusOptionSelect = (option: { option: string; color: string }): void => {
     console.log('Status option selected:', option)
-    // Aquí puedes agregar la lógica para filtrar o manejar la selección de la opción de status
   }
 
-  const handlePriorityOptionSelect = (option: string) : void => {
+  const handlePriorityOptionSelect = (option: { option: string; icon: keyof typeof icons }): void => {
     console.log('Priority option selected:', option)
-    // Aquí puedes agregar la lógica para filtrar o manejar la selección de la opción de priority
   }
 
   return (
@@ -64,7 +59,7 @@ const SearchButton: React.FC<SearchButtonProps> = ({
       </div>
       <div className="border-b border-gray-300"></div>
       <div
-        className="relative hover:bg-gray-400"
+        className="relative hover:bg-gray-400 rounded-lg"
         style={{ zIndex: showStatusOptions ? 50 : 1 }}
       >
         <button
@@ -73,35 +68,35 @@ const SearchButton: React.FC<SearchButtonProps> = ({
             setShowStatusOptions(!showStatusOptions)
           }}
         >
-          {statusIcon && (
-            <Icon name={statusIcon} width={'18px'} height={'18px'} />
-          )}
+          <div
+                  className="w-3 h-3 rounded-full mr-2"
+                  style={{ backgroundColor: 'white' }}
+                />
           <span>Status</span>
         </button>
         {showStatusOptions && (
-          <div className="absolute text-white w-[250px] bg-gray-500 border border-gray-300 rounded-md">
+          <div className="absolute text-white w-[249px] bg-gray-500 border border-gray-300 rounded-b">
             {filteredStatusOptions.map((option, index) => (
               <div
                 key={index}
-                className="px-4 py-2 gap-1 hover:bg-gray-400 cursor-pointer flex items-center"
+                className="px-4 py-2 gap-3 hover:bg-gray-400 cursor-pointer flex items-center"
                 onClick={() => {
                   handleStatusOptionSelect(option)
                 }}
               >
-                {statusIcon && (
-                  <Icon name={statusIcon} width={'18px'} height={'18px'} />
-                )}
-                {statusIcon && (
-                  <Icon name={statusIcon} width={'18px'} height={'18px'} />
-                )}
-                <span>{option}</span>
+                <Checkbox />
+                <div
+                  className="w-3 h-3 rounded-full mr-2"
+                  style={{ backgroundColor: option.color }}
+                />
+                <span>{option.option}</span>
               </div>
             ))}
           </div>
         )}
       </div>
       <div
-        className="relative hover:bg-gray-400"
+        className="relative hover:bg-gray-400 rounded-lg"
         style={{ zIndex: showPriorityOptions ? 10 : 1 }}
       >
         <button
@@ -116,22 +111,20 @@ const SearchButton: React.FC<SearchButtonProps> = ({
           <span>Priority</span>
         </button>
         {showPriorityOptions && (
-          <div className="absolute text-white w-[250px] bg-gray-500 border border-gray-300 rounded-md">
+          <div className="absolute text-white w-[250px] bg-gray-500 border border-gray-300 rounded-b">
             {filteredPriorityOptions.map((option, index) => (
               <div
                 key={index}
-                className="px-4 py-2 gap-1 hover:bg-gray-400 cursor-pointer flex items-center"
+                className="px-4 py-2 gap-3 hover:bg-gray-400 rounded-lg cursor-pointer flex items-center"
                 onClick={() => {
                   handlePriorityOptionSelect(option)
                 }}
               >
-                {checkboxIcon && (
-                  <Icon name={checkboxIcon} width={'18px'} height={'18px'} />
-                )}
+                <Checkbox />
                 {priorityIcon && (
-                  <Icon name={priorityIcon} width={'18px'} height={'18px'} />
+                  <Icon name={option.icon} width={'18px'} height={'18px'} />
                 )}
-                <span>{option}</span>
+                <span>{option.option}</span>
               </div>
             ))}
           </div>
