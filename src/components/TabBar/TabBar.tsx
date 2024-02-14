@@ -8,7 +8,7 @@ interface TabBarProps {
 }
 
 export const TabBar: React.FC<TabBarProps> = ({ users, handleChange }) => {
-  const [activeTab, setActiveTab] = React.useState<string>('')
+  const [activeTab, setActiveTab] = React.useState<string>('Team statistics')
   const handleClick = (activeTabId: string): void => {
     setActiveTab(activeTabId)
     handleChange(activeTabId)
