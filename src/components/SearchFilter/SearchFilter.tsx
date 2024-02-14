@@ -4,8 +4,8 @@ import type * as icons from '@components/Icon/index.ts'
 import Checkbox from '@components/Checkbox/Checkbox'
 
 export interface SearchButtonProps {
-  statusOptions: { option: string; color: string }[]
-  priorityOptions: { option: string; icon: keyof typeof icons }[]
+  statusOptions: Array<{ option: string; color: string }>
+  priorityOptions: Array<{ option: string; icon: keyof typeof icons }>
   searchIcon?: keyof typeof icons
   statusIcon?: keyof typeof icons
   priorityIcon?: keyof typeof icons
@@ -15,7 +15,7 @@ const SearchButton: React.FC<SearchButtonProps> = ({
   statusOptions,
   priorityOptions,
   searchIcon,
-  priorityIcon,
+  priorityIcon
 }) => {
   const [showStatusOptions, setShowStatusOptions] = useState(false)
   const [showPriorityOptions, setShowPriorityOptions] = useState(false)
@@ -34,11 +34,17 @@ const SearchButton: React.FC<SearchButtonProps> = ({
     setSearchTerm(event.target.value)
   }
 
-  const handleStatusOptionSelect = (option: { option: string; color: string }): void => {
+  const handleStatusOptionSelect = (option: {
+    option: string
+    color: string
+  }): void => {
     console.log('Status option selected:', option)
   }
 
-  const handlePriorityOptionSelect = (option: { option: string; icon: keyof typeof icons }): void => {
+  const handlePriorityOptionSelect = (option: {
+    option: string
+    icon: keyof typeof icons
+  }): void => {
     console.log('Priority option selected:', option)
   }
 
@@ -69,9 +75,9 @@ const SearchButton: React.FC<SearchButtonProps> = ({
           }}
         >
           <div
-                  className="w-3 h-3 rounded-full mr-2"
-                  style={{ backgroundColor: 'white' }}
-                />
+            className="w-3 h-3 rounded-full mr-2"
+            style={{ backgroundColor: 'white' }}
+          />
           <span>Status</span>
         </button>
         {showStatusOptions && (

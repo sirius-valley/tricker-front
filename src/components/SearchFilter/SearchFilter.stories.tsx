@@ -1,6 +1,6 @@
 // SearchButton.stories.tsx
-import { Meta, Story } from '@storybook/react'
-import SearchButton, {SearchButtonProps} from './SearchFilter'
+import { type Meta, type Story } from '@storybook/react'
+import SearchButton, { type SearchButtonProps } from './SearchFilter'
 import * as icons from '@components/Icon/index.ts'
 import config from '../../../tailwind.config'
 
@@ -41,11 +41,11 @@ const meta: Meta<typeof SearchButton> = {
       { option: 'Merged to main', color: colors.primary['700'] }
     ],
     priorityOptions: [
-      { option: 'No priority', icon: 'NoPriorityIcon'},
+      { option: 'No priority', icon: 'NoPriorityIcon' },
       { option: 'Low', icon: 'LowPriorityIcon' },
       { option: 'Medium', icon: 'MediumPriorityIcon' },
       { option: 'High', icon: 'HighPriorityIcon' },
-      { option: 'Urgent', icon: 'UrgentIcon'}
+      { option: 'Urgent', icon: 'UrgentIcon' }
     ]
   }
 }
