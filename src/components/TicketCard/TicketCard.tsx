@@ -11,8 +11,8 @@ export interface TicketCardProps {
   ticketId: string
   title?: string
   status?: 'default' | 'gradient' | 'error'
-  priority?: 'feature' | 'improvement' | 'bug'
-  category?:
+  category?: 'feature' | 'improvement' | 'bug'
+  priority?:
     | 'no-priority'
     | 'low-priority'
     | 'medium-priority'
@@ -64,16 +64,16 @@ const TicketCard: React.FC<TicketCardProps> = ({
       <div className="flex justify-between items-center w-full">
         <div className="flex justify-between items-center w-2/4">
           <div className="flex gap-1">
-            {category && (
-              <CategoryIcon
-                fillColor={selectedCard ? colors.primary[400] : 'white'}
-                variant={category}
-              />
-            )}
             {priority && (
               <PriorityIcon
                 fillColor={selectedCard ? colors.primary[400] : 'white'}
                 variant={priority}
+              />
+            )}
+            {category && (
+              <CategoryIcon
+                fillColor={selectedCard ? colors.primary[400] : 'white'}
+                variant={category}
               />
             )}
           </div>
