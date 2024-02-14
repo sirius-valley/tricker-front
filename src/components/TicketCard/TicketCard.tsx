@@ -10,7 +10,7 @@ import config from '../../../tailwind.config'
 export interface TicketCardProps {
   ticketId: string
   title?: string
-  status?: 'default' | 'gradient' | 'error'
+  status?: 'completed' | 'tracking' | 'blocked'
   category?: 'feature' | 'improvement' | 'bug'
   priority?:
     | 'no-priority'
@@ -79,7 +79,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
           </div>
           {status && (
             <Pill variant={status}>
-              {status === 'error' ? 'Blocked' : 'Tracking time'}
+              {status === 'blocked' ? 'Blocked' : 'Tracking time'}
             </Pill>
           )}
         </div>

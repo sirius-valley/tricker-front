@@ -8,13 +8,13 @@ const pillVariants = cva(
   {
     variants: {
       variant: {
-        default: ['bg-gray-400 text-white font-normal'],
-        gradient: ['bg-gradient text-black font-semibold'],
-        error: ['bg-error-500 text-white font-semibold']
+        completed: ['bg-gray-400 text-white font-normal'],
+        tracking: ['bg-gradient text-black font-semibold'],
+        blocked: ['bg-error-500 text-white font-semibold']
       }
     },
     defaultVariants: {
-      variant: 'default'
+      variant: 'completed'
     }
   }
 )
