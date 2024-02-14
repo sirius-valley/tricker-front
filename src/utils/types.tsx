@@ -6,6 +6,7 @@ export interface IconProps {
 
 export interface User {
   id: string
+  username: string
   profileImage?: string | null
   createdAt: Date
   projectsRoleAssigned: UserProjectRole[]
