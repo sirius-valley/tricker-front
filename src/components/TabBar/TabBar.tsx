@@ -26,7 +26,7 @@ export const TabBar: React.FC<TabBarProps> = ({ users, handleChange }) => {
           teamMember={user.user.username}
           active={activeTab === user.id}
           onClick={() => {
-            handleClick(user.id)
+            handleClick(user.id ?? '')
           }}
         />
       ))}

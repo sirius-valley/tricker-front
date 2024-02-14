@@ -5,17 +5,17 @@ export interface IconProps {
 }
 
 export interface User {
-  id: string
+  id?: string
   username: string
   profileImage?: string | null
-  createdAt: Date
-  projectsRoleAssigned: UserProjectRole[]
-  emittedUserProjectRole: UserProjectRole[]
-  emittedBlockerStatusModif: BlockerStatusModification[]
-  authoredIssues: Issue[]
-  asignedIssues: Issue[]
-  emittedIssueChangeLogs: IssueChangeLog[]
-  emittedManualTimeModif: ManualTimeModification[]
+  createdAt?: Date
+  projectsRoleAssigned?: UserProjectRole[]
+  emittedUserProjectRole?: UserProjectRole[]
+  emittedBlockerStatusModif?: BlockerStatusModification[]
+  authoredIssues?: Issue[]
+  asignedIssues?: Issue[]
+  emittedIssueChangeLogs?: IssueChangeLog[]
+  emittedManualTimeModif?: ManualTimeModification[]
 }
 
 export interface PendingUser {
@@ -118,18 +118,18 @@ export interface TimeTracking {
 }
 
 export interface UserProjectRole {
-  id: string
-  userId: string
-  projectId: string
-  roleId: string
-  userEmitterId: string
-  createdAt: Date
+  id?: string
+  userId?: string
+  projectId?: string
+  roleId?: string
+  userEmitterId?: string
+  createdAt?: Date
   updatedAt?: Date | null
   deletedAt?: Date | null
-  project: Project
+  project?: Project
   user: User
-  userEmitter: User
-  role: Role
+  userEmitter?: User
+  role?: Role
 }
 
 export interface IssueLabel {
