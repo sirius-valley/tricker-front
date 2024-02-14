@@ -1,13 +1,13 @@
-import Body1 from '@utils/typography/body1/body1'
+import Subtitle from '@utils/typography/subtitle/subtitle'
 import React from 'react'
 
-interface ProfileButtonProps {
-  teamMember?: string
+interface TabItemProps {
+  teamMember: string
   active?: boolean
   onClick?: () => void
 }
 
-export const ProfileButton: React.FC<ProfileButtonProps> = ({
+export const TabItem: React.FC<TabItemProps> = ({
   teamMember,
   active = false,
   onClick
@@ -15,13 +15,13 @@ export const ProfileButton: React.FC<ProfileButtonProps> = ({
   return (
     <button
       onClick={onClick}
-      className={`w-fit h-fit border-s border-${active ? 'primary-400' : 'white'} py-2 px-4 gap-2`}
+      className={`w-fit h-fit border-b border-${active ? 'primary-400' : 'white'} py-2 px-4 gap-2`}
     >
-      <Body1
-        className={`leading-[19.36px] text-white ${active && 'font-medium'}`}
+      <Subtitle
+        className={`leading-[19.36px] text-white ${!active && 'font-normal'}`}
       >
         {teamMember}
-      </Body1>
+      </Subtitle>
     </button>
   )
 }
