@@ -2,6 +2,7 @@ import { type Meta, type StoryObj } from '@storybook/react'
 import { SidebarNav } from './SidebarNav'
 import { MemoryRouter } from 'react-router-dom'
 import { type DropdownOption } from '@components/Dropdown/Dropdown'
+import { type User } from '@utils/types'
 
 const dropdownOptions = [
   { title: 'Option 1', image: 'https://imageplaceholder.net/20x20' },
@@ -10,9 +11,17 @@ const dropdownOptions = [
   { title: 'Option 4', image: 'https://imageplaceholder.net/20x20' }
 ]
 
-const user = {
-  name: 'Victoria Capurro',
-  id: '123'
+const user: User = {
+  username: 'Victoria Capurro',
+  id: '123',
+  createdAt: new Date(),
+  projectsRoleAssigned: [],
+  emittedUserProjectRole: [],
+  emittedBlockerStatusModif: [],
+  authoredIssues: [],
+  asignedIssues: [],
+  emittedIssueChangeLogs: [],
+  emittedManualTimeModif: []
 }
 
 const handleDropdownSelect = (option: DropdownOption): void => {
@@ -57,8 +66,8 @@ type Story = StoryObj<typeof SidebarNav>
 export const DevView: Story = {
   tags: ['autodocs'],
   args: {
-    user,
     variant: 'dev',
+    user,
     dropdownOptions,
     handleDropdownSelect
   },
@@ -68,8 +77,8 @@ export const DevView: Story = {
 export const PMView: Story = {
   tags: ['autodocs'],
   args: {
-    user,
     variant: 'pm',
+    user,
     dropdownOptions,
     handleDropdownSelect
   },
