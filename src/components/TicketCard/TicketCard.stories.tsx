@@ -23,7 +23,7 @@ const meta: Meta<typeof TicketCard> = {
       control: {
         type: 'select'
       },
-      options: ['completed', 'tracking', 'blocked']
+      options: ['completed', 'tracking', 'blocked', undefined]
     },
     priority: {
       defaultValue: 'feature',

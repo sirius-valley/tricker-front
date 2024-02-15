@@ -69,7 +69,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
         )}
       </div>
       <div className="flex justify-between items-center w-full">
-        <div className="flex justify-between items-center w-2/4">
+        <div className="flex items-center w-fit gap-4">
           <div className="flex gap-1">
             {priority && (
               <PriorityIcon
@@ -96,7 +96,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
             </Pill>
           )}
         </div>
-        <div className="flex justify-end items-center w-2/4">
+        <div className="flex justify-end w-fit items-center">
           {elapsedTime && (
             <Body1 className={`leading-[19.36px] text-${activeColor(`white`)}`}>
               {Math.floor(elapsedTime / 3600000)
