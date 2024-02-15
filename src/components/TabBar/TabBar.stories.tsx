@@ -29,7 +29,7 @@ export default meta
 
 type Story = StoryObj<typeof TabBar>
 
-export const ProfilePictureButton: Story = {
+export const Default: Story = {
   tags: ['autodocs'],
   args: {
     users: [
@@ -42,9 +42,20 @@ export const ProfilePictureButton: Story = {
       { id: '7', user: { username: 'Persona 7' } },
       { id: '8', user: { username: 'Persona 8' } },
       { id: '9', user: { username: 'Persona 9' } },
+      { id: '9', user: { username: 'Persona 9' } },
+      { id: '9', user: { username: 'Persona 9' } },
+      { id: '9', user: { username: 'Persona 9' } },
+      { id: '9', user: { username: 'Persona 9' } },
+      { id: '9', user: { username: 'Persona 9' } },
+      { id: '9', user: { username: 'Persona 9' } },
+      { id: '9', user: { username: 'Persona 9' } },
       { id: '10', user: { username: 'Persona 10' } }
     ]
   },
 
-  render: (args) => <TabBar {...args} />
+  render: (args) => (
+    <div className="w-[600px]">
+      <TabBar {...args} />
+    </div>
+  )
 }

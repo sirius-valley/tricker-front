@@ -14,22 +14,24 @@ export const TabBar: React.FC<TabBarProps> = ({ users, handleChange }) => {
     handleChange(activeTabId)
   }
   return (
-    <div className="flex w-fit h-fit">
-      <TabItem
-        teamMember="Team statistics"
-        active={activeTab === 'Team statistics'}
-        onClick={handleClick}
-      />
-      {users.map((user: UserProjectRole) => (
+    <div className="w-full sm:overflow-x-scroll">
+      <div className="flex w-fit h-fit">
         <TabItem
-          key={user.id}
-          teamMember={user.user.username}
-          active={activeTab === user.id}
-          onClick={() => {
-            handleClick(user.id ?? '')
-          }}
+          teamMember="Team statistics"
+          active={activeTab === 'Team statistics'}
+          onClick={handleClick}
         />
-      ))}
+        {users.map((user: UserProjectRole) => (
+          <TabItem
+            key={user.id}
+            teamMember={user.user.username}
+            active={activeTab === user.id}
+            onClick={() => {
+              handleClick(user.id ?? '')
+            }}
+          />
+        ))}
+      </div>
     </div>
   )
 }
