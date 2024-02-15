@@ -8,6 +8,7 @@ interface InitialStateType {
 const initialState: InitialStateType = {
   user: {
     id: '',
+    username: '',
     profileImage: '',
     createdAt: new Date(),
     projectsRoleAssigned: [],
