@@ -46,7 +46,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
   }
   return (
     <button
-      className={`sm:w-[419px] w-[345px] h-[114px] bg-${activeColor(`white`)}/5 border border-${activeColor(`gray-400`)} py-4 px-6 gap-4 rounded-xl flex flex-col`}
+      className={`sm:w-[419px] w-[345px] h-[114px] bg-${activeColor(`white`)} bg-opacity-5  border border-${activeColor(`gray-400`)} py-4 px-6 gap-4 rounded-xl flex flex-col`}
       onClick={handleClick}
     >
       <div className={`flex justify-start items-start gap-1`}>
@@ -92,7 +92,11 @@ const TicketCard: React.FC<TicketCardProps> = ({
           </div>
           {status && (
             <Pill variant={status}>
-              {status === 'blocked' ? 'Blocked' : 'Tracking time'}
+              {status === 'blocked'
+                ? 'Blocked'
+                : status === 'completed'
+                  ? 'Completed'
+                  : 'Tracking Time'}
             </Pill>
           )}
         </div>

@@ -30,13 +30,6 @@ const meta: Meta<typeof TicketCard> = {
       control: {
         type: 'select'
       },
-      options: ['feature', 'improvement', 'bug']
-    },
-    category: {
-      defaultValue: 'urgent',
-      control: {
-        type: 'select'
-      },
       options: [
         'no-priority',
         'low-priority',
@@ -44,6 +37,13 @@ const meta: Meta<typeof TicketCard> = {
         'high-priority',
         'urgent'
       ]
+    },
+    category: {
+      defaultValue: 'urgent',
+      control: {
+        type: 'select'
+      },
+      options: ['feature', 'improvement', 'bug']
     },
     elapsedTime: {
       defaultValue: 200,
