@@ -11,15 +11,16 @@ export interface ChildIconProps {
     | 'MediumPriorityIcon'
     | 'HighPriorityIcon'
     | 'UrgentIcon'
+  fillColor?: string
 }
 
-const ChildIcon: React.FC<ChildIconProps> = ({ iconName, ...props }) => {
+const ChildIcon: React.FC<ChildIconProps> = ({ iconName, fillColor }) => {
   return (
     <div
       className="border rounded-sm flex w-[20px] h-[20px] justify-center items-center"
-      {...props}
+      style={{ borderColor: fillColor }}
     >
-      <Icon width=" " height="" name={iconName} />
+      <Icon name={iconName} fillColor={fillColor} />
     </div>
   )
 }

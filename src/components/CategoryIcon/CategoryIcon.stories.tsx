@@ -8,20 +8,18 @@ const meta: Meta<typeof CategoryIcon> = {
   argTypes: {
     variant: {
       control: {
-        type: null
+        type: 'select'
       },
-      options: [
-        'no-priority',
-        'low-priority',
-        'medium-priority',
-        'high-priority',
-        'urgent'
-      ],
+      options: ['feature', 'improvement', 'bug'],
       table: {
         type: {
-          summary:
-            'no-priority | low-priority | medium-priority | high-priority | urgent'
+          summary: 'feature | bug | improvement'
         }
+      }
+    },
+    fillColor: {
+      control: {
+        type: 'color'
       }
     }
   }
@@ -33,13 +31,9 @@ type Story = StoryObj<typeof CategoryIcon>
 
 export const CategoryIcons: Story = {
   tags: ['autodocs'],
-  render: () => (
-    <div className="flex gap-2">
-      <CategoryIcon variant="no-priority" />
-      <CategoryIcon variant="low-priority" />
-      <CategoryIcon variant="medium-priority" />
-      <CategoryIcon variant="high-priority" />
-      <CategoryIcon variant="urgent" />
-    </div>
-  )
+  args: {
+    variant: 'feature',
+    fillColor: 'white'
+  },
+  render: (args) => <CategoryIcon {...args} />
 }
