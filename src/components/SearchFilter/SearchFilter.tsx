@@ -11,7 +11,7 @@ export interface SearchButtonProps {
   priorityIcon?: keyof typeof icons
 }
 
-const SearchButton: React.FC<SearchButtonProps> = ({
+const SearchFilter: React.FC<SearchButtonProps> = ({
   statusOptions,
   priorityOptions,
   searchIcon,
@@ -140,4 +140,4 @@ const SearchButton: React.FC<SearchButtonProps> = ({
   )
 }
 
-export default SearchButton
+export default SearchFilter;

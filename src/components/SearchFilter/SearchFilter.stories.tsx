@@ -7,8 +7,9 @@ import config from '../../../tailwind.config'
 const colors = config.theme.extend.colors
 
 const meta: Meta<typeof SearchButton> = {
-  title: 'Components/SearchButton',
+  title: 'Components/Search',
   component: SearchButton,
+  tags: ['autodocs'],
   argTypes: {
     searchIcon: {
       control: {
