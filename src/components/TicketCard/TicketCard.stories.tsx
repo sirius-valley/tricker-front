@@ -70,6 +70,12 @@ const meta: Meta<typeof TicketCard> = {
       },
       description: 'It is true when the card is selected.'
     },
+    storyPoints: {
+      defaultValue: 3,
+      control: {
+        type: 'number'
+      }
+    },
     handleClick: {
       table: {
         type: {
@@ -90,11 +96,12 @@ export const Default: Story = {
   args: {
     ticketId: 'TKT-000',
     title: 'Ticket looooong name',
-    status: 'error',
-    priority: 'feature',
-    category: 'urgent',
+    status: 'blocked',
+    priority: 'urgent',
+    category: 'feature',
     elapsedTime: 200,
     isProjectManager: true,
+    storyPoints: 3,
     associatedUserProfile:
       'https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg'
   },

@@ -6,6 +6,7 @@ import Body1 from '@utils/typography/body1/body1'
 import Body2 from '@utils/typography/body2/body2'
 import React from 'react'
 import config from '../../../tailwind.config'
+import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 
 export interface TicketCardProps {
   ticketId: string
@@ -22,6 +23,7 @@ export interface TicketCardProps {
   isProjectManager?: boolean
   associatedUserProfile: string
   selectedCard: boolean
+  storyPoints: number
   handleClick: () => void
 }
 
@@ -35,6 +37,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
   isProjectManager = false,
   associatedUserProfile,
   selectedCard = false,
+  storyPoints,
   handleClick
 }): JSX.Element => {
   const colors = config.theme.extend.colors
@@ -74,6 +77,12 @@ const TicketCard: React.FC<TicketCardProps> = ({
               <CategoryIcon
                 fillColor={selectedCard ? colors.primary[400] : 'white'}
                 variant={category}
+              />
+            )}
+            {category && (
+              <StoryPointsIcon
+                fillColor={activeColor(`white`)}
+                points={storyPoints}
               />
             )}
           </div>
