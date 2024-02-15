@@ -12,7 +12,17 @@ const meta: Meta<typeof NavBar> = {
   argTypes: {
     isProjectManager: {
       type: 'boolean',
-      defaultValue: false
+      defaultValue: false,
+      control: {
+        type: 'boolean'
+      }
+    },
+    profilePicture: {
+      type: 'string',
+      control: {
+        type: 'text'
+      },
+      defaultValue: ''
     }
   }
 }
