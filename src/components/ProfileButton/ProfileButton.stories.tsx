@@ -11,6 +11,19 @@ const meta: Meta<typeof ProfileButton> = {
       control: {
         type: 'text'
       }
+    },
+    size: {
+      options: ['sm', 'md', 'lg'],
+      defaultValue: 'md',
+      control: {
+        type: 'select'
+      }
+    },
+    border: {
+      defaultValue: false,
+      control: {
+        type: 'boolean'
+      }
     }
   }
 }
