@@ -140,4 +140,4 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
   )
 }
 
-export default SearchFilter;
+export default SearchFilter
