@@ -29,14 +29,14 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
-      const target = event.target as HTMLElement;
-      const isClickInside = filterRef.current?.contains(target) ?? false;
+      const target = event.target as HTMLElement
+      const isClickInside = filterRef.current?.contains(target) ?? false
       if (!isClickInside) {
-        setShowStatusOptions(false);
-        setShowPriorityOptions(false);
-        setSelectedOption('Search');
+        setShowStatusOptions(false)
+        setShowPriorityOptions(false)
+        setSelectedOption('Search')
       }
-    };
+    }
 
     document.addEventListener('mousedown', handleClickOutside)
 
