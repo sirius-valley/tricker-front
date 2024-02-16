@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Icon from '@components/Icon/Icon'
 import type * as icons from '@components/Icon/index.ts'
 import Checkbox from '@components/Checkbox/Checkbox'
 
 export interface SearchButtonProps {
-  statusOptions: Array<{ option: string; color: string }>
-  priorityOptions: Array<{ option: string; icon: keyof typeof icons }>
+  statusOptions: Array<{ option: string; color: string; selected: boolean }>
+  priorityOptions: Array<{
+    option: string
+    icon: keyof typeof icons
+    selected: boolean
+  }>
   searchIcon?: keyof typeof icons
   statusIcon?: keyof typeof icons
   priorityIcon?: keyof typeof icons
@@ -20,6 +24,26 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
   const [showStatusOptions, setShowStatusOptions] = useState(false)
   const [showPriorityOptions, setShowPriorityOptions] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+  const [selectedOption, setSelectedOption] = useState('Search')
+  const filterRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent): void => {
+      const target = event.target as HTMLElement;
+      const isClickInside = filterRef.current?.contains(target) ?? false;
+      if (!isClickInside) {
+        setShowStatusOptions(false);
+        setShowPriorityOptions(false);
+        setSelectedOption('Search');
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   const filteredStatusOptions = statusOptions.filter((option) =>
     option.option.toLowerCase().includes(searchTerm.toLowerCase())
@@ -37,78 +61,118 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
   const handleStatusOptionSelect = (option: {
     option: string
     color: string
+    selected: boolean
   }): void => {
-    console.log('Status option selected:', option)
+    option.selected = !option.selected
+    setShowStatusOptions(true)
+    setShowPriorityOptions(false)
+    setSelectedOption(option.option)
   }
 
   const handlePriorityOptionSelect = (option: {
     option: string
     icon: keyof typeof icons
+    selected: boolean
   }): void => {
-    console.log('Priority option selected:', option)
+    option.selected = !option.selected
+    setShowPriorityOptions(true)
+    setShowStatusOptions(false)
+    setSelectedOption(option.option)
   }
 
   return (
-    <div className="w-[250px] h-104 bg-gray-500 rounded-lg border border-gray-300 gap-1">
-      <div className="flex items-center">
-        <div className="px-4 py-2 gap-2 flex items-center">
-          {searchIcon && (
-            <Icon name={searchIcon} width={'16px'} height={'16px'} />
-          )}
-          <input
-            type="text"
-            placeholder="Search"
-            className="bg-transparent text-white focus:outline-none"
-            onChange={handleSearchChange}
-          />
-        </div>
+    <div
+      ref={filterRef}
+      className="relative w-[250px] bg-gray-500 rounded border border-gray-300 gap-1"
+    >
+      <div className="flex items-center px-4 py-2 gap-1">
+        {searchIcon && (
+          <Icon name={searchIcon} width={'16px'} height={'16px'} />
+        )}
+        <input
+          type="text"
+          placeholder={selectedOption}
+          className="bg-transparent text-sm text-white placeholder-gray-200 focus:outline-none"
+          onChange={handleSearchChange}
+        />
       </div>
       <div className="border-b border-gray-300"></div>
-      <div
-        className="relative hover:bg-gray-400 rounded-lg"
-        style={{ zIndex: showStatusOptions ? 50 : 1 }}
-      >
+      {showStatusOptions && (
+        <div className="absolute w-full left-0 text-white bg-gray-500 border border-gray-300 rounded">
+          {filteredStatusOptions.map((option, index) => (
+            <div
+              key={index}
+              className="px-4 py-2 gap-3 hover:bg-gray-400 rounded flex items-center"
+            >
+              <Checkbox
+                defaultChecked={option.selected}
+                onChange={() => {
+                  handleStatusOptionSelect(option)
+                }}
+              />
+              <div
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: option.color }}
+              />
+              <span>{option.option}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {showPriorityOptions && (
+        <div className="absolute left-0 right-0 text-white rounded bg-gray-500 border border-gray-300 rounded-b">
+          {filteredPriorityOptions.map((option, index) => (
+            <div
+              key={index}
+              className="px-4 py-2 gap-2 hover:bg-gray-400 rounded text-white flex items-center"
+            >
+              <Checkbox
+                defaultChecked={option.selected}
+                onChange={() => {
+                  handlePriorityOptionSelect(option)
+                }}
+              />
+              {priorityIcon && (
+                <Icon name={option.icon} width={'18px'} height={'18px'} />
+              )}
+              <span>{option.option}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      <div className="flex flex-col">
         <button
-          className="px-4 py-2 gap-2 text-white flex items-center justify-between cursor-pointer"
+          className="px-4 py-2 gap-3 text-white flex items-center rounded hover:bg-gray-400 cursor-pointer"
           onClick={() => {
             setShowStatusOptions(!showStatusOptions)
+            setShowPriorityOptions(false)
+            setSelectedOption('Status')
+          }}
+          style={{
+            display:
+              showPriorityOptions || selectedOption === 'Status'
+                ? 'none'
+                : 'flex'
           }}
         >
           <div
-            className="w-3 h-3 rounded-full mr-2"
+            className="w-3 h-3 rounded-full"
             style={{ backgroundColor: 'white' }}
           />
           <span>Status</span>
         </button>
-        {showStatusOptions && (
-          <div className="absolute text-white w-[249px] bg-gray-500 border border-gray-300 rounded-b">
-            {filteredStatusOptions.map((option, index) => (
-              <div
-                key={index}
-                className="px-4 py-2 gap-3 hover:bg-gray-400 cursor-pointer flex items-center"
-                onClick={() => {
-                  handleStatusOptionSelect(option)
-                }}
-              >
-                <Checkbox />
-                <div
-                  className="w-3 h-3 rounded-full mr-2"
-                  style={{ backgroundColor: option.color }}
-                />
-                <span>{option.option}</span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-      <div
-        className="relative hover:bg-gray-400 rounded-lg"
-        style={{ zIndex: showPriorityOptions ? 10 : 1 }}
-      >
         <button
-          className="px-4 py-2 gap-2 text-white flex items-center justify-between cursor-pointer"
+          className="px-3 py-2 gap-2 text-white hover:bg-gray-400 rounded flex items-center"
           onClick={() => {
             setShowPriorityOptions(!showPriorityOptions)
+            setShowStatusOptions(false)
+            setSelectedOption('Priority')
+          }}
+          style={{
+            display:
+              showStatusOptions || selectedOption === 'Priority'
+                ? 'none'
+                : 'flex'
           }}
         >
           {priorityIcon && (
@@ -116,25 +180,6 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
           )}
           <span>Priority</span>
         </button>
-        {showPriorityOptions && (
-          <div className="absolute text-white w-[250px] bg-gray-500 border border-gray-300 rounded-b">
-            {filteredPriorityOptions.map((option, index) => (
-              <div
-                key={index}
-                className="px-4 py-2 gap-3 hover:bg-gray-400 rounded-lg cursor-pointer flex items-center"
-                onClick={() => {
-                  handlePriorityOptionSelect(option)
-                }}
-              >
-                <Checkbox />
-                {priorityIcon && (
-                  <Icon name={option.icon} width={'18px'} height={'18px'} />
-                )}
-                <span>{option.option}</span>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   )
