@@ -4,6 +4,18 @@ export interface IconProps {
   height?: string
 }
 
+export interface CognitoResponse {
+  tokens: Tokens
+  expires_in: number
+  token_type: string
+}
+
+export interface Tokens {
+  id_token: string
+  access_token: string
+  refresh_token: string
+}
+
 export interface User {
   id: string
   profileImage?: string | null

@@ -4,8 +4,29 @@ import TrickerTitle from '@assets/TrickerTitle'
 
 import { LoginWithButton } from '@components/LoginWithButton/LoginWithButton'
 import { NeedHelpButton } from '@components/NeedHelpButton/NeedHelpButton'
+import { setLoginCookie } from '@service/Cookies'
+import { service } from '@service/service'
+import { type CognitoResponse } from '@utils/types'
+import React from 'react'
+import { redirect, useSearchParams } from 'react-router-dom'
 
 const LoginPage = (): JSX.Element => {
+  const [searchParams] = useSearchParams()
+
+  React.useEffect((): void => {
+    const verifyToken = async (): Promise<void> => {
+      const code = searchParams.get('code')
+      if (code !== null) {
+        const response: CognitoResponse | null = await service.verifyToken(code)
+        if (response) {
+          setLoginCookie(response)
+          redirect('/')
+        }
+      }
+    }
+    verifyToken()
+  }, [searchParams])
+
   return (
     <div className={`flex bg-login bg-cover`}>
       <div className="flex justify-center w-[542px] h-screen items-end bg-gray-700">
@@ -16,7 +37,9 @@ const LoginPage = (): JSX.Element => {
             <LoginWithButton
               title="Log In With Google"
               iconName="GoogleIcon"
-              redirectUrl="https://www.google.com/"
+              redirectUrl={
+                'https://tricker.auth.us-east-2.amazoncognito.com/oauth2/authorize?response_type=code&client_id=1uibn62hen866a6qufocjp8uuk&identity_provider=Google&redirect_uri=http://localhost:5173/login/&scope=profile+email+openid'
+              }
             />
           </div>
           <NeedHelpButton />
