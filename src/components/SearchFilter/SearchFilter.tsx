@@ -30,6 +30,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
       const target = event.target as HTMLElement
+      
       const isClickInside = filterRef.current?.contains(target) ?? false
       if (!isClickInside) {
         setShowStatusOptions(false)
@@ -80,16 +81,26 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
     setSelectedOption(option.option)
   }
 
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+
   return (
     <div
       ref={filterRef}
       className="relative w-[250px] bg-gray-500 rounded border border-gray-300 gap-1"
+      onClick={() => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+      }}
     >
-      <div className="flex items-center px-3 py-2 gap-1">
+      <div className="flex items-center px-3 py-2 gap-1"
+      >
         {searchIcon && (
           <Icon name={searchIcon} width={'16px'} height={'16px'} />
         )}
         <input
+         ref={inputRef}
           type="text"
           placeholder={selectedOption}
           className="bg-transparent text-sm text-white placeholder-gray-200 focus:outline-none"
