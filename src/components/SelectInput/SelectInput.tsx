@@ -141,13 +141,13 @@ const SelectInput = ({
 export default SelectInput
 */
 
-import React, { useState, useRef, useEffect } from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
-import Body2 from '@utils/typography/body2/body2';
-import HelperText from '@utils/typography/helpertext/helpertext';
-import Body1 from '@utils/typography/body1/body1';
-import Icon from '@components/Icon/Icon';
-import type * as icons from '@components/Icon/index.ts';
+import React, { useState, useRef, useEffect } from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import Body2 from '@utils/typography/body2/body2'
+import HelperText from '@utils/typography/helpertext/helpertext'
+import Body1 from '@utils/typography/body1/body1'
+import Icon from '@components/Icon/Icon'
+import type * as icons from '@components/Icon/index.ts'
 
 const selectInputVariants = cva(
   [
@@ -169,16 +169,16 @@ const selectInputVariants = cva(
       variant: 'default'
     }
   }
-);
+)
 
 export interface SelectInputProps
   extends VariantProps<typeof selectInputVariants>,
     React.HTMLAttributes<HTMLDivElement> {
-  icon?: keyof typeof icons;
-  label?: string;
-  required?: boolean;
-  helperText?: string;
-  options: Array<{ value: string; label: string }>;
+  icon?: keyof typeof icons
+  label?: string
+  required?: boolean
+  helperText?: string
+  options: Array<{ value: string; label: string }>
 }
 
 const SelectInput = ({
@@ -190,10 +190,10 @@ const SelectInput = ({
   helperText = '',
   options
 }: SelectInputProps): JSX.Element => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<string>('');
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [selectedOption, setSelectedOption] = useState<string>('')
   // const [displayHelperText, setDisplayHelperText] = useState<boolean>(true);
-  const [rotateIcon, setRotateIcon] = useState<boolean>(false);
+  const [rotateIcon, setRotateIcon] = useState<boolean>(false)
   const textColor: string =
     variant === 'error'
       ? 'text-error-500'
@@ -205,34 +205,36 @@ const SelectInput = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
-      if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+      if (
+        selectRef.current &&
+        !selectRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false)
         // setDisplayHelperText(true);
-        setRotateIcon(false);
+        setRotateIcon(false)
       }
-    };
-  
-    document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-  
-  
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
   const toggleOptions = (): void => {
-    setIsOpen(!isOpen);
+    setIsOpen(!isOpen)
     // setDisplayHelperText(false);
     setTimeout(() => {
-      setRotateIcon(!rotateIcon);
-    }, 0);
-  };
+      setRotateIcon(!rotateIcon)
+    }, 0)
+  }
 
   const handleOptionSelect = (value: string): void => {
-    setSelectedOption(value);
-    setIsOpen(false);
+    setSelectedOption(value)
+    setIsOpen(false)
     // setDisplayHelperText(true);
-    setRotateIcon(false);
-  };
+    setRotateIcon(false)
+  }
 
   return (
     <div className="gap-2 flex flex-col" ref={selectRef}>
@@ -281,7 +283,7 @@ const SelectInput = ({
                   key={option.value}
                   className="px-4 py-2 cursor-pointer rounded-lg hover:bg-gray-400"
                   onClick={() => {
-                    handleOptionSelect(option.value);
+                    handleOptionSelect(option.value)
                   }}
                 >
                   <Body1>{option.label}</Body1>
@@ -291,9 +293,9 @@ const SelectInput = ({
           </div>
         )}
       </div>
-        <HelperText className={textColor}>{helperText}</HelperText>
+      <HelperText className={textColor}>{helperText}</HelperText>
     </div>
-  );
+  )
 }
 
-export default SelectInput;
+export default SelectInput
