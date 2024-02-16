@@ -46,9 +46,6 @@ export const Default: Story = {
       { id: '9', user: { username: 'Persona 9' } },
       { id: '9', user: { username: 'Persona 9' } },
       { id: '9', user: { username: 'Persona 9' } },
-      { id: '9', user: { username: 'Persona 9' } },
-      { id: '9', user: { username: 'Persona 9' } },
-      { id: '9', user: { username: 'Persona 9' } },
       { id: '10', user: { username: 'Persona 10' } }
     ]
   },
