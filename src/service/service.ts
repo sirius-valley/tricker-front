@@ -1,14 +1,13 @@
 import axios from 'axios'
 import { setUpAxiosInterceptors } from './AxiosInterceptor'
-import { type CognitoResponse } from '@utils/types'
+import { type User, type CognitoResponse } from '@utils/types'
 
 const url: string = import.meta.env.VITE_API_URL
 
 setUpAxiosInterceptors(axios)
 
 const service = {
-  // TODO: change 'any' with User | null type
-  me: async (): Promise<any> => {
+  me: async (): Promise<User | null> => {
     const res = await axios.get(`${url}/user/me`)
     if (res.status === 200) {
       return res.data

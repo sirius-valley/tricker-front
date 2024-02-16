@@ -5,7 +5,7 @@ import {
   type AxiosResponse,
   type InternalAxiosRequestConfig
 } from 'axios'
-import { cookies, removeLoginCookie } from './Cookies'
+import { getAccessToken, removeLoginCookie } from './Cookies'
 
 export const setUpAxiosInterceptors = (
   axiosInstance: AxiosInstance
@@ -19,9 +19,9 @@ export const setUpAxiosInterceptors = (
 const onRequest = (
   req: InternalAxiosRequestConfig
 ): InternalAxiosRequestConfig => {
-  const token: string = cookies.get('jwt')
+  const accessToken: string = getAccessToken()
 
-  req.headers = { Authorization: token } as AxiosRequestHeaders
+  req.headers = { Authorization: accessToken } as AxiosRequestHeaders
 
   return req
 }

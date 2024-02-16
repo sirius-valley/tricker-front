@@ -1,4 +1,5 @@
 // import { useAppDispatch } from '@redux/hooks'
+import { useAppDispatch } from '@redux/hooks'
 import { getTokens } from '@service/Cookies'
 import { service } from '@service/service'
 import { type Tokens } from '@utils/types'
@@ -9,8 +10,7 @@ const PrivateRoute = (): JSX.Element => {
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [isAuthorized, setIsAuthorized] = React.useState<boolean>(false)
   const token: Tokens = getTokens()
-  // Discomment dispatch lines when redux setup is done.
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   React.useEffect(() => {
     if (token !== undefined) {
@@ -18,7 +18,7 @@ const PrivateRoute = (): JSX.Element => {
         .me()
         .then((res) => {
           setIsAuthorized(res !== null)
-          // dispatch(setUser(res));
+          dispatch(setUser(res))
           return res
         })
         .catch((e) => {
@@ -31,7 +31,7 @@ const PrivateRoute = (): JSX.Element => {
       setIsAuthorized(false)
     }
     setIsLoading(false)
-  }, [token])
+  }, [token, dispatch])
 
   if (isLoading) {
     // return <Loader/>
@@ -41,3 +41,6 @@ const PrivateRoute = (): JSX.Element => {
 }
 
 export default PrivateRoute
+function setUser(res: any): any {
+  throw new Error('Function not implemented.')
+}
