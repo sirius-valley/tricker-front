@@ -10,8 +10,6 @@ interface TabBarProps {
 
 export const TabBar: React.FC<TabBarProps> = ({ users, handleChange }) => {
   const [activeTab, setActiveTab] = React.useState<string>('Team statistics')
-  // const [showScrollButtons, setShowScrollButtons] =
-  //   React.useState<boolean>(true)
   const [hideScrollRight, setHideScrollRight] = React.useState<boolean>(true)
   const [hideScrollLeft, setHideScrollLeft] = React.useState<boolean>(true)
 
@@ -41,20 +39,19 @@ export const TabBar: React.FC<TabBarProps> = ({ users, handleChange }) => {
       )
       setHideScrollLeft(tabBarRef.current.scrollLeft === 0)
     }
+    console.log(window.innerWidth)
   }
 
   return (
     <div className="flex items-center">
-      {
-        <div className="w-4 h-4">
-          <button
-            className={`rotate-90 rounded-full bg-gray-500 hover:bg-gray-400 ${hideScrollLeft && 'hidden'}`}
-            onClick={handleScrollLeft}
-          >
-            <CaretDownIcon width="16px" height="16px" />
-          </button>
-        </div>
-      }
+      <div className="hidden w-4 h-4 md:block">
+        <button
+          className={`rotate-90 rounded-full bg-gray-500 hover:bg-gray-400 ${hideScrollLeft && 'hidden'}`}
+          onClick={handleScrollLeft}
+        >
+          <CaretDownIcon width="16px" height="16px" />
+        </button>
+      </div>
       <div
         className="w-full sm:overflow-x-scroll scroll-smooth"
         ref={tabBarRef}
@@ -78,7 +75,7 @@ export const TabBar: React.FC<TabBarProps> = ({ users, handleChange }) => {
           ))}
         </div>
       </div>
-      <div className="w-4 h-4">
+      <div className="hidden w-4 h-4 md:block">
         <button
           className={`rotate-90 rounded-full bg-gray-500 hover:bg-gray-400 ${hideScrollRight && 'hidden'}`}
           onClick={handleScrollRight}
