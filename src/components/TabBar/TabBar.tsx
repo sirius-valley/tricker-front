@@ -53,7 +53,7 @@ export const TabBar: React.FC<TabBarProps> = ({ users, handleChange }) => {
         </button>
       </div>
       <div
-        className="w-full sm:overflow-x-scroll scroll-smooth"
+        className="w-full overflow-x-scroll scroll-smooth"
         ref={tabBarRef}
         onScroll={handleOnScroll}
       >
