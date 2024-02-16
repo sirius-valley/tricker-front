@@ -85,7 +85,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
       ref={filterRef}
       className="relative w-[250px] bg-gray-500 rounded border border-gray-300 gap-1"
     >
-      <div className="flex items-center px-4 py-2 gap-1">
+      <div className="flex items-center px-3 py-2 gap-1">
         {searchIcon && (
           <Icon name={searchIcon} width={'16px'} height={'16px'} />
         )}
