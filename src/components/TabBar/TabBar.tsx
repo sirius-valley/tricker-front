@@ -10,7 +10,7 @@ interface TabBarProps {
 
 export const TabBar: React.FC<TabBarProps> = ({ users, handleChange }) => {
   const [activeTab, setActiveTab] = React.useState<string>('Team statistics')
-  const [hideScrollRight, setHideScrollRight] = React.useState<boolean>(true)
+  const [hideScrollRight, setHideScrollRight] = React.useState<boolean>(false)
   const [hideScrollLeft, setHideScrollLeft] = React.useState<boolean>(true)
 
   const tabBarRef = React.useRef<HTMLDivElement>(null)
