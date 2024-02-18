@@ -17,12 +17,6 @@ const meta: Meta<typeof SearchFilter> = {
         options: Object.keys(icons)
       }
     },
-    statusIcon: {
-      control: {
-        type: 'select',
-        options: Object.keys(icons)
-      }
-    },
     priorityIcon: {
       control: {
         type: 'select',
@@ -32,7 +26,6 @@ const meta: Meta<typeof SearchFilter> = {
   },
   args: {
     searchIcon: 'SearchIcon',
-    statusIcon: 'LoaderIcon',
     priorityIcon: 'MediumPriorityIcon',
     statusOptions: [
       { option: 'Todo', color: colors.white, selected: false },
