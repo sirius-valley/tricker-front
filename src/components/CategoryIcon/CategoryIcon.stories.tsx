@@ -10,17 +10,10 @@ const meta: Meta<typeof CategoryIcon> = {
       control: {
         type: null
       },
-      options: [
-        'no-priority',
-        'low-priority',
-        'medium-priority',
-        'high-priority',
-        'urgent'
-      ],
+      options: ['feature', 'improvement', 'bug'],
       table: {
         type: {
-          summary:
-            'no-priority | low-priority | medium-priority | high-priority | urgent'
+          summary: 'feature | improvement | bug'
         }
       }
     }
@@ -35,11 +28,9 @@ export const CategoryIcons: Story = {
   tags: ['autodocs'],
   render: () => (
     <div className="flex gap-2">
-      <CategoryIcon variant="no-priority" />
-      <CategoryIcon variant="low-priority" />
-      <CategoryIcon variant="medium-priority" />
-      <CategoryIcon variant="high-priority" />
-      <CategoryIcon variant="urgent" />
+      <CategoryIcon variant="feature" />
+      <CategoryIcon variant="improvement" />
+      <CategoryIcon variant="bug" />
     </div>
   )
 }

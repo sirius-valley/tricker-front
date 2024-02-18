@@ -7,8 +7,8 @@ const meta: Meta<typeof Pill> = {
   tags: ['autodocs'],
   argTypes: {
     variant: {
-      options: ['default', 'gradient', 'error'],
-      defaultValue: 'default',
+      options: ['completed', 'tracking', 'blocked'],
+      defaultValue: 'completed',
       control: {
         type: 'select'
       }
@@ -26,28 +26,28 @@ export default meta
 
 type Story = StoryObj<typeof Pill>
 
-export const Default: Story = {
+export const Completed: Story = {
   tags: ['autodocs'],
   args: {
-    children: 'Default'
+    children: 'Completed'
   },
   render: (args) => <Pill {...args}>{args.children}</Pill>
 }
 
-export const Gradient: Story = {
+export const Tracking: Story = {
   tags: ['autodocs'],
   args: {
     children: 'Gradient',
-    variant: 'gradient'
+    variant: 'tracking'
   },
   render: (args) => <Pill {...args}>{args.children}</Pill>
 }
 
-export const Error: Story = {
+export const Blocked: Story = {
   tags: ['autodocs'],
   args: {
     children: 'Blocked',
-    variant: 'error'
+    variant: 'blocked'
   },
   render: (args) => <Pill {...args}>{args.children}</Pill>
 }
