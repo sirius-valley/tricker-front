@@ -20,7 +20,6 @@ const onRequest = (
   req: InternalAxiosRequestConfig
 ): InternalAxiosRequestConfig => {
   const accessToken: string = getAccessToken()
-
   req.headers = { Authorization: accessToken } as AxiosRequestHeaders
 
   return req

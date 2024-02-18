@@ -22,7 +22,13 @@ const service = {
     params.append('redirect_uri', 'http://localhost:5173/login/')
     const res = await axios.post(
       `https://tricker.auth.us-east-2.amazoncognito.com/oauth2/token`,
-      params
+      params,
+      {
+        headers: {
+          Authorization: '',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }
     )
     if (res.status === 200) {
       return res.data

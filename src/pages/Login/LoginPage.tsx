@@ -8,20 +8,27 @@ import { setLoginCookie } from '@service/Cookies'
 import { service } from '@service/service'
 import { type CognitoResponse } from '@utils/types'
 import React from 'react'
-import { redirect, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 const LoginPage = (): JSX.Element => {
   const [searchParams] = useSearchParams()
 
   React.useEffect((): void => {
-    const verifyToken = async (): Promise<void> => {
+    const verifyToken = (): void => {
       const code = searchParams.get('code')
       if (code !== null) {
-        const response: CognitoResponse | null = await service.verifyToken(code)
-        if (response) {
-          setLoginCookie(response)
-          redirect('/')
-        }
+        service
+          .verifyToken(code)
+          .then((response: CognitoResponse | null) => {
+            if (response) {
+              setLoginCookie(response)
+              window.location.replace('/')
+            }
+            return null
+          })
+          .catch((error) => {
+            console.error('Error verifying token:', error)
+          })
       }
     }
     verifyToken()

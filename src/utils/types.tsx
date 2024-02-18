@@ -4,8 +4,7 @@ export interface IconProps {
   height?: string
 }
 
-export interface CognitoResponse {
-  tokens: Tokens
+export interface CognitoResponse extends Tokens {
   expires_in: number
   token_type: string
 }

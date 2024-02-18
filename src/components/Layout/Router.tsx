@@ -1,6 +1,7 @@
 import LoginPage from '@pages/Login/LoginPage'
 import { createBrowserRouter } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute'
+import TimeTrackingBadge from '@components/TimeTrackingBadge/TimeTrackingBadge'
 
 export const ROUTER = createBrowserRouter([
   {
@@ -11,8 +12,8 @@ export const ROUTER = createBrowserRouter([
     element: <PrivateRoute />,
     children: [
       {
-        path: '/'
-        // element: <HomePage />,
+        path: '/',
+        element: <TimeTrackingBadge ticketId={'TRI-000'} />
       }
     ]
   }
