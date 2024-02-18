@@ -12,7 +12,7 @@ const NavBar: React.FC<NavBarProps> = ({
   profilePicture
 }) => {
   return (
-    <div className="absolute bottom-0 w-screen h-[70px] py-1 px-6 flex justify-between items-center bg-black border-t border-gray-400">
+    <div className="absolute bottom-0 w-screen h-[70px] py-1 px-6 flex justify-between items-center bg-gray-600 border-t border-gray-400">
       <NavLink to={`/stats`}>
         {({ isActive }) => (
           <NavButton variant="stats" state={isActive ? 'on' : 'off'} />
