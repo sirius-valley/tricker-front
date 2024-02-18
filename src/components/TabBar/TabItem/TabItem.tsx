@@ -17,7 +17,7 @@ export const TabItem: React.FC<TabItemProps> = ({
       onClick={() => {
         onClick(teamMember)
       }}
-      className={`w-fit h-fit text-nowrap border-b border-${active ? 'primary-400' : 'white'} py-2 px-4 gap-2`}
+      className={`flex w-fit h-fit text-nowrap border-b border-${active ? 'primary-400' : 'white'} py-2 px-4 gap-2`}
     >
       <Subtitle
         className={`leading-[19.36px] text-white ${!active && 'font-normal'}`}

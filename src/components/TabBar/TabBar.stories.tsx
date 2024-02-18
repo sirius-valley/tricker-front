@@ -42,11 +42,11 @@ export const Default: Story = {
       { id: '7', user: { username: 'Persona 7' } },
       { id: '8', user: { username: 'Persona 8' } },
       { id: '9', user: { username: 'Persona 9' } },
-      { id: '9', user: { username: 'Persona 9' } },
-      { id: '9', user: { username: 'Persona 9' } },
-      { id: '9', user: { username: 'Persona 9' } },
-      { id: '9', user: { username: 'Persona 9' } },
-      { id: '10', user: { username: 'Persona 10' } }
+      { id: '10', user: { username: 'Persona 10' } },
+      { id: '11', user: { username: 'Persona 11' } },
+      { id: '12', user: { username: 'Persona 12' } },
+      { id: '13', user: { username: 'Persona 13' } },
+      { id: '14', user: { username: 'Persona 14' } }
     ]
   },
 
