@@ -10,10 +10,17 @@ const meta: Meta<typeof PriorityIcon> = {
       control: {
         type: null
       },
-      options: ['feature', 'improvement', 'bug'],
+      options: [
+        'no-priority',
+        'low-priority',
+        'medium-priority',
+        'high-priority',
+        'urgent'
+      ],
       table: {
         type: {
-          summary: 'feature | improvement | bug'
+          summary:
+            'no-priority | low-priority | medium-priority | high-priority | urgent'
         }
       }
     }
@@ -28,9 +35,11 @@ export const PriorityIcons: Story = {
   tags: ['autodocs'],
   render: () => (
     <div className="flex gap-2">
-      <PriorityIcon variant="feature" />
-      <PriorityIcon variant="improvement" />
-      <PriorityIcon variant="bug" />
+      <PriorityIcon variant="no-priority" />
+      <PriorityIcon variant="low-priority" />
+      <PriorityIcon variant="medium-priority" />
+      <PriorityIcon variant="high-priority" />
+      <PriorityIcon variant="urgent" />
     </div>
   )
 }
