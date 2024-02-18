@@ -66,15 +66,18 @@ const SelectInput = ({
     }, 0)
   }, [isOpen, rotateIcon])
 
-  const handleClickOutside = useCallback((event: MouseEvent): void => {
-    if (
-      selectRef.current &&
-      !selectRef.current.contains(event.target as Node)
-    ) {
-      toggleOptions()
-      setIsOpen(false)
-    }
-  }, [toggleOptions])
+  const handleClickOutside = useCallback(
+    (event: MouseEvent): void => {
+      if (
+        selectRef.current &&
+        !selectRef.current.contains(event.target as Node)
+      ) {
+        toggleOptions()
+        setIsOpen(false)
+      }
+    },
+    [toggleOptions]
+  )
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
