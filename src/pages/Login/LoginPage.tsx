@@ -4,14 +4,13 @@ import TrickerTitle from '@assets/TrickerTitle'
 
 import { LoginWithButton } from '@components/LoginWithButton/LoginWithButton'
 import { NeedHelpButton } from '@components/NeedHelpButton/NeedHelpButton'
-import { setLoginCookie } from '@service/Cookies'
 import { service } from '@service/service'
-import { type CognitoResponse } from '@utils/types'
 import React from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const LoginPage = (): JSX.Element => {
   const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
 
   React.useEffect((): void => {
     const verifyToken = (): void => {
@@ -19,11 +18,8 @@ const LoginPage = (): JSX.Element => {
       if (code !== null) {
         service
           .verifyToken(code)
-          .then((response: CognitoResponse | null) => {
-            if (response) {
-              setLoginCookie(response)
-              window.location.replace('/')
-            }
+          .then(() => {
+            navigate('/')
             return null
           })
           .catch((error) => {
@@ -32,7 +28,7 @@ const LoginPage = (): JSX.Element => {
       }
     }
     verifyToken()
-  }, [searchParams])
+  }, [searchParams, navigate])
 
   return (
     <div className={`flex bg-login bg-cover`}>

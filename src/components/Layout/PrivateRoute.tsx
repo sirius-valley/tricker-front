@@ -15,10 +15,11 @@ const PrivateRoute = (): JSX.Element => {
   React.useEffect(() => {
     if (token !== undefined) {
       service
-        .me()
+        .getOrCreateUser()
         .then((res) => {
+          console.log(res)
           setIsAuthorized(res !== null)
-          dispatch(setUser(res))
+          // dispatch(setUser(res))
           return res
         })
         .catch((e) => {
@@ -41,6 +42,3 @@ const PrivateRoute = (): JSX.Element => {
 }
 
 export default PrivateRoute
-function setUser(res: any): any {
-  throw new Error('Function not implemented.')
-}

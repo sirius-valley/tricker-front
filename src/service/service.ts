@@ -1,14 +1,37 @@
 import axios from 'axios'
-import { setUpAxiosInterceptors } from './AxiosInterceptor'
+// import { setUpAxiosInterceptors } from './AxiosInterceptor'
 import { type User, type CognitoResponse } from '@utils/types'
+import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 
 const url: string = import.meta.env.VITE_API_URL
 
-setUpAxiosInterceptors(axios)
+// setUpAxiosInterceptors(axios)
 
 const service = {
   me: async (): Promise<User | null> => {
-    const res = await axios.get(`${url}/user/me`)
+    const res = await axios.get(`${url}/user/me`, {
+      headers: {
+        Authorization: getAccessToken()
+      }
+    })
+    if (res.status === 200) {
+      return res.data
+    }
+    return null
+  },
+  getOrCreateUser: async (): Promise<User | null> => {
+    const res = await axios.post(
+      `${url}/user/getOrCreate`,
+      {
+        idToken: getIdToken()
+      },
+      {
+        headers: {
+          Authorization: 'Bearer ' + getAccessToken()
+        }
+      }
+    )
+    console.log(res)
     if (res.status === 200) {
       return res.data
     }
@@ -25,13 +48,14 @@ const service = {
       params,
       {
         headers: {
-          Authorization: '',
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }
     )
     if (res.status === 200) {
-      return res.data
+      const cognitoResponse: CognitoResponse = res.data
+      setLoginCookies(cognitoResponse)
+      return cognitoResponse
     }
     return null
   }
