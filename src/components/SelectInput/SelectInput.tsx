@@ -122,11 +122,7 @@ const SelectInput = ({
           <Body1>{selectedOption || 'Selected item title'}</Body1>
           {icon && (
             <div
-              className="absolute right-4 top-0 bottom-0 flex items-center"
-              style={{
-                transition: 'transform 0.3s ease',
-                transform: rotateIcon ? 'rotate(180deg)' : 'none'
-              }}
+              className={`absolute right-4 top-0 bottom-0 flex items-center transition-transform duration-300 ease-in-out ${rotateIcon ? 'transform rotate-180' : ''}`}
             >
               {<Icon name={icon} width="18" height="18" />}
             </div>

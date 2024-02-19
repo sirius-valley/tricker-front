@@ -3,13 +3,16 @@ import Icon from '@components/Icon/Icon'
 import type * as icons from '@components/Icon/index.ts'
 import Checkbox from '@components/Checkbox/Checkbox'
 
+export interface OptionAttr {
+  option: string
+  color?: string
+  selected: boolean
+  icon?: keyof typeof icons
+}
+
 export interface SearchButtonProps {
-  statusOptions: Array<{ option: string; color: string; selected: boolean }>
-  priorityOptions: Array<{
-    option: string
-    icon: keyof typeof icons
-    selected: boolean
-  }>
+  statusOptions: Array<OptionAttr>
+  priorityOptions: Array<OptionAttr>
   searchIcon?: keyof typeof icons
   priorityIcon?: keyof typeof icons
 }
@@ -23,8 +26,10 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
   const [showStatusOptions, setShowStatusOptions] = useState(false)
   const [showPriorityOptions, setShowPriorityOptions] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedOption, setSelectedOption] = useState('Search')
+  const [searchOption, setSearchOption] = useState('Search')
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([])
   const filterRef = useRef<HTMLDivElement | null>(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
@@ -34,7 +39,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
       if (!isClickInside) {
         setShowStatusOptions(false)
         setShowPriorityOptions(false)
-        setSelectedOption('Search')
+        setSearchOption('Search')
       }
     }
 
@@ -58,30 +63,37 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
     setSearchTerm(event.target.value)
   }
 
-  const handleStatusOptionSelect = (option: {
-    option: string
-    color: string
-    selected: boolean
-  }): void => {
+  const handleStatusOptionSelect = (option: OptionAttr): void => {
     option.selected = !option.selected
+    if(option.selected){
+      setSelectedOptions((prevOptions: string[]) => ([...prevOptions, option.option]))
+    }else{
+      setSelectedOptions((prevOptions: string[]) => prevOptions.filter((opt) => opt !== option.option));
+    }
     setShowStatusOptions(true)
     setShowPriorityOptions(false)
-    setSelectedOption(option.option)
+    setSearchOption(option.option)
   }
 
-  const handlePriorityOptionSelect = (option: {
-    option: string
-    icon: keyof typeof icons
-    selected: boolean
-  }): void => {
+  const handlePriorityOptionSelect = (option: OptionAttr): void => {
     option.selected = !option.selected
+    if(option.selected){
+      setSelectedOptions((prevOptions: string[]) => ([...prevOptions, option.option]))
+    }else{
+      setSelectedOptions((prevOptions: string[]) => prevOptions.filter((opt) => opt !== option.option));
+    }
     setShowPriorityOptions(true)
     setShowStatusOptions(false)
-    setSelectedOption(option.option)
+    setSearchOption(option.option)
   }
-
-  const inputRef = useRef<HTMLInputElement | null>(null)
-
+/*
+  const handleOptionSelect = (option: OptionAttr): void => {
+    option.selected = !option.selected
+    setShowPriorityOptions
+  }
+*/
+  console.log(selectedOptions);
+  console.log(filteredStatusOptions.map((option) => selectedOptions.some((opt: string) => opt === option.option )))
   return (
     <div
       ref={filterRef}
@@ -99,41 +111,37 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
         <input
           ref={inputRef}
           type="text"
-          placeholder={selectedOption}
+          placeholder={searchOption}
           className="bg-transparent text-sm text-white placeholder-gray-200 focus:outline-none"
           onChange={handleSearchChange}
         />
       </div>
       <div className="flex flex-col">
         <button
-          className="px-4 py-2 gap-3 text-white flex items-center rounded hover:bg-gray-400 cursor-pointer"
+          className={`px-4 py-2 gap-3 text-white flex items-center rounded hover:bg-gray-400 cursor-pointer ${
+            showPriorityOptions || searchOption === 'Status'
+              ? 'hidden'
+              : 'flex'
+          }`}
           onClick={() => {
             setShowStatusOptions(!showStatusOptions)
             setShowPriorityOptions(false)
-            setSelectedOption('Status')
-          }}
-          style={{
-            display:
-              showPriorityOptions || selectedOption === 'Status'
-                ? 'none'
-                : 'flex'
+            setSearchOption('Status')
           }}
         >
           <div className="w-3 h-3 rounded-full bg-white" />
           <span>Status</span>
         </button>
         <button
-          className="px-3 py-2 gap-2 text-white hover:bg-gray-400 rounded flex items-center"
+          className={`px-3 py-2 gap-2 text-white hover:bg-gray-400 rounded flex items-center ${
+            showStatusOptions || searchOption === 'Priority'
+              ? 'hidden'
+              : 'flex'
+          }`}
           onClick={() => {
             setShowPriorityOptions(!showPriorityOptions)
             setShowStatusOptions(false)
-            setSelectedOption('Priority')
-          }}
-          style={{
-            display:
-              showStatusOptions || selectedOption === 'Priority'
-                ? 'none'
-                : 'flex'
+            setSearchOption('Priority')
           }}
         >
           {priorityIcon && (
@@ -142,6 +150,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
           <span>Priority</span>
         </button>
       </div>
+
       {showStatusOptions && (
         <div className="relative w-full text-white bg-gray-500 border-gray-300 rounded-b">
           {filteredStatusOptions.map((option, index) => (
@@ -150,8 +159,8 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
               className="px-4 py-2 gap-3 hover:bg-gray-400 rounded flex items-center"
             >
               <Checkbox
-                defaultChecked={option.selected}
-                onChange={() => {
+                defaultChecked={selectedOptions.some((opt: string) => opt === option.option)}
+                onChecked={() => {
                   handleStatusOptionSelect(option)
                 }}
               />
@@ -173,7 +182,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
             >
               <Checkbox
                 defaultChecked={option.selected}
-                onChange={() => {
+                onChecked={() => {
                   handlePriorityOptionSelect(option)
                 }}
               />
