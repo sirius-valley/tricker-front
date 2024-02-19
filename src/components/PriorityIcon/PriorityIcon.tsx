@@ -13,7 +13,7 @@ export interface PriorityIconProps {
 
 const PriorityIcon: React.FC<PriorityIconProps> = ({
   variant,
-  fillColor = 'white',
+  fillColor,
   ...props
 }) => {
   let iconName:
@@ -22,6 +22,7 @@ const PriorityIcon: React.FC<PriorityIconProps> = ({
     | 'MediumPriorityIcon'
     | 'HighPriorityIcon'
     | 'UrgentIcon'
+
   switch (variant) {
     case 'no-priority':
       iconName = 'NoPriorityIcon'
@@ -40,7 +41,7 @@ const PriorityIcon: React.FC<PriorityIconProps> = ({
       break
   }
 
-  return <ChildIcon fillColor={fillColor} iconName={iconName} {...props} />
+  return <ChildIcon iconName={iconName} fillColor={fillColor} {...props} />
 }
 
 export default PriorityIcon

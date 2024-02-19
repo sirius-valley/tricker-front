@@ -8,13 +8,25 @@ const meta: Meta<typeof PriorityIcon> = {
   argTypes: {
     variant: {
       control: {
-        type: null
+        type: 'select'
       },
-      options: ['feature', 'improvement', 'bug'],
+      options: [
+        'no-priority',
+        'low-priority',
+        'medium-priority',
+        'high-priority',
+        'urgent'
+      ],
       table: {
         type: {
-          summary: 'feature | improvement | bug'
+          summary:
+            'no-priority | low-priority | medium-priority | high-priority | urgent'
         }
+      }
+    },
+    fillColor: {
+      control: {
+        type: 'color'
       }
     }
   }
@@ -26,11 +38,13 @@ type Story = StoryObj<typeof PriorityIcon>
 
 export const PriorityIcons: Story = {
   tags: ['autodocs'],
-  render: () => (
+  args: {
+    variant: 'no-priority',
+    fillColor: 'white'
+  },
+  render: (args) => (
     <div className="flex gap-2">
-      <PriorityIcon variant="feature" />
-      <PriorityIcon variant="improvement" />
-      <PriorityIcon variant="bug" />
+      <PriorityIcon {...args} />
     </div>
   )
 }

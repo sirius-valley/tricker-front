@@ -1,5 +1,5 @@
-// import { useAppDispatch } from '@redux/hooks'
 import { useAppDispatch } from '@redux/hooks'
+import { setUser } from '@redux/user'
 import { getTokens } from '@service/Cookies'
 import { service } from '@service/service'
 import { type Tokens } from '@utils/types'
@@ -18,7 +18,7 @@ const PrivateRoute = (): JSX.Element => {
         .getOrCreateUser()
         .then((res) => {
           setIsAuthorized(res !== null)
-          // dispatch(setUser(res))
+          res !== null && dispatch(setUser(res))
           return res
         })
         .catch((e) => {

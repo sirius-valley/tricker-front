@@ -8,10 +8,10 @@ export interface CategoryIconProps {
 
 const CategoryIcon: React.FC<CategoryIconProps> = ({
   variant,
-  fillColor = 'white',
+  fillColor,
   ...props
 }) => {
-  let iconName: 'BugIcon' | 'FeatureIcon' | 'ImprovementIcon'
+  let iconName: 'FeatureIcon' | 'ImprovementIcon' | 'BugIcon'
   switch (variant) {
     case 'feature':
       iconName = 'FeatureIcon'
@@ -24,7 +24,7 @@ const CategoryIcon: React.FC<CategoryIconProps> = ({
       break
   }
 
-  return <ChildIcon fillColor={fillColor} iconName={iconName} {...props} />
+  return <ChildIcon iconName={iconName} fillColor={fillColor} {...props} />
 }
 
 export default CategoryIcon

@@ -3,7 +3,8 @@ import axios from 'axios'
 import { type User, type CognitoResponse } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 
-const url: string = import.meta.env.VITE_API_URL
+const url: string =
+  (import.meta.env.VITE_API_URL as string) || 'http://localhost:8080/api'
 
 // setUpAxiosInterceptors(axios)
 
