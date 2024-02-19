@@ -17,7 +17,6 @@ const PrivateRoute = (): JSX.Element => {
       service
         .getOrCreateUser()
         .then((res) => {
-          console.log(res)
           setIsAuthorized(res !== null)
           // dispatch(setUser(res))
           return res
