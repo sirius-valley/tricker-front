@@ -11,8 +11,8 @@ export interface OptionAttr {
 }
 
 export interface SearchButtonProps {
-  statusOptions: Array<OptionAttr>
-  priorityOptions: Array<OptionAttr>
+  statusOptions: OptionAttr[]
+  priorityOptions: OptionAttr[]
   searchIcon?: keyof typeof icons
   priorityIcon?: keyof typeof icons
 }
@@ -65,10 +65,15 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
 
   const handleStatusOptionSelect = (option: OptionAttr): void => {
     option.selected = !option.selected
-    if(option.selected){
-      setSelectedOptions((prevOptions: string[]) => ([...prevOptions, option.option]))
-    }else{
-      setSelectedOptions((prevOptions: string[]) => prevOptions.filter((opt) => opt !== option.option));
+    if (option.selected) {
+      setSelectedOptions((prevOptions: string[]) => [
+        ...prevOptions,
+        option.option
+      ])
+    } else {
+      setSelectedOptions((prevOptions: string[]) =>
+        prevOptions.filter((opt) => opt !== option.option)
+      )
     }
     setShowStatusOptions(true)
     setShowPriorityOptions(false)
@@ -77,23 +82,32 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
 
   const handlePriorityOptionSelect = (option: OptionAttr): void => {
     option.selected = !option.selected
-    if(option.selected){
-      setSelectedOptions((prevOptions: string[]) => ([...prevOptions, option.option]))
-    }else{
-      setSelectedOptions((prevOptions: string[]) => prevOptions.filter((opt) => opt !== option.option));
+    if (option.selected) {
+      setSelectedOptions((prevOptions: string[]) => [
+        ...prevOptions,
+        option.option
+      ])
+    } else {
+      setSelectedOptions((prevOptions: string[]) =>
+        prevOptions.filter((opt) => opt !== option.option)
+      )
     }
     setShowPriorityOptions(true)
     setShowStatusOptions(false)
     setSearchOption(option.option)
   }
-/*
+  /*
   const handleOptionSelect = (option: OptionAttr): void => {
     option.selected = !option.selected
     setShowPriorityOptions
   }
 */
-  console.log(selectedOptions);
-  console.log(filteredStatusOptions.map((option) => selectedOptions.some((opt: string) => opt === option.option )))
+  console.log(selectedOptions)
+  console.log(
+    filteredStatusOptions.map((option) =>
+      selectedOptions.some((opt: string) => opt === option.option)
+    )
+  )
   return (
     <div
       ref={filterRef}
@@ -119,9 +133,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
       <div className="flex flex-col">
         <button
           className={`px-4 py-2 gap-3 text-white flex items-center rounded hover:bg-gray-400 cursor-pointer ${
-            showPriorityOptions || searchOption === 'Status'
-              ? 'hidden'
-              : 'flex'
+            showPriorityOptions || searchOption === 'Status' ? 'hidden' : 'flex'
           }`}
           onClick={() => {
             setShowStatusOptions(!showStatusOptions)
@@ -134,9 +146,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
         </button>
         <button
           className={`px-3 py-2 gap-2 text-white hover:bg-gray-400 rounded flex items-center ${
-            showStatusOptions || searchOption === 'Priority'
-              ? 'hidden'
-              : 'flex'
+            showStatusOptions || searchOption === 'Priority' ? 'hidden' : 'flex'
           }`}
           onClick={() => {
             setShowPriorityOptions(!showPriorityOptions)
@@ -159,7 +169,9 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
               className="px-4 py-2 gap-3 hover:bg-gray-400 rounded flex items-center"
             >
               <Checkbox
-                defaultChecked={selectedOptions.some((opt: string) => opt === option.option)}
+                defaultChecked={selectedOptions.some(
+                  (opt: string) => opt === option.option
+                )}
                 onChecked={() => {
                   handleStatusOptionSelect(option)
                 }}
