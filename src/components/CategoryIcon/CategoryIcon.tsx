@@ -2,40 +2,29 @@ import React from 'react'
 import ChildIcon from '@components/ChildIcon/ChildIcon'
 
 export interface CategoryIconProps {
-  variant:
-    | 'no-priority'
-    | 'low-priority'
-    | 'medium-priority'
-    | 'high-priority'
-    | 'urgent'
+  variant: 'feature' | 'improvement' | 'bug'
+  fillColor?: string
 }
 
-const CategoryIcon: React.FC<CategoryIconProps> = ({ variant, ...props }) => {
-  let iconName:
-    | 'NoPriorityIcon'
-    | 'LowPriorityIcon'
-    | 'MediumPriorityIcon'
-    | 'HighPriorityIcon'
-    | 'UrgentIcon'
+const CategoryIcon: React.FC<CategoryIconProps> = ({
+  variant,
+  fillColor = 'white',
+  ...props
+}) => {
+  let iconName: 'BugIcon' | 'FeatureIcon' | 'ImprovementIcon'
   switch (variant) {
-    case 'no-priority':
-      iconName = 'NoPriorityIcon'
+    case 'feature':
+      iconName = 'FeatureIcon'
       break
-    case 'low-priority':
-      iconName = 'LowPriorityIcon'
+    case 'improvement':
+      iconName = 'ImprovementIcon'
       break
-    case 'medium-priority':
-      iconName = 'MediumPriorityIcon'
-      break
-    case 'high-priority':
-      iconName = 'HighPriorityIcon'
-      break
-    case 'urgent':
-      iconName = 'UrgentIcon'
+    case 'bug':
+      iconName = 'BugIcon'
       break
   }
 
-  return <ChildIcon iconName={iconName} {...props} />
+  return <ChildIcon fillColor={fillColor} iconName={iconName} {...props} />
 }
 
 export default CategoryIcon

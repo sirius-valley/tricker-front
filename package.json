@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.1.0",
+    "@tanstack/react-query": "^5.20.5",
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
     "react": "^18.2.0",
@@ -34,6 +35,7 @@
     "@storybook/react": "^7.6.11",
     "@storybook/react-vite": "^7.6.11",
     "@storybook/test": "^7.6.11",
+    "@tanstack/eslint-plugin-query": "^5.20.1",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@types/react-router-dom": "^5.3.3",
