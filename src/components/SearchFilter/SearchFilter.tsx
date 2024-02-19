@@ -102,12 +102,6 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
     setShowPriorityOptions
   }
 */
-  console.log(selectedOptions)
-  console.log(
-    filteredStatusOptions.map((option) =>
-      selectedOptions.some((opt: string) => opt === option.option)
-    )
-  )
   return (
     <div
       ref={filterRef}
@@ -133,7 +127,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
       <div className="flex flex-col">
         <button
           className={`px-4 py-2 gap-3 text-white flex items-center rounded hover:bg-gray-400 cursor-pointer ${
-            showPriorityOptions || searchOption === 'Status' ? 'hidden' : 'flex'
+            searchOption === 'Search' ? 'flex' : 'hidden'
           }`}
           onClick={() => {
             setShowStatusOptions(!showStatusOptions)
@@ -146,7 +140,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
         </button>
         <button
           className={`px-3 py-2 gap-2 text-white hover:bg-gray-400 rounded flex items-center ${
-            showStatusOptions || searchOption === 'Priority' ? 'hidden' : 'flex'
+            searchOption === 'Search' ? 'flex' : 'hidden'
           }`}
           onClick={() => {
             setShowPriorityOptions(!showPriorityOptions)
@@ -169,9 +163,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
               className="px-4 py-2 gap-3 hover:bg-gray-400 rounded flex items-center"
             >
               <Checkbox
-                defaultChecked={selectedOptions.some(
-                  (opt: string) => opt === option.option
-                )}
+                defaultChecked={selectedOptions.includes(option.option)}
                 onChecked={() => {
                   handleStatusOptionSelect(option)
                 }}
@@ -193,7 +185,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
               className="px-4 py-2 gap-2 hover:bg-gray-400 rounded text-white flex items-center"
             >
               <Checkbox
-                defaultChecked={option.selected}
+                defaultChecked={selectedOptions.includes(option.option)}
                 onChecked={() => {
                   handlePriorityOptionSelect(option)
                 }}
