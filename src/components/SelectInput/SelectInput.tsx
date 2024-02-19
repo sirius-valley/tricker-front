@@ -74,7 +74,7 @@ const SelectInput = ({
       ) {
         setIsOpen(false)
         if (rotateIcon) {
-          setRotateIcon(false) // Devolver el icono a su estado inicial si está girado
+          setRotateIcon(false)
         }
       }
     },
@@ -91,7 +91,7 @@ const SelectInput = ({
   const handleOptionSelect = (value: string): void => {
     setSelectedOption(value)
     setIsOpen(false)
-    setRotateIcon(false) // Establecer rotateIcon como false al seleccionar una opción
+    setRotateIcon(false)
   }
 
   return (
