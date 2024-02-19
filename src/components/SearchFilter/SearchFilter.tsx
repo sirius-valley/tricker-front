@@ -119,9 +119,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
                 : 'flex'
           }}
         >
-          <div
-            className="w-3 h-3 rounded-full bg-white"
-          />
+          <div className="w-3 h-3 rounded-full bg-white" />
           <span>Status</span>
         </button>
         <button
