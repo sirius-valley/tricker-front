@@ -39,7 +39,6 @@ export const TabBar: React.FC<TabBarProps> = ({ users, handleChange }) => {
       )
       setHideScrollLeft(tabBarRef.current.scrollLeft === 0)
     }
-    console.log(window.innerWidth)
   }
 
   return (
