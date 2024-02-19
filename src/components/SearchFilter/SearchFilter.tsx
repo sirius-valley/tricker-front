@@ -85,7 +85,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
   return (
     <div
       ref={filterRef}
-      className="relative w-[250px] bg-gray-500 border border-gray-300 rounded"
+      className={`relative w-[250px] bg-gray-500 border border-gray-300 rounded`}
       onClick={() => {
         if (inputRef.current) {
           inputRef.current.focus()
@@ -100,7 +100,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
           ref={inputRef}
           type="text"
           placeholder={selectedOption}
-          className="bg-transparent text-sm text-white placeholder-gray-200 rounded-b focus:outline-none"
+          className="bg-transparent text-sm text-white placeholder-gray-200 focus:outline-none"
           onChange={handleSearchChange}
         />
       </div>
@@ -120,8 +120,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
           }}
         >
           <div
-            className="w-3 h-3 rounded-full"
-            style={{ backgroundColor: 'white' }}
+            className="w-3 h-3 rounded-full bg-white"
           />
           <span>Status</span>
         </button>
@@ -146,7 +145,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
         </button>
       </div>
       {showStatusOptions && (
-        <div className="absolute w-full left-0 text-white bg-gray-500 border border-gray-300 rounded-b">
+        <div className="relative w-full text-white bg-gray-500 border-gray-300 rounded-b">
           {filteredStatusOptions.map((option, index) => (
             <div
               key={index}
@@ -168,7 +167,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
         </div>
       )}
       {showPriorityOptions && (
-        <div className="absolute w-full left-0 text-white bg-gray-500 border border-gray-300 rounded-b">
+        <div className="relative w-full text-white bg-gray-500 border-gray-300 rounded-b">
           {filteredPriorityOptions.map((option, index) => (
             <div
               key={index}
