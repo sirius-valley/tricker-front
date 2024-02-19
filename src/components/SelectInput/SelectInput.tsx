@@ -72,12 +72,14 @@ const SelectInput = ({
         selectRef.current &&
         !selectRef.current.contains(event.target as Node)
       ) {
-        toggleOptions()
-        setIsOpen(false)
+        setIsOpen(false);
+        if (rotateIcon) {
+          setRotateIcon(false); // Devolver el icono a su estado inicial si está girado
+        }
       }
     },
-    [toggleOptions]
-  )
+    [rotateIcon]
+  );
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside)
@@ -87,10 +89,10 @@ const SelectInput = ({
   }, [handleClickOutside])
 
   const handleOptionSelect = (value: string): void => {
-    setSelectedOption(value)
-    setIsOpen(false)
-    setRotateIcon(false)
-  }
+    setSelectedOption(value);
+    setIsOpen(false);
+    setRotateIcon(false); // Establecer rotateIcon como false al seleccionar una opción
+  };
 
   return (
     <div className="gap-2 flex flex-col">
