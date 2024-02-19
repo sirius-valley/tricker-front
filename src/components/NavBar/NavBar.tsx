@@ -25,7 +25,7 @@ const NavBar: React.FC<NavBarProps> = ({
           )}
         </NavLink>
       )}
-      <NavLink to={`/home`}>
+      <NavLink to={`/`}>
         {({ isActive }) => (
           <NavButton variant="home" state={isActive ? 'on' : 'off'} />
         )}
