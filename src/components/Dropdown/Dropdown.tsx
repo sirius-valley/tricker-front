@@ -6,7 +6,7 @@ import config from '../../../tailwind.config'
 
 const colors = config.theme.extend.colors
 
-interface DropdownOption {
+export interface DropdownOption {
   title: string
   image: string
 }

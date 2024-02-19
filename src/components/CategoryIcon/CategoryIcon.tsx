@@ -12,7 +12,6 @@ const CategoryIcon: React.FC<CategoryIconProps> = ({
   ...props
 }) => {
   let iconName: 'FeatureIcon' | 'ImprovementIcon' | 'BugIcon'
-
   switch (variant) {
     case 'feature':
       iconName = 'FeatureIcon'

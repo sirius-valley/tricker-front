@@ -13,7 +13,7 @@ const meta: Meta<typeof CategoryIcon> = {
       options: ['feature', 'improvement', 'bug'],
       table: {
         type: {
-          summary: 'feature | bug | improvement'
+          summary: 'feature | improvement | bug'
         }
       }
     },

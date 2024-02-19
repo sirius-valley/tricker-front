@@ -8,6 +8,7 @@ interface InitialStateType {
 const initialState: InitialStateType = {
   user: {
     id: '',
+    username: '',
     profileImage: '',
     createdAt: new Date(),
     projectsRoleAssigned: [],
@@ -30,4 +31,5 @@ const userSlice = createSlice({
   }
 })
 
+export const { setUser } = userSlice.actions
 export default userSlice.reducer
