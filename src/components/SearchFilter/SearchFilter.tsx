@@ -96,12 +96,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
     setShowStatusOptions(false)
     setSearchOption(option.option)
   }
-  /*
-  const handleOptionSelect = (option: OptionAttr): void => {
-    option.selected = !option.selected
-    setShowPriorityOptions
-  }
-*/
+
   return (
     <div
       ref={filterRef}
@@ -190,7 +185,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
                   handlePriorityOptionSelect(option)
                 }}
               />
-              {priorityIcon && (
+              {option.icon && (
                 <Icon name={option.icon} width={'18px'} height={'18px'} />
               )}
               <span>{option.option}</span>
