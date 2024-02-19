@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Icon from '@components/Icon/Icon';
-import type * as icons from '@components/Icon/index.ts';
-import Checkbox from '@components/Checkbox/Checkbox';
+import React, { useState, useEffect, useRef } from 'react'
+import Icon from '@components/Icon/Icon'
+import type * as icons from '@components/Icon/index.ts'
+import Checkbox from '@components/Checkbox/Checkbox'
 
 export interface OptionAttr {
-  option: string;
-  color?: string;
-  selected: boolean;
-  icon?: keyof typeof icons;
+  option: string
+  color?: string
+  selected: boolean
+  icon?: keyof typeof icons
 }
 
 export interface SearchButtonProps {
-  statusOptions: OptionAttr[];
-  priorityOptions: OptionAttr[];
-  searchIcon?: keyof typeof icons;
-  priorityIcon?: keyof typeof icons;
+  statusOptions: OptionAttr[]
+  priorityOptions: OptionAttr[]
+  searchIcon?: keyof typeof icons
+  priorityIcon?: keyof typeof icons
 }
 
 const SearchFilter: React.FC<SearchButtonProps> = ({
@@ -23,60 +23,72 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
   searchIcon,
   priorityIcon
 }) => {
-  const [showStatusOptions, setShowStatusOptions] = useState(false);
-  const [showPriorityOptions, setShowPriorityOptions] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchOption, setSearchOption] = useState('Search');
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const filterRef = useRef<HTMLDivElement | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [showStatusOptions, setShowStatusOptions] = useState(false)
+  const [showPriorityOptions, setShowPriorityOptions] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [searchOption, setSearchOption] = useState('Search')
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([])
+  const filterRef = useRef<HTMLDivElement | null>(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
-      const target = event.target as HTMLElement;
+      const target = event.target as HTMLElement
 
-      const isClickInside = filterRef.current?.contains(target) ?? false;
+      const isClickInside = filterRef.current?.contains(target) ?? false
       if (!isClickInside) {
-        setShowStatusOptions(false);
-        setShowPriorityOptions(false);
-        setSearchOption('Search');
+        setShowStatusOptions(false)
+        setShowPriorityOptions(false)
+        setSearchOption('Search')
       }
-    };
+    }
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside)
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setSearchTerm(event.target.value);
-  };
+  const handleSearchChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setSearchTerm(event.target.value)
+  }
 
   const handleStatusOptionSelect = (option: OptionAttr): void => {
-    option.selected = !option.selected;
+    option.selected = !option.selected
     if (option.selected) {
-      setSelectedOptions((prevOptions: string[]) => [...prevOptions, option.option]);
+      setSelectedOptions((prevOptions: string[]) => [
+        ...prevOptions,
+        option.option
+      ])
     } else {
-      setSelectedOptions((prevOptions: string[]) => prevOptions.filter((opt) => opt !== option.option));
+      setSelectedOptions((prevOptions: string[]) =>
+        prevOptions.filter((opt) => opt !== option.option)
+      )
     }
-    setShowStatusOptions(true);
-    setShowPriorityOptions(false);
-    setSearchOption('Status');
-  };
+    setShowStatusOptions(true)
+    setShowPriorityOptions(false)
+    setSearchOption('Status')
+  }
 
   const handlePriorityOptionSelect = (option: OptionAttr): void => {
-    option.selected = !option.selected;
+    option.selected = !option.selected
     if (option.selected) {
-      setSelectedOptions((prevOptions: string[]) => [...prevOptions, option.option]);
+      setSelectedOptions((prevOptions: string[]) => [
+        ...prevOptions,
+        option.option
+      ])
     } else {
-      setSelectedOptions((prevOptions: string[]) => prevOptions.filter((opt) => opt !== option.option));
+      setSelectedOptions((prevOptions: string[]) =>
+        prevOptions.filter((opt) => opt !== option.option)
+      )
     }
-    setShowPriorityOptions(true);
-    setShowStatusOptions(false);
-    setSearchOption('Priority');
-  };
+    setShowPriorityOptions(true)
+    setShowStatusOptions(false)
+    setSearchOption('Priority')
+  }
 
   return (
     <div
@@ -84,12 +96,14 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
       className={`relative w-[250px] bg-gray-500 border border-gray-300 rounded`}
       onClick={() => {
         if (inputRef.current) {
-          inputRef.current.focus();
+          inputRef.current.focus()
         }
       }}
     >
       <div className="flex items-center px-3 py-2 gap-1 border-b border-gray-300">
-        {searchIcon && <Icon name={searchIcon} width={'16px'} height={'16px'} />}
+        {searchIcon && (
+          <Icon name={searchIcon} width={'16px'} height={'16px'} />
+        )}
         <input
           ref={inputRef}
           type="text"
@@ -104,9 +118,9 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
             searchOption === 'Search' ? 'flex' : 'hidden'
           }`}
           onClick={() => {
-            setShowStatusOptions(!showStatusOptions);
-            setShowPriorityOptions(false);
-            setSearchOption('Status');
+            setShowStatusOptions(!showStatusOptions)
+            setShowPriorityOptions(false)
+            setSearchOption('Status')
           }}
         >
           <div className="w-3 h-3 rounded-full bg-white" />
@@ -117,12 +131,14 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
             searchOption === 'Search' ? 'flex' : 'hidden'
           }`}
           onClick={() => {
-            setShowPriorityOptions(!showPriorityOptions);
-            setShowStatusOptions(false);
-            setSearchOption('Priority');
+            setShowPriorityOptions(!showPriorityOptions)
+            setShowStatusOptions(false)
+            setSearchOption('Priority')
           }}
         >
-          {priorityIcon && <Icon name={priorityIcon} width={'18px'} height={'18px'} />}
+          {priorityIcon && (
+            <Icon name={priorityIcon} width={'18px'} height={'18px'} />
+          )}
           <span>Priority</span>
         </button>
       </div>
@@ -139,7 +155,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
                   <Checkbox
                     defaultChecked={selectedOptions.includes(option.option)}
                     onChecked={() => {
-                      handleStatusOptionSelect(option);
+                      handleStatusOptionSelect(option)
                     }}
                   />
                   <div
@@ -164,10 +180,12 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
                   <Checkbox
                     defaultChecked={selectedOptions.includes(option.option)}
                     onChecked={() => {
-                      handlePriorityOptionSelect(option);
+                      handlePriorityOptionSelect(option)
                     }}
                   />
-                  {option.icon && <Icon name={option.icon} width={'18px'} height={'18px'} />}
+                  {option.icon && (
+                    <Icon name={option.icon} width={'18px'} height={'18px'} />
+                  )}
                   <span>{option.option}</span>
                 </div>
               </label>
@@ -175,7 +193,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default SearchFilter;
+export default SearchFilter
