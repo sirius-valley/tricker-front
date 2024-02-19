@@ -4,5 +4,4 @@ import './App.css'
 function App(): JSX.Element {
   return <Layout />
 }
-
 export default App
