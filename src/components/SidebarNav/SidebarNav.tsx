@@ -101,7 +101,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
           <NavLink to={'/user/' + user.id}>
             <div className="flex items-center p-2 gap-3 max-w-[224px]">
               <ProfileButton
-                className="min-w-10"
+                className="min-w-10 min-h-10"
                 img="https://s3-alpha-sig.figma.com/img/4fe8/a23d/ddeece2a91e7cc5919fd149d572c6d1e?Expires=1708905600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=a33zUweOtCPNcY1RYMBSl7M0W3HvLrpSgGfHnnqS-~FBATDlE42BrkMOby65VNWC2eo3p7sknPz1zjtO3xZfNT4zZyke6ZRrYV1k2nllK6NJMDzTKFn~qe4R0xWUtyxxWtauAlAvqmDY7G2O417AE05nFyFXyLlo7zePBrxsCNWm9f3jD2W65zFwgLy8wzcy5ryT5OZPA5wxOXPXN-6-VngmrBmoZqg-SWVfgL-E6W3GkoLj4IvMi7LcJZ162JsXmP0o-mHJ4bRi9K04k3ACjyg7BT2f9fCLbGzy5Nddzk8p61tDl7OczzCY-K9bx0ju3uAbhMnWfpFU0vcp7gpOcw__"
               />
               <Body1 className="text-white overflow-hidden overflow-ellipsis whitespace-nowrap">
