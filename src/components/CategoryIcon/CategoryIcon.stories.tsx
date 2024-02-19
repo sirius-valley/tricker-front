@@ -8,13 +8,18 @@ const meta: Meta<typeof CategoryIcon> = {
   argTypes: {
     variant: {
       control: {
-        type: null
+        type: 'select'
       },
       options: ['feature', 'improvement', 'bug'],
       table: {
         type: {
           summary: 'feature | improvement | bug'
         }
+      }
+    },
+    fillColor: {
+      control: {
+        type: 'color'
       }
     }
   }
@@ -26,11 +31,9 @@ type Story = StoryObj<typeof CategoryIcon>
 
 export const CategoryIcons: Story = {
   tags: ['autodocs'],
-  render: () => (
-    <div className="flex gap-2">
-      <CategoryIcon variant="feature" />
-      <CategoryIcon variant="improvement" />
-      <CategoryIcon variant="bug" />
-    </div>
-  )
+  args: {
+    variant: 'feature',
+    fillColor: 'white'
+  },
+  render: (args) => <CategoryIcon {...args} />
 }

@@ -5,7 +5,7 @@ export interface IconProps {
 }
 
 export interface User {
-  id?: string
+  id: string
   username: string
   profileImage?: string | null
   createdAt?: Date
