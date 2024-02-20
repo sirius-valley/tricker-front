@@ -1,6 +1,6 @@
 import '../../index.css'
 import React from 'react'
-import { Dropdown } from '@components/Dropdown/Dropdown'
+// import { Dropdown } from '@components/Dropdown/Dropdown'
 import TrickerLogo from '@assets/TrickerLogo'
 import TrickerTitle from '@assets/TrickerTitle'
 import { NavbarItem } from '@components/NavbarItem/NavbarItem'
@@ -13,7 +13,7 @@ import { type TimeTracking, type User } from '@utils/types'
 
 export interface SidebarNavProps
   extends React.HTMLAttributes<HTMLInputElement> {
-  user: User
+  user?: User
   variant: 'pm' | 'dev'
   timeTracking?: TimeTracking
   dropdownOptions: Array<{ title: string; image: string }>
@@ -23,9 +23,9 @@ export interface SidebarNavProps
 export const SidebarNav: React.FC<SidebarNavProps> = ({
   user,
   variant,
-  dropdownOptions,
-  timeTracking,
-  handleDropdownSelect
+  // dropdownOptions,
+  timeTracking
+  // handleDropdownSelect
 }) => {
   return (
     <div className="flex flex-col w-[224px] h-screen pt-10 gap-20 bg-gray-500">
@@ -52,12 +52,16 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
               </NavLink>
             </div>
           )}
+          {/*
+          
+          It is a provisionary version without dropdown as there are not projects to display already.
+
           <Dropdown
             options={dropdownOptions}
             handleSelect={(option) => {
               handleDropdownSelect(option)
             }}
-          />
+          /> */}
           <div className="flex flex-col gap-2 px-6">
             <NavLink to="/">
               {({ isActive }) => (
@@ -98,14 +102,14 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         </div>
         <div className="flex flex-col items-center gap-2">
           {timeTracking && <TimeTrackingBadge ticketId={timeTracking.id} />}
-          <NavLink to={'/user/' + user.id}>
+          <NavLink to={'/user/' + user?.id}>
             <div className="flex items-center p-2 gap-3 max-w-[224px]">
               <ProfileButton
                 className="min-w-10 min-h-10"
                 img="https://s3-alpha-sig.figma.com/img/4fe8/a23d/ddeece2a91e7cc5919fd149d572c6d1e?Expires=1708905600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=a33zUweOtCPNcY1RYMBSl7M0W3HvLrpSgGfHnnqS-~FBATDlE42BrkMOby65VNWC2eo3p7sknPz1zjtO3xZfNT4zZyke6ZRrYV1k2nllK6NJMDzTKFn~qe4R0xWUtyxxWtauAlAvqmDY7G2O417AE05nFyFXyLlo7zePBrxsCNWm9f3jD2W65zFwgLy8wzcy5ryT5OZPA5wxOXPXN-6-VngmrBmoZqg-SWVfgL-E6W3GkoLj4IvMi7LcJZ162JsXmP0o-mHJ4bRi9K04k3ACjyg7BT2f9fCLbGzy5Nddzk8p61tDl7OczzCY-K9bx0ju3uAbhMnWfpFU0vcp7gpOcw__"
               />
               <Body1 className="text-white overflow-hidden overflow-ellipsis whitespace-nowrap">
-                {user.username}
+                {user?.username}
               </Body1>
             </div>
           </NavLink>

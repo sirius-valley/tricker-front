@@ -5,7 +5,7 @@ import {
   type AxiosResponse,
   type InternalAxiosRequestConfig
 } from 'axios'
-import { cookies, removeLoginCookie } from './Cookies'
+import { getAccessToken, removeLoginCookies } from './Cookies'
 
 export const setUpAxiosInterceptors = (
   axiosInstance: AxiosInstance
@@ -19,9 +19,8 @@ export const setUpAxiosInterceptors = (
 const onRequest = (
   req: InternalAxiosRequestConfig
 ): InternalAxiosRequestConfig => {
-  const token: string = cookies.get('jwt')
-
-  req.headers = { Authorization: token } as AxiosRequestHeaders
+  const accessToken: string = getAccessToken()
+  req.headers = { Authorization: accessToken } as AxiosRequestHeaders
 
   return req
 }
@@ -38,7 +37,7 @@ const onResponse = (res: AxiosResponse): AxiosResponse => {
 
 const onResponseError = async (error: AxiosError): Promise<AxiosError> => {
   if (error.response?.status === 401) {
-    removeLoginCookie()
+    removeLoginCookies()
     window.location.href = '/login'
   }
   console.error(`Response error: ${JSON.stringify(error)}`)
