@@ -12,7 +12,7 @@ const PageWrapper: React.FC<PageWrapperProps> = ({
   if (isLoading) {
     // return <Loader />
   }
-  return isAuthorized ? <Outlet /> : <Navigate to="/sign-in" replace />
+  return isAuthorized ? <Outlet /> : <Navigate to="/login" replace />
 }
 
 export default PageWrapper
