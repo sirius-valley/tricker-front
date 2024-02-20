@@ -50,8 +50,9 @@ export const ROUTER = createBrowserRouter([
         element: <PrivateRoute />,
         children: [
           {
-            path: '/'
+            path: '/',
             // element: <HomePage />,
+            element: <></>
           }
         ]
       }

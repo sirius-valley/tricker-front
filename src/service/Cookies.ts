@@ -4,9 +4,18 @@ import Cookies from 'universal-cookie'
 export const cookies: Cookies = new Cookies()
 
 export const setLoginCookies = (response: CognitoResponse): void => {
-  cookies.set('id_token', response.id_token)
-  cookies.set('access_token', response.access_token)
-  cookies.set('refresh_token', response.refresh_token)
+  cookies.set('id_token', response.id_token, {
+    path: '/',
+    maxAge: response.expires_in
+  })
+  cookies.set('access_token', response.access_token, {
+    path: '/',
+    maxAge: response.expires_in
+  })
+  cookies.set('refresh_token', response.refresh_token, {
+    path: '/',
+    maxAge: response.expires_in
+  })
 }
 
 export const removeLoginCookies = (): void => {
