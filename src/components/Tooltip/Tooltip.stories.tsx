@@ -11,6 +11,66 @@ const meta: Meta<typeof Tooltip> = {
       control: {
         type: 'text'
       }
+    },
+    iconName: {
+      control: {
+        type: 'select'
+      },
+      options: [
+        'AddTimeIcon',
+        'AlarmIcon',
+        'BlockedIcon',
+        'BugIcon',
+        'CaretDownIcon',
+        'CaretUpIcon',
+        'ChartDonutIcon',
+        'CheckIcon',
+        'ChevronIcon',
+        'CloudIcon',
+        'CopyIcon',
+        'DismissIcon',
+        'EnvelopeIcon',
+        'FeatureIcon',
+        'FilterIcon',
+        'FolderIcon',
+        'GraphFilterIcon',
+        'GridIcon',
+        'HamburgerIcon',
+        'HighPriorityIcon',
+        'HistoryIcon',
+        'HomeIcon',
+        'ImprovementIcon',
+        'ListIcon',
+        'LoaderIcon',
+        'LogOutIcon',
+        'LowPriorityIcon',
+        'MeatBallsIcon',
+        'MediumPriorityIcon',
+        'NoPriorityIcon',
+        'PlayIcon',
+        'SearchIcon',
+        'SettingsIcon',
+        'StatsIcon',
+        'StopIcon',
+        'TeamIcon',
+        'TrashIcon',
+        'UrgentIcon',
+        'UserIcon',
+        'GoogleIcon',
+        'QuestionIcon'
+      ]
+    },
+    iconWidth: {
+      control: {
+        type: 'text'
+      },
+      defaultValue: '20'
+    },
+    iconHeight: {
+      control: {
+        type: 'text'
+      },
+      defaultValue: '20'
     }
   }
 }
@@ -23,11 +83,9 @@ export const Default: Story = {
   tags: ['autodocs'],
   args: {
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    children: (
-      <div className="w-fit text-white p-2 bg-black rounded-md flex items-center justify-center">
-        Hover me to see the tooltip
-      </div>
-    )
+    iconName: 'QuestionIcon',
+    iconWidth: '20',
+    iconHeight: '20'
   },
   render: (args) => <Tooltip {...args} />
 }
