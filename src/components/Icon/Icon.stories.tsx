@@ -49,7 +49,9 @@ const meta: Meta<typeof Icon> = {
         'TeamIcon',
         'TrashIcon',
         'UrgentIcon',
-        'UserIcon'
+        'UserIcon',
+        'GoogleIcon',
+        'QuestionIcon'
       ]
     }
   }
