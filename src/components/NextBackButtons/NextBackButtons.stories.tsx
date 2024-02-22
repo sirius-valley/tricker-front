@@ -1,27 +1,21 @@
-import { type Meta, type Story } from "@storybook/react";
+import { type Meta, type Story } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import PageNavigation, {NavProps} from "./NextBackButtons";
+import StepNavigation, { type NavProps } from './NextBackButtons'
 
 export default {
-    title: 'Components/NextBackButtons',
-    component: PageNavigation,
-    tags: ['autodocs'],
-    argTypes: {
-        onClick: {
-          table: {
-            type: {
-              summary: 'function'
-            }
-          },
-          description: ''
-        }
-      }
-} as Meta;
+  title: 'Components/StepNavigation',
+  component: StepNavigation,
+  argTypes: {
+    onBack: { action: 'clicked' },
+    onNext: { action: 'clicked' }
+  }
+} as Meta
 
-const Template: Story<NavProps> = (args) => <PageNavigation {...args} />
+const Template: Story<NavProps> = (args) => <StepNavigation {...args} />
 
-export const Default = Template.bind({});
+export const Default = Template.bind({})
 Default.args = {
-    onBack: action('Back clicked'),
-    onNext: action('Next clicked'),
-};
+  currentStep: 'First',
+  onBack: action('Back clicked'),
+  onNext: action('Next clicked')
+}
