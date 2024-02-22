@@ -11,11 +11,11 @@ const StepNavigation: React.FC<NavProps> = ({ currentStep }) => {
   const isFirstStep = currentStep === 'First'
   const isLastStep = currentStep === 'Last'
 
-  const handleNext = () : void => {
+  const handleNext = (): void => {
     console.log('Go next')
   }
 
-  const handleBack = () : void => {
+  const handleBack = (): void => {
     console.log('Go back')
   }
 
