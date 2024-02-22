@@ -66,6 +66,9 @@ const Button: React.FC<ButtonProps> = ({
       case 'ghost':
         iconColor = colors.primary['400']
         break
+      case 'error':
+        iconColor = colors.white
+        break
       default:
         iconColor = colors.black
     }
