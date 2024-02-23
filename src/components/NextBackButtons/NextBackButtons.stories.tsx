@@ -6,6 +6,7 @@ import { Step } from './NextBackButtons'
 export default {
   title: 'Components/StepNavigation',
   component: StepNavigation,
+  tags: ['autodocs'],
   argTypes: {
     onBack: { action: 'clicked' },
     onNext: { action: 'clicked' }
