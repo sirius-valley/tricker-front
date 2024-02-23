@@ -25,7 +25,8 @@ const buttonVariants = cva(
           'bg-transparent border border-primary-400 hover:bg-gray-400',
           'text-white'
         ],
-        ghost: ['bg-transparent hover:bg-gray-400', 'text-primary-400']
+        ghost: ['bg-transparent hover:bg-gray-400', 'text-primary-400'],
+        error: ['bg-error-500 hover:bg-error-500/60 text-white']
       }
     },
     defaultVariants: {
@@ -64,6 +65,9 @@ const Button: React.FC<ButtonProps> = ({
         break
       case 'ghost':
         iconColor = colors.primary['400']
+        break
+      case 'error':
+        iconColor = colors.white
         break
       default:
         iconColor = colors.black
