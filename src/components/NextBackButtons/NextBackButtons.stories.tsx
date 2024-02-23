@@ -5,9 +5,16 @@ import { Step } from './NextBackButtons'
 
 export default {
   title: 'Components/StepNavigation',
-  component: StepNavigation,
   tags: ['autodocs'],
+  component: StepNavigation,
   argTypes: {
+    currentStep: {
+      defaultValue: Step.First,
+      options: [Step.First, Step.Last, Step.Unique],
+      control: {
+        type: "radio"
+      }
+    },
     onBack: { action: 'clicked' },
     onNext: { action: 'clicked' }
   }
