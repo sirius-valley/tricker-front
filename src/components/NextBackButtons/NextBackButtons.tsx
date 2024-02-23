@@ -4,7 +4,7 @@ import Button from '@components/Button/Button'
 export enum Step {
   First = 'First',
   Last = 'Last',
-  Both = 'Both'
+  Mid = 'Mid'
 }
 
 export interface NavProps {
