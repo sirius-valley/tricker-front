@@ -9,10 +9,10 @@ export default {
   component: StepNavigation,
   argTypes: {
     currentStep: {
-      defaultValue: Step.First,
-      options: [Step.First, Step.Last, Step.Unique],
+      defaultValue: Step.Mid,
+      options: [Step.First, Step.Last, Step.Mid],
       control: {
-        type: "radio"
+        type: 'radio'
       }
     },
     onBack: { action: 'clicked' },
