@@ -1,7 +1,7 @@
 import React from 'react'
 import Body1 from '@utils/typography/body1/body1'
 
-export enum Step{
+export enum Step {
   First = 'First',
   Last = 'Last',
   Unique = 'Unique'
