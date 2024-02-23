@@ -1,5 +1,5 @@
-import React from 'react';
-import Body1 from '@utils/typography/body1/body1';
+import React from 'react'
+import Body1 from '@utils/typography/body1/body1'
 
 export enum Step {
   First = 'First',
@@ -8,23 +8,23 @@ export enum Step {
 }
 
 export interface NavProps {
-  currentStep: Step;
-  onBack: () => void;
-  onNext: () => void;
+  currentStep: Step
+  onBack: () => void
+  onNext: () => void
 }
 
 const StepNavigation: React.FC<NavProps> = ({ currentStep }) => {
-  const isFirstStep = currentStep === Step.First;
-  const isLastStep = currentStep === Step.Last;
-  const isMidStep = currentStep === Step.Mid;
+  const isFirstStep = currentStep === Step.First
+  const isLastStep = currentStep === Step.Last
+  const isMidStep = currentStep === Step.Mid
 
   const handleNext = (): void => {
-    console.log('Go next');
-  };
+    console.log('Go next')
+  }
 
   const handleBack = (): void => {
-    console.log('Go back');
-  };
+    console.log('Go back')
+  }
 
   return (
     <div className="w-full flex justify-center">
@@ -45,7 +45,7 @@ const StepNavigation: React.FC<NavProps> = ({ currentStep }) => {
         </button>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default StepNavigation;
+export default StepNavigation
