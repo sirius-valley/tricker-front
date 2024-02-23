@@ -10,13 +10,14 @@ const meta: Meta<typeof RadioButton> = {
     layout: 'centered'
   },
   argTypes: {
-    onChecked: {
+    handleChecked: {
       table: {
         type: {
           summary: 'function'
         }
       },
-      description: 'Callback when the RadioButton is toggled, returning a boolean'
+      description:
+        'Callback when the RadioButton is toggled, returning a boolean'
     }
   }
 }
@@ -27,5 +28,10 @@ type Story = StoryObj<typeof RadioButton>
 
 export const Primary: Story = {
   tags: ['autodocs'],
-  render: (args) => <RadioButton {...args} />
+  render: (args) => (
+    <>
+      <RadioButton {...args} />
+      <RadioButton {...args} />
+    </>
+  )
 }
