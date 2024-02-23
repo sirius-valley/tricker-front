@@ -24,7 +24,7 @@ const Template: Story<NavProps> = (args) => <StepNavigation {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  currentStep: Step.First,
+  currentStep: Step.Last,
   onBack: action('Back clicked'),
   onNext: action('Next clicked')
 }
