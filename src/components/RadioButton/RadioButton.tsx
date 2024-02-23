@@ -1,29 +1,30 @@
 import React from 'react'
 
-export interface RadioButtonProps
-  extends React.HTMLAttributes<HTMLInputElement> {
-  id: string
-  checked: boolean
-  handleChecked: (id: string) => void
+export interface RadioButtonProps {
+  id: number
+  handleChecked: (id: number) => void
+  selectedValue: number
 }
 
 export const RadioButton: React.FC<RadioButtonProps> = ({
   id,
-  checked,
-  handleChecked
+  handleChecked,
+  selectedValue
 }) => {
+  const checked = selectedValue === id
+  const handleChange = (): void => {
+    handleChecked(id)
+  }
+
   return (
-    <div className="flex m-2">
-      <label className="cursor-pointer" htmlFor={id}>
+    <div>
+      <label className="cursor-pointer">
         <input
-          id={id}
+          id={`radio-button-${id}`}
           type="radio"
           className="peer sr-only"
-          name="pricing"
           checked={checked}
-          onChange={() => {
-            handleChecked(id)
-          }}
+          onChange={handleChange}
         />
         <div className="p-0.5 border border-gray-400 peer-checked:border-primary-400 rounded-full">
           <div
