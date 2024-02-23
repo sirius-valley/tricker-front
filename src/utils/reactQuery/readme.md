@@ -31,5 +31,5 @@ const { isPending, isError, error, isSuccess, reset, mutate } = useMutation({...
 ```
 ---
 
-✨ You can also check queryExample.tsx & mutationExample.tsx files to see more detailed examples of use.
+ You can also check queryExample.tsx & mutationExample.tsx files to see more detailed examples of use.
 Or [click here to read the docs.](https://tanstack.com/query/latest/docs/framework/react/overview)
