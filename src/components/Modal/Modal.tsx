@@ -19,7 +19,7 @@ export const Modal = ({
   }
 
   const portalElement = document.getElementById('portal')
-  if (!portalElement || !show) {
+  if (!portalElement) {
     return null
   } else {
     return ReactDom.createPortal(
