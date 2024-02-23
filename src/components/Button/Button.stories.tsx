@@ -15,9 +15,14 @@ const meta: Meta<typeof Button> = {
     },
     variant: {
       defaultValue: 'filled',
-      options: ['filled', 'outline', 'ghost'],
+      options: ['filled', 'outline', 'ghost', 'error'],
       control: {
         type: 'radio'
+      }
+    },
+    icon: {
+      control: {
+        type: 'select'
       }
     }
   }
@@ -27,22 +32,19 @@ export default meta
 
 const Template: Story<ButtonProps> = (args) => <Button {...args} />
 
-// Default Button
 export const Default: Story<ButtonProps> = Template.bind({})
 Default.args = {
   children: 'Add time',
-  icon: 'FeatureIcon'
+  icon: undefined
 }
 
-// Customize variant
 export const CustomVariant: Story<ButtonProps> = Template.bind({})
 CustomVariant.args = {
   children: 'Add time',
-  variant: 'outline', // Adjust as needed
+  variant: 'outline',
   icon: 'FeatureIcon'
 }
 
-// Disabled Button
 export const Disabled: Story<ButtonProps> = Template.bind({})
 Disabled.args = {
   children: 'Add time',
