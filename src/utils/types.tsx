@@ -90,7 +90,7 @@ export interface Project {
   id: string
   name: string
   url: string
-  createdAt: Date
+  createdAt?: Date
   deletedAt?: Date | null
   usersRoles: UserProjectRole[]
   pendingUsers: PendingUser[]

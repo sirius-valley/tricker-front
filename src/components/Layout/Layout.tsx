@@ -1,12 +1,18 @@
-import { store } from '@redux/store'
-import { Provider } from 'react-redux'
-import { RouterProvider } from 'react-router-dom'
-import { ROUTER } from './Router'
+import { useSelector } from 'react-redux'
+// import { RouterProvider } from 'react-router-dom'
+// import { ROUTER } from './Router'
+import SelectProjectScreen from '@components/SelectProjectScreen/SelectProjectScreen'
+import { type RootState } from '@redux/store'
+import { useEffect } from 'react'
 
 export const Layout = (): JSX.Element => {
-  return (
-    <Provider store={store}>
-      <RouterProvider router={ROUTER} />
-    </Provider>
+  const selectedProject = useSelector(
+    (state: RootState) => state.selectedProject
   )
+
+  useEffect(() => {
+    console.log(selectedProject)
+  }, [selectedProject])
+
+  return <SelectProjectScreen token="" />
 }
