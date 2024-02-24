@@ -1,9 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import user from './user'
-import selectedProject from './selectedProject.slice'
 
 export const store = configureStore({
-  reducer: { user, selectedProject }
+  reducer: { user }
 })
 
 export type RootState = ReturnType<typeof store.getState>
