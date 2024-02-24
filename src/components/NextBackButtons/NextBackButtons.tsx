@@ -1,10 +1,10 @@
 import React from 'react'
-import Body1 from '@utils/typography/body1/body1'
+import Button from '@components/Button/Button'
 
 export enum Step {
   First = 'First',
   Last = 'Last',
-  Unique = 'Unique'
+  Mid = 'Mid'
 }
 
 export interface NavProps {
@@ -16,7 +16,6 @@ export interface NavProps {
 const StepNavigation: React.FC<NavProps> = ({ currentStep }) => {
   const isFirstStep = currentStep === Step.First
   const isLastStep = currentStep === Step.Last
-  const isUniqueStep = currentStep === Step.Unique
 
   const handleNext = (): void => {
     console.log('Go next')
@@ -27,22 +26,24 @@ const StepNavigation: React.FC<NavProps> = ({ currentStep }) => {
   }
 
   return (
-    <div className="w-full flex justify-center">
+    <div className="flex justify-center gap-6">
       {!isFirstStep && (
-        <button
-          className="w-[273px] h-[51px] gap-3 rounded-xl bg-transparent hover:bg-gray-400 border border-primary-400 text-white px-4 mr-6 transition-all duration-300 ease-in-out focus:outline-none"
+        <Button
+          variant="outline"
+          className="w-[273px] h-fit text-white"
           onClick={handleBack}
         >
-          <Body1>Back</Body1>
-        </button>
+          Back
+        </Button>
       )}
-      {!isUniqueStep && !isLastStep && (
-        <button
-          className="w-[273px] h-[51px] gap-3 rounded-xl bg-primary-400 hover:bg-primary-500 text-black px-4 transition-all duration-300 ease-in-out focus:outline-none"
+      {!isLastStep && (
+        <Button
+          variant="filled"
+          className="w-[273px] h-fit"
           onClick={handleNext}
         >
-          <Body1>Next</Body1>
-        </button>
+          Next
+        </Button>
       )}
     </div>
   )
