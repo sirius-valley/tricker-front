@@ -8,12 +8,6 @@ const meta: Meta<SelectProjectScreenProps> = {
   component: SelectProjectScreen,
   tags: ['autodocs'],
   argTypes: {
-    token: {
-      defaultValue: 'token',
-      control: {
-        type: 'text'
-      }
-    },
     handleSelection: {
       action: 'handleSelection'
     }
@@ -27,7 +21,6 @@ type Story = StoryObj<typeof SelectProjectScreen>
 export const Default: Story = {
   tags: ['autodocs'],
   args: {
-    token: 'token',
     handleSelection: (id: string) => {
       console.log(id)
     }
