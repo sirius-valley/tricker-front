@@ -25,7 +25,7 @@ const initialState: InitialStateType = {
   steps: [
     { label: 'Initial Setup' },
     { label: 'Project Selection' },
-    { label: 'Team Member Configuration' }
+    { label: 'Team Members' }
   ]
 }
 

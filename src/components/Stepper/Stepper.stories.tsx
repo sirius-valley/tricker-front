@@ -12,12 +12,6 @@ const meta: Meta<typeof Stepper> = {
         type: 'number'
       }
     },
-    numberOfSteps: {
-      defaultValue: 5,
-      control: {
-        type: 'number'
-      }
-    },
     label: {
       defaultValue: [
         { label: 'Initial Setup' },
@@ -39,7 +33,6 @@ export const Default: Story = {
   tags: ['autodocs'],
   args: {
     currentStep: 1,
-    numberOfSteps: 3,
     label: [
       { label: 'Initial Setup' },
       { label: 'Step 2' },

@@ -5,15 +5,10 @@ import Body1 from '@utils/typography/body1/body1'
 
 export interface StepperProps extends React.HTMLAttributes<HTMLInputElement> {
   currentStep: number
-  numberOfSteps: number
   label: Step[]
 }
 
-export const Stepper: React.FC<StepperProps> = ({
-  currentStep,
-  numberOfSteps,
-  label
-}) => {
+export const Stepper: React.FC<StepperProps> = ({ currentStep, label }) => {
   const activeColor = (index: number): string =>
     currentStep >= index ? 'primary-200' : 'gray-200'
   return (
@@ -25,7 +20,7 @@ export const Stepper: React.FC<StepperProps> = ({
               className={`w-[120px] h-0 mt-4 border border-${activeColor(index)}`}
             />
           )}
-          <div className="flex flex-col items-center gap-2.5">
+          <div className="flex flex-col items-center gap-2.5 w-8">
             <div
               className={`rounded-full bg-${activeColor(index)} w-8 h-8 flex justify-center items-center`}
             >
@@ -35,7 +30,9 @@ export const Stepper: React.FC<StepperProps> = ({
                 {index + 1}
               </Body2>
             </div>
-            <Body1 className="leading-[19.36px] text-white">{step.label}</Body1>
+            <Body1 className="leading-[19.36px] text-white whitespace-nowrap">
+              {step.label}
+            </Body1>
           </div>
         </React.Fragment>
       ))}

@@ -1,21 +1,21 @@
 import React from 'react'
 import Button from '@components/Button/Button'
 
-export enum Step {
-  First = 'First',
-  Last = 'Last',
-  Mid = 'Mid'
+export enum StepType {
+  FIRST = 'First',
+  LAST = 'Last',
+  MID = 'Mid'
 }
 
 export interface NavProps {
-  currentStep: Step
+  currentStep: StepType
   onBack: () => void
   onNext: () => void
 }
 
 const StepNavigation: React.FC<NavProps> = ({ currentStep }) => {
-  const isFirstStep = currentStep === Step.First
-  const isLastStep = currentStep === Step.Last
+  const isFirstStep = currentStep === StepType.FIRST
+  const isLastStep = currentStep === StepType.LAST
 
   const handleNext = (): void => {
     console.log('Go next')
