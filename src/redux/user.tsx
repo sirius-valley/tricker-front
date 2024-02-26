@@ -36,16 +36,8 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload
     },
-    setStep: (state, action) => {
-      switch (action.type) {
-        case 'UPDATE_CURRENT_STEP':
-          return {
-            ...state,
-            currentStep: action.payload
-          }
-        default:
-          return state
-      }
+    setStep: (state, action: PayloadAction<number>) => {
+      state.currentStep = action.payload
     }
   }
 })
