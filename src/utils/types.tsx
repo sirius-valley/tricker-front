@@ -15,6 +15,10 @@ export interface Tokens {
   refresh_token: string
 }
 
+export interface Step {
+  label: string
+}
+
 export interface User {
   id: string
   username: string
