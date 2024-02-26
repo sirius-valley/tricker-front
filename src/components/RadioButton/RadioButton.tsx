@@ -1,9 +1,9 @@
 import React from 'react'
 
 export interface RadioButtonProps {
-  id: number
-  handleChecked: (id: number) => void
-  selectedValue: number
+  id: string
+  handleChecked: (id: string) => void
+  selectedValue: string
 }
 
 export const RadioButton: React.FC<RadioButtonProps> = ({
