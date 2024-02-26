@@ -6,8 +6,14 @@ const meta: Meta<typeof Stepper> = {
   component: Stepper,
   tags: ['autodocs'],
   argTypes: {
-    stepNumber: {
-      defaultValue: 1,
+    currentStep: {
+      defaultValue: 3,
+      control: {
+        type: 'number'
+      }
+    },
+    numberOfSteps: {
+      defaultValue: 5,
       control: {
         type: 'number'
       }
@@ -28,7 +34,8 @@ type Story = StoryObj<typeof Stepper>
 export const Default: Story = {
   tags: ['autodocs'],
   args: {
-    stepNumber: 1,
+    currentStep: 3,
+    numberOfSteps: 5,
     label: 'Initial Setup'
   },
   render: (args) => <Stepper {...args} />
