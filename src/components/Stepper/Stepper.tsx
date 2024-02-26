@@ -1,35 +1,42 @@
 import React from 'react'
 import Body2 from '@utils/typography/body2/body2'
+import { type Step } from '@utils/types'
+import Body1 from '@utils/typography/body1/body1'
 
 export interface StepperProps extends React.HTMLAttributes<HTMLInputElement> {
   currentStep: number
   numberOfSteps: number
-  label: string
+  label: Step[]
 }
 
 export const Stepper: React.FC<StepperProps> = ({
   currentStep,
-  numberOfSteps
+  numberOfSteps,
+  label
 }) => {
   const activeColor = (index: number): string =>
     currentStep >= index ? 'primary-200' : 'gray-200'
   return (
-    <div className="flex items-center justify-center w-fit">
-      {Array.from({ length: numberOfSteps }).map((_, index) => (
+    <div className="flex w-fit">
+      {label.map((step: Step, index: number) => (
         <React.Fragment key={index}>
           {index !== 0 && (
-            <div className={`w-[120px] border border-${activeColor(index)}`} />
+            <div
+              className={`w-[120px] h-0 mt-4 border border-${activeColor(index)}`}
+            />
           )}
-          <div
-            className={`rounded-full bg-${activeColor(index)} w-8 h-8 flex justify-center items-center`}
-          >
-            <Body2
-              className={`leading-[19.36px] text-${currentStep >= index ? 'primary-700' : 'gray-400'}`}
+          <div className="flex flex-col items-center gap-2.5">
+            <div
+              className={`rounded-full bg-${activeColor(index)} w-8 h-8 flex justify-center items-center`}
             >
-              {index + 1}
-            </Body2>
+              <Body2
+                className={`leading-[19.36px] text-${currentStep >= index ? 'primary-700' : 'gray-400'}`}
+              >
+                {index + 1}
+              </Body2>
+            </div>
+            <Body1 className="leading-[19.36px] text-white">{step.label}</Body1>
           </div>
-          {/* <Body1 className="leading-[19.36px] text-white">{label}</Body1> */}
         </React.Fragment>
       ))}
     </div>

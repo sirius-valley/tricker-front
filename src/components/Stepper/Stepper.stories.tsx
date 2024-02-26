@@ -19,7 +19,11 @@ const meta: Meta<typeof Stepper> = {
       }
     },
     label: {
-      defaultValue: 'Initial setup',
+      defaultValue: [
+        { label: 'Initial Setup' },
+        { label: 'Step 2' },
+        { label: 'Step 3' }
+      ],
       control: {
         type: 'text'
       }
@@ -34,9 +38,13 @@ type Story = StoryObj<typeof Stepper>
 export const Default: Story = {
   tags: ['autodocs'],
   args: {
-    currentStep: 3,
-    numberOfSteps: 5,
-    label: 'Initial Setup'
+    currentStep: 1,
+    numberOfSteps: 3,
+    label: [
+      { label: 'Initial Setup' },
+      { label: 'Step 2' },
+      { label: 'Step 3' }
+    ]
   },
   render: (args) => <Stepper {...args} />
 }
