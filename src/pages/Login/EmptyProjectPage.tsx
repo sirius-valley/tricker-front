@@ -13,10 +13,10 @@ const EmptyProjectPage = (): JSX.Element => {
   return screen.width >= 768 ? (
     <WrapperPage>
       <div className="flex flex-col gap-8">
-        <div className="w-[1048px] bg-gray-600 gap-12">
+        <div className="max-w-[680px] lg:max-w-[1048px] bg-gray-600 gap-12">
           <div className="border border-primary-400 py-10 px-2 gap-2 w-full rounded-xl shadow-2">
             <div className="w-full px-[136px] gap-8">
-              <H2 className="text-[34px] leading-[41.15px] text-center text-white font-medium">
+              <H2 className="lg:text-[34px] leading-[41.15px] text-center text-white font-medium">
                 Looks like there are no projects with you as a team member yet
               </H2>
             </div>
