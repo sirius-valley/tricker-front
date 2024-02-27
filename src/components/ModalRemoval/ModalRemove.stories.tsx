@@ -17,6 +17,7 @@ const Template: Story<ModalRemoveProps> = (args) => <ModalRemove {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
+  show: true,
   memberName: 'Team memberName 1',
   projectName: 'Tricker Project',
   onRemove: () => {
