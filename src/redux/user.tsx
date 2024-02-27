@@ -12,7 +12,7 @@ const initialState: InitialStateType = {
     id: '',
     username: '',
     profileImage: '',
-    createdAt: new Date(),
+    createdAt: new Date().toString(),
     projectsRoleAssigned: [],
     emittedUserProjectRole: [],
     emittedBlockerStatusModif: [],
