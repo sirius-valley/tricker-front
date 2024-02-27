@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query'
 import * as ApiService from './service'
 import { type User, type CognitoResponse } from '@utils/types'
 
-// Hook para obtener todos los todos
 export const useGetMe = (): {
   data: User | null | undefined
   error: Error | null
