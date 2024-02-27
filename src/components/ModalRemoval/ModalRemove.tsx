@@ -26,8 +26,8 @@ const ModalRemove: React.FC<ModalRemoveProps> = ({
           onClose()
         }}
       >
-        <div className="w-[400px] h-[400px] bg-white p-8 rounded-lg shadow-lg">
-          <div>
+        <div className="w-[539px] min-h-[199px] bg-gray-500 px-8 py-6 m-4 rounded-lg shadow-lg text-white">
+          <div className="flex justify-between">
             <h2 className="text-lg font-semibold mb-4">Remove Member</h2>
             <button
               className="h-fit"
@@ -42,7 +42,7 @@ const ModalRemove: React.FC<ModalRemoveProps> = ({
             Are you sure you want to remove {memberName} from {projectName}?
             This action cannot be undone.
           </p>
-          <div className="flex">
+          <div className="flex w-full gap-6">
             <Button
               variant="outline"
               size={'large'}

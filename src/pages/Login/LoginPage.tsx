@@ -5,11 +5,13 @@ import TrickerTitle from '@assets/TrickerTitle'
 import { LoginWithButton } from '@components/LoginWithButton/LoginWithButton'
 import { NeedHelpButton } from '@components/NeedHelpButton/NeedHelpButton'
 import { service } from '@service/service'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import ModalRemove from '@components/ModalRemoval/ModalRemove'
 
 const LoginPage = (): JSX.Element => {
   const [searchParams] = useSearchParams()
+  const [showModal, setShowModal] = useState(false)
   const navigate = useNavigate()
 
   React.useEffect((): void => {
@@ -46,6 +48,23 @@ const LoginPage = (): JSX.Element => {
             />
           </div>
           <NeedHelpButton />
+          <button
+            onClick={() => {
+              setShowModal(true)
+            }}
+            className="text-white"
+          >
+            open modal
+          </button>
+          <ModalRemove
+            memberName="John Doe"
+            projectName="Project X"
+            show={showModal}
+            onRemove={() => {}}
+            onClose={() => {
+              setShowModal(false)
+            }}
+          />
         </div>
       </div>
       <div className="flex justify-end items-end h-screen w-full">
