@@ -9,8 +9,8 @@ export enum StepType {
 
 export interface NavProps {
   currentStep: StepType
-  onBack: () => void
-  onNext: () => void
+  onBack?: () => void
+  onNext?: () => void
 }
 
 const StepNavigation: React.FC<NavProps> = ({
@@ -21,19 +21,31 @@ const StepNavigation: React.FC<NavProps> = ({
   const isFirstStep = currentStep === StepType.FIRST
   const isLastStep = currentStep === StepType.LAST
 
+  const handleNext = (): void => {
+    onNext && onNext()
+  }
+
+  const handleBack = (): void => {
+    onBack && onBack()
+  }
+
   return (
     <div className="flex justify-center gap-6">
       {!isFirstStep && (
         <Button
           variant="outline"
           className="w-[273px] h-fit text-white"
-          onClick={onBack}
+          onClick={handleBack}
         >
           Back
         </Button>
       )}
       {!isLastStep && (
-        <Button variant="filled" className="w-[273px] h-fit" onClick={onNext}>
+        <Button
+          variant="filled"
+          className="w-[273px] h-fit"
+          onClick={handleNext}
+        >
           Next
         </Button>
       )}
