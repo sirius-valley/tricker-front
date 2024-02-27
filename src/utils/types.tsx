@@ -15,6 +15,11 @@ export interface Tokens {
   refresh_token: string
 }
 
+export interface Screen {
+  width: number
+  height: number
+}
+
 export interface User {
   id: string
   username: string
