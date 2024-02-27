@@ -29,7 +29,9 @@ const ModalRemove: React.FC<ModalRemoveProps> = ({
       >
         <div className="w-[539px] min-h-[199px] bg-gray-500 border border-gray-300 px-8 py-6 rounded-xl shadow-lg text-white">
           <div className="flex justify-between w-[475px]">
-          <h5 className="font-normal mb-2" style={{ fontSize: "24px" }}>Remove Member</h5>
+            <h5 className="font-normal mb-2" style={{ fontSize: '24px' }}>
+              Remove Member
+            </h5>
             <button
               className="h-fit"
               onClick={() => {
@@ -40,8 +42,8 @@ const ModalRemove: React.FC<ModalRemoveProps> = ({
             </button>
           </div>
           <Body2 className="text-sm font-normal mb-5">
-            Are you sure you want to remove {memberName} from {projectName}?
-            If you change your mind, you can grant them access later.
+            Are you sure you want to remove {memberName} from {projectName}? If
+            you change your mind, you can grant them access later.
           </Body2>
           <div className="flex justify-center gap-6">
             <Button
