@@ -25,12 +25,14 @@ export const Stepper: React.FC<StepperProps> = ({ currentStep, label }) => {
               className={`rounded-full bg-${activeColor(index)} w-8 h-8 flex justify-center items-center`}
             >
               <Body2
-                className={`leading-[19.36px] text-${currentStep >= index ? 'primary-700' : 'gray-400'}`}
+                className={`leading-[19.36px] text-${currentStep >= index ? 'primary-700 font-bold' : 'gray-400 font-medium'}`}
               >
                 {index + 1}
               </Body2>
             </div>
-            <Body1 className="leading-[19.36px] text-white whitespace-nowrap">
+            <Body1
+              className={`leading-[19.36px] text-white whitespace-nowrap ${index === currentStep ? 'font-semibold' : 'font-normal'}`}
+            >
               {step.label}
             </Body1>
           </div>
