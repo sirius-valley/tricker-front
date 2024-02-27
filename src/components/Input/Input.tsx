@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import Body2 from '@utils/typography/body2/body2'
 import HelperText from '@utils/typography/helpertext/helpertext'
+import { Tooltip } from '@components/Tooltip/Tooltip'
 
 const inputVariants = cva(
   [
@@ -33,6 +34,7 @@ export interface InputProps
   label?: string
   required?: boolean
   placeholder?: string
+  tooltip?: string
   handleValue: (value: string) => void
 }
 
@@ -44,7 +46,8 @@ const Input = ({
   label = '',
   required = false,
   handleValue,
-  placeholder = ''
+  placeholder = '',
+  tooltip = ''
 }: InputProps): JSX.Element => {
   const [value, setValue] = useState<string>('')
   const textColor: string =
@@ -62,9 +65,13 @@ const Input = ({
     <div className="gap-2 flex flex-col">
       {label !== '' && (
         <Body2
-          className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex text-sm font-normal`}
+          className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex items-center text-sm font-normal`}
         >
           {label}
+          &nbsp;
+          {tooltip !== '' && (
+            <Tooltip content={tooltip} iconWidth="16" iconHeight="16" />
+          )}
           {variant !== 'disabled' && required && (
             <Body2 className="text-error-500 flex text-sm font-normal">
               &nbsp;*

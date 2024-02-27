@@ -38,6 +38,7 @@ export const ProjectAddition: React.FC<
             handleValue={setToken}
             label="User Token"
             required
+            tooltip="You can find this under Team Settings > My Account > API > Personal Api Keys"
             className="h-[69px]"
             placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
           />
