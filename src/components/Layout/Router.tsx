@@ -1,9 +1,11 @@
-import LoginPage from '@pages/Login/LoginPage'
+// import LoginPage from '@pages/Login/LoginPage'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute/PrivateRoute'
 import NavBar from '@components/NavBar/NavBar'
 import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import React from 'react'
+import { ProjectAddition } from '@components/ProjectAddition/ProjectAddition'
+import WrapperPage from '@components/Wrapper/WrapperPage'
 
 const WithNav = (): JSX.Element => {
   const [isMobile, setIsMobile] = React.useState<boolean>(
@@ -41,7 +43,11 @@ const WithNav = (): JSX.Element => {
 export const ROUTER = createBrowserRouter([
   {
     path: '/login',
-    element: <LoginPage />
+    element: (
+      <WrapperPage>
+        <ProjectAddition />
+      </WrapperPage>
+    )
   },
   {
     element: <WithNav />,

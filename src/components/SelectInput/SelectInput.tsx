@@ -40,7 +40,7 @@ export interface SelectInputProps
 
 const SelectInput = ({
   className,
-  icon,
+  icon = 'CaretDownIcon',
   variant,
   label = '',
   required = false,
@@ -95,7 +95,7 @@ const SelectInput = ({
   }
 
   return (
-    <div className="gap-2 flex flex-col">
+    <div className="gap-2 flex flex-col w-full">
       {label !== '' && (
         <Body2
           className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex text-sm leading-[16.94px] font-normal`}
@@ -113,7 +113,7 @@ const SelectInput = ({
           )}
         </Body2>
       )}
-      <div className="relative w-[290px]" ref={selectRef}>
+      <div className="relative w-full" ref={selectRef}>
         <button
           className={`${selectInputVariants({ variant, className })} text-left`}
           onClick={toggleOptions}
