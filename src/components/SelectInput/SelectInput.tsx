@@ -98,14 +98,14 @@ const SelectInput = ({
     <div className="gap-2 flex flex-col">
       {label !== '' && (
         <Body2
-          className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex text-sm`}
+          className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex text-sm leading-[16.94px] font-normal`}
         >
           {label}
           {required && (
             <>
               &nbsp;
               <Body2
-                className={`flex text-sm ${variant === 'disabled' ? 'text-gray-300' : 'text-error-500'}`}
+                className={`flex text-sm font-normal ${variant === 'disabled' ? 'text-gray-300' : 'text-error-500'}`}
               >
                 *
               </Body2>
