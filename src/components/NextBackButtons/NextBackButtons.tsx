@@ -13,17 +13,13 @@ export interface NavProps {
   onNext: () => void
 }
 
-const StepNavigation: React.FC<NavProps> = ({ currentStep }) => {
+const StepNavigation: React.FC<NavProps> = ({
+  currentStep,
+  onBack,
+  onNext
+}) => {
   const isFirstStep = currentStep === StepType.FIRST
   const isLastStep = currentStep === StepType.LAST
-
-  const handleNext = (): void => {
-    console.log('Go next')
-  }
-
-  const handleBack = (): void => {
-    console.log('Go back')
-  }
 
   return (
     <div className="flex justify-center gap-6">
@@ -31,17 +27,13 @@ const StepNavigation: React.FC<NavProps> = ({ currentStep }) => {
         <Button
           variant="outline"
           className="w-[273px] h-fit text-white"
-          onClick={handleBack}
+          onClick={onBack}
         >
           Back
         </Button>
       )}
       {!isLastStep && (
-        <Button
-          variant="filled"
-          className="w-[273px] h-fit"
-          onClick={handleNext}
-        >
+        <Button variant="filled" className="w-[273px] h-fit" onClick={onNext}>
           Next
         </Button>
       )}

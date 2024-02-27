@@ -36,11 +36,11 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload
     },
-    setStep: (state, action: PayloadAction<number>) => {
+    setCurrentStep: (state, action: PayloadAction<number>) => {
       state.currentStep = action.payload
     }
   }
 })
 
-export const { setUser } = userSlice.actions
+export const { setUser, setCurrentStep } = userSlice.actions
 export default userSlice.reducer
