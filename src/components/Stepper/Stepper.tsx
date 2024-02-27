@@ -1,7 +1,8 @@
 import React from 'react'
 import Body2 from '@utils/typography/body2/body2'
-import { type Step } from '@utils/types'
+import { type Screen, type Step } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
+import useScreenSize from '@hooks/useScreenSize'
 
 export interface StepperProps extends React.HTMLAttributes<HTMLInputElement> {
   currentStep: number
@@ -9,6 +10,7 @@ export interface StepperProps extends React.HTMLAttributes<HTMLInputElement> {
 }
 
 export const Stepper: React.FC<StepperProps> = ({ currentStep, label }) => {
+  const screen: Screen = useScreenSize()
   const activeColor = (index: number): string =>
     currentStep >= index ? 'primary-200' : 'gray-200'
   return (
@@ -30,13 +32,13 @@ export const Stepper: React.FC<StepperProps> = ({ currentStep, label }) => {
                 {index + 1}
               </Body2>
             </div>
-            <div className="hidden md:flex">
+            {screen.width > 768 && (
               <Body1
                 className={`leading-[19.36px] text-white whitespace-nowrap ${index === currentStep ? 'font-semibold' : 'font-normal'}`}
               >
                 {step.label}
               </Body1>
-            </div>
+            )}
           </div>
         </React.Fragment>
       ))}
