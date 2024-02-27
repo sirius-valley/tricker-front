@@ -18,10 +18,8 @@ const ModalRemove: React.FC<ModalRemoveProps> = ({
   onClose,
   show
 }) => {
-
   return (
     <>
-
       <Modal
         show={show}
         onClose={() => {
@@ -30,15 +28,15 @@ const ModalRemove: React.FC<ModalRemoveProps> = ({
       >
         <div className="w-[400px] h-[400px] bg-white p-8 rounded-lg shadow-lg">
           <div>
-          <h2 className="text-lg font-semibold mb-4">Remove Member</h2>
-          <button 
-          className='h-fit'
-          onClick={()=> {
-            onClose()
-          }}
-          >
-            <Icon name="DismissIcon" />
-          </button>
+            <h2 className="text-lg font-semibold mb-4">Remove Member</h2>
+            <button
+              className="h-fit"
+              onClick={() => {
+                onClose()
+              }}
+            >
+              <Icon name="DismissIcon" />
+            </button>
           </div>
           <p className="text-sm mb-4">
             Are you sure you want to remove {memberName} from {projectName}?
@@ -48,7 +46,7 @@ const ModalRemove: React.FC<ModalRemoveProps> = ({
             <Button
               variant="outline"
               size={'large'}
-              onClick={()=>{
+              onClick={() => {
                 onClose()
               }}
             >
@@ -57,7 +55,7 @@ const ModalRemove: React.FC<ModalRemoveProps> = ({
             <Button
               variant="error"
               size={'large'}
-              onClick={()=>{
+              onClick={() => {
                 onRemove()
               }}
             >
@@ -70,4 +68,4 @@ const ModalRemove: React.FC<ModalRemoveProps> = ({
   )
 }
 
-export default ModalRemove;
+export default ModalRemove
