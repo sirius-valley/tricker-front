@@ -27,22 +27,22 @@ export interface Screen {
 // Entities
 
 export interface User {
-  id: string
+  id?: string
   cognitoId?: string
   profileImage?: string
-  email: string
-  name?: string
-  createdAt: Date | string
+  email?: string
+  name: string
+  createdAt?: Date | string
   updatedAt?: Date
   deletedAt?: Date
-  projectsRoleAssigned: UserProjectRole[]
-  emittedUserProjectRole: UserProjectRole[]
-  emittedBlockerStatusModification: BlockerStatusModification[]
-  authoredIssues: Issue[]
-  asignedIssues: Issue[]
-  emittedIssueChangeLogs: IssueChangeLog[]
-  emittedManualTimeModification: ManualTimeModification[]
-  OrganizationAdministrator: OrganizationAdministrator[]
+  projectsRoleAssigned?: UserProjectRole[]
+  emittedUserProjectRole?: UserProjectRole[]
+  emittedBlockerStatusModification?: BlockerStatusModification[]
+  authoredIssues?: Issue[]
+  asignedIssues?: Issue[]
+  emittedIssueChangeLogs?: IssueChangeLog[]
+  emittedManualTimeModification?: ManualTimeModification[]
+  OrganizationAdministrator?: OrganizationAdministrator[]
 }
 
 export interface Role {
@@ -148,17 +148,17 @@ export interface TimeTracking {
 
 export interface UserProjectRole {
   id: string
-  userId: string
-  projectId: string
-  roleId: string
-  userEmitterId: string
-  createdAt: Date
-  updatedAt: Date
+  userId?: string
+  projectId?: string
+  roleId?: string
+  userEmitterId?: string
+  createdAt?: Date
+  updatedAt?: Date
   deletedAt?: Date
-  project: Project
+  project?: Project
   user: User
-  userEmitter: User
-  role: Role
+  userEmitter?: User
+  role?: Role
 }
 
 export interface Label {
