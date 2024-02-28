@@ -1,7 +1,7 @@
 import { type Meta, type Story } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import StepNavigation, { type NavProps } from './NextBackButtons'
-import { Step } from './NextBackButtons'
+import { StepType } from './NextBackButtons'
 
 export default {
   title: 'Components/NextBackButton',
@@ -9,8 +9,8 @@ export default {
   component: StepNavigation,
   argTypes: {
     currentStep: {
-      defaultValue: Step.Mid,
-      options: [Step.First, Step.Last, Step.Mid],
+      defaultValue: StepType.MID,
+      options: [StepType.FIRST, StepType.LAST, StepType.MID],
       control: {
         type: 'radio'
       }
@@ -24,7 +24,7 @@ const Template: Story<NavProps> = (args) => <StepNavigation {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  currentStep: Step.Mid,
+  currentStep: StepType.MID,
   onBack: action('Back clicked'),
   onNext: action('Next clicked')
 }
