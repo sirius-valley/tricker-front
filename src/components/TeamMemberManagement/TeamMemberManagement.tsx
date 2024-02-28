@@ -22,6 +22,7 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
 }): JSX.Element => {
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [userToRemove, setUserToRemove] = React.useState<string>('')
+
   const handleRemove = (userId: string): void => {
     const index = teamMembers.findIndex((member: User) => member.id === userId)
     if (index !== -1) {
@@ -29,10 +30,12 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
     }
     handleRemainingUsers(teamMembers)
   }
+
   const handleOnClick = (userId: string): void => {
     setUserToRemove(userId)
     setOpenModal(!openModal)
   }
+
   return (
     <div className="flex flex-col items-center justify-center w-[329px] h-[443px] md:w-fit lg:w-[1032px] bg-gray-600 border border-primary-400 py-10 px-6 md:py-20 md:px-[140px] gap-5 md:gap-10 shadow-2 md:shadow-none rounded-xl">
       <div className="flex gap-2">
@@ -49,48 +52,54 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
           </div>
           <div className="flex flex-col w-full max-h-[233px] gap-6 overflow-y-scroll">
             <div className="flex flex-col w-full gap-2">
-              {teamMembers.map((member: User) => (
-                <div
-                  className="flex items-center w-full p-2 gap-4 rounded-lg bg-gray-500"
-                  key={member.id}
-                >
-                  <div className="flex w-full gap-4">
-                    {member.profileImage ? (
-                      <ProfileButton img={member.profileImage} />
-                    ) : (
-                      <NoAvatarProject text={member.name} className="w-8 h-8" />
-                    )}
-                    <div className="flex flex-col w-full gap-1">
-                      <Subtitle className="text-white text-sm">
-                        {member.name}
-                      </Subtitle>
-                      <HelperText className="text-white text-sm truncate max-w-40 md:max-w-none">
-                        {member.name.replace(/\s+/g, '').toLowerCase()}
-                        @sirius.com.ar
-                      </HelperText>
-                    </div>
-                  </div>
-                  <button
-                    className="hover:bg-gray-400 rounded-full p-0.5"
-                    onClick={() => {
-                      handleOnClick(member.id)
-                    }}
+              {teamMembers
+                .filter((member: User) =>
+                  member.email.endsWith('@sirius.com.ar')
+                )
+                .map((member: User) => (
+                  <div
+                    className="flex items-center w-full p-2 gap-4 rounded-lg bg-gray-500"
+                    key={member.id}
                   >
-                    <TrashIcon />
-                    <ModalRemove
-                      memberName={member.name}
-                      projectName={projectName}
-                      onRemove={() => {
-                        handleRemove(member.id)
+                    <div className="flex w-full gap-4">
+                      {member.profileImage ? (
+                        <ProfileButton img={member.profileImage} />
+                      ) : (
+                        <NoAvatarProject
+                          text={member.name}
+                          className="w-8 h-8"
+                        />
+                      )}
+                      <div className="flex flex-col w-full gap-1">
+                        <Subtitle className="text-white text-sm">
+                          {member.name}
+                        </Subtitle>
+                        <HelperText className="text-white text-sm truncate max-w-40 md:max-w-none">
+                          {member.email}
+                        </HelperText>
+                      </div>
+                    </div>
+                    <button
+                      className="hover:bg-gray-400 rounded-full p-0.5"
+                      onClick={() => {
+                        handleOnClick(member.id)
                       }}
-                      onClose={() => {
-                        setOpenModal(false)
-                      }}
-                      show={openModal && userToRemove === member.id}
-                    />
-                  </button>
-                </div>
-              ))}
+                    >
+                      <TrashIcon />
+                      <ModalRemove
+                        memberName={member.name}
+                        projectName={projectName}
+                        onRemove={() => {
+                          handleRemove(member.id)
+                        }}
+                        onClose={() => {
+                          setOpenModal(false)
+                        }}
+                        show={openModal && userToRemove === member.id}
+                      />
+                    </button>
+                  </div>
+                ))}
             </div>
           </div>
         </div>

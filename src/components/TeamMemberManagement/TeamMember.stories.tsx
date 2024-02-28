@@ -4,11 +4,16 @@ import WrapperPage from '@components/Wrapper/WrapperPage'
 import { type User } from '@utils/types'
 
 const teamMembers: User[] = [
-  { id: '1', name: 'Victoria Capurro' },
-  { id: '2', name: 'Fabrizio Serial' },
-  { id: '3', name: 'Emilia Martella' },
-  { id: '4', name: 'Federico Ariel Martucci' },
-  { id: '5', name: 'Other Member' }
+  { id: '1', email: 'victoriacapurro@sirius.com.ar', name: 'Victoria Capurro' },
+  { id: '2', email: 'fabrizioserial@sirius.com.ar', name: 'Fabrizio Serial' },
+  { id: '3', email: 'emiliamartella@sirius.com.ar', name: 'Emilia Martella' },
+  { id: '3', email: 'matiaspizzi@gmail.com', name: 'Matias Pizzi' },
+  {
+    id: '4',
+    email: 'federicoarielmartucci@sirius.com.ar',
+    name: 'Federico Ariel Martucci'
+  },
+  { id: '5', email: 'othermember@sirius.com.ar', name: 'Other Member' }
 ]
 
 const meta: Meta<typeof TeamMemberManagement> = {

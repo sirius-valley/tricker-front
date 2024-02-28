@@ -30,7 +30,7 @@ export interface User {
   id: string
   cognitoId?: string
   profileImage?: string
-  email?: string
+  email: string
   name: string
   createdAt?: Date | string
   updatedAt?: Date
