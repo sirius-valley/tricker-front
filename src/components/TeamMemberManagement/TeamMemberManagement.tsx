@@ -21,12 +21,17 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
   projectName
 }): JSX.Element => {
   const [openModal, setOpenModal] = React.useState<boolean>(false)
+  const [userToRemove, setUserToRemove] = React.useState<string>('')
   const handleRemove = (userId: string): void => {
     const index = teamMembers.findIndex((member: User) => member.id === userId)
     if (index !== -1) {
       teamMembers.splice(index, 1)
     }
     handleRemainingUsers(teamMembers)
+  }
+  const handleOnClick = (userId: string): void => {
+    setUserToRemove(userId)
+    setOpenModal(!openModal)
   }
   return (
     <div className="flex flex-col items-center justify-center w-[320px] md:w-fit lg:w-[1032px] bg-gray-600 border border-primary-400 py-4 px-4 md:py-20 md:px-[140px] gap-10 rounded-xl">
@@ -71,7 +76,7 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                   <button
                     className="hover:bg-gray-400 rounded-full p-0.5"
                     onClick={() => {
-                      setOpenModal(!openModal)
+                      handleOnClick(member.id)
                     }}
                   >
                     <TrashIcon />
@@ -84,7 +89,7 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                       onClose={() => {
                         setOpenModal(false)
                       }}
-                      show={openModal}
+                      show={openModal && userToRemove === member.id}
                     />
                   </button>
                 </div>
