@@ -1,5 +1,5 @@
 // import { useAppDispatch } from '@redux/hooks'
-import { service } from '@service/service'
+import * as service from '@data-provider/service'
 import { type User } from '@utils/types'
 import React from 'react'
 import PageWrapper from './PrivateRouteWrapper'
