@@ -34,16 +34,16 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
     setOpenModal(!openModal)
   }
   return (
-    <div className="flex flex-col items-center justify-center w-[320px] md:w-fit lg:w-[1032px] bg-gray-600 border border-primary-400 py-4 px-4 md:py-20 md:px-[140px] gap-10 rounded-xl">
+    <div className="flex flex-col items-center justify-center w-[329px] h-[443px] md:w-fit lg:w-[1032px] bg-gray-600 border border-primary-400 py-10 px-6 md:py-20 md:px-[140px] gap-5 md:gap-10 shadow-2 md:shadow-none rounded-xl">
       <div className="flex gap-2">
-        <H2 className="text-white md:leading-[41.15px] text-[20px] md:text-[34px] whitespace-nowrap md:whitespace-normal font-semibold">
+        <H2 className="text-white md:leading-[41.15px] md:text-[34px] whitespace-nowrap md:whitespace-normal font-semibold">
           Team Members
         </H2>
       </div>
       <div className="flex flex-col w-full gap-2">
         <div className="flex flex-col w-full gap-4">
           <div className="flex flex-col w-full gap-4">
-            <Subtitle className="text-white text-[14px] whitespace-pre-wrap md:text-base leading-[19.36px] text-semibold">
+            <Subtitle className="text-white whitespace-pre-wrap md:text-base leading-[19.36px] text-semibold">
               Remove those who shouldn&apos;t have access to Tricker
             </Subtitle>
           </div>
@@ -64,10 +64,10 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                       />
                     )}
                     <div className="flex flex-col w-full gap-1">
-                      <Subtitle className="text-white">
+                      <Subtitle className="text-white text-sm">
                         {member.username}
                       </Subtitle>
-                      <HelperText className="text-white truncate max-w-44 md:max-w-none">
+                      <HelperText className="text-white text-sm truncate max-w-40 md:max-w-none">
                         {member.username.replace(/\s+/g, '').toLowerCase()}
                         @sirius.com.ar
                       </HelperText>
