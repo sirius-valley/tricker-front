@@ -32,7 +32,7 @@ const config: StorybookConfig = {
         '@assets': path.resolve(__dirname, '../src/assets'),
         '@pages': path.resolve(__dirname, '../src/pages'),
         '@redux': path.resolve(__dirname, '../src/redux'),
-        '@service': path.resolve(__dirname, '../src/service')
+        '@data-provider': path.resolve(__dirname, '../src/data-provider')
       }
     }
 
