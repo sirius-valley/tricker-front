@@ -36,6 +36,7 @@ export interface SelectInputProps
   required?: boolean
   helperText?: string
   options: Array<{ value: string; label: string }>
+  handleSelectedOption: (value: string) => void
 }
 
 const SelectInput = ({
@@ -45,7 +46,8 @@ const SelectInput = ({
   label = '',
   required = false,
   helperText = '',
-  options
+  options,
+  handleSelectedOption
 }: SelectInputProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [selectedOption, setSelectedOption] = useState<string>('')
@@ -88,8 +90,12 @@ const SelectInput = ({
     }
   }, [handleClickOutside])
 
-  const handleOptionSelect = (value: string): void => {
-    setSelectedOption(value)
+  const handleOptionSelect = (option: {
+    value: string
+    label: string
+  }): void => {
+    setSelectedOption(option.label)
+    handleSelectedOption(option.value)
     setIsOpen(false)
     setRotateIcon(false)
   }
@@ -119,7 +125,7 @@ const SelectInput = ({
           onClick={toggleOptions}
           disabled={variant === 'disabled'}
         >
-          <Body1>{selectedOption || 'Selected item title'}</Body1>
+          <Body1>{selectedOption || 'Select'}</Body1>
           {icon && (
             <div
               className={`absolute right-4 top-0 bottom-0 flex items-center transition-transform duration-300 ease-in-out ${rotateIcon ? 'transform rotate-180' : ''}`}
@@ -136,7 +142,7 @@ const SelectInput = ({
                   key={option.value}
                   className="px-4 py-2 cursor-pointer rounded-lg hover:bg-gray-400"
                   onClick={() => {
-                    handleOptionSelect(option.value)
+                    handleOptionSelect(option)
                   }}
                 >
                   <Body1>{option.label}</Body1>

@@ -39,13 +39,48 @@ const WithNav = (): JSX.Element => {
     </div>
   )
 }
-
+const projects = [
+  {
+    id: '1',
+    name: 'Project 1',
+    url: '',
+    createdAt: new Date(),
+    usersRoles: [],
+    pendingUsers: [],
+    projectStages: [],
+    issues: []
+  },
+  {
+    id: '2',
+    name: 'Project 2',
+    url: '',
+    createdAt: new Date(),
+    usersRoles: [],
+    pendingUsers: [],
+    projectStages: [],
+    issues: []
+  },
+  {
+    id: '3',
+    name: 'Project 3',
+    url: '',
+    createdAt: new Date(),
+    usersRoles: [],
+    pendingUsers: [],
+    projectStages: [],
+    issues: []
+  }
+]
 export const ROUTER = createBrowserRouter([
   {
     path: '/login',
     element: (
       <WrapperPage>
-        <ProjectAddition />
+        <ProjectAddition
+          handleToken={() => {}}
+          handleSelectedProject={() => {}}
+          projects={projects}
+        />
       </WrapperPage>
     )
   },

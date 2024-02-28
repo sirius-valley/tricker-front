@@ -1,20 +1,26 @@
 import Input from '@components/Input/Input'
 import SelectInput from '@components/SelectInput/SelectInput'
+import { type Project } from '@utils/types'
 import H2 from '@utils/typography/h2/h2'
 import Subtitle from '@utils/typography/subtitle/subtitle'
 import React from 'react'
 
-interface ProjectAdditionProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface ProjectAdditionProps extends React.HTMLAttributes<HTMLDivElement> {
+  handleToken: (token: string) => void
+  handleSelectedProject: (projectId: string) => void
+  projects: Project[]
+}
 
-export const ProjectAddition: React.FC<
-  ProjectAdditionProps
-> = (): JSX.Element => {
-  const [token, setToken] = React.useState<string>('')
+export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
+  handleToken,
+  handleSelectedProject,
+  projects
+}): JSX.Element => {
   return (
     <div className="flex flex-col items-center justify-center w-[1048px] bg-gray-600 border border-primary-400 py-20 px-[140px] gap-10 rounded-xl">
       <div className="gap-2">
         <H2 className="text-white leading-[41.15px] text-[34px] font-semibold">
-          Initial Setup{token}
+          Initial Setup
         </H2>
       </div>
       <div className="flex flex-col w-full gap-8">
@@ -24,7 +30,11 @@ export const ProjectAddition: React.FC<
           </Subtitle>
           <div className="flex flex-col w-full gap-2">
             <SelectInput
-              options={[]}
+              handleSelectedOption={handleSelectedProject}
+              options={projects.map((project: Project) => ({
+                value: project.id,
+                label: project.name
+              }))}
               label="Project Management Tool"
               required
             />
@@ -35,7 +45,7 @@ export const ProjectAddition: React.FC<
             Second, add the user token to connect to the API
           </Subtitle>
           <Input
-            handleValue={setToken}
+            handleValue={handleToken}
             label="User Token"
             required
             tooltip="You can find this under Team Settings > My Account > API > Personal Api Keys"
