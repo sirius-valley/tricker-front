@@ -34,16 +34,20 @@ const SelectProjectScreen: React.FC<SelectProjectScreenProps> = ({
         )}
         {data && !isLoading && (
           <>
-            <H1 className="text-white text-[24px] md:text-[26px]">Select Project</H1>
+            <H1 className="text-white text-[24px] md:text-[26px]">
+              Select Project
+            </H1>
             <div className="flex gap-1 items-center max-w-[752px] w-full">
               <Body2 className="text-white font-semibold self-start flex">
                 Now, select the project you would like to start with
               </Body2>
-              { screenSize.width > 700 && <Tooltip
-                iconHeight="16"
-                iconWidth="16"
-                content="If you don't see your team, the token is probably from another workspace. Change your workspace and try again."
-              />}
+              {screenSize.width > 700 && (
+                <Tooltip
+                  iconHeight="16"
+                  iconWidth="16"
+                  content="If you don't see your team, the token is probably from another workspace. Change your workspace and try again."
+                />
+              )}
             </div>
             <div className="border border-gray-300 py-2 rounded-[8px] max-w-[752px] w-full">
               {data?.map((project) => (
@@ -73,10 +77,12 @@ const SelectProjectScreen: React.FC<SelectProjectScreenProps> = ({
                 </div>
               ))}
             </div>
-            { screenSize.width < 700 && <HelperText className="text-white mt-4">
-              If you don't see your team, the token is probably from another
-              workspace. Change your workspace and try again.
-            </HelperText>}
+            {screenSize.width < 700 && (
+              <HelperText className="text-white mt-4">
+                If you don&apos;t see your team, the token is probably from
+                another workspace. Change your workspace and try again.
+              </HelperText>
+            )}
           </>
         )}
       </div>
