@@ -15,6 +15,11 @@ const teamMembers: User[] = [
   },
   { id: '5', email: 'othermember@sirius.com.ar', name: 'Other Member' }
 ]
+const actualUser: User = {
+  id: '3',
+  email: 'emiliamartella@sirius.com.ar',
+  name: 'Emilia Martella'
+}
 
 const meta: Meta<typeof TeamMemberManagement> = {
   title: 'Components/TeamMemberManagement',
@@ -40,6 +45,13 @@ const meta: Meta<typeof TeamMemberManagement> = {
       },
       defaultValue: teamMembers,
       description: 'A list of the members that belong to the project.'
+    },
+    actualUser: {
+      control: {
+        type: 'object'
+      },
+      defaultValue: actualUser,
+      description: 'This is the user that cannot be deleted as he is the pm'
     }
   }
 }
@@ -53,7 +65,8 @@ export const TeamMemberManagements: Story = {
   args: {
     handleRemainingUsers: () => {},
     teamMembers,
-    projectName: 'Tricker'
+    projectName: 'Tricker',
+    actualUser
   },
   render: (args) => (
     <WrapperPage>

@@ -13,12 +13,14 @@ interface TeamMemberManagementProps
   handleRemainingUsers: (users: User[]) => void
   teamMembers: User[]
   projectName: string
+  actualUser: User
 }
 
 export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
   handleRemainingUsers,
   teamMembers,
-  projectName
+  projectName,
+  actualUser
 }): JSX.Element => {
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [userToRemove, setUserToRemove] = React.useState<string>('')
@@ -79,25 +81,27 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                         </HelperText>
                       </div>
                     </div>
-                    <button
-                      className="hover:bg-gray-400 rounded-full p-0.5"
-                      onClick={() => {
-                        handleOnClick(member.id)
-                      }}
-                    >
-                      <TrashIcon />
-                      <ModalRemove
-                        memberName={member.name}
-                        projectName={projectName}
-                        onRemove={() => {
-                          handleRemove(member.id)
+                    {member.email !== actualUser.email && (
+                      <button
+                        className="hover:bg-gray-400 rounded-full p-0.5"
+                        onClick={() => {
+                          handleOnClick(member.id)
                         }}
-                        onClose={() => {
-                          setOpenModal(false)
-                        }}
-                        show={openModal && userToRemove === member.id}
-                      />
-                    </button>
+                      >
+                        <TrashIcon />
+                        <ModalRemove
+                          memberName={member.name}
+                          projectName={projectName}
+                          onRemove={() => {
+                            handleRemove(member.id)
+                          }}
+                          onClose={() => {
+                            setOpenModal(false)
+                          }}
+                          show={openModal && userToRemove === member.id}
+                        />
+                      </button>
+                    )}
                   </div>
                 ))}
             </div>
