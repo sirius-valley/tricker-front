@@ -15,7 +15,7 @@ export interface SelectProjectScreenProps {
 const SelectProjectScreen: React.FC<SelectProjectScreenProps> = ({
   handleSelection
 }) => {
-  const { data, isLoading, error } = useGetProjects()
+  const { data } = useGetProjects()
   const [selectedProject, setSelectedProject] = useState<string | null>(null)
 
   return (
