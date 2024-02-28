@@ -1,9 +1,9 @@
-// import LoginPage from '@pages/Login/LoginPage'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute/PrivateRoute'
 import NavBar from '@components/NavBar/NavBar'
 import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import React from 'react'
+import EmptyProjectPage from '@pages/Login/EmptyProjectPage'
 import { ProjectAddition } from '@components/ProjectAddition/ProjectAddition'
 import WrapperPage from '@components/Wrapper/WrapperPage'
 
@@ -48,6 +48,10 @@ export const ROUTER = createBrowserRouter([
         <ProjectAddition />
       </WrapperPage>
     )
+  },
+  {
+    path: '/login/non-invited',
+    element: <EmptyProjectPage />
   },
   {
     element: <WithNav />,
