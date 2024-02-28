@@ -4,6 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-div::-webkit-scrollbar {
+#tab-bar::-webkit-scrollbar {
     display: none;
 }
