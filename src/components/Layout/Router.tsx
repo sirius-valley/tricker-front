@@ -6,6 +6,7 @@ import React from 'react'
 // import StepperExample from '@pages/StepperExample'
 import LoginPage from '@pages/Login/LoginPage'
 import EmptyProjectPage from '@pages/Login/EmptyProjectPage'
+import RoleSelectPage from '@pages/Login/RoleSelectPage'
 
 const WithNav = (): JSX.Element => {
   const [isMobile, setIsMobile] = React.useState<boolean>(
@@ -48,6 +49,10 @@ export const ROUTER = createBrowserRouter([
   {
     path: '/login/non-invited',
     element: <EmptyProjectPage />
+  },
+  {
+    path: '/login/role',
+    element: <RoleSelectPage />
   },
   {
     element: <WithNav />,
