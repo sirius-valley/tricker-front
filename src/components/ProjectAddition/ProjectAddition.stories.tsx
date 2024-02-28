@@ -6,32 +6,59 @@ const projects = [
   {
     id: '1',
     name: 'Project 1',
-    url: '',
+    providerId: '',
+    organizationId: '',
+    image: '',
     createdAt: new Date(),
+    organization: {
+      id: '',
+      name: '',
+      projects: [],
+      administrators: [],
+      pendingProjects: []
+    },
     usersRoles: [],
-    pendingUsers: [],
     projectStages: [],
-    issues: []
+    issues: [],
+    labels: []
   },
   {
     id: '2',
     name: 'Project 2',
-    url: '',
+    providerId: '',
+    organizationId: '',
+    image: '',
     createdAt: new Date(),
+    organization: {
+      id: '',
+      name: '',
+      projects: [],
+      administrators: [],
+      pendingProjects: []
+    },
     usersRoles: [],
-    pendingUsers: [],
     projectStages: [],
-    issues: []
+    issues: [],
+    labels: []
   },
   {
     id: '3',
     name: 'Project 3',
-    url: '',
+    providerId: '',
+    organizationId: '',
+    image: '',
     createdAt: new Date(),
+    organization: {
+      id: '',
+      name: '',
+      projects: [],
+      administrators: [],
+      pendingProjects: []
+    },
     usersRoles: [],
-    pendingUsers: [],
     projectStages: [],
-    issues: []
+    issues: [],
+    labels: []
   }
 ]
 
