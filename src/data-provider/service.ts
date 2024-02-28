@@ -1,6 +1,6 @@
 import axios from 'axios'
 // import { setUpAxiosInterceptors } from './AxiosInterceptor'
-import { type User, type CognitoResponse } from '@utils/types'
+import { type User, type CognitoResponse, type Project } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 
 const url: string =
@@ -59,6 +59,19 @@ export const verifyToken = async (
     const cognitoResponse: CognitoResponse = res.data
     setLoginCookies(cognitoResponse)
     return cognitoResponse
+  }
+  return null
+}
+
+export const getProjects = async (): Promise<Project[] | null> => {
+  // update this to the correct endpoint
+  const res = await axios.get(`${url}/projects`, {
+    headers: {
+      Authorization: getAccessToken()
+    }
+  })
+  if (res.status === 200) {
+    return res.data
   }
   return null
 }
