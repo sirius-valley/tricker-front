@@ -47,7 +47,7 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
               Remove those who shouldn&apos;t have access to Tricker
             </Subtitle>
           </div>
-          <div className="flex flex-col w-full h-[232px] gap-6 overflow-y-scroll">
+          <div className="flex flex-col w-full max-h-[233px] gap-6 overflow-y-scroll">
             <div className="flex flex-col w-full gap-2">
               {teamMembers.map((member: User) => (
                 <div
