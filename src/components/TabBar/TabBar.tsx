@@ -66,7 +66,7 @@ export const TabBar: React.FC<TabBarProps> = ({ users, handleChange }) => {
           {users.map((user: UserProjectRole) => (
             <TabItem
               key={user.id}
-              teamMember={user.user.username}
+              teamMember={user.user.name}
               active={activeTab === user.id}
               onClick={() => {
                 handleClick(user.id ?? '')

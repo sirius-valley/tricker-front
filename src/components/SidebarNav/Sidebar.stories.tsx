@@ -12,16 +12,8 @@ const dropdownOptions = [
 ]
 
 const user: User = {
-  username: 'Victoria Capurro',
-  id: '123',
-  createdAt: new Date(),
-  projectsRoleAssigned: [],
-  emittedUserProjectRole: [],
-  emittedBlockerStatusModif: [],
-  authoredIssues: [],
-  asignedIssues: [],
-  emittedIssueChangeLogs: [],
-  emittedManualTimeModif: []
+  name: 'Victoria Capurro',
+  id: '123'
 }
 
 const handleDropdownSelect = (option: DropdownOption): void => {

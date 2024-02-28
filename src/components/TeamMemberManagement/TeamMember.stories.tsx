@@ -4,11 +4,11 @@ import WrapperPage from '@components/Wrapper/WrapperPage'
 import { type User } from '@utils/types'
 
 const teamMembers: User[] = [
-  { id: '1', username: 'Victoria Capurro' },
-  { id: '2', username: 'Fabrizio Serial' },
-  { id: '3', username: 'Emilia Martella' },
-  { id: '4', username: 'Federico Ariel Martucci' },
-  { id: '5', username: 'Other Member' }
+  { id: '1', name: 'Victoria Capurro' },
+  { id: '2', name: 'Fabrizio Serial' },
+  { id: '3', name: 'Emilia Martella' },
+  { id: '4', name: 'Federico Ariel Martucci' },
+  { id: '5', name: 'Other Member' }
 ]
 
 const meta: Meta<typeof TeamMemberManagement> = {

@@ -58,17 +58,14 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                     {member.profileImage ? (
                       <ProfileButton img={member.profileImage} />
                     ) : (
-                      <NoAvatarProject
-                        text={member.username}
-                        className="w-8 h-8"
-                      />
+                      <NoAvatarProject text={member.name} className="w-8 h-8" />
                     )}
                     <div className="flex flex-col w-full gap-1">
                       <Subtitle className="text-white text-sm">
-                        {member.username}
+                        {member.name}
                       </Subtitle>
                       <HelperText className="text-white text-sm truncate max-w-40 md:max-w-none">
-                        {member.username.replace(/\s+/g, '').toLowerCase()}
+                        {member.name.replace(/\s+/g, '').toLowerCase()}
                         @sirius.com.ar
                       </HelperText>
                     </div>
@@ -81,7 +78,7 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                   >
                     <TrashIcon />
                     <ModalRemove
-                      memberName={member.username}
+                      memberName={member.name}
                       projectName={projectName}
                       onRemove={() => {
                         handleRemove(member.id)

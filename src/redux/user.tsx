@@ -10,16 +10,19 @@ interface InitialStateType {
 const initialState: InitialStateType = {
   user: {
     id: '',
-    username: '',
+    cognitoId: '',
     profileImage: '',
+    email: '',
+    name: '',
     createdAt: new Date().toString(),
     projectsRoleAssigned: [],
     emittedUserProjectRole: [],
-    emittedBlockerStatusModif: [],
+    emittedBlockerStatusModification: [],
     authoredIssues: [],
     asignedIssues: [],
     emittedIssueChangeLogs: [],
-    emittedManualTimeModif: []
+    emittedManualTimeModification: [],
+    OrganizationAdministrator: []
   },
   currentStep: 0,
   steps: [
