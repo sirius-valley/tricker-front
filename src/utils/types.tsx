@@ -99,6 +99,7 @@ export interface Project {
   id: string
   name: string
   url: string
+  image: string
   createdAt: Date
   deletedAt?: Date | null
   usersRoles: UserProjectRole[]
