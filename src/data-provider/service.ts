@@ -65,11 +65,14 @@ export const verifyToken = async (
 
 export const getProjects = async (): Promise<Project[] | null> => {
   // update this to the correct endpoint
-  const res = await axios.get(`https://rickandmortyapi.com/api/character/1,2,3,4`, {
-    headers: {
-      Authorization: getAccessToken()
+  const res = await axios.get(
+    `https://rickandmortyapi.com/api/character/1,2,3,4`,
+    {
+      headers: {
+        Authorization: getAccessToken()
+      }
     }
-  })
+  )
   if (res.status === 200) {
     return res.data
   }
