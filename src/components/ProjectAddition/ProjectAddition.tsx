@@ -17,15 +17,15 @@ export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
   projects
 }): JSX.Element => {
   return (
-    <div className="flex flex-col items-center justify-center w-[1048px] bg-gray-600 border border-primary-400 py-20 px-[140px] gap-10 rounded-xl">
+    <div className="flex flex-col items-center justify-center w-[320px] md:w-fit lg:w-[1048px] bg-gray-600 border border-primary-400 py-4 px-4 md:py-20 md:px-[140px] gap-10 rounded-xl">
       <div className="gap-2">
-        <H2 className="text-white leading-[41.15px] text-[34px] font-semibold">
+        <H2 className="text-white md:leading-[41.15px] text-[20px] md:text-[34px] whitespace-nowrap md:whitespace-normal font-semibold">
           Initial Setup
         </H2>
       </div>
       <div className="flex flex-col w-full gap-8">
         <div className="flex flex-col w-full gap-4">
-          <Subtitle className="text-white leading-[19.36px] text-semibold">
+          <Subtitle className="text-white text-[14px] whitespace-pre-wrap md:text-base leading-[19.36px] text-bold">
             First, select the Project Management Tool
           </Subtitle>
           <div className="flex flex-col w-full gap-2">
@@ -41,7 +41,7 @@ export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
           </div>
         </div>
         <div className="flex flex-col w-full gap-4">
-          <Subtitle className="text-white leading-[19.36px] text-semibold">
+          <Subtitle className="text-white text-[14px] whitespace-pre-wrap md:text-base leading-[19.36px] text-bold">
             Second, add the user token to connect to the API
           </Subtitle>
           <Input
@@ -49,7 +49,7 @@ export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
             label="User Token"
             required
             tooltip="You can find this under Team Settings > My Account > API > Personal Api Keys"
-            className="h-[69px]"
+            className="md:h-[69px]"
             placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
           />
         </div>
