@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import * as ApiService from './service'
-import { type User, type CognitoResponse } from '@utils/types'
+import { type User, type CognitoResponse, type Project } from '@utils/types'
 
 export const useGetMe = (): {
   data: User | null | undefined
@@ -36,6 +36,18 @@ export const useVerifyToken = (
   const { data, error, isLoading } = useQuery({
     queryKey: ['verifyToken', code],
     queryFn: async () => await ApiService.verifyToken(code)
+  })
+  return { data, error, isLoading }
+}
+
+export const useGetProjects = (): {
+  data: Project[] | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['projects'],
+    queryFn: ApiService.getProjects
   })
   return { data, error, isLoading }
 }
