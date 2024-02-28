@@ -1,9 +1,10 @@
-import LoginPage from '@pages/Login/LoginPage'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute/PrivateRoute'
 import NavBar from '@components/NavBar/NavBar'
 import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import React from 'react'
+// import StepperExample from '@pages/StepperExample'
+import LoginPage from '@pages/Login/LoginPage'
 import EmptyProjectPage from '@pages/Login/EmptyProjectPage'
 
 const WithNav = (): JSX.Element => {
@@ -42,7 +43,7 @@ const WithNav = (): JSX.Element => {
 export const ROUTER = createBrowserRouter([
   {
     path: '/login',
-    element: <LoginPage />
+    element: <LoginPage /> // StepperExample
   },
   {
     path: '/login/non-invited',
