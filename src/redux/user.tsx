@@ -31,7 +31,7 @@ const initialState: InitialStateType = {
     { label: 'Project Selection' },
     { label: 'Team Members' }
   ],
-  projectName: ''
+  projectName: 'WeCan' // It should be ''
 }
 
 const userSlice = createSlice({

@@ -2,7 +2,7 @@ import { useProjectName } from '@redux/hooks'
 import H1 from '@utils/typography/h1/h1'
 import H2 from '@utils/typography/h2/h2'
 
-export const ProjectAddition = (): JSX.Element => {
+export const ProjectMail = (): JSX.Element => {
   const projectName: string = useProjectName()
   return (
     <div className="flex flex-col items-center justify-center w-[329px] md:w-fit lg:w-[1048px] bg-gray-600 gap-12 md:gap-10 ">
