@@ -25,7 +25,7 @@ export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
       </div>
       <div className="flex flex-col w-full gap-8">
         <div className="flex flex-col w-full gap-4">
-          <Subtitle className="text-white text-[14px] whitespace-pre-wrap md:text-base leading-[19.36px] text-bold">
+          <Subtitle className="text-white text-[14px] whitespace-pre-wrap md:text-base leading-[19.36px] text-bold md:text-semibold">
             First, select the Project Management Tool
           </Subtitle>
           <div className="flex flex-col w-full gap-2">
@@ -41,7 +41,7 @@ export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
           </div>
         </div>
         <div className="flex flex-col w-full gap-4">
-          <Subtitle className="text-white text-[14px] whitespace-pre-wrap md:text-base leading-[19.36px] text-bold">
+          <Subtitle className="text-white text-[14px] whitespace-pre-wrap md:text-base leading-[19.36px] text-bold md:text-semibold">
             Second, add the user token to connect to the API
           </Subtitle>
           <Input
