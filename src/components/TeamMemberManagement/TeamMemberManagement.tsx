@@ -32,7 +32,7 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
     <div className="flex flex-col items-center justify-center w-[320px] md:w-fit lg:w-[1032px] bg-gray-600 border border-primary-400 py-4 px-4 md:py-20 md:px-[140px] gap-10 rounded-xl">
       <div className="flex gap-2">
         <H2 className="text-white md:leading-[41.15px] text-[20px] md:text-[34px] whitespace-nowrap md:whitespace-normal font-semibold">
-          Initial Setup
+          Team Members
         </H2>
       </div>
       <div className="flex flex-col w-full gap-2">
@@ -62,13 +62,14 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                       <Subtitle className="text-white">
                         {member.username}
                       </Subtitle>
-                      <HelperText className="text-white">
+                      <HelperText className="text-white truncate max-w-44 md:max-w-none">
                         {member.username.replace(/\s+/g, '').toLowerCase()}
                         @sirius.com.ar
                       </HelperText>
                     </div>
                   </div>
-                  <div
+                  <button
+                    className="hover:bg-gray-400 rounded-full p-0.5"
                     onClick={() => {
                       setOpenModal(!openModal)
                     }}
@@ -85,7 +86,7 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                       }}
                       show={openModal}
                     />
-                  </div>
+                  </button>
                 </div>
               ))}
             </div>

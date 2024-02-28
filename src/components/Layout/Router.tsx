@@ -4,8 +4,10 @@ import NavBar from '@components/NavBar/NavBar'
 import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import React from 'react'
 // import StepperExample from '@pages/StepperExample'
-import LoginPage from '@pages/Login/LoginPage'
 import EmptyProjectPage from '@pages/Login/EmptyProjectPage'
+import WrapperPage from '@components/Wrapper/WrapperPage'
+import { TeamMemberManagement } from '@components/TeamMemberManagement/TeamMemberManagement'
+import { type User } from '@utils/types'
 
 const WithNav = (): JSX.Element => {
   const [isMobile, setIsMobile] = React.useState<boolean>(
@@ -39,11 +41,25 @@ const WithNav = (): JSX.Element => {
     </div>
   )
 }
-
+const teamMembers: User[] = [
+  { id: '1', username: 'Victoria Capurro' },
+  { id: '2', username: 'Fabrizio Serial' },
+  { id: '3', username: 'Emilia Martella' },
+  { id: '4', username: 'Other Member' },
+  { id: '5', username: 'Federico Ariel Martucci' }
+]
 export const ROUTER = createBrowserRouter([
   {
     path: '/login',
-    element: <LoginPage /> // StepperExample
+    element: (
+      <WrapperPage>
+        <TeamMemberManagement
+          handleRemainingUsers={() => {}}
+          teamMembers={teamMembers}
+          projectName="Tricker"
+        />
+      </WrapperPage>
+    )
   },
   {
     path: '/login/non-invited',
