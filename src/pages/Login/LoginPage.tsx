@@ -4,7 +4,7 @@ import TrickerTitle from '@assets/TrickerTitle'
 
 import { LoginWithButton } from '@components/LoginWithButton/LoginWithButton'
 import { NeedHelpButton } from '@components/NeedHelpButton/NeedHelpButton'
-import { service } from '@service/service'
+import * as service from '@data-provider/service'
 import React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 

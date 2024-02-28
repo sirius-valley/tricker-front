@@ -15,11 +15,20 @@ export interface Tokens {
   refresh_token: string
 }
 
+export interface Step {
+  label: string
+}
+
+export interface Screen {
+  width: number
+  height: number
+}
+
 export interface User {
   id: string
   username: string
   profileImage?: string | null
-  createdAt?: Date
+  createdAt?: Date | string
   projectsRoleAssigned?: UserProjectRole[]
   emittedUserProjectRole?: UserProjectRole[]
   emittedBlockerStatusModif?: BlockerStatusModification[]
