@@ -54,7 +54,7 @@ const NotificationBadge: React.FC<NotificationBadgeProps> = ({
       </Body1>
       {handleClose && (
         <div className="flex gap-2">
-          <div className="w-px h-10 max-h-fit bg-gray-600" />
+          <div className={`w-px h-10 max-h-fit bg-${dismissIconColor}`} />
           <button
             className="hover:bg-gray-300/30 rounded-full p-2"
             onClick={handleClose}

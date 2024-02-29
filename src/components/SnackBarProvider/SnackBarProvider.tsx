@@ -35,7 +35,7 @@ export const SnackBarProvider: React.FC<SnackBarProviderProps> = ({
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setSnackBars((prev) => prev.slice(1))
-    }, 2000)
+    }, 5000)
     return () => {
       clearTimeout(timer)
     }
@@ -48,6 +48,10 @@ export const SnackBarProvider: React.FC<SnackBarProviderProps> = ({
     setSnackBars((prev) => [...prev, { message, type }])
   }
 
+  const handleOnClose = (): void => {
+    setSnackBars((prev) => prev.slice(1))
+  }
+
   return (
     <SnackbarContext.Provider value={{ showSnackBar }}>
       {children}
@@ -56,7 +60,10 @@ export const SnackBarProvider: React.FC<SnackBarProviderProps> = ({
           className="fixed bottom-5 left-5 z-50 flex justify-center items-center animate-slideInLeft"
           key={index}
         >
-          <NotificationBadge variant={snackBar.type}>
+          <NotificationBadge
+            variant={snackBar.type}
+            handleClose={handleOnClose}
+          >
             {snackBar.message}
           </NotificationBadge>
         </div>
