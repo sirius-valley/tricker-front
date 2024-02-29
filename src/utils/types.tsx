@@ -27,10 +27,10 @@ export interface Screen {
 // Entities
 
 export interface User {
-  id?: string
+  id: string
   cognitoId?: string
   profileImage?: string
-  email?: string
+  email: string
   name: string
   createdAt?: Date | string
   updatedAt?: Date

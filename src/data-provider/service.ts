@@ -15,7 +15,7 @@ const url: string =
 export const me = async (): Promise<User | null> => {
   const res = await axios.get(`${url}/user/me`, {
     headers: {
-      Authorization: getAccessToken()
+      Authorization: getIdToken()
     }
   })
   if (res.status === 200) {
