@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { type Screen } from '@utils/types'
 import useScreenSize from '@hooks/useScreenSize'
 import Button from '@components/Button/Button'
-// import RoleButton from '@components/RoleButton/RoleButton'
+import RoleButton from '@components/RoleButton/RoleButton'
 
 const RoleSelectPage = (): JSX.Element => {
   const screen: Screen = useScreenSize()
@@ -16,41 +16,12 @@ const RoleSelectPage = (): JSX.Element => {
       <div className="flex flex-col gap-8">
         <div className="max-w-[680px] lg:max-w-[1048px] mx-auto">
           <div className="flex justify-center w-full gap-12 mb-12">
-            <div className="bg-gray-600 rounded-lg">
-              <Button
-                variant="outline"
-                className="w-[100%] lg:w-[500px] h-[500px] text-white shadow-2"
-                onClick={() => {
-                  navigate('')
-                }}
-              >
-                <h1 className="font-semibold text-lg leading-[41px] text-[34px]">
-                  I&apos;m a Project Manager
-                </h1>
-              </Button>
-            </div>
-            {/* <RoleButton handleClick={()=>{}}>
+            <RoleButton handleClick={() => {}}>
               I&apos;m a Project Manager
             </RoleButton>
-            <RoleButton handleClick={()=>{}}>
-            I&apos;m a Team Member
-            </RoleButton> */}
-            <div className="bg-gray-600 rounded-lg">
-              <Button
-                variant="outline"
-                className="w-[100%] lg:w-[500px] h-[500px] text-white shadow-2"
-                onClick={() => {
-                  navigate('/login')
-                }}
-              >
-                <h1
-                  className="font-semibold text-lg leading-[41px]"
-                  style={{ fontSize: '34px' }}
-                >
-                  I&apos;m a Team Member
-                </h1>
-              </Button>
-            </div>
+            <RoleButton handleClick={() => {}}>
+              I&apos;m a Team Member
+            </RoleButton>
           </div>
           <div className="mb-6">
             <StepNavigation
