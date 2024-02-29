@@ -11,12 +11,14 @@ export interface NavProps {
   currentStep: StepType
   onBack?: () => void
   onNext?: () => void
+  nextDisabled?: boolean
 }
 
 const StepNavigation: React.FC<NavProps> = ({
   currentStep,
   onBack,
-  onNext
+  onNext,
+  nextDisabled
 }) => {
   const isFirstStep = currentStep === StepType.FIRST
   const isLastStep = currentStep === StepType.LAST
@@ -45,6 +47,7 @@ const StepNavigation: React.FC<NavProps> = ({
           variant="filled"
           className="w-[273px] h-fit"
           onClick={handleNext}
+          disabled={nextDisabled}
         >
           Next
         </Button>
