@@ -5,13 +5,16 @@ on:
     branches:
       - main
 
+env:
+  AWS_REGION : <"us-east-1">
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Node.js
         uses: actions/setup-node@v3
@@ -27,9 +30,9 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          role-duration-seconds: 900
-          aws-region: <YOUR_AWS_REGION>
+          role-to-assume: arn:aws:iam::075138626693:role/GIthubAction #Make it a github secret
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Sync to S3 bucket
         run: aws s3 sync build/ s3://tricker-ui-staging --delete
