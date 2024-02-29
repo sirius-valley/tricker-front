@@ -1,21 +1,21 @@
 import Input from '@components/Input/Input'
 import SelectInput from '@components/SelectInput/SelectInput'
 import useScreenSize from '@hooks/useScreenSize'
-import { type Screen, type Project } from '@utils/types'
+import { type Screen } from '@utils/types'
 import H2 from '@utils/typography/h2/h2'
 import Subtitle from '@utils/typography/subtitle/subtitle'
 import React from 'react'
 
 interface ProjectAdditionProps extends React.HTMLAttributes<HTMLDivElement> {
   handleToken: (token: string) => void
-  handleSelectedProject: (projectId: string) => void
-  projects: Project[]
+  handleSelectedProvider: (provider: string) => void
+  providers: string[]
 }
 
 export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
   handleToken,
-  handleSelectedProject,
-  projects
+  handleSelectedProvider,
+  providers
 }): JSX.Element => {
   const screen: Screen = useScreenSize()
   return (
@@ -32,10 +32,10 @@ export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
           </Subtitle>
           <div className="flex flex-col w-full gap-2">
             <SelectInput
-              handleSelectedOption={handleSelectedProject}
-              options={projects.map((project: Project) => ({
-                value: project.id,
-                label: project.name
+              handleSelectedOption={handleSelectedProvider}
+              options={providers.map((provider: string) => ({
+                value: provider,
+                label: provider
               }))}
               label="Project Management Tool"
               required
