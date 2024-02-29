@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { type Screen } from '@utils/types'
 import useScreenSize from '@hooks/useScreenSize'
 import Button from '@components/Button/Button'
+// import RoleButton from '@components/RoleButton/RoleButton'
 
 const RoleSelectPage = (): JSX.Element => {
   const screen: Screen = useScreenSize()
@@ -23,13 +24,17 @@ const RoleSelectPage = (): JSX.Element => {
                   navigate('')
                 }}
               >
-                <h1
-                  className="font-semibold text-lg leading-[41px] text-[34px]"
-                >
+                <h1 className="font-semibold text-lg leading-[41px] text-[34px]">
                   I&apos;m a Project Manager
                 </h1>
               </Button>
             </div>
+            {/* <RoleButton handleClick={()=>{}}>
+              I&apos;m a Project Manager
+            </RoleButton>
+            <RoleButton handleClick={()=>{}}>
+            I&apos;m a Team Member
+            </RoleButton> */}
             <div className="bg-gray-600 rounded-lg">
               <Button
                 variant="outline"
