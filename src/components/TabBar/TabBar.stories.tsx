@@ -33,20 +33,20 @@ export const Default: Story = {
   tags: ['autodocs'],
   args: {
     users: [
-      { id: '1', user: { username: 'Persona 1' } },
-      { id: '2', user: { username: 'Persona 2' } },
-      { id: '3', user: { username: 'Persona 3' } },
-      { id: '4', user: { username: 'Persona 4' } },
-      { id: '5', user: { username: 'Persona 5' } },
-      { id: '6', user: { username: 'Persona 6' } },
-      { id: '7', user: { username: 'Persona 7' } },
-      { id: '8', user: { username: 'Persona 8' } },
-      { id: '9', user: { username: 'Persona 9' } },
-      { id: '10', user: { username: 'Persona 10' } },
-      { id: '11', user: { username: 'Persona 11' } },
-      { id: '12', user: { username: 'Persona 12' } },
-      { id: '13', user: { username: 'Persona 13' } },
-      { id: '14', user: { username: 'Persona 14' } }
+      { id: '1', user: { name: 'Persona 1' } },
+      { id: '2', user: { name: 'Persona 2' } },
+      { id: '3', user: { name: 'Persona 3' } },
+      { id: '4', user: { name: 'Persona 4' } },
+      { id: '5', user: { name: 'Persona 5' } },
+      { id: '6', user: { name: 'Persona 6' } },
+      { id: '7', user: { name: 'Persona 7' } },
+      { id: '8', user: { name: 'Persona 8' } },
+      { id: '9', user: { name: 'Persona 9' } },
+      { id: '10', user: { name: 'Persona 10' } },
+      { id: '11', user: { name: 'Persona 11' } },
+      { id: '12', user: { name: 'Persona 12' } },
+      { id: '13', user: { name: 'Persona 13' } },
+      { id: '14', user: { name: 'Persona 14' } }
     ]
   },
 
