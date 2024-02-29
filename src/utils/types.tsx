@@ -24,28 +24,25 @@ export interface Screen {
   height: number
 }
 
+// Entities
+
 export interface User {
   id: string
-  username: string
-  profileImage?: string | null
+  cognitoId?: string
+  profileImage?: string
+  email: string
+  name: string
   createdAt?: Date | string
+  updatedAt?: Date
+  deletedAt?: Date
   projectsRoleAssigned?: UserProjectRole[]
   emittedUserProjectRole?: UserProjectRole[]
-  emittedBlockerStatusModif?: BlockerStatusModification[]
+  emittedBlockerStatusModification?: BlockerStatusModification[]
   authoredIssues?: Issue[]
   asignedIssues?: Issue[]
   emittedIssueChangeLogs?: IssueChangeLog[]
-  emittedManualTimeModif?: ManualTimeModification[]
-}
-
-export interface PendingUser {
-  id: string
-  email: string
-  projectId: string
-  status: AuthorizationStatus
-  createdAt: Date
-  statusUpdatedAt: Date
-  project: Project
+  emittedManualTimeModification?: ManualTimeModification[]
+  OrganizationAdministrator?: OrganizationAdministrator[]
 }
 
 export interface Role {
@@ -56,28 +53,36 @@ export interface Role {
 
 export interface Issue {
   id: string
-  authorId: string
-  assigneeId: string
+  providerIssueId: string
+  authorId?: string
+  assigneeId?: string
   projectId: string
-  stageId: string
-  issueLabelId: string
+  stageId?: string
   name: string
   title: string
-  description: string
+  description?: string
   priority: Priority
-  storyPoints: number
+  storyPoints?: number
   createdAt: Date
-  deletedAt?: Date | null
+  deletedAt?: Date
   project: Project
-  author: User
-  assignee: User
-  issueLabel: IssueLabel
-  stage: Stage
+  author?: User
+  assignee?: User
+  labels: IssueLabel[]
+  stage?: Stage
   timeTrackings: TimeTracking[]
   issueChangeLogs: IssueChangeLog[]
   customFields: IssueCustomFields[]
   blockerStatusModifications: BlockerStatusModification[]
   manualTimeModifications: ManualTimeModification[]
+}
+
+export interface IssueLabel {
+  id: string
+  labelId: string
+  issueId: string
+  label: Label
+  issue: Issue
 }
 
 export interface IssueCustomFields {
@@ -98,20 +103,24 @@ export interface Stage {
 export interface Project {
   id: string
   name: string
-  url: string
+  providerId: string
+  organizationId: string
+  image?: string
   createdAt: Date
-  deletedAt?: Date | null
+  deletedAt?: Date
+  organization: Organization
   usersRoles: UserProjectRole[]
-  pendingUsers: PendingUser[]
   projectStages: ProjectStage[]
   issues: Issue[]
+  labels: ProjectLabel[]
 }
 
 export interface LogWebhooks {
   id: string
   statusId: string
   sourceId: string
-  // payload: Record<string, any> // JSON type //linter does not accept type 'any'
+  providerEventId: string
+  payload: any // Define a type for payload
   createdAt: Date
   status: WebhookOutcomeStatus
   source: WebhookSource
@@ -138,31 +147,34 @@ export interface TimeTracking {
 }
 
 export interface UserProjectRole {
-  id?: string
+  id: string
   userId?: string
   projectId?: string
   roleId?: string
   userEmitterId?: string
   createdAt?: Date
-  updatedAt?: Date | null
-  deletedAt?: Date | null
+  updatedAt?: Date
+  deletedAt?: Date
   project?: Project
   user: User
   userEmitter?: User
   role?: Role
 }
 
-export interface IssueLabel {
+export interface Label {
   id: string
   name: string
-  issues: Issue[]
+  issues: IssueLabel[]
+  projectLabels: ProjectLabel[]
 }
 
 export interface BlockerStatusModification {
   id: string
+  providerEventId: string
   userEmitterId: string
   issueId: string
   status: BlockType
+  eventRegisteredAt?: Date
   createdAt: Date
   reason: string
   comment: string
@@ -183,11 +195,13 @@ export interface ManualTimeModification {
 
 export interface IssueChangeLog {
   id: string
+  providerEventId: string
   userEmitterId: string
   issueId: string
   field: string
-  from: string
-  to: string
+  from?: string
+  to?: string
+  eventRegisteredAt?: Date
   createdAt: Date
   userEmitter: User
   issue: Issue
@@ -198,9 +212,19 @@ export interface ProjectStage {
   projectId: string
   stageId: string
   createdAt: Date
-  deletedAt?: Date | null
+  deletedAt?: Date
   project: Project
   stage: Stage
+}
+
+export interface ProjectLabel {
+  id: string
+  projectId: string
+  labelId: string
+  createdAt: Date
+  deletedAt?: Date
+  project: Project
+  label: Label
 }
 
 export enum BlockType {
@@ -217,7 +241,43 @@ export enum Priority {
   URGENT
 }
 
-export enum AuthorizationStatus {
-  ACCEPTED,
-  PENDING
+export interface Organization {
+  id: string
+  name: string
+  projects: Project[]
+  administrators: OrganizationAdministrator[]
+  pendingProjects: PendingProjectAuthorization[]
+}
+
+export interface OrganizationAdministrator {
+  id: string
+  organizationId: string
+  userId: string
+  organization: Organization
+  user: User
+}
+
+export interface PendingProjectAuthorization {
+  id: string
+  providerProjectId: string
+  token: string
+  integratorId: string
+  issueProviderId: string
+  organizationId: string
+  issueProvider: IssueProvider
+  organization: Organization
+  emails: MemberEmail[]
+}
+
+export interface IssueProvider {
+  id: string
+  name: string
+  PendingProjectAuthorization: PendingProjectAuthorization[]
+}
+
+export interface MemberEmail {
+  id: string
+  email: string
+  pendingProjectAuthorizationId: string
+  pendingProjectAuthorization: PendingProjectAuthorization
 }

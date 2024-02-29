@@ -32,7 +32,7 @@ export const Default: Story = {
     children: "I'm a Project Manager"
   },
   render: (args) => (
-    <div className="flex max-w-[680px] lg:max-w-[1048px]">
+    <div className="flex max-w-[680px] lg:max-w-max">
       <RoleButton {...args} />
     </div>
   )

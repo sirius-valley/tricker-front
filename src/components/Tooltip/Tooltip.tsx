@@ -38,15 +38,15 @@ export const Tooltip: React.FC<TooltipProps> = ({
         id={tooltipId}
         style={{
           backgroundColor: colors.white,
-          opacity: 1,
-          color: colors.black,
+          color: 'black',
           fontFamily: 'Inter',
           fontSize: '12px',
-          fontWeight: 400,
+          fontWeight: 500,
           padding: '8px',
           maxWidth: '280px',
           textAlign: 'center',
-          borderRadius: '4px'
+          borderRadius: '4px',
+          lineHeight: '14.5px'
         }}
       />
     </>
