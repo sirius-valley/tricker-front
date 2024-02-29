@@ -5,6 +5,7 @@ interface InitialStateType {
   user: User
   currentStep: number
   steps: Step[]
+  projectName: string
 }
 
 const initialState: InitialStateType = {
@@ -29,7 +30,8 @@ const initialState: InitialStateType = {
     { label: 'Initial Setup' },
     { label: 'Project Selection' },
     { label: 'Team Members' }
-  ]
+  ],
+  projectName: 'WeCan' // It should be ''
 }
 
 const userSlice = createSlice({
@@ -41,9 +43,12 @@ const userSlice = createSlice({
     },
     setCurrentStep: (state, action: PayloadAction<number>) => {
       state.currentStep = action.payload
+    },
+    setProjectName: (state, action: PayloadAction<string>) => {
+      state.projectName = action.payload
     }
   }
 })
 
-export const { setUser, setCurrentStep } = userSlice.actions
+export const { setUser, setCurrentStep, setProjectName } = userSlice.actions
 export default userSlice.reducer

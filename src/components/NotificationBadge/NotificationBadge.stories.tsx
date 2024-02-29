@@ -21,6 +21,14 @@ const meta: Meta<typeof NotificationBadge> = {
       control: {
         type: 'text'
       }
+    },
+    handleClose: {
+      description:
+        'Function that when it is passed you can close the notification badge',
+      defaultValue: () => {},
+      control: {
+        type: 'function'
+      }
     }
   }
 }
@@ -66,6 +74,18 @@ export const Warning: Story = {
   args: {
     children: genericText,
     variant: 'warning'
+  },
+  render: (args) => (
+    <NotificationBadge {...args}>{args.children}</NotificationBadge>
+  )
+}
+
+export const Closable: Story = {
+  tags: ['autodocs'],
+  args: {
+    children: genericText,
+    variant: 'success',
+    handleClose: () => {}
   },
   render: (args) => (
     <NotificationBadge {...args}>{args.children}</NotificationBadge>
