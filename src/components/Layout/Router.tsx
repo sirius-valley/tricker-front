@@ -5,6 +5,7 @@ import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import React from 'react'
 import EmptyProjectPage from '@pages/Login/EmptyProjectPage'
 import LoginPage from '@pages/Login/LoginPage'
+import SetupPage from '@pages/InitialSetup/InitialSetupPage'
 
 const WithNav = (): JSX.Element => {
   const [isMobile, setIsMobile] = React.useState<boolean>(
@@ -47,6 +48,10 @@ export const ROUTER = createBrowserRouter([
   {
     path: '/login/non-invited',
     element: <EmptyProjectPage />
+  },
+  {
+    path: '/setup',
+    element: <SetupPage />
   },
   {
     element: <WithNav />,
