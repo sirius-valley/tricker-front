@@ -39,20 +39,16 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
   }
 
   return (
-    <div className="flex flex-col items-center justify-center w-[329px] h-[443px] md:w-fit lg:w-[1032px] bg-gray-600 border border-primary-400 py-10 px-6 md:py-20 md:px-[140px] gap-5 md:gap-10 shadow-2 md:shadow-none rounded-xl">
-      <div className="flex gap-2">
-        <H2 className="text-white md:leading-[41.15px] md:text-[34px] whitespace-nowrap md:whitespace-normal font-semibold">
-          Team Members
-        </H2>
-      </div>
-      <div className="flex flex-col w-full gap-2">
+    <div className="text-white flex flex-col items-center justify-center w-[329px] h-[443px] md:w-fit lg:w-[1032px] bg-gray-600 border border-primary-400 py-10 px-6 md:py-20 md:px-[140px] gap-5 md:gap-10 shadow-2 md:shadow-none rounded-xl">
+      <H2 className="md:leading-[41.15px] md:text-[34px] whitespace-nowrap md:whitespace-normal font-semibold">
+        Team Members
+      </H2>
+      <div className="flex flex-col w-full">
         <div className="flex flex-col w-full gap-4">
-          <div className="flex flex-col w-full gap-4">
-            <Subtitle className="text-white whitespace-pre-wrap md:text-base leading-[19.36px] text-semibold">
-              Remove those who shouldn&apos;t have access to Tricker
-            </Subtitle>
-          </div>
-          <div className="flex flex-col w-full max-h-[233px] gap-6 overflow-y-scroll">
+          <Subtitle className="whitespace-pre-wrap md:text-base leading-[19.36px] text-semibold">
+            Remove those who shouldn&apos;t have access to Tricker
+          </Subtitle>
+          <div className="flex flex-col w-full max-h-[233px] overflow-y-scroll">
             <div className="flex flex-col w-full gap-2">
               {teamMembers
                 .filter((member: User) =>
@@ -60,23 +56,21 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                 )
                 .map((member: User) => (
                   <div
-                    className="flex items-center w-full p-2 gap-4 rounded-lg bg-gray-500"
+                    className="flex items-center w-full p-2 rounded-lg bg-gray-500"
                     key={member.id}
                   >
-                    <div className="flex w-full gap-4">
+                    <div className="flex w-full gap-4 items-center">
                       {member.profileImage ? (
                         <ProfileButton img={member.profileImage} />
                       ) : (
                         <NoAvatarProject
                           text={member.name}
-                          className="w-8 h-8"
+                          className="w-8 h-8 rounded-full"
                         />
                       )}
                       <div className="flex flex-col w-full gap-1">
-                        <Subtitle className="text-white text-sm">
-                          {member.name}
-                        </Subtitle>
-                        <HelperText className="text-white text-sm truncate max-w-40 md:max-w-none">
+                        <Subtitle className="text-sm">{member.name}</Subtitle>
+                        <HelperText className="text-sm truncate max-w-40 md:max-w-none">
                           {member.email}
                         </HelperText>
                       </div>
