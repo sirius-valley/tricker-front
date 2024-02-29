@@ -1,6 +1,10 @@
 import axios from 'axios'
 // import { setUpAxiosInterceptors } from './AxiosInterceptor'
-import { type User, type CognitoResponse } from '@utils/types'
+import {
+  type User,
+  type CognitoResponse,
+  type ProjectPreIntegrated
+} from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 
 const url: string =
@@ -59,6 +63,25 @@ export const verifyToken = async (
     const cognitoResponse: CognitoResponse = res.data
     setLoginCookies(cognitoResponse)
     return cognitoResponse
+  }
+  return null
+}
+
+export const getPreIntegratedProjects = async (
+  key: string,
+  provider: string
+): Promise<ProjectPreIntegrated[] | null> => {
+  const res = await axios.get(`${url}/api/integration/linear/projects`, {
+    headers: {
+      Authorization: 'Bearer ' + getAccessToken()
+    },
+    params: {
+      key,
+      provider
+    }
+  })
+  if (res.status === 200) {
+    return res.data
   }
   return null
 }
