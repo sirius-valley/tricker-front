@@ -5,7 +5,7 @@ import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import React from 'react'
 import EmptyProjectPage from '@pages/Login/EmptyProjectPage'
 import LoginPage from '@pages/Login/LoginPage'
-import SetupPage from '@pages/InitialSetup/InitialSetupPage'
+import SetupPage from '@pages/InitialIntegration/InitialIntegrationPage'
 
 const WithNav = (): JSX.Element => {
   const [isMobile, setIsMobile] = React.useState<boolean>(
