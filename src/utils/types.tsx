@@ -115,6 +115,12 @@ export interface Project {
   labels: ProjectLabel[]
 }
 
+export interface ProjectPreIntegrated {
+  providerProjectId: string
+  name: string
+  image: string | null
+}
+
 export interface LogWebhooks {
   id: string
   statusId: string
