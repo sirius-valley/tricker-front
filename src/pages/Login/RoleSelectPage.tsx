@@ -14,18 +14,17 @@ const RoleSelectPage = (): JSX.Element => {
     <WrapperPage>
       <div className="flex flex-col gap-8">
         <div className="max-w-[680px] lg:max-w-[1048px] mx-auto">
-          <div className="flex justify-between w-full gap-12 mb-12">
+          <div className="flex justify-center w-full gap-12 mb-12">
             <div className="bg-gray-600 rounded-lg">
               <Button
                 variant="outline"
-                className="w-[100%] lg:w-[500px] h-[600px] lg:w-[600px] text-white shadow-2"
+                className="w-[100%] lg:w-[500px] h-[500px] text-white shadow-2"
                 onClick={() => {
-                  navigate('/login')
+                  navigate('')
                 }}
               >
                 <h1
-                  className="font-semibold text-lg leading-[41px]"
-                  style={{ fontSize: '34px' }}
+                  className="font-semibold text-lg leading-[41px] text-[34px]"
                 >
                   I&apos;m a Project Manager
                 </h1>
@@ -34,7 +33,7 @@ const RoleSelectPage = (): JSX.Element => {
             <div className="bg-gray-600 rounded-lg">
               <Button
                 variant="outline"
-                className="w-[100%] lg:w-[500px] h-[600px] lg:w-[600px] text-white shadow-2"
+                className="w-[100%] lg:w-[500px] h-[500px] text-white shadow-2"
                 onClick={() => {
                   navigate('/login')
                 }}
