@@ -121,6 +121,12 @@ export interface ProjectPreIntegrated {
   image: string | null
 }
 
+export interface MemberPreIntegrated {
+  email: string
+  name: string
+  profileImage: string | null
+}
+
 export interface LogWebhooks {
   id: string
   statusId: string
