@@ -10,15 +10,15 @@ import Button from '@components/Button/Button'
 const RoleSelectPage = (): JSX.Element => {
   const screen: Screen = useScreenSize()
   const navigate = useNavigate()
-  return screen.width >= 1048 ? (
+  return screen.width >= 768 ? (
     <WrapperPage>
-      <div className="flex flex-col">
-        <div className="max-w-[680px] lg:max-w-[1048px]">
-          <div className="flex justify-center gap-12 mb-12">
+      <div className="flex flex-col gap-8">
+        <div className="max-w-[680px] lg:max-w-[1048px] mx-auto">
+          <div className="flex justify-between w-full gap-12 mb-12">
             <div className="bg-gray-600 rounded-lg">
               <Button
                 variant="outline"
-                className="w-[500px] h-[600px] text-white shadow-2"
+                className="w-[100%] lg:w-[500px] h-[600px] lg:w-[600px] text-white shadow-2"
                 onClick={() => {
                   navigate('/login')
                 }}
@@ -34,7 +34,7 @@ const RoleSelectPage = (): JSX.Element => {
             <div className="bg-gray-600 rounded-lg">
               <Button
                 variant="outline"
-                className="w-[500px] h-[600px] text-white shadow-2"
+                className="w-[100%] lg:w-[500px] h-[600px] lg:w-[600px] text-white shadow-2"
                 onClick={() => {
                   navigate('/login')
                 }}
@@ -78,7 +78,7 @@ const RoleSelectPage = (): JSX.Element => {
             What&apos;s your role?
           </h1>
         </div>
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6">
           <div className="bg-gray-600 rounded-lg">
             <Button
               variant="outline"
