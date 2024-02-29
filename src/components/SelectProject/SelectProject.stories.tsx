@@ -1,5 +1,5 @@
 import { type Meta, type StoryObj } from '@storybook/react'
-import SelectProjectScreen from './SelectProjectScreen'
+import SelectProjectScreen from './SelectProject'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const queryClient = new QueryClient()
