@@ -10,10 +10,10 @@ const RoleButton: React.FC<RoleButtonProps> = ({
   children
 }): JSX.Element => {
   return (
-    <div className="bg-gray-600 rounded-lg w-fit">
+    <div className="bg-gray-600 rounded-xl w-fit">
       <Button
         variant="outline"
-        className="w-full lg:w-[500px] h-[500px] text-white shadow-2 rounded-lg"
+        className="w-full lg:w-[500px] h-[500px] text-white shadow-2"
         onClick={handleClick}
       >
         <h1 className="font-semibold text-lg leading-[41px] text-[34px]">

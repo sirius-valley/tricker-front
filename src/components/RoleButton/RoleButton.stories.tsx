@@ -34,7 +34,6 @@ export const Default: Story = {
   render: (args) => (
     <div className="flex max-w-[680px] lg:max-w-[1048px]">
       <RoleButton {...args} />
-      <RoleButton {...args} />
     </div>
   )
 }
