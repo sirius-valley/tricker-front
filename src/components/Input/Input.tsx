@@ -35,7 +35,7 @@ export interface InputProps
   required?: boolean
   placeholder?: string
   tooltip?: string
-  handleValue: (value: string) => void
+  handleValue: (value: string | null) => void
 }
 
 const Input = ({
@@ -49,7 +49,7 @@ const Input = ({
   placeholder = '',
   tooltip = ''
 }: InputProps): JSX.Element => {
-  const [value, setValue] = useState<string>('')
+  const [value, setValue] = useState<string | null>(null)
   const textColor: string =
     variant === 'error'
       ? 'text-error-500'
@@ -59,7 +59,7 @@ const Input = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setValue(e.target.value)
-    handleValue(e.target.value)
+    handleValue(e.target.value === '' ? null : e.target.value)
   }
   return (
     <div className="gap-2 flex flex-col">
