@@ -56,7 +56,16 @@ const config = {
       boxShadow: {
         '1': '0 4px 4px 0px rgba(182, 143, 189, 0.06)',
         '2': '0px 2px 20px 0px #43FFDD1A'
-      }
+      },
+      keyframes: {
+        slideInLeft: {
+          'from': { transform: 'translateX(-100%)', opacity: '0' },
+          'to': { transform: 'translateX(0)', opacity: '1' },
+        }
+      },
+      animation: {
+        'slideInLeft': 'slideInLeft 1s ease-in-out'
+      },
     },
   },
   plugins: [],
