@@ -86,56 +86,82 @@ export const getPreIntegratedProjects = async (
     return res.data
   }
   return null
+
+  // TESTING
+  // await new Promise((resolve) => setTimeout(resolve, 1000))
+  // return [
+  //   {
+  //     providerProjectId: '1',
+  //     name: 'Tricker',
+  //     image: null
+  //   },
+  //   {
+  //     providerProjectId: '2',
+  //     name: 'WeCan',
+  //     image: null
+  //   },
+  //   {
+  //     providerProjectId: '3',
+  //     name: 'Bonterms',
+  //     image: null
+  //   },
+  //   {
+  //     providerProjectId: '4',
+  //     name: 'Mandiant',
+  //     image: null
+  //   },
+  //   {
+  //     providerProjectId: '5',
+  //     name: 'Sawyer',
+  //     image: null
+  //   }
+  // ]
 }
 
 export const getPreIntegratedMembers = async (
   projectName: string
 ): Promise<MemberPreIntegrated[] | null> => {
-  // const res = await axios.get(`${url}/integration/linear/members`, {
-  //   headers: {
-  //     Authorization: 'Bearer ' + getAccessToken()
+  const res = await axios.get(`${url}/integration/linear/members`, {
+    headers: {
+      Authorization: 'Bearer ' + getAccessToken()
+    },
+    params: {
+      projectName
+    }
+  })
+  console.log(res)
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+
+  // TESTING
+  // await new Promise((resolve) => setTimeout(resolve, 1000))
+  // return [
+  //   {
+  //     email: 'victoriacapurro@sirius.com.ar',
+  //     name: 'Victoria Capurro',
+  //     profileImage: null
   //   },
-  //   params: {
-  //     projectName
+  //   {
+  //     email: 'fabrizioserial@sirius.com.ar',
+  //     name: 'Fabrizio Serial',
+  //     profileImage: null
+  //   },
+  //   {
+  //     email: 'matiaspizzi@gmail.com',
+  //     name: 'Matias Pizzi',
+  //     profileImage: null
+  //   },
+  //   {
+  //     email: 'otro@sirius.com.ar',
+  //     name: 'Otro 1',
+  //     profileImage: null
+  //   },
+  //   {
+  //     email: 'otro2@sirius.com.ar',
+  //     name: 'Otro 2',
+  //     profileImage: null
   //   }
-  // })
-  // console.log(res)
-  // if (res.status === 200) {
-  //   return res.data
-  // }
-  console.log(projectName)
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  return [
-    {
-      email: 'victoriacapurro@sirius.com.ar',
-      name: 'Victoria Capurro',
-      profileImage: null
-    },
-    {
-      email: 'fabrizioserial@sirius.com.ar',
-      name: 'Fabrizio Serial',
-      profileImage: null
-    },
-    {
-      email: 'emiliamartella@sirius.com.ar',
-      name: 'Emilia Martella',
-      profileImage: null
-    },
-    {
-      email: 'emiliamartella@sirius.com.ar',
-      name: 'Emilia Martella',
-      profileImage: null
-    },
-    {
-      email: 'emiliamartella@sirius.com.ar',
-      name: 'Emilia Martella',
-      profileImage: null
-    },
-    {
-      email: 'emiliamartella@sirius.com.ar',
-      name: 'Emilia Martella',
-      profileImage: null
-    },
-    { email: 'matiaspizzi@gmail.com', name: 'Matias Pizzi', profileImage: null }
-  ]
+  // ]
 }
