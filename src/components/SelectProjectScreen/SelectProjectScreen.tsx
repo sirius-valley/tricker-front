@@ -18,13 +18,15 @@ const SelectProjectScreen: React.FC<SelectProjectScreenProps> = ({
   handleSelection
 }) => {
   const { data, isLoading, error } = useGetProjects()
-  console.log(data, isLoading, error)
   const [selectedProject, setSelectedProject] = useState<string | null>(null)
   const screenSize = useScreenSize()
 
   return (
-    <div className="flex flex-col max-w-[1032px] min-h-[500px] border border-primary-400 rounded-xl justify-center items-center bg-gray-600">
-      <div className="flex flex-col gap-4 items-center w-full p-6">
+    <div className="flex flex-col max-w-[1032px] min-h-[500px] border border-primary-400 rounded-xl gap-10 justify-center items-center bg-gray-600 py-20 px-6 md:px-[140px] shadow-2 md:shadow-none">
+      <H1 className="text-white text-2xl md:text-[34px] font-semibold">
+        Select Project
+      </H1>
+      <div className="flex flex-col gap-4 items-center w-full">
         {!data && !isLoading && !error && (
           <Body1 className="text-white">No projects found</Body1>
         )}
@@ -34,9 +36,6 @@ const SelectProjectScreen: React.FC<SelectProjectScreenProps> = ({
         )}
         {data && !isLoading && (
           <>
-            <H1 className="text-white text-[24px] md:text-[26px]">
-              Select Project
-            </H1>
             <div className="flex gap-1 items-center max-w-[752px] w-full">
               <Body2 className="text-white font-semibold self-start flex">
                 Now, select the project you would like to start with
@@ -78,7 +77,7 @@ const SelectProjectScreen: React.FC<SelectProjectScreenProps> = ({
               ))}
             </div>
             {screenSize.width < 700 && (
-              <HelperText className="text-white mt-4">
+              <HelperText className="text-white">
                 If you don&apos;t see your team, the token is probably from
                 another workspace. Change your workspace and try again.
               </HelperText>
