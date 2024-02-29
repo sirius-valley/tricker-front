@@ -3,7 +3,8 @@ import * as ApiService from './service'
 import {
   type User,
   type CognitoResponse,
-  type ProjectPreIntegrated
+  type ProjectPreIntegrated,
+  type MemberPreIntegrated
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -56,6 +57,20 @@ export const useGetPreIntegratedProjects = (
     queryKey: ['getPreIntegratedProjects', key, provider],
     queryFn: async () =>
       await ApiService.getPreIntegratedProjects(key, provider)
+  })
+  return { data, error, isLoading }
+}
+
+export const useGetPreIntegratedMembers = (
+  projectName: string
+): {
+  data: MemberPreIntegrated[] | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getPreIntegratedMembers', projectName],
+    queryFn: async () => await ApiService.getPreIntegratedMembers(projectName)
   })
   return { data, error, isLoading }
 }

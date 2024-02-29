@@ -3,7 +3,8 @@ import axios from 'axios'
 import {
   type User,
   type CognitoResponse,
-  type ProjectPreIntegrated
+  type ProjectPreIntegrated,
+  type MemberPreIntegrated
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 
@@ -71,7 +72,7 @@ export const getPreIntegratedProjects = async (
   key: string,
   provider: string
 ): Promise<ProjectPreIntegrated[] | null> => {
-  const res = await axios.get(`${url}/api/integration/linear/projects`, {
+  const res = await axios.get(`${url}/integration/linear/projects`, {
     headers: {
       Authorization: 'Bearer ' + getAccessToken()
     },
@@ -80,8 +81,61 @@ export const getPreIntegratedProjects = async (
       provider
     }
   })
+  console.log(res)
   if (res.status === 200) {
     return res.data
   }
   return null
+}
+
+export const getPreIntegratedMembers = async (
+  projectName: string
+): Promise<MemberPreIntegrated[] | null> => {
+  // const res = await axios.get(`${url}/integration/linear/members`, {
+  //   headers: {
+  //     Authorization: 'Bearer ' + getAccessToken()
+  //   },
+  //   params: {
+  //     projectName
+  //   }
+  // })
+  // console.log(res)
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  console.log(projectName)
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  return [
+    {
+      email: 'victoriacapurro@sirius.com.ar',
+      name: 'Victoria Capurro',
+      profileImage: null
+    },
+    {
+      email: 'fabrizioserial@sirius.com.ar',
+      name: 'Fabrizio Serial',
+      profileImage: null
+    },
+    {
+      email: 'emiliamartella@sirius.com.ar',
+      name: 'Emilia Martella',
+      profileImage: null
+    },
+    {
+      email: 'emiliamartella@sirius.com.ar',
+      name: 'Emilia Martella',
+      profileImage: null
+    },
+    {
+      email: 'emiliamartella@sirius.com.ar',
+      name: 'Emilia Martella',
+      profileImage: null
+    },
+    {
+      email: 'emiliamartella@sirius.com.ar',
+      name: 'Emilia Martella',
+      profileImage: null
+    },
+    { email: 'matiaspizzi@gmail.com', name: 'Matias Pizzi', profileImage: null }
+  ]
 }
