@@ -35,7 +35,7 @@ const StepNavigation: React.FC<NavProps> = ({
 
   return (
     <div className="flex justify-center gap-6">
-      {!isFirstStep && showBackButton && (
+      {showBackButton && (
         <Button
           variant="outline"
           className="w-[273px] h-fit text-white"
