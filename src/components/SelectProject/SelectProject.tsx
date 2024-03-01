@@ -57,7 +57,7 @@ const SelectProjectScreen: React.FC<SelectProjectScreenProps> = ({
             )}
             {data && !isLoading && (
               <>
-                <div className="flex gap-1 items-center max-w-[752px] w-full">
+                <div className="flex gap-1 items-center lg:w-[752px] w-full">
                   <Body2 className="text-white font-semibold self-start flex">
                     Now, select the project you would like to start with
                   </Body2>
