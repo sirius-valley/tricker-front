@@ -1,10 +1,12 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import * as ApiService from './service'
 import {
   type User,
   type CognitoResponse,
   type ProjectPreIntegrated,
-  type MemberPreIntegrated
+  type MemberPreIntegrated,
+  type AuthorizationRequest,
+  type Project
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -71,6 +73,38 @@ export const useGetPreIntegratedMembers = (
   const { data, error, isLoading } = useQuery({
     queryKey: ['getPreIntegratedMembers', projectName],
     queryFn: async () => await ApiService.getPreIntegratedMembers(projectName)
+  })
+  return { data, error, isLoading }
+}
+
+export const usePostProjectIntegrationRequest = (): {
+  mutate: (args: { provider: string; request: AuthorizationRequest }) => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, error, isPending, isSuccess } = useMutation({
+    mutationFn: async ({
+      provider,
+      request
+    }: {
+      provider: string
+      request: AuthorizationRequest
+    }) => {
+      return await ApiService.postProjectIntegrationRequest(provider, request)
+    }
+  })
+  return { mutate, error, isPending, isSuccess }
+}
+
+export const useGetUserProjects = (): {
+  data: Project[] | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getUserProjects'],
+    queryFn: ApiService.getUserProjects
   })
   return { data, error, isLoading }
 }
