@@ -4,6 +4,7 @@ import NavBar from '@components/NavBar/NavBar'
 import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import React from 'react'
 import EmptyProjectPage from '@pages/Login/EmptyProjectPage'
+import RoleSelectPage from '@pages/Login/RoleSelectPage'
 import LoginPage from '@pages/Login/LoginPage'
 
 const WithNav = (): JSX.Element => {
@@ -47,6 +48,10 @@ export const ROUTER = createBrowserRouter([
   {
     path: '/login/non-invited',
     element: <EmptyProjectPage />
+  },
+  {
+    path: '/login/role',
+    element: <RoleSelectPage />
   },
   {
     element: <WithNav />,
