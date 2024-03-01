@@ -4,7 +4,9 @@ import {
   type User,
   type CognitoResponse,
   type ProjectPreIntegrated,
-  type MemberPreIntegrated
+  type MemberPreIntegrated,
+  type AuthorizationRequest,
+  type Project
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 
@@ -17,6 +19,18 @@ export const me = async (): Promise<User | null> => {
   const res = await axios.get(`${url}/user/me`, {
     headers: {
       Authorization: getIdToken()
+    }
+  })
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const getUserProjects = async (): Promise<Project[] | null> => {
+  const res = await axios.get(`${url}/me/projects`, {
+    headers: {
+      Authorization: 'Bearer ' + getAccessToken()
     }
   })
   if (res.status === 200) {
@@ -88,7 +102,7 @@ export const getPreIntegratedProjects = async (
   // return null
 
   // TESTING
-  await new Promise((resolve) => setTimeout(resolve, 1000))
+  await new Promise((resolve) => setTimeout(resolve, 500))
   return [
     {
       providerProjectId: '1',
@@ -133,7 +147,7 @@ export const getPreIntegratedMembers = async (
   // return null
 
   // TESTING
-  await new Promise((resolve) => setTimeout(resolve, 1000))
+  await new Promise((resolve) => setTimeout(resolve, 500))
   return [
     {
       providerUserId: '1',
@@ -166,4 +180,30 @@ export const getPreIntegratedMembers = async (
       profileImage: null
     }
   ]
+}
+
+export const postProjectIntegrationRequest = async (
+  provider: string,
+  authorizationRequest: AuthorizationRequest
+): Promise<null> => {
+  const res = await axios.post(
+    `${url}/integration/${provider}/authorization`,
+    {
+      authorizationRequest
+    },
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  console.log(res)
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+
+  // TESTING
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  return null
 }
