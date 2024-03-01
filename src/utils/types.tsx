@@ -122,6 +122,7 @@ export interface ProjectPreIntegrated {
 }
 
 export interface MemberPreIntegrated {
+  providerUserId: string
   email: string
   name: string
   profileImage: string | null
