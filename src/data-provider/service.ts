@@ -186,22 +186,22 @@ export const postProjectIntegrationRequest = async (
   provider: string,
   authorizationRequest: AuthorizationRequest
 ): Promise<null> => {
-  const res = await axios.post(
-    `${url}/integration/${provider}/authorization`,
-    {
-      authorizationRequest
-    },
-    {
-      headers: {
-        Authorization: 'Bearer ' + getAccessToken()
-      }
-    }
-  )
-  console.log(res)
-  if (res.status === 200) {
-    return res.data
-  }
-  return null
+  // const res = await axios.post(
+  //   `${url}/integration/${provider}/authorization`,
+  //   {
+  //     authorizationRequest
+  //   },
+  //   {
+  //     headers: {
+  //       Authorization: 'Bearer ' + getAccessToken()
+  //     }
+  //   }
+  // )
+  // console.log(res)
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  // return null
 
   // TESTING
   await new Promise((resolve) => setTimeout(resolve, 1000))
