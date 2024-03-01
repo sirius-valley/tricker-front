@@ -4,20 +4,26 @@ import StepNavigation, {
 import { Stepper } from '@components/Stepper/Stepper'
 import { useAppDispatch, useAppSelector, useSteps } from '@redux/hooks'
 import { setCurrentStep } from '@redux/user'
-import { type Step, type MemberPreIntegrated } from '@utils/types'
+import {
+  type Step,
+  type MemberPreIntegrated,
+  type ProjectPreIntegrated
+} from '@utils/types'
 import WrapperPage from '@components/Wrapper/WrapperPage'
 import { ProjectAddition } from '@components/ProjectAddition/ProjectAddition'
-import { useState } from 'react'
-import SelectProjectScreen from '@components/SelectProject/SelectProject'
+import { useCallback, useState } from 'react'
+import SelectProject from '@components/SelectProject/SelectProject'
 import useScreenSize from '@hooks/useScreenSize'
 import Icon from '@components/Icon/Icon'
 import { TeamMemberManagement } from '@components/TeamMemberManagement/TeamMemberManagement'
 import Button from '@components/Button/Button'
+import { useNavigate } from 'react-router-dom'
 
 const InitialIntegrationPage = (): JSX.Element => {
   const steps: Step[] = useSteps()
   const currentStep: number = useAppSelector((state) => state.user.currentStep)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   let stepType: StepType
   if (currentStep === 0) {
     stepType = StepType.FIRST
@@ -28,6 +34,9 @@ const InitialIntegrationPage = (): JSX.Element => {
   }
 
   const handleBackButton = (): void => {
+    if (currentStep === 0) {
+      navigate('/login/role')
+    }
     if (currentStep > 0) {
       dispatch(setCurrentStep(currentStep - 1))
     }
@@ -40,14 +49,19 @@ const InitialIntegrationPage = (): JSX.Element => {
 
   const [providerKey, setProviderKey] = useState<null | string>(null)
   const [provider, setProvider] = useState<null | string>(null)
-  const [selectedProject, setSelectedProject] = useState<null | string>(null)
+  const [selectedProject, setSelectedProject] =
+    useState<ProjectPreIntegrated | null>(null)
   const [teamMembers, setTeamMembers] = useState<null | MemberPreIntegrated[]>(
     null
   )
 
+  const handleTeamMembers = useCallback((users: MemberPreIntegrated[]) => {
+    setTeamMembers(users)
+  }, [])
+
   return (
     <WrapperPage>
-      {useScreenSize().width < 768 && currentStep !== 0 && (
+      {useScreenSize().width < 768 && (
         <button
           className="-rotate-90 top-[32px] absolute left-6 hover:bg-gray-500 rounded-full"
           onClick={handleBackButton}
@@ -69,25 +83,24 @@ const InitialIntegrationPage = (): JSX.Element => {
           />
         )}
         {currentStep === 1 && providerKey && provider && (
-          <SelectProjectScreen
+          <SelectProject
             providerKey={providerKey}
             provider={provider}
-            handleSelection={(name: string) => {
-              setSelectedProject(name)
+            handleSelection={(project: ProjectPreIntegrated) => {
+              setSelectedProject(project)
             }}
           />
         )}
-        {currentStep === 2 && (
+        {currentStep === 2 && selectedProject && (
           <TeamMemberManagement
-            projectName="WeCan"
+            project={selectedProject}
             actualUser={{
+              providerUserId: '',
               email: 'matiaspizzi@gmail.com',
               name: 'Matias Pizzi',
               profileImage: null
             }}
-            handleRemainingUsers={(users) => {
-              setTeamMembers(users)
-            }}
+            handleRemainingUsers={handleTeamMembers}
           />
         )}
         <div className="flex gap-0 md:gap-6">
