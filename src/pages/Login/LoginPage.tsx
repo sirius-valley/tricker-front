@@ -32,7 +32,7 @@ const LoginPage = (): JSX.Element => {
 
   return (
     <div className={`flex bg-login bg-cover`}>
-      <div className="flex justify-center w-[542px] h-screen items-end bg-gray-700">
+      <div className="flex justify-center md:max-w-[542px] w-full h-screen items-end bg-gray-700">
         <div className="mb-[54px] flex flex-col w-fit h-[59%] items-center justify-between">
           <div className="flex flex-col items-center gap-6">
             <TrickerLogo />
@@ -48,7 +48,7 @@ const LoginPage = (): JSX.Element => {
           <NeedHelpButton />
         </div>
       </div>
-      <div className="flex justify-end items-end h-screen w-full">
+      <div className="hidden md:flex justify-end items-end h-screen w-full ">
         <img src={LoginImage} alt="Login image" />
       </div>
     </div>
