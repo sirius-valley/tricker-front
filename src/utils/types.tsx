@@ -128,6 +128,20 @@ export interface MemberPreIntegrated {
   profileImage: string | null
 }
 
+export interface AuthorizationRequest {
+  apiToken: string
+  projectId: string
+  integratorId: string
+  members: AuthorizedMemberDTO[]
+  organizationName: string
+  issueProviderName: string
+}
+
+export interface AuthorizedMemberDTO {
+  id: string
+  email: string
+}
+
 export interface LogWebhooks {
   id: string
   statusId: string
