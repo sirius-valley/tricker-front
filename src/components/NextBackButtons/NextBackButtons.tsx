@@ -22,7 +22,6 @@ const StepNavigation: React.FC<NavProps> = ({
   nextDisabled,
   showBackButton = true
 }) => {
-  const isFirstStep = currentStep === StepType.FIRST
   const isLastStep = currentStep === StepType.LAST
 
   const handleNext = (): void => {
