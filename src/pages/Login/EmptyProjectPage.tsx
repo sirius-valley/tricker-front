@@ -17,7 +17,7 @@ const EmptyProjectPage = (): JSX.Element => {
       )}
       <div className="flex flex-col md:mb-36">
         {useScreenSize().width >= 768 && (
-          <div className="flex relative -top-48 justify-center self-start pr-2 hover:bg-gray-500 rounded-full">
+          <div className="flex relative -top-[179px] justify-center self-start pr-2 hover:bg-gray-500 rounded-full">
             <Link
               to="/login/role"
               className="text-white flex items-center gap-2 justify-center"
