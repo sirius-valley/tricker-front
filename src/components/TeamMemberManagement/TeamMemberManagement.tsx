@@ -41,7 +41,8 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
 
   useEffect(() => {
     setMembers(data || [])
-  }, [data])
+    handleRemainingUsers(data || [])
+  }, [data, handleRemainingUsers])
 
   const handleOnClick = (userId: string): void => {
     setUserToRemove(userId)
