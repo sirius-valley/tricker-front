@@ -1,11 +1,32 @@
 import WrapperPage from '@components/Wrapper/WrapperPage'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useScreenSize from '@hooks/useScreenSize'
 import RoleButton from '@components/RoleButton/RoleButton'
 import Icon from '@components/Icon/Icon'
 import Subtitle from '@utils/typography/subtitle/subtitle'
+import { setCurrentStep } from '@redux/user'
+import { useAppDispatch } from '@redux/hooks'
+import { useGetUserProjects } from '@data-provider/query'
 
 const RoleSelectPage = (): JSX.Element => {
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const { data } = useGetUserProjects()
+
+  const handlePmClick = (): void => {
+    dispatch(setCurrentStep(0))
+    navigate('/setup')
+  }
+
+  const handleMemberClick = (): void => {
+    dispatch(setCurrentStep(0))
+    if (data && data.length > 0) {
+      navigate('/home')
+    } else {
+      navigate('/login/non-invited')
+    }
+  }
+
   return (
     <WrapperPage>
       {useScreenSize().width < 768 && (
@@ -28,22 +49,18 @@ const RoleSelectPage = (): JSX.Element => {
               <button className="-rotate-90">
                 <Icon name="CaretUpIcon" width="32" height="32" />
               </button>
-              <Subtitle>Back</Subtitle>
+              <Subtitle className="text-xl">Back</Subtitle>
             </Link>
           </div>
         )}
         <div>
           <div className="flex justify-center w-full md:gap-12 gap-6 mb-12 md:flex-row flex-col">
-            <Link to="/setup" className="text-white">
-              <RoleButton handleClick={() => {}}>
-                I&apos;m a Project Manager
-              </RoleButton>
-            </Link>
-            <Link to="/login" className="text-white">
-              <RoleButton handleClick={() => {}}>
-                I&apos;m a Team Member
-              </RoleButton>
-            </Link>
+            <RoleButton handleClick={handlePmClick}>
+              I&apos;m a Project Manager
+            </RoleButton>
+            <RoleButton handleClick={handleMemberClick}>
+              I&apos;m a Team Member
+            </RoleButton>
           </div>
         </div>
       </div>
