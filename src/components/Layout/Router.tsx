@@ -4,6 +4,7 @@ import NavBar from '@components/NavBar/NavBar'
 import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import React from 'react'
 import EmptyProjectPage from '@pages/Login/EmptyProjectPage'
+import RoleSelectPage from '@pages/Login/RoleSelectPage'
 import LoginPage from '@pages/Login/LoginPage'
 import SetupPage from '@pages/InitialIntegration/InitialIntegrationPage'
 
@@ -52,6 +53,10 @@ export const ROUTER = createBrowserRouter([
   {
     path: '/setup',
     element: <SetupPage />
+  },
+  {
+    path: '/login/role',
+    element: <RoleSelectPage />
   },
   {
     element: <WithNav />,
