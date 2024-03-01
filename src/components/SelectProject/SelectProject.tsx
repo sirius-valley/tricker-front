@@ -13,7 +13,7 @@ import useScreenSize from '@hooks/useScreenSize'
 import NotificationBadge from '@components/NotificationBadge/NotificationBadge'
 
 export interface SelectProjectScreenProps {
-  handleSelection: (id: string) => void
+  handleSelection: (project: ProjectPreIntegrated) => void
   providerKey: string
   provider: string
 }
@@ -27,7 +27,8 @@ const SelectProjectScreen: React.FC<SelectProjectScreenProps> = ({
     providerKey,
     provider
   )
-  const [selectedProject, setSelectedProject] = useState<string | null>(null)
+  const [selectedProject, setSelectedProject] =
+    useState<ProjectPreIntegrated | null>(null)
   const screenSize = useScreenSize()
 
   return (
@@ -71,17 +72,17 @@ const SelectProjectScreen: React.FC<SelectProjectScreenProps> = ({
                 <div className="border overflow-y-scroll max-h-[233px] border-gray-300 py-2 rounded-[8px] max-w-[752px] w-full">
                   {data?.map((project: ProjectPreIntegrated) => (
                     <div
-                      key={project.name}
+                      key={project.providerProjectId}
                       className="flex items-center gap-4 p-4 hover:bg-gray-500 cursor-pointer"
                       onClick={() => {
-                        setSelectedProject(project.name)
-                        handleSelection(project.name)
+                        setSelectedProject(project)
+                        handleSelection(project)
                       }}
                     >
                       <RadioButton
                         handleChecked={() => {}}
-                        id={project.name}
-                        selectedValue={selectedProject || ''}
+                        id={project.providerProjectId}
+                        selectedValue={selectedProject?.providerProjectId || ''}
                       />
                       {project.image && project.image !== '' ? (
                         <img
