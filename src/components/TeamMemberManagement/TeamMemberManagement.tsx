@@ -2,7 +2,10 @@ import ModalRemove from '@components/ModalRemove/ModalRemove'
 import NoAvatarProject from '@components/NoAvatar/NoAvatarProject'
 import { ProfileButton } from '@components/ProfileButton/ProfileButton'
 import TrashIcon from '@utils/icons/TrashIcon'
-import { type MemberPreIntegrated } from '@utils/types'
+import {
+  type ProjectPreIntegrated,
+  type MemberPreIntegrated
+} from '@utils/types'
 import H2 from '@utils/typography/h2/h2'
 import HelperText from '@utils/typography/helpertext/helpertext'
 import Subtitle from '@utils/typography/subtitle/subtitle'
@@ -14,16 +17,18 @@ import NotificationBadge from '@components/NotificationBadge/NotificationBadge'
 interface TeamMemberManagementProps
   extends React.HTMLAttributes<HTMLDivElement> {
   handleRemainingUsers: (users: MemberPreIntegrated[]) => void
-  projectName: string
+  project: ProjectPreIntegrated
   actualUser: MemberPreIntegrated
 }
 
 export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
   handleRemainingUsers,
-  projectName,
+  project,
   actualUser
 }): JSX.Element => {
-  const { data, isLoading, error } = useGetPreIntegratedMembers(projectName)
+  const { data, isLoading, error } = useGetPreIntegratedMembers(
+    project.providerProjectId
+  )
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [userToRemove, setUserToRemove] = React.useState<string>('')
   const [members, setMembers] = React.useState<MemberPreIntegrated[]>([])
@@ -88,7 +93,7 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                       .map((member: MemberPreIntegrated) => (
                         <div
                           className="flex items-center w-full p-2 rounded-lg bg-gray-500"
-                          key={member.email}
+                          key={member.providerUserId}
                         >
                           <div className="flex w-full gap-4 items-center">
                             {member.profileImage ? (
@@ -120,7 +125,7 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                               <TrashIcon />
                               <ModalRemove
                                 memberName={member.name}
-                                projectName={projectName}
+                                projectName={project.name}
                                 onRemove={() => {
                                   handleRemove(member.email)
                                 }}
