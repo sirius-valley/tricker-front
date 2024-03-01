@@ -119,46 +119,48 @@ export const getPreIntegratedProjects = async (
 }
 
 export const getPreIntegratedMembers = async (
-  projectName: string
+  projectId: string
 ): Promise<MemberPreIntegrated[] | null> => {
-  const res = await axios.get(`${url}/integration/linear/members`, {
-    headers: {
-      Authorization: 'Bearer ' + getAccessToken()
-    },
-    params: {
-      projectName
-    }
-  })
-  console.log(res)
-  if (res.status === 200) {
-    return res.data
-  }
-  return null
+  // const res = await axios.get(`${url}/integration/linear/project/${projectId}/members`, {
+  //   headers: {
+  //     Authorization: 'Bearer ' + getAccessToken()
+  //   }
+  // })
+  // console.log(res)
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  // return null
 
   // TESTING
   await new Promise((resolve) => setTimeout(resolve, 1000))
   return [
     {
+      providerUserId: '1',
       email: 'victoriacapurro@sirius.com.ar',
       name: 'Victoria Capurro',
       profileImage: null
     },
     {
+      providerUserId: '2',
       email: 'fabrizioserial@sirius.com.ar',
       name: 'Fabrizio Serial',
       profileImage: null
     },
     {
+      providerUserId: '3',
       email: 'matiaspizzi@gmail.com',
       name: 'Matias Pizzi',
       profileImage: null
     },
     {
+      providerUserId: '4',
       email: 'otro@sirius.com.ar',
       name: 'Otro 1',
       profileImage: null
     },
     {
+      providerUserId: '5',
       email: 'otro2@sirius.com.ar',
       name: 'Otro 2',
       profileImage: null
