@@ -21,6 +21,7 @@
     "class-variance-authority": "^0.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-loading-skeleton": "^3.4.0",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.22.0",
     "react-tooltip": "^5.26.3",
