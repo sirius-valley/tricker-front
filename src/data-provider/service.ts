@@ -102,7 +102,7 @@ export const getPreIntegratedProjects = async (
   // return null
 
   // TESTING
-  await new Promise((resolve) => setTimeout(resolve, 500))
+  await new Promise((resolve) => setTimeout(resolve, 1000))
   return [
     {
       providerProjectId: '1',
@@ -135,11 +135,14 @@ export const getPreIntegratedProjects = async (
 export const getPreIntegratedMembers = async (
   projectId: string
 ): Promise<MemberPreIntegrated[] | null> => {
-  // const res = await axios.get(`${url}/integration/linear/project/${projectId}/members`, {
-  //   headers: {
-  //     Authorization: 'Bearer ' + getAccessToken()
+  // const res = await axios.get(
+  //   `${url}/integration/linear/project/${projectId}/members`,
+  //   {
+  //     headers: {
+  //       Authorization: 'Bearer ' + getAccessToken()
+  //     }
   //   }
-  // })
+  // )
   // console.log(res)
   // if (res.status === 200) {
   //   return res.data
@@ -147,7 +150,7 @@ export const getPreIntegratedMembers = async (
   // return null
 
   // TESTING
-  await new Promise((resolve) => setTimeout(resolve, 500))
+  await new Promise((resolve) => setTimeout(resolve, 1000))
   return [
     {
       providerUserId: '1',
