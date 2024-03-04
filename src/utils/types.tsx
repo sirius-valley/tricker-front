@@ -37,12 +37,12 @@ export interface User {
   deletedAt?: Date
   projectsRoleAssigned?: UserProjectRole[]
   emittedUserProjectRole?: UserProjectRole[]
-  emittedBlockerStatusModification?: BlockerStatusModification[]
+  // emittedBlockerStatusModification?: BlockerStatusModification[]
   authoredIssues?: Issue[]
   asignedIssues?: Issue[]
   emittedIssueChangeLogs?: IssueChangeLog[]
   emittedManualTimeModification?: ManualTimeModification[]
-  OrganizationAdministrator?: OrganizationAdministrator[]
+  // OrganizationAdministrator?: OrganizationAdministrator[]
 }
 
 export interface Role {
