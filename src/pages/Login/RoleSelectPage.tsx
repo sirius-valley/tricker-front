@@ -5,13 +5,18 @@ import RoleButton from '@components/RoleButton/RoleButton'
 import Icon from '@components/Icon/Icon'
 import Subtitle from '@utils/typography/subtitle/subtitle'
 import { setCurrentStep } from '@redux/user'
-import { useAppDispatch } from '@redux/hooks'
+import { useAppDispatch, useUser } from '@redux/hooks'
 import { useGetUserProjects } from '@data-provider/query'
 
 const RoleSelectPage = (): JSX.Element => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { data } = useGetUserProjects()
+  const user = useUser()
+
+  if (user.id === '') {
+    navigate('/login')
+  }
 
   const handlePmClick = (): void => {
     dispatch(setCurrentStep(0))
