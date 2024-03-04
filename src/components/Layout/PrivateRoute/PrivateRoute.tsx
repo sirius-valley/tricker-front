@@ -1,18 +1,27 @@
-// import { useAppDispatch } from '@redux/hooks'
 import * as service from '@data-provider/service'
-import { type User } from '@utils/types'
 import React from 'react'
 import PageWrapper from './PrivateRouteWrapper'
+import { useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '@redux/hooks'
+import { setUser } from '@redux/user'
 
 const PrivateRoute = (): JSX.Element => {
   const [isLoading, setIsLoading] = React.useState<boolean>(true)
   const [isAuthorized, setIsAuthorized] = React.useState<boolean>(true)
-  // const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   const handlePrivateRoutes = async (): Promise<void> => {
     try {
-      const authorization: User | null = await service.getOrCreateUser()
-      setIsAuthorized(authorization !== null)
+      const user = await service.getOrCreateUser()
+      if (user) {
+        dispatch(setUser(user))
+        if (user.projectsRoleAssigned?.length === 0) {
+          navigate('/login/role')
+        } else {
+          setIsAuthorized(user !== null)
+        }
+      }
       setIsLoading(false)
     } catch (e) {
       console.error(e)
@@ -24,7 +33,7 @@ const PrivateRoute = (): JSX.Element => {
 
   React.useEffect(() => {
     handlePrivateRoutes()
-  }, [])
+  })
 
   return <PageWrapper isLoading={isLoading} isAuthorized={isAuthorized} />
 }
