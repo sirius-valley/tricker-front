@@ -39,22 +39,50 @@ export const getUserProjects = async (): Promise<Project[] | null> => {
   return null
 }
 
-export const getOrCreateUser = async (): Promise<User | null> => {
-  const res = await axios.post(
-    `${url}/user/getOrCreate`,
-    {
-      idToken: getIdToken()
-    },
-    {
-      headers: {
-        Authorization: 'Bearer ' + getAccessToken()
-      }
-    }
-  )
-  if (res.status === 200 || res.status === 201) {
-    return res.data
+export const getOrCreateUser = async (): Promise<User> => {
+  // const res = await axios.post(
+  //   `${url}/user/getOrCreate`,
+  //   {
+  //     idToken: getIdToken()
+  //   },
+  //   {
+  //     headers: {
+  //       Authorization: 'Bearer ' + getAccessToken()
+  //     }
+  //   }
+  // )
+  // if (res.status === 200 || res.status === 201) {
+  //   return res.data
+  // }
+  // return null
+
+  // TESTING
+  const mockedUser: User = {
+    id: '1',
+    email: 'username@sirius.com.ar',
+    name: 'User Name',
+    projectsRoleAssigned: [
+      // {
+      //   id: '1',
+      //   userId: '1',
+      //   projectId: '1',
+      //   user: {
+      //     id: '1',
+      //     cognitoId: '',
+      //     profileImage: '',
+      //     email: '',
+      //     name: ''
+      //   },
+      //   role: {
+      //     id: '1',
+      //     name: 'Project Manager',
+      //     users: []
+      //   }
+      // }
+    ]
   }
-  return null
+  await new Promise((resolve) => setTimeout(resolve, 500))
+  return mockedUser
 }
 
 export const verifyToken = async (
