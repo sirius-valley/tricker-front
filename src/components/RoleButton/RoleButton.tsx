@@ -10,7 +10,7 @@ const RoleButton: React.FC<RoleButtonProps> = ({
   children
 }): JSX.Element => {
   return (
-    <div className="bg-gray-600 rounded-xl w-full">
+    <div className="bg-gray-600 rounded-xl">
       <Button
         variant="outline"
         className="lg:w-[500px] md:h-[600px] h-[56px] w-[329px] text-white shadow-2 px-2"
