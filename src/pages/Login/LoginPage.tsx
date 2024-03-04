@@ -7,10 +7,12 @@ import { NeedHelpButton } from '@components/NeedHelpButton/NeedHelpButton'
 import * as service from '@data-provider/service'
 import React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useAppDispatch } from '@redux/hooks'
 
 const LoginPage = (): JSX.Element => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   React.useEffect((): void => {
     const verifyToken = (): void => {
@@ -28,7 +30,7 @@ const LoginPage = (): JSX.Element => {
       }
     }
     verifyToken()
-  }, [searchParams, navigate])
+  }, [searchParams, navigate, dispatch])
 
   return (
     <div className={`flex bg-login bg-cover`}>
