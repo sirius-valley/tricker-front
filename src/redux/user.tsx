@@ -18,12 +18,12 @@ const initialState: InitialStateType = {
     createdAt: new Date().toString(),
     projectsRoleAssigned: [],
     emittedUserProjectRole: [],
-    emittedBlockerStatusModification: [],
+    // emittedBlockerStatusModification: [],
     authoredIssues: [],
     asignedIssues: [],
     emittedIssueChangeLogs: [],
-    emittedManualTimeModification: [],
-    OrganizationAdministrator: []
+    emittedManualTimeModification: []
+    // OrganizationAdministrator: []
   },
   currentStep: 0,
   steps: [
@@ -31,7 +31,7 @@ const initialState: InitialStateType = {
     { label: 'Project Selection' },
     { label: 'Team Members' }
   ],
-  projectName: 'WeCan' // It should be ''
+  projectName: ''
 }
 
 const userSlice = createSlice({
