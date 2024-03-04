@@ -2,7 +2,7 @@ import StepNavigation, {
   StepType
 } from '@components/NextBackButtons/NextBackButtons'
 import { Stepper } from '@components/Stepper/Stepper'
-import { useAppDispatch, useAppSelector, useSteps } from '@redux/hooks'
+import { useAppDispatch, useAppSelector, useSteps, useUser } from '@redux/hooks'
 import { setCurrentStep } from '@redux/user'
 import {
   type Step,
@@ -30,6 +30,11 @@ const InitialIntegrationPage = (): JSX.Element => {
   const currentUser: User = useAppSelector((state) => state.user.user)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const user = useUser()
+
+  if (user.id === '') {
+    navigate('/login')
+  }
 
   let stepType: StepType
   if (currentStep === 0) {
