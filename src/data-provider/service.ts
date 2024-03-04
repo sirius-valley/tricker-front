@@ -51,7 +51,7 @@ export const getOrCreateUser = async (): Promise<User | null> => {
       }
     }
   )
-  if (res.status === 200) {
+  if (res.status === 200 || res.status === 201) {
     return res.data
   }
   return null
