@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import WrapperPage from '@components/Wrapper/WrapperPage'
 import Spinner from '@components/Spinner/Spinner'
 
 const LoadingPage: React.FC = () => {
@@ -12,15 +11,13 @@ const LoadingPage: React.FC = () => {
   }, [])
 
   return (
-    <WrapperPage>
-      <div className="flex flex-col items-center justify-center h-full">
-        {loading && (
-          <div className="flex items-center justify-center w-full h-full">
-            <Spinner variant={'primary'} size={50} />
-          </div>
-        )}
-      </div>
-    </WrapperPage>
+    <div className="flex flex-col items-center justify-center h-full">
+      {loading && (
+        <div className="flex items-center justify-center w-full h-full">
+          <Spinner variant={'primary'} size={50} />
+        </div>
+      )}
+    </div>
   )
 }
 
