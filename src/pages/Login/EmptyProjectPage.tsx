@@ -29,7 +29,7 @@ const EmptyProjectPage = (): JSX.Element => {
             </Link>
           </div>
         )}
-        <div className="border flex lg:w-[1048px] lg:h-[162px] md:w-[800px] w-[329px] h-[120px] bg-gray-600 border-primary-400 p-6 gap-2 rounded-xl shadow-2 items-center justify-center">
+        <div className="border flex lg:w-[1000px] lg:h-[162px] md:w-[750px] w-[329px] h-[120px] bg-gray-600 border-primary-400 p-6 gap-2 rounded-xl shadow-2 items-center justify-center">
           <H2 className="md:text-[34px] md:leading-[41.15px] max-w-[650px] w-fit text-xl leading-[24.2px] text-center text-white font-medium">
             Looks like there are no projects with you as a team member yet
           </H2>

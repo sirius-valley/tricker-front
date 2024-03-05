@@ -2,65 +2,7 @@ import { type Meta, type StoryObj } from '@storybook/react'
 import { ProjectAddition } from './ProjectAddition'
 import WrapperPage from '@components/Wrapper/WrapperPage'
 
-const projects = [
-  {
-    id: '1',
-    name: 'Project 1',
-    providerId: '',
-    organizationId: '',
-    image: '',
-    createdAt: new Date(),
-    organization: {
-      id: '',
-      name: '',
-      projects: [],
-      administrators: [],
-      pendingProjects: []
-    },
-    usersRoles: [],
-    projectStages: [],
-    issues: [],
-    labels: []
-  },
-  {
-    id: '2',
-    name: 'Project 2',
-    providerId: '',
-    organizationId: '',
-    image: '',
-    createdAt: new Date(),
-    organization: {
-      id: '',
-      name: '',
-      projects: [],
-      administrators: [],
-      pendingProjects: []
-    },
-    usersRoles: [],
-    projectStages: [],
-    issues: [],
-    labels: []
-  },
-  {
-    id: '3',
-    name: 'Project 3',
-    providerId: '',
-    organizationId: '',
-    image: '',
-    createdAt: new Date(),
-    organization: {
-      id: '',
-      name: '',
-      projects: [],
-      administrators: [],
-      pendingProjects: []
-    },
-    usersRoles: [],
-    projectStages: [],
-    issues: [],
-    labels: []
-  }
-]
+const providers = ['Linear', 'Trello', 'Asana', 'Jira']
 
 const meta: Meta<typeof ProjectAddition> = {
   title: 'Components/ProjectAddition',
@@ -73,18 +15,18 @@ const meta: Meta<typeof ProjectAddition> = {
       },
       description: 'This function manages the token value'
     },
-    handleSelectedProject: {
+    handleSelectedProvider: {
       control: {
         type: 'function'
       },
-      description: 'This function manages the selected projectId value'
+      description: 'This function manages the selected provider value'
     },
-    projects: {
+    providers: {
       control: {
         type: 'array'
       },
-      defaultValue: projects,
-      description: 'A list of projects between the user can choose'
+      defaultValue: providers,
+      description: 'A list of providers between the user can choose'
     }
   }
 }
@@ -97,8 +39,8 @@ export const ProjectAdditions: Story = {
   tags: ['autodocs'],
   args: {
     handleToken: () => {},
-    handleSelectedProject: () => {},
-    projects
+    handleSelectedProvider: () => {},
+    providers
   },
   render: (args) => (
     <WrapperPage>
