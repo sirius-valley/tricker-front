@@ -54,12 +54,12 @@ const RoleSelectPage = (): JSX.Element => {
               <button className="-rotate-90">
                 <Icon name="CaretUpIcon" width="32" height="32" />
               </button>
-              <Subtitle className="text-xl">Back</Subtitle>
+              <Subtitle className="text-xl">Log Out</Subtitle>
             </Link>
           </div>
         )}
         <div>
-          <div className="flex justify-center w-full md:gap-12 gap-6 mb-12 md:flex-row flex-col">
+          <div className="flex justify-center w-full md:gap-12 gap-6 md:flex-row flex-col">
             <RoleButton handleClick={handlePmClick}>
               I&apos;m a Project Manager
             </RoleButton>
