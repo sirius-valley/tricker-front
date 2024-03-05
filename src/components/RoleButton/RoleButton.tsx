@@ -13,7 +13,7 @@ const RoleButton: React.FC<RoleButtonProps> = ({
     <div className="bg-gray-600 rounded-xl">
       <Button
         variant="outline"
-        className="lg:w-[500px] md:h-[600px] h-[56px] w-[329px] text-white shadow-2 px-2"
+        className="lg:w-[480px] max-h-[600px] md:h-[60vh] h-[56px] w-[329px] text-white shadow-2 px-2"
         onClick={handleClick}
       >
         <h1 className="font-medium md:font-semibold text-xl leading-[41px] md:text-[34px] ">
