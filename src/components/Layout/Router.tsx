@@ -6,6 +6,7 @@ import React from 'react'
 import EmptyProjectPage from '@pages/Login/EmptyProjectPage'
 import RoleSelectPage from '@pages/Login/RoleSelectPage'
 import LoginPage from '@pages/Login/LoginPage'
+import SetupPage from '@pages/InitialIntegration/InitialIntegrationPage'
 
 const WithNav = (): JSX.Element => {
   const [isMobile, setIsMobile] = React.useState<boolean>(
@@ -48,6 +49,10 @@ export const ROUTER = createBrowserRouter([
   {
     path: '/login/non-invited',
     element: <EmptyProjectPage />
+  },
+  {
+    path: '/setup',
+    element: <SetupPage />
   },
   {
     path: '/login/role',

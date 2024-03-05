@@ -50,7 +50,7 @@ const SelectInput = ({
   handleSelectedOption
 }: SelectInputProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [selectedOption, setSelectedOption] = useState<string>('')
+  const [selectedOption, setSelectedOption] = useState<null | string>(null)
   const [rotateIcon, setRotateIcon] = useState<boolean>(false)
   const textColor: string =
     variant === 'error'

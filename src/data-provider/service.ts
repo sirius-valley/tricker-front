@@ -1,6 +1,13 @@
 import axios from 'axios'
 // import { setUpAxiosInterceptors } from './AxiosInterceptor'
-import { type User, type CognitoResponse, type Project } from '@utils/types'
+import {
+  type User,
+  type CognitoResponse,
+  type ProjectPreIntegrated,
+  type MemberPreIntegrated,
+  type AuthorizationRequest,
+  type Project
+} from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 
 const url: string =
@@ -20,22 +27,62 @@ export const me = async (): Promise<User | null> => {
   return null
 }
 
-export const getOrCreateUser = async (): Promise<User | null> => {
-  const res = await axios.post(
-    `${url}/user/getOrCreate`,
-    {
-      idToken: getIdToken()
-    },
-    {
-      headers: {
-        Authorization: 'Bearer ' + getAccessToken()
-      }
+export const getUserProjects = async (): Promise<Project[] | null> => {
+  const res = await axios.get(`${url}/me/projects`, {
+    headers: {
+      Authorization: 'Bearer ' + getAccessToken()
     }
-  )
+  })
   if (res.status === 200) {
     return res.data
   }
   return null
+}
+
+export const getOrCreateUser = async (): Promise<User> => {
+  // const res = await axios.post(
+  //   `${url}/user/getOrCreate`,
+  //   {
+  //     idToken: getIdToken()
+  //   },
+  //   {
+  //     headers: {
+  //       Authorization: 'Bearer ' + getAccessToken()
+  //     }
+  //   }
+  // )
+  // if (res.status === 200 || res.status === 201) {
+  //   return res.data
+  // }
+  // return null
+
+  // TESTING
+  const mockedUser: User = {
+    id: '1',
+    email: 'username@sirius.com.ar',
+    name: 'User Name',
+    projectsRoleAssigned: [
+      // {
+      //   id: '1',
+      //   userId: '1',
+      //   projectId: '1',
+      //   user: {
+      //     id: '1',
+      //     cognitoId: '',
+      //     profileImage: '',
+      //     email: '',
+      //     name: ''
+      //   },
+      //   role: {
+      //     id: '1',
+      //     name: 'Project Manager',
+      //     users: []
+      //   }
+      // }
+    ]
+  }
+  await new Promise((resolve) => setTimeout(resolve, 500))
+  return mockedUser
 }
 
 export const verifyToken = async (
@@ -63,18 +110,134 @@ export const verifyToken = async (
   return null
 }
 
-export const getProjects = async (): Promise<Project[] | null> => {
-  // update this to the correct endpoint
-  const res = await axios.get(
-    `https://rickandmortyapi.com/api/character/1,2,3,4`,
+export const getPreIntegratedProjects = async (
+  key: string,
+  provider: string
+): Promise<ProjectPreIntegrated[] | null> => {
+  // const res = await axios.post(
+  //   `${url}/integration/linear/projects`,
+  //   {
+  //     key,
+  //     provider
+  //   },
+  //   {
+  //     headers: {
+  //       Authorization: 'Bearer ' + getAccessToken()
+  //     }
+  //   }
+  // )
+  // console.log(res)
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  // return null
+
+  // TESTING
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  return [
     {
-      headers: {
-        Authorization: getAccessToken()
-      }
+      providerProjectId: '1',
+      name: 'Tricker',
+      image: null
+    },
+    {
+      providerProjectId: '2',
+      name: 'WeCan',
+      image: null
+    },
+    {
+      providerProjectId: '3',
+      name: 'Bonterms',
+      image: null
+    },
+    {
+      providerProjectId: '4',
+      name: 'Mandiant',
+      image: null
+    },
+    {
+      providerProjectId: '5',
+      name: 'Sawyer',
+      image: null
     }
-  )
-  if (res.status === 200) {
-    return res.data
-  }
+  ]
+}
+
+export const getPreIntegratedMembers = async (
+  projectId: string
+): Promise<MemberPreIntegrated[] | null> => {
+  // const res = await axios.get(
+  //   `${url}/integration/linear/project/${projectId}/members`,
+  //   {
+  //     headers: {
+  //       Authorization: 'Bearer ' + getAccessToken()
+  //     }
+  //   }
+  // )
+  // console.log(res)
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  // return null
+
+  // TESTING
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  return [
+    {
+      providerUserId: '1',
+      email: 'victoriacapurro@sirius.com.ar',
+      name: 'Victoria Capurro',
+      profileImage: null
+    },
+    {
+      providerUserId: '2',
+      email: 'fabrizioserial@sirius.com.ar',
+      name: 'Fabrizio Serial',
+      profileImage: null
+    },
+    {
+      providerUserId: '3',
+      email: 'matiaspizzi@gmail.com',
+      name: 'Matias Pizzi',
+      profileImage: null
+    },
+    {
+      providerUserId: '4',
+      email: 'otro@sirius.com.ar',
+      name: 'Otro 1',
+      profileImage: null
+    },
+    {
+      providerUserId: '5',
+      email: 'otro2@sirius.com.ar',
+      name: 'Otro 2',
+      profileImage: null
+    }
+  ]
+}
+
+export const postProjectIntegrationRequest = async (
+  provider: string,
+  authorizationRequest: AuthorizationRequest
+): Promise<null> => {
+  // const res = await axios.post(
+  //   `${url}/integration/${provider}/authorization`,
+  //   {
+  //     authorizationRequest
+  //   },
+  //   {
+  //     headers: {
+  //       Authorization: 'Bearer ' + getAccessToken()
+  //     }
+  //   }
+  // )
+  // console.log(res)
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  // return null
+
+  // TESTING
+  await new Promise((resolve) => setTimeout(resolve, 1000))
   return null
 }

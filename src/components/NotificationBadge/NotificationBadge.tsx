@@ -5,7 +5,7 @@ import { DismissIcon } from '@components/Icon'
 
 const notificationBadgeVariants = cva(
   [
-    'flex justify-between items-center gap-2.5 p-6 rounded-xl w-[358px] h-fit text-center shadow-1'
+    'flex justify-between items-center gap-2.5 md:p-6 p-4 rounded-xl md:w-[358px] w-[280px] h-fit text-center shadow-1'
   ],
   {
     variants: {

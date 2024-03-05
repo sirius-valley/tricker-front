@@ -1,6 +1,13 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import * as ApiService from './service'
-import { type User, type CognitoResponse, type Project } from '@utils/types'
+import {
+  type User,
+  type CognitoResponse,
+  type ProjectPreIntegrated,
+  type MemberPreIntegrated,
+  type AuthorizationRequest,
+  type Project
+} from '@utils/types'
 
 export const useGetMe = (): {
   data: User | null | undefined
@@ -40,14 +47,64 @@ export const useVerifyToken = (
   return { data, error, isLoading }
 }
 
-export const useGetProjects = (): {
+export const useGetPreIntegratedProjects = (
+  key: string,
+  provider: string
+): {
+  data: ProjectPreIntegrated[] | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getPreIntegratedProjects', key, provider],
+    queryFn: async () =>
+      await ApiService.getPreIntegratedProjects(key, provider)
+  })
+  return { data, error, isLoading }
+}
+
+export const useGetPreIntegratedMembers = (
+  projectName: string
+): {
+  data: MemberPreIntegrated[] | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getPreIntegratedMembers', projectName],
+    queryFn: async () => await ApiService.getPreIntegratedMembers(projectName)
+  })
+  return { data, error, isLoading }
+}
+
+export const usePostProjectIntegrationRequest = (): {
+  mutate: (args: { provider: string; request: AuthorizationRequest }) => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, error, isPending, isSuccess } = useMutation({
+    mutationFn: async ({
+      provider,
+      request
+    }: {
+      provider: string
+      request: AuthorizationRequest
+    }) => {
+      return await ApiService.postProjectIntegrationRequest(provider, request)
+    }
+  })
+  return { mutate, error, isPending, isSuccess }
+}
+
+export const useGetUserProjects = (): {
   data: Project[] | null | undefined
   error: Error | null
   isLoading: boolean
 } => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ['projects'],
-    queryFn: ApiService.getProjects
+    queryKey: ['getUserProjects'],
+    queryFn: ApiService.getUserProjects
   })
   return { data, error, isLoading }
 }

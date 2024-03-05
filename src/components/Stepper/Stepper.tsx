@@ -36,7 +36,7 @@ export const Stepper: React.FC<StepperProps> = ({ currentStep, label }) => {
                 {index + 1}
               </Body2>
             </div>
-            {screen.width > 768 && (
+            {screen.width >= 768 && (
               <Body1
                 className={`leading-[19.36px] text-white whitespace-nowrap ${index === currentStep ? 'font-semibold' : 'font-normal'}`}
               >
