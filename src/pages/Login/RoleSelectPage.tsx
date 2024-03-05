@@ -13,18 +13,17 @@ const RoleSelectPage = (): JSX.Element => {
   const navigate = useNavigate()
   const { data } = useGetUserProjects()
   const user = useUser()
+  dispatch(setCurrentStep(0))
 
   if (user.id === '') {
     navigate('/login')
   }
 
   const handlePmClick = (): void => {
-    dispatch(setCurrentStep(0))
     navigate('/setup')
   }
 
   const handleMemberClick = (): void => {
-    dispatch(setCurrentStep(0))
     if (data && data.length > 0) {
       navigate('/home')
     } else {
