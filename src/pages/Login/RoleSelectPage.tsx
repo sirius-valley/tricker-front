@@ -14,7 +14,7 @@ const RoleSelectPage = (): JSX.Element => {
   const { data } = useGetUserProjects()
   const user = useUser()
   dispatch(setCurrentStep(0))
-    
+
   if (user.id === '') {
     navigate('/login')
   }
