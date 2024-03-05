@@ -22,7 +22,7 @@ export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
     handleToken(token)
   }
   return (
-    <div className="flex flex-col items-center justify-center mx-8 max-h-[505px] md:w-fit lg:w-[1032px] bg-gray-600 shadow-2 md:shadow-none border border-primary-400 py-10 px-6 md:py-20 md:px-[140px] gap-8 md:gap-10 rounded-xl">
+    <div className="flex flex-col items-center justify-center mx-8 max-h-[420px] md:w-[570px] lg:w-[1000px] bg-gray-600 shadow-2 md:shadow-none border border-primary-400 py-10 px-6 md:py-10 md:px-20 gap-8 md:gap-10 rounded-xl">
       <H2 className="text-white md:leading-[41.15px] text-[24px] md:text-[34px] whitespace-nowrap md:whitespace-normal font-semibold">
         Initial Setup
       </H2>
@@ -53,7 +53,7 @@ export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
             required
             tooltip={`${screen.width >= 768 ? 'You can find this under Team Settings > My Account > API > Personal Api Keys' : ''}`}
             helpertext={`${screen.width < 768 ? 'You can find this under Team Settings > My Account > API > Personal Api Keys' : ''}`}
-            className="h-[69px]"
+            className="h-10 md:h-[69px]"
             placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
           />
         </div>
