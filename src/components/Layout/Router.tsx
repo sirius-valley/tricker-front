@@ -7,6 +7,7 @@ import EmptyProjectPage from '@pages/Login/EmptyProjectPage'
 import RoleSelectPage from '@pages/Login/RoleSelectPage'
 import LoginPage from '@pages/Login/LoginPage'
 import SetupPage from '@pages/InitialIntegration/InitialIntegrationPage'
+import LoaderCard from '@pages/Loader/LoadingPage'
 
 const WithNav = (): JSX.Element => {
   const [isMobile, setIsMobile] = React.useState<boolean>(
@@ -51,12 +52,16 @@ export const ROUTER = createBrowserRouter([
     element: <EmptyProjectPage />
   },
   {
+    path: '/login/role',
+    element: <RoleSelectPage />
+  },
+  {
     path: '/setup',
     element: <SetupPage />
   },
   {
-    path: '/login/role',
-    element: <RoleSelectPage />
+    path: '/setup/loader',
+    element: <LoaderCard />
   },
   {
     element: <WithNav />,
