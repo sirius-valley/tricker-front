@@ -86,15 +86,18 @@ export const getPreIntegratedProjects = async (
   key: string,
   provider: string
 ): Promise<ProjectPreIntegrated[] | null> => {
-  // const res = await axios.get(`${url}/integration/linear/projects`, {
-  //   headers: {
-  //     Authorization: 'Bearer ' + getAccessToken()
-  //   },
-  //   params: {
+  // const res = await axios.post(
+  //   `${url}/integration/linear/projects`,
+  //   {
   //     key,
   //     provider
+  //   },
+  //   {
+  //     headers: {
+  //       Authorization: 'Bearer ' + getAccessToken()
+  //     }
   //   }
-  // })
+  // )
   // console.log(res)
   // if (res.status === 200) {
   //   return res.data
