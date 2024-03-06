@@ -46,3 +46,6 @@ Copy the contents from .env.template adding your custom variables
 
    ```bash
    npm run dev
+
+## Unit Test Plan
+[Click here to see the documentation](https://drive.google.com/file/d/1P1YQCbDWnz_WG_cEKNS-n28ijxaqrlVw/view?usp=sharing)
