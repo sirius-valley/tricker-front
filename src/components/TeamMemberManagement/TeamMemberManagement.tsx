@@ -70,7 +70,7 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
         </div>
       )}
       {!error && (
-        <div className="text-white flex flex-col items-center justify-center mx-8 lg:h-[505px] md:w-fit lg:w-[1032px] bg-gray-600 shadow-2 md:shadow-none border border-primary-400 py-10 px-6 md:py-20 md:px-[140px] gap-8 md:gap-10 rounded-xl">
+        <div className="text-white flex flex-col items-center justify-center mx-8 lg:h-[380px] md:w-fit lg:w-[1032px] bg-gray-600 shadow-2 md:shadow-none border border-primary-400 py-10 px-6 md:py-20 md:px-[140px] gap-8 md:gap-10 rounded-xl">
           <H2 className="md:leading-[41.15px] md:text-[34px] whitespace-nowrap md:whitespace-normal font-semibold">
             Team Members
           </H2>
@@ -82,7 +82,7 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
               <Subtitle className="whitespace-pre-wrap md:text-base leading-[19.36px] text-semibold">
                 Remove those who shouldn&apos;t have access to Tricker
               </Subtitle>
-              <div className="flex flex-col w-full max-h-[233px] overflow-y-scroll">
+              <div className="flex flex-col w-full max-h-[180px] overflow-y-scroll">
                 <div className="flex flex-col w-full gap-2">
                   {isLoading &&
                     Array.from({ length: 4 }).map((_, index) => (
