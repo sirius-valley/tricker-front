@@ -9,9 +9,9 @@ import {
   type Project
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
+import config from '@utils/config'
 
-const url: string =
-  (import.meta.env.VITE_API_URL as string) || 'http://localhost:8080/api'
+const url: string = config.apiUrl || 'http://localhost:8080/api'
 
 // setUpAxiosInterceptors(axios)
 
@@ -40,7 +40,6 @@ export const getUserProjects = async (): Promise<Project[] | null> => {
 }
 
 export const getOrCreateUser = async (): Promise<User | null> => {
-  console.log(import.meta.env.VITE_ORGANIZATION_NAME as string)
   const res = await axios.post(
     `${url}/user/getOrCreate`,
     {
@@ -91,18 +90,14 @@ export const verifyToken = async (
 ): Promise<CognitoResponse | null> => {
   const params = new URLSearchParams()
   params.append('grant_type', 'authorization_code')
-  params.append('client_id', '1uibn62hen866a6qufocjp8uuk')
+  params.append('client_id', config.cognitoClientId)
   params.append('code', code)
-  params.append('redirect_uri', 'http://localhost:5173/login/')
-  const res = await axios.post(
-    `https://tricker.auth.us-east-2.amazoncognito.com/oauth2/token`,
-    params,
-    {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
+  params.append('redirect_uri', config.cognitoRedirectUrl)
+  const res = await axios.post(config.cognitoUrl, params, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
     }
-  )
+  })
   if (res.status === 200) {
     const cognitoResponse: CognitoResponse = res.data
     setLoginCookies(cognitoResponse)
