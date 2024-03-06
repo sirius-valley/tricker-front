@@ -64,15 +64,17 @@ export const useGetPreIntegratedProjects = (
 }
 
 export const useGetPreIntegratedMembers = (
-  projectName: string
+  projectName: string,
+  apiKey: string
 ): {
   data: MemberPreIntegrated[] | null | undefined
   error: Error | null
   isLoading: boolean
 } => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ['getPreIntegratedMembers', projectName],
-    queryFn: async () => await ApiService.getPreIntegratedMembers(projectName)
+    queryKey: ['getPreIntegratedMembers', projectName, apiKey],
+    queryFn: async () =>
+      await ApiService.getPreIntegratedMembers(projectName, apiKey)
   })
   return { data, error, isLoading }
 }
