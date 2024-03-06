@@ -104,7 +104,7 @@ const InitialIntegrationPage = (): JSX.Element => {
         </button>
       )}
       {!isPending && !isSuccess && !error && (
-        <div className="flex items-center flex-col justify-between h-screen md:h-fit gap-8 md:pt-0 pt-[100px] pb-6">
+        <div className="flex items-center flex-col justify-between h-screen md:h-fit gap-6 md:pt-0 pt-[100px] pb-6">
           <Stepper currentStep={currentStep} label={steps} />
           {currentStep === 0 && (
             <ProjectAddition
