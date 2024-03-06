@@ -18,6 +18,7 @@ const NoAvatarProject: React.FC<NoAvatarProjectProps> = ({
 
   return (
     <div
+      style={{ minWidth: `${width}px` }}
       className={`w-[${width}px] h-[${height}px] rounded-[2px] bg-primary-200 flex items-center justify-center text-primary-700 ${className} `}
     >
       <Body1 className="leading-[16.31px]">{firstLetter}</Body1>
