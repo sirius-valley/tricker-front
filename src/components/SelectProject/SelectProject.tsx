@@ -48,7 +48,7 @@ const SelectProject: React.FC<SelectProjectProps> = ({
         </div>
       )}
       {!error && (
-        <div className="flex flex-col items-center justify-center mx-8 lg:h-[505px] md:w-fit lg:w-[1032px] bg-gray-600 shadow-2 md:shadow-none border border-primary-400 py-10 px-6 md:py-20 md:px-[140px] gap-8 md:gap-10 rounded-xl">
+        <div className="flex flex-col items-center justify-center mx-8 lg:h-[360px] md:w-fit lg:w-[1032px] bg-gray-600 shadow-2 md:shadow-none border border-primary-400 py-10 px-6 md:py-8 md:px-[140px] gap-8 md:gap-8 rounded-xl">
           <H1 className="text-white text-2xl md:text-[34px] font-semibold">
             Select Project
           </H1>
@@ -68,7 +68,7 @@ const SelectProject: React.FC<SelectProjectProps> = ({
                 />
               )}
             </div>
-            <div className="border overflow-y-scroll max-h-[233px] border-gray-300 py-2 rounded-[8px] max-w-[752px] w-full">
+            <div className="border overflow-y-scroll max-h-[160px] border-gray-300 py-2 rounded-[8px] max-w-[752px] w-full">
               {isLoading &&
                 Array.from({ length: 4 }).map((_, index) => (
                   <div key={index} className="flex gap-4 p-4 items-center">
