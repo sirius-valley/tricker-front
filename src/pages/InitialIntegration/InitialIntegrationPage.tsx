@@ -23,6 +23,7 @@ import { useNavigate } from 'react-router-dom'
 import { usePostProjectIntegrationRequest } from '@data-provider/query'
 import { ProjectMail } from '@components/ProjectMail/ProjectMail'
 import NotificationBadge from '@components/NotificationBadge/NotificationBadge'
+import LoadingPage from '@pages/Loader/LoadingPage'
 
 const InitialIntegrationPage = (): JSX.Element => {
   const steps: Step[] = useSteps()
@@ -162,7 +163,7 @@ const InitialIntegrationPage = (): JSX.Element => {
       )}
       {isPending && (
         <div>
-          <h1 className="text-white">loading...</h1>
+          <LoadingPage />
         </div>
       )}
       {error && (
