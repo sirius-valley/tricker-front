@@ -37,12 +37,12 @@ export interface User {
   deletedAt?: Date
   projectsRoleAssigned?: UserProjectRole[]
   emittedUserProjectRole?: UserProjectRole[]
-  emittedBlockerStatusModification?: BlockerStatusModification[]
+  // emittedBlockerStatusModification?: BlockerStatusModification[]
   authoredIssues?: Issue[]
   asignedIssues?: Issue[]
   emittedIssueChangeLogs?: IssueChangeLog[]
   emittedManualTimeModification?: ManualTimeModification[]
-  OrganizationAdministrator?: OrganizationAdministrator[]
+  // OrganizationAdministrator?: OrganizationAdministrator[]
 }
 
 export interface Role {
@@ -113,6 +113,33 @@ export interface Project {
   projectStages: ProjectStage[]
   issues: Issue[]
   labels: ProjectLabel[]
+}
+
+export interface ProjectPreIntegrated {
+  providerProjectId: string
+  name: string
+  image: string | null
+}
+
+export interface MemberPreIntegrated {
+  providerId: string
+  email: string
+  name: string
+  profileImage?: string
+}
+
+export interface AuthorizationRequest {
+  apiToken: string
+  projectId: string
+  integratorId: string
+  members: AuthorizedMemberDTO[]
+  organizationName: string
+  issueProviderName: string
+}
+
+export interface AuthorizedMemberDTO {
+  id: string
+  email: string
 }
 
 export interface LogWebhooks {
