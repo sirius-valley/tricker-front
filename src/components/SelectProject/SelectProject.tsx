@@ -48,7 +48,7 @@ const SelectProject: React.FC<SelectProjectProps> = ({
         </div>
       )}
       {!error && (
-        <div className="flex flex-col items-center justify-center mx-8 lg:h-[505px] md:w-fit lg:w-[1032px] bg-gray-600 shadow-2 md:shadow-none border border-primary-400 py-10 px-6 md:py-20 md:px-[140px] gap-8 md:gap-10 rounded-xl">
+        <div className="flex flex-col items-center justify-center mx-8 lg:h-[425px] md:w-fit lg:w-[1032px] bg-gray-600 shadow-2 md:shadow-none border border-primary-400 py-10 px-6 md:py-20 md:px-[140px] gap-8 md:gap-10 rounded-xl">
           <H1 className="text-white text-2xl md:text-[34px] font-semibold">
             Select Project
           </H1>
@@ -58,6 +58,7 @@ const SelectProject: React.FC<SelectProjectProps> = ({
             )}
             <div className="flex gap-1 items-center lg:w-[752px] w-full">
               <Body2 className="text-white font-semibold self-start flex">
+                {/* Change this to not show it when there's no project found */}
                 Now, select the project you would like to start with
               </Body2>
               {screenSize.width > 700 && (

@@ -22,7 +22,7 @@ export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
     handleToken(token)
   }
   return (
-    <div className="flex flex-col items-center justify-center mx-8 max-h-[420px] md:w-[570px] lg:w-[1000px] bg-gray-600 shadow-2 md:shadow-none border border-primary-400 py-10 px-6 md:py-10 md:px-20 gap-8 md:gap-10 rounded-xl">
+    <div className="flex flex-col items-center justify-center mx-8 max-h-[425px] md:w-[570px] lg:w-[1000px] bg-gray-600 shadow-2 md:shadow-none border border-primary-400 py-10 px-6 md:py-10 md:px-20 gap-8 md:gap-10 rounded-xl">
       <H2 className="text-white md:leading-[41.15px] text-[24px] md:text-[34px] whitespace-nowrap md:whitespace-normal font-semibold">
         Initial Setup
       </H2>
