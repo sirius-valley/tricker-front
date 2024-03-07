@@ -84,10 +84,11 @@ const InitialIntegrationPage = (): JSX.Element => {
       projectId: selectedProject.providerProjectId,
       integratorId: currentUser.id,
       members: teamMembers.map((member) => ({
-        id: member.providerUserId,
+        id: member.providerId,
         email: member.email
       })),
-      organizationName: process.env.ORGANIZATION_NAME || 'SIRIUS',
+      organizationName:
+        (import.meta.env.VITE_ORGANIZATION_NAME as string) || 'SIRIUS',
       issueProviderName: provider
     }
     mutate({ provider, request })
@@ -126,15 +127,11 @@ const InitialIntegrationPage = (): JSX.Element => {
               }}
             />
           )}
-          {currentStep === 2 && selectedProject && (
+          {currentStep === 2 && selectedProject && providerKey && (
             <TeamMemberManagement
               project={selectedProject}
-              actualUser={{
-                providerUserId: '',
-                email: 'matiaspizzi@gmail.com',
-                name: 'Matias Pizzi',
-                profileImage: null
-              }}
+              apiKey={providerKey}
+              actualUser={{ ...user, providerId: '' }}
               handleRemainingUsers={handleTeamMembers}
             />
           )}
