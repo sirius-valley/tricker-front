@@ -122,10 +122,10 @@ export interface ProjectPreIntegrated {
 }
 
 export interface MemberPreIntegrated {
-  providerUserId: string
+  providerId: string
   email: string
   name: string
-  profileImage: string | null
+  profileImage?: string
 }
 
 export interface AuthorizationRequest {
