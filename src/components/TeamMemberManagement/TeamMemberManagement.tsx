@@ -19,16 +19,19 @@ interface TeamMemberManagementProps
   extends React.HTMLAttributes<HTMLDivElement> {
   handleRemainingUsers: (users: MemberPreIntegrated[]) => void
   project: ProjectPreIntegrated
+  apiKey: string
   actualUser: MemberPreIntegrated
 }
 
 export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
   handleRemainingUsers,
   project,
+  apiKey,
   actualUser
 }): JSX.Element => {
   const { data, isLoading, error } = useGetPreIntegratedMembers(
-    project.providerProjectId
+    project.providerProjectId,
+    apiKey
   )
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [userToRemove, setUserToRemove] = React.useState<string>('')
@@ -104,7 +107,7 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                     .map((member: MemberPreIntegrated) => (
                       <div
                         className="flex items-center w-full p-2 rounded-lg bg-gray-500"
-                        key={member.providerUserId}
+                        key={member.providerId}
                       >
                         <div className="flex w-full gap-4 items-center">
                           {member.profileImage ? (

@@ -7,6 +7,7 @@ import Subtitle from '@utils/typography/subtitle/subtitle'
 import { setCurrentStep } from '@redux/user'
 import { useAppDispatch, useUser } from '@redux/hooks'
 import { useGetUserProjects } from '@data-provider/query'
+import { useEffect } from 'react'
 
 const RoleSelectPage = (): JSX.Element => {
   const dispatch = useAppDispatch()
@@ -15,9 +16,11 @@ const RoleSelectPage = (): JSX.Element => {
   const user = useUser()
   dispatch(setCurrentStep(0))
 
-  if (user.id === '') {
-    navigate('/login')
-  }
+  useEffect(() => {
+    if (user.id === '') {
+      navigate('/login')
+    }
+  })
 
   const handlePmClick = (): void => {
     navigate('/setup')
