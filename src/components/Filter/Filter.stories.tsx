@@ -24,10 +24,16 @@ const meta: Meta<typeof Filter> = {
       control: {
         type: 'boolean'
       }
+    },
+    handleSelect: {
+      action: 'handleSelect'
     }
   },
   args: {
     show: true,
+    handleSelect: (options) => {
+      console.log(options)
+    },
     statusOptions: [
       { option: 'Todo', color: colors.white, selected: false },
       {
