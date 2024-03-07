@@ -79,7 +79,7 @@ const SearchFilter: React.FC<SearchButtonProps> = ({
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-fit">
       <div className="flex justify-end pr-8">
         <div className="relative top-[8px] w-4 h-4 bg-gray-600 border border-gray-400 rotate-45" />
       </div>
