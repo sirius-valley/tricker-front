@@ -1,36 +1,24 @@
 import LoginImage from '@assets/Login/LoginImage.svg'
 import TrickerLogo from '@assets/TrickerLogo'
 import TrickerTitle from '@assets/TrickerTitle'
-
 import { LoginWithButton } from '@components/LoginWithButton/LoginWithButton'
 import { NeedHelpButton } from '@components/NeedHelpButton/NeedHelpButton'
-import * as service from '@data-provider/service'
-import React from 'react'
+import { useVerifyToken } from '@data-provider/query'
+import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useAppDispatch } from '@redux/hooks'
 
 const LoginPage = (): JSX.Element => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
 
-  React.useEffect((): void => {
-    const verifyToken = (): void => {
-      const code = searchParams.get('code')
-      if (code !== null) {
-        service
-          .verifyToken(code)
-          .then(() => {
-            navigate('/')
-            return null
-          })
-          .catch((error) => {
-            console.error('Error verifying token:', error)
-          })
-      }
+  const code = searchParams.get('code')
+  const { data } = useVerifyToken(code || '')
+
+  useEffect(() => {
+    if (data) {
+      navigate('/')
     }
-    verifyToken()
-  }, [searchParams, navigate, dispatch])
+  }, [data, navigate])
 
   return (
     <div className={`flex bg-login bg-cover`}>
