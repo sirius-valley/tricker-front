@@ -92,7 +92,7 @@ export const verifyToken = async (
   params.append('grant_type', 'authorization_code')
   params.append('client_id', config.cognitoClientId)
   params.append('code', code)
-  params.append('redirect_uri', config.cognitoRedirectUrl)
+  params.append('redirect_uri', window.location.href.split('?')[0])
   const res = await axios.post(config.cognitoUrl, params, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
