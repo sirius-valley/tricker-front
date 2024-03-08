@@ -67,12 +67,22 @@ const InitialIntegrationPage = (): JSX.Element => {
   const [teamMembers, setTeamMembers] = useState<null | MemberPreIntegrated[]>(
     null
   )
+  const [actualMemberProviderId, setActualMemberProviderId] =
+    useState<string>('')
 
   const screenWidth = useScreenSize().width
 
-  const handleTeamMembers = useCallback((users: MemberPreIntegrated[]) => {
-    setTeamMembers(users)
-  }, [])
+  const handleTeamMembers = useCallback(
+    (users: MemberPreIntegrated[]) => {
+      setTeamMembers(users)
+      const projectManager = users.find(
+        (user) => user.email === currentUser.email
+      )
+      if (projectManager) setActualMemberProviderId(projectManager.providerId)
+      else console.error('User not found')
+    },
+    [currentUser.email, setTeamMembers, setActualMemberProviderId]
+  )
 
   const { mutate, isPending, error, isSuccess } =
     usePostProjectIntegrationRequest()
@@ -82,7 +92,7 @@ const InitialIntegrationPage = (): JSX.Element => {
     const request: AuthorizationRequest = {
       apiToken: providerKey,
       projectId: selectedProject.providerProjectId,
-      integratorId: currentUser.id,
+      integratorId: actualMemberProviderId,
       members: teamMembers.map((member) => ({
         id: member.providerId,
         email: member.email
