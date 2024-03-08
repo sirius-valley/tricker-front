@@ -1,7 +1,7 @@
 import CategoryIcon from '@components/CategoryIcon/CategoryIcon'
 import { Pill } from '@components/Pill/Pill'
 import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
-import { ProfileButton } from '@components/ProfileButton/ProfileButton'
+import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import Body1 from '@utils/typography/body1/body1'
 import Body2 from '@utils/typography/body2/body2'
 import React from 'react'
@@ -64,7 +64,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
         </span>
         {isProjectManager && (
           <div className="min-w-7">
-            <ProfileButton img={associatedUserProfile} size={'sm'} />
+            <ProfilePicture img={associatedUserProfile} size={'sm'} />
           </div>
         )}
       </div>

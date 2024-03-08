@@ -64,20 +64,22 @@ const Input = ({
   return (
     <div className="gap-2 flex flex-col">
       {label !== '' && (
-        <Body2
-          className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex items-center text-sm font-normal`}
-        >
-          {label}
-          &nbsp;
-          {tooltip !== '' && (
-            <Tooltip content={tooltip} iconWidth="16" iconHeight="16" />
-          )}
+        <div className="flex">
+          <Body2
+            className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex items-center text-sm font-normal`}
+          >
+            {label}
+            &nbsp;
+            {tooltip !== '' && (
+              <Tooltip content={tooltip} iconWidth="16" iconHeight="16" />
+            )}
+          </Body2>
           {variant !== 'disabled' && required && (
             <Body2 className="text-error-500 flex text-sm font-normal">
               &nbsp;*
             </Body2>
           )}
-        </Body2>
+        </div>
       )}
       <input
         className={className + inputVariants({ variant, className })}

@@ -103,10 +103,12 @@ const SelectInput = ({
   return (
     <div className="gap-2 flex flex-col w-full">
       {label !== '' && (
-        <Body2
-          className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex text-sm leading-[16.94px] font-normal`}
-        >
-          {label}
+        <div className="flex">
+          <Body2
+            className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex text-sm leading-[16.94px] font-normal`}
+          >
+            {label}
+          </Body2>
           {required && (
             <>
               &nbsp;
@@ -117,7 +119,7 @@ const SelectInput = ({
               </Body2>
             </>
           )}
-        </Body2>
+        </div>
       )}
       <div className="relative w-full" ref={selectRef}>
         <button

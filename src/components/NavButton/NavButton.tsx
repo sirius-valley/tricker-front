@@ -2,7 +2,7 @@ import '../../index.css'
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import Icon from '@components/Icon/Icon.js'
-import { ProfileButton } from '@components/ProfileButton/ProfileButton.js'
+import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture.js'
 
 const navButtonVariants = cva(
   ['flex p-3 gap-2.5 rounded-lg w-14 h-14 items-center justify-center'],
@@ -24,7 +24,7 @@ const iconVariant = (
 ): React.ReactElement => {
   switch (variant) {
     case 'profile':
-      return <ProfileButton img={profilePicture ?? ''} className="w-8 h-8" />
+      return <ProfilePicture img={profilePicture ?? ''} className="w-8 h-8" />
     case 'projects':
       return <Icon name="FolderIcon" width="32px" height="32px" />
     case 'home':
