@@ -70,10 +70,10 @@ const Input = ({
           >
             {label}
             &nbsp;
-            {tooltip !== '' && (
-              <Tooltip content={tooltip} iconWidth="16" iconHeight="16" />
-            )}
           </Body2>
+          {tooltip !== '' && (
+            <Tooltip content={tooltip} iconWidth="16" iconHeight="16" />
+          )}
           {variant !== 'disabled' && required && (
             <Body2 className="text-error-500 flex text-sm font-normal">
               &nbsp;*
