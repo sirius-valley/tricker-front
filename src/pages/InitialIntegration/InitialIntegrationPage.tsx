@@ -67,11 +67,13 @@ const InitialIntegrationPage = (): JSX.Element => {
   const [teamMembers, setTeamMembers] = useState<null | MemberPreIntegrated[]>(
     null
   )
+  const [actualMemberProviderId, setActualMemberProviderId] = useState<string>("")
 
   const screenWidth = useScreenSize().width
 
   const handleTeamMembers = useCallback((users: MemberPreIntegrated[]) => {
     setTeamMembers(users)
+    setActualMemberProviderId((users.find(user => user.email === currentUser.email))!.providerId);
   }, [])
 
   const { mutate, isPending, error, isSuccess } =
@@ -82,7 +84,7 @@ const InitialIntegrationPage = (): JSX.Element => {
     const request: AuthorizationRequest = {
       apiToken: providerKey,
       projectId: selectedProject.providerProjectId,
-      integratorId: currentUser.id,
+      integratorId: actualMemberProviderId,
       members: teamMembers.map((member) => ({
         id: member.providerId,
         email: member.email
