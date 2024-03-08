@@ -79,7 +79,7 @@ const InitialIntegrationPage = (): JSX.Element => {
         (user) => user.email === currentUser.email
       )
       if (projectManager) setActualMemberProviderId(projectManager.providerId)
-      else console.error('Usuario no encontrado')
+      else console.error('User not found')
     },
     [currentUser.email, setTeamMembers, setActualMemberProviderId]
   )
