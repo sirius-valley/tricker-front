@@ -67,14 +67,22 @@ const InitialIntegrationPage = (): JSX.Element => {
   const [teamMembers, setTeamMembers] = useState<null | MemberPreIntegrated[]>(
     null
   )
-  const [actualMemberProviderId, setActualMemberProviderId] = useState<string>("")
+  const [actualMemberProviderId, setActualMemberProviderId] =
+    useState<string>('')
 
   const screenWidth = useScreenSize().width
 
-  const handleTeamMembers = useCallback((users: MemberPreIntegrated[]) => {
-    setTeamMembers(users)
-    setActualMemberProviderId((users.find(user => user.email === currentUser.email))!.providerId);
-  }, [])
+  const handleTeamMembers = useCallback(
+    (users: MemberPreIntegrated[]) => {
+      setTeamMembers(users)
+      const projectManager = users.find(
+        (user) => user.email === currentUser.email
+      )
+      if (projectManager) setActualMemberProviderId(projectManager.providerId)
+      else console.error('Usuario no encontrado')
+    },
+    [currentUser.email, setTeamMembers, setActualMemberProviderId]
+  )
 
   const { mutate, isPending, error, isSuccess } =
     usePostProjectIntegrationRequest()
