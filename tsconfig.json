@@ -25,6 +25,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
   },
-  "include": ["src/**/*", "vite.config.ts", "SnackBarProvider"],
+  "include": ["src/**/*", "tests/**/*", "vite.config.ts", "vitest.workspace.ts","SnackBarProvider"],
   "references": [{ "path": "./tsconfig.node.json" }],
 }
