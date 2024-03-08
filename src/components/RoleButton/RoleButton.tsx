@@ -1,5 +1,4 @@
 import React from 'react'
-import Button from '@components/Button/Button'
 
 export interface RoleButtonProps {
   handleClick: () => void
@@ -11,15 +10,14 @@ const RoleButton: React.FC<RoleButtonProps> = ({
 }): JSX.Element => {
   return (
     <div className="bg-gray-600 rounded-xl">
-      <Button
-        variant="outline"
-        className="lg:w-[480px] max-h-[600px] md:h-[60vh] h-[56px] w-[329px] text-white shadow-2 px-2"
+      <button
+        className="lg:w-[480px] max-h-[600px] md:h-[60vh] h-[56px] w-[329px] shadow-2 rounded-xl px-2 border border-primary-400 hover:bg-gray-400 text-white"
         onClick={handleClick}
       >
         <h1 className="font-medium md:font-semibold text-xl leading-[41px] md:text-[34px] ">
           {children}
         </h1>
-      </Button>
+      </button>
     </div>
   )
 }

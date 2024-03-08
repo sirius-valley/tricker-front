@@ -1,6 +1,6 @@
 import ModalRemove from '@components/ModalRemove/ModalRemove'
 import NoAvatarProject from '@components/NoAvatar/NoAvatarProject'
-import { ProfileButton } from '@components/ProfileButton/ProfileButton'
+import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import TrashIcon from '@utils/icons/TrashIcon'
 import {
   type ProjectPreIntegrated,
@@ -111,7 +111,7 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                       >
                         <div className="flex w-full gap-4 items-center">
                           {member.profileImage ? (
-                            <ProfileButton img={member.profileImage} />
+                            <ProfilePicture img={member.profileImage} />
                           ) : (
                             <NoAvatarProject
                               text={member.name}
