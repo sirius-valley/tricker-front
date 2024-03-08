@@ -11,7 +11,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -26,6 +26,12 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_ORGANIZATION_NAME: ${{ secrets.VITE_ORGANIZATION_NAME }}
+          VITE_COGNITO_CLIENT_ID: ${{ secrets.VITE_COGNITO_CLIENT_ID }}
+          VITE_COGNITO_URL: ${{ secrets.VITE_COGNITO_URL }}
+          VITE_COGNITO_REDIRECT_URL: ${{ secrets.VITE_COGNITO_REDIRECT_URL }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4.0.1
