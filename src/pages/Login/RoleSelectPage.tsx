@@ -38,7 +38,7 @@ const RoleSelectPage = (): JSX.Element => {
     <WrapperPage>
       {useScreenSize().width < 768 && (
         <Link to="/login" className="text-white">
-          <button className="-rotate-90 top-[32px] absolute left-6 hover:bg-gray-500 rounded-full">
+          <button className="-rotate-90 top-[2px] absolute left-6 hover:bg-gray-500 rounded-full">
             <Icon name="CaretUpIcon" width="32" height="32" />
           </button>
         </Link>
