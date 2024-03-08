@@ -4,6 +4,7 @@ import TrickerTitle from '@assets/TrickerTitle'
 import { LoginWithButton } from '@components/LoginWithButton/LoginWithButton'
 import { NeedHelpButton } from '@components/NeedHelpButton/NeedHelpButton'
 import { useVerifyToken } from '@data-provider/query'
+import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const LoginPage = (): JSX.Element => {
@@ -12,7 +13,12 @@ const LoginPage = (): JSX.Element => {
 
   const code = searchParams.get('code')
   const { data } = useVerifyToken(code || '')
-  if (data) navigate('/')
+
+  useEffect(() => {
+    if (data) {
+      navigate('/')
+    }
+  }, [data, navigate])
 
   return (
     <div className={`flex bg-login bg-cover`}>
