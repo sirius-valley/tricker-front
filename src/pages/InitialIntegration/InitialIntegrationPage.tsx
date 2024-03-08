@@ -13,7 +13,7 @@ import {
 } from '@utils/types'
 import WrapperPage from '@components/Wrapper/WrapperPage'
 import { ProjectAddition } from '@components/ProjectAddition/ProjectAddition'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import SelectProject from '@components/SelectProject/SelectProject'
 import useScreenSize from '@hooks/useScreenSize'
 import Icon from '@components/Icon/Icon'
@@ -32,10 +32,6 @@ const InitialIntegrationPage = (): JSX.Element => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const user = useUser()
-
-  if (user.id === '') {
-    navigate('/login')
-  }
 
   let stepType: StepType
   if (currentStep === 0) {
@@ -72,16 +68,21 @@ const InitialIntegrationPage = (): JSX.Element => {
 
   const screenWidth = useScreenSize().width
 
+  useEffect(() => {
+    if (user.id === '') {
+      navigate('/login')
+    }
+    const projectManager = teamMembers?.find(
+      (user) => user.email === currentUser.email
+    )
+    if (projectManager) setActualMemberProviderId(projectManager.providerId)
+  }, [user, teamMembers, navigate, currentUser, actualMemberProviderId])
+
   const handleTeamMembers = useCallback(
     (users: MemberPreIntegrated[]) => {
       setTeamMembers(users)
-      const projectManager = users.find(
-        (user) => user.email === currentUser.email
-      )
-      if (projectManager) setActualMemberProviderId(projectManager.providerId)
-      else console.error('User not found')
     },
-    [currentUser.email, setTeamMembers, setActualMemberProviderId]
+    [setTeamMembers]
   )
 
   const { mutate, isPending, error, isSuccess } =
