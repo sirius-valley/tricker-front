@@ -42,7 +42,8 @@ export const useVerifyToken = (
 } => {
   const { data, error, isLoading } = useQuery({
     queryKey: ['verifyToken', code],
-    queryFn: async () => await ApiService.verifyToken(code)
+    queryFn: async () => await ApiService.verifyToken(code),
+    retry: false
   })
   return { data, error, isLoading }
 }
