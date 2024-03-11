@@ -3,14 +3,14 @@ import { cva, type VariantProps } from 'class-variance-authority'
 
 const pillVariants = cva(
   [
-    'rounded-[91px] py-[4px] px-[8px] max-w-fit max-h-fit font-inter text-[12px] leading-[15px] text-left '
+    'flex items-center rounded-[91px] py-[4px] px-[8px] max-w-fit max-h-fit font-inter text-[12px] leading-[15px] text-left font-semibold '
   ],
   {
     variants: {
       variant: {
-        completed: ['bg-gray-400 text-white font-normal'],
-        tracking: ['bg-gradient text-black font-semibold'],
-        blocked: ['bg-error-500 text-white font-semibold']
+        completed: ['bg-transparent text-white leading-[19px] text-[16px] h-[26px] border-[1.3px] border-white px-[10.2px] py-[5.2px]'],
+        tracking: ['bg-gradient text-black'],
+        blocked: ['bg-error-500 text-white']
       }
     },
     defaultVariants: {

@@ -7,8 +7,8 @@ const meta: Meta<typeof Pill> = {
   tags: ['autodocs'],
   argTypes: {
     variant: {
-      options: ['completed', 'tracking', 'blocked'],
-      defaultValue: 'completed',
+      options: ['label', 'tracking', 'blocked'],
+      defaultValue: 'label',
       control: {
         type: 'select'
       }
@@ -29,7 +29,7 @@ type Story = StoryObj<typeof Pill>
 export const Completed: Story = {
   tags: ['autodocs'],
   args: {
-    children: 'Completed'
+    children: 'Category'
   },
   render: (args) => <Pill {...args}>{args.children}</Pill>
 }
