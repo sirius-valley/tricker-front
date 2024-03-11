@@ -4,13 +4,13 @@ import Button from '@components/Button/Button'
 import Icon from '@components/Icon/Icon'
 import Body2 from '@utils/typography/body2/body2'
 
-export interface ModalRestartProps {
+export interface ModalResumeProps {
   onRestart: () => void
   onClose: () => void
   show: boolean
 }
 
-const ModalRestart: React.FC<ModalRestartProps> = ({
+const ModalResume: React.FC<ModalResumeProps> = ({
   onRestart,
   onClose,
   show
@@ -26,7 +26,7 @@ const ModalRestart: React.FC<ModalRestartProps> = ({
         <div className="max-w-[539px] w-[92%] min-w-[310px] min-h-[199px] bg-gray-500 border border-gray-300 px-8 py-6 rounded-xl shadow-lg text-white">
           <div className="flex justify-between w-[100%]">
             <h5 className="font-normal mb-2" style={{ fontSize: '24px' }}>
-              Restart Tracking
+              Resume Tracking
             </h5>
             <button
               className="h-fit hidden sm:block"
@@ -38,8 +38,8 @@ const ModalRestart: React.FC<ModalRestartProps> = ({
             </button>
           </div>
           <Body2 className="text-sm font-normal mb-5">
-            Are you sure you want to resume this ticket? This woul mean that the
-            ticket is no longer blocked.
+            Are you sure you want to resume this ticket? This would mean that
+            the ticket is no longer blocked.
           </Body2>
           <div className="flex justify-center gap-6">
             <Button
@@ -53,9 +53,9 @@ const ModalRestart: React.FC<ModalRestartProps> = ({
               Cancel
             </Button>
             <Button
-              variant="error"
+              variant="filled"
               size={'large'}
-              className="w-[225px] h-fit"
+              className="w-[225px] h-fit text-black"
               onClick={() => {
                 onRestart()
               }}
@@ -69,4 +69,4 @@ const ModalRestart: React.FC<ModalRestartProps> = ({
   )
 }
 
-export default ModalRestart
+export default ModalResume
