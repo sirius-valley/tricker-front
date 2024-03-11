@@ -4,10 +4,12 @@ import NavBar from '@components/NavBar/NavBar'
 import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import EmptyProjectPage from '@pages/Login/EmptyProjectPage'
 import RoleSelectPage from '@pages/Login/RoleSelectPage'
-import LoginPage from '@pages/Login/LoginPage'
+// import LoginPage from '@pages/Login/LoginPage'
 import SetupPage from '@pages/InitialIntegration/InitialIntegrationPage'
 import useScreenSize from '@hooks/useScreenSize'
 import LoadingPage from '@pages/Loader/LoadingPage'
+import FilterSection from '@components/FilterSection/FilterSection'
+import { type OptionAttr } from '@components/Filter/Filter'
 
 const WithNav = (): JSX.Element => {
   const screenSize = useScreenSize()
@@ -31,7 +33,16 @@ const WithNav = (): JSX.Element => {
 export const ROUTER = createBrowserRouter([
   {
     path: '/login',
-    element: <LoginPage /> // StepperExample
+    element: (
+      <FilterSection
+        handleSelect={function (options: OptionAttr[]): void {
+          throw new Error('Function not implemented.')
+        }}
+        handleSearch={function (value: string): void {
+          throw new Error('Function not implemented.')
+        }}
+      />
+    ) // StepperExample
   },
   {
     path: '/login/non-invited',
