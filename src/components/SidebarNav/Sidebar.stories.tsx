@@ -13,6 +13,7 @@ const dropdownOptions = [
 
 const user: User = {
   name: 'Victoria Capurro',
+  email: 'victoriacapurro@sirius.com.ar',
   id: '123'
 }
 
