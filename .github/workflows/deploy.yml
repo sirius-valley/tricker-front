@@ -40,8 +40,9 @@ jobs:
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: "us-east-1"
 
+
       - name: Sync to S3 bucket
-        run: aws s3 sync build/ s3://tricker-ui-staging --delete
+        run: aws s3 sync ./ s3://tricker-ui-staging --delete
 
       - name: Invalidate CloudFront cache
         run: aws cloudfront create-invalidation --distribution-id E21Z67OWCUQXXZ --paths "/*"
