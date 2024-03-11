@@ -8,7 +8,9 @@ const pillVariants = cva(
   {
     variants: {
       variant: {
-        completed: ['bg-transparent text-white leading-[19px] text-[16px] h-[26px] border-[1.3px] border-white px-[10.2px] py-[5.2px]'],
+        completed: [
+          'bg-transparent text-white leading-[19px] text-[16px] h-[26px] border-[1.3px] border-white px-[10.2px] py-[5.2px]'
+        ],
         tracking: ['bg-gradient text-black'],
         blocked: ['bg-error-500 text-white']
       }
