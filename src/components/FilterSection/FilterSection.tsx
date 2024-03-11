@@ -80,8 +80,9 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
       const filterTop = buttonRect.bottom
       const filterLeft = buttonRect.left + buttonRect.width
+      console.log(filterLeft, filterTop)
 
-      setFilterPosition({ top: filterTop, left: filterLeft })
+      setFilterPosition({ top: filterTop, left: filterLeft - 281 })
     }
   }
 
@@ -106,7 +107,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           />
           {showFilter && (
             <div
-              className="absolute top-12 left-40"
+              className="absolute"
               style={{ top: filterPosition.top, left: filterPosition.left }}
             >
               <Filter
@@ -132,23 +133,26 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           placeholder="Search Ticket"
           variant={'mobile'}
         />
-        <SquaredIconButton
-          onClick={() => {
-            setShowFilter(!showFilter)
-          }}
-          icon={<FilterIcon />}
-          isMobile
-        />
-        {showFilter && (
-          <div className="absolute top-[105px] left-[84px]">
-            <Filter
-              statusOptions={statusOptions}
-              priorityOptions={priorityOptions}
-              handleSelect={setSelectedOptions}
-              show={showFilter}
-            />
-          </div>
-        )}
+        <div ref={filterRef}>
+          <SquaredIconButton
+            onClick={handleButtonClick}
+            icon={<FilterIcon />}
+            isMobile
+          />
+          {showFilter && (
+            <div
+              className="absolute"
+              style={{ top: filterPosition.top, left: filterPosition.left - 6 }}
+            >
+              <Filter
+                statusOptions={statusOptions}
+                priorityOptions={priorityOptions}
+                handleSelect={setSelectedOptions}
+                show={showFilter}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
