@@ -8,7 +8,7 @@ const pillVariants = cva(
   {
     variants: {
       variant: {
-        completed: [
+        label: [
           'bg-transparent text-white leading-[19px] text-[16px] h-[26px] border-[1.3px] border-white px-[10.2px] py-[5.2px]'
         ],
         tracking: ['bg-gradient text-black'],
@@ -16,7 +16,7 @@ const pillVariants = cva(
       }
     },
     defaultVariants: {
-      variant: 'completed'
+      variant: 'label'
     }
   }
 )

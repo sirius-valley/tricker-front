@@ -26,7 +26,7 @@ export default meta
 
 type Story = StoryObj<typeof Pill>
 
-export const Completed: Story = {
+export const Label: Story = {
   tags: ['autodocs'],
   args: {
     children: 'Category'
