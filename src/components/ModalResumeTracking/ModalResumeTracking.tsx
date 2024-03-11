@@ -5,13 +5,13 @@ import Icon from '@components/Icon/Icon'
 import Body2 from '@utils/typography/body2/body2'
 
 export interface ModalResumeProps {
-  onRestart: () => void
+  onResume: () => void
   onClose: () => void
   show: boolean
 }
 
 const ModalResume: React.FC<ModalResumeProps> = ({
-  onRestart,
+  onResume,
   onClose,
   show
 }) => {
@@ -57,7 +57,7 @@ const ModalResume: React.FC<ModalResumeProps> = ({
               size={'large'}
               className="w-[225px] h-fit text-black"
               onClick={() => {
-                onRestart()
+                onResume()
               }}
             >
               Restart Tracking
