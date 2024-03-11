@@ -37,7 +37,6 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4.0.1
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
-          role-session-name: Github_Action_Tricker_Front
           aws-region: "us-east-1"
 
 
