@@ -37,7 +37,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4.0.1
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
-          aws-region: "us-east-1"
+          aws-region: us-east-1
 
 
       - name: Sync to S3 bucket
