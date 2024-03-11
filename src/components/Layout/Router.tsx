@@ -38,6 +38,9 @@ export const ROUTER = createBrowserRouter([
         <FilterSection
           handleSelect={function (options: OptionAttr[]): void {}}
           handleSearch={function (value: string): void {}}
+          handleView={function (view: 'grid' | 'list'): void {
+            console.log(view)
+          }}
         />
       </div>
     ) // StepperExample

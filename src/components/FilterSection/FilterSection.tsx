@@ -11,9 +11,13 @@ import H2 from '@utils/typography/h2/h2'
 export interface FilterSectionProps {
   handleSelect: (options: OptionAttr[]) => void
   handleSearch: (value: string) => void
+  handleView: (view: 'grid' | 'list') => void
 }
 
-const FilterSection: React.FC<FilterSectionProps> = ({ handleSearch }) =>
+const FilterSection: React.FC<FilterSectionProps> = ({
+  handleSearch,
+  handleView
+}) =>
   //   handleSelect
 
   {
@@ -39,6 +43,9 @@ const FilterSection: React.FC<FilterSectionProps> = ({ handleSearch }) =>
     //       )
     //     }
     //   }
+    const handleCheckGridList = (isList: boolean): void => {
+      isList ? handleView('list') : handleView('grid')
+    }
 
     return screen.width >= 768 ? (
       <div className="w-[467px] rounded-tl-xl border border-white-10 bg-gray-500 flex items-center gap-8 p-[22px] pl-6">
@@ -46,7 +53,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({ handleSearch }) =>
           <Body1 className="text-[17px] leading-[22px] text-white">
             Assigned to me
           </Body1>
-          <GridList />
+          <GridList onChecked={handleCheckGridList} />
         </div>
         <div className="flex gap-2 items-center">
           <SearchBar
