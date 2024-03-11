@@ -27,7 +27,7 @@ const SquaredIconButton: React.FC<SquaredIconButtonProps> = ({
 
   return (
     <button
-      className={`bg-white/5 border-white/30 border ${isMobile ? 'p-2 rounded-lg' : 'p-1 rounded'} flex items-center justify-center cursor-pointer ${className}`}
+      className={`hover:bg-white/15 active:bg-white/10 bg-white/5 border-white/30 border ${isMobile ? 'p-2 rounded-lg' : 'p-1 rounded'} flex items-center justify-center cursor-pointer ${className}`}
       {...props}
     >
       {IconComponent}
