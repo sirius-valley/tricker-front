@@ -1,30 +1,34 @@
 import { type Meta, type StoryObj } from '@storybook/react'
 import { TeamMemberManagement } from './TeamMemberManagement'
 import WrapperPage from '@components/Wrapper/WrapperPage'
-import { type User } from '@utils/types'
+import {
+  type MemberPreIntegrated,
+  type ProjectPreIntegrated
+} from '@utils/types'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-const teamMembers: User[] = [
-  { id: '1', email: 'victoriacapurro@sirius.com.ar', name: 'Victoria Capurro' },
-  { id: '2', email: 'fabrizioserial@sirius.com.ar', name: 'Fabrizio Serial' },
-  { id: '3', email: 'emiliamartella@sirius.com.ar', name: 'Emilia Martella' },
-  { id: '3', email: 'matiaspizzi@gmail.com', name: 'Matias Pizzi' },
-  {
-    id: '4',
-    email: 'federicoarielmartucci@sirius.com.ar',
-    name: 'Federico Ariel Martucci'
-  },
-  { id: '5', email: 'othermember@sirius.com.ar', name: 'Other Member' }
-]
-const actualUser: User = {
-  id: '3',
+const actualUser: MemberPreIntegrated = {
+  providerId: 'providerId',
   email: 'emiliamartella@sirius.com.ar',
   name: 'Emilia Martella'
 }
+const project: ProjectPreIntegrated = {
+  providerProjectId: 'projectId',
+  name: 'Tricker',
+  image: null
+}
+
+const queryClient = new QueryClient()
 
 const meta: Meta<typeof TeamMemberManagement> = {
   title: 'Components/TeamMemberManagement',
   component: TeamMemberManagement,
   tags: ['autodocs'],
+  decorators: [
+    (Story) => (
+      <QueryClientProvider client={queryClient}>{Story()}</QueryClientProvider>
+    )
+  ],
   argTypes: {
     handleRemainingUsers: {
       control: {
@@ -32,19 +36,19 @@ const meta: Meta<typeof TeamMemberManagement> = {
       },
       description: 'This function is a callback when a user is removed.'
     },
-    projectName: {
+    project: {
+      control: {
+        type: 'object'
+      },
+      description: 'The selected project.',
+      defaultValue: project
+    },
+    apiKey: {
       control: {
         type: 'text'
       },
-      description: 'The selected project name.',
-      defaultValue: 'Tricker'
-    },
-    teamMembers: {
-      control: {
-        type: 'array'
-      },
-      defaultValue: teamMembers,
-      description: 'A list of the members that belong to the project.'
+      description: 'The provider API key.',
+      defaultValue: 'lin_123456789'
     },
     actualUser: {
       control: {
@@ -64,8 +68,8 @@ export const TeamMemberManagements: Story = {
   tags: ['autodocs'],
   args: {
     handleRemainingUsers: () => {},
-    teamMembers,
-    projectName: 'Tricker',
+    project,
+    apiKey: 'lin_123456789',
     actualUser
   },
   render: (args) => (
