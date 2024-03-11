@@ -1,30 +1,20 @@
-import LoginPage from '@pages/Login/LoginPage'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute/PrivateRoute'
 import NavBar from '@components/NavBar/NavBar'
 import { SidebarNav } from '@components/SidebarNav/SidebarNav'
-import React from 'react'
+import EmptyProjectPage from '@pages/Login/EmptyProjectPage'
+import RoleSelectPage from '@pages/Login/RoleSelectPage'
+import LoginPage from '@pages/Login/LoginPage'
+import SetupPage from '@pages/InitialIntegration/InitialIntegrationPage'
+import useScreenSize from '@hooks/useScreenSize'
+import LoadingPage from '@pages/Loader/LoadingPage'
 
 const WithNav = (): JSX.Element => {
-  const [isMobile, setIsMobile] = React.useState<boolean>(
-    window.screen.width < 768
-  )
-
-  React.useEffect(() => {
-    const handleResize = (): void => {
-      setIsMobile(window.screen.width < 768)
-    }
-
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
+  const screenSize = useScreenSize()
 
   return (
     <div>
-      {isMobile ? (
+      {screenSize.width < 768 ? (
         <NavBar isProjectManager />
       ) : (
         <SidebarNav
@@ -41,13 +31,29 @@ const WithNav = (): JSX.Element => {
 export const ROUTER = createBrowserRouter([
   {
     path: '/login',
-    element: <LoginPage />
+    element: <LoginPage /> // StepperExample
   },
   {
-    element: <WithNav />,
+    path: '/login/non-invited',
+    element: <EmptyProjectPage />
+  },
+  {
+    path: '/login/role',
+    element: <RoleSelectPage />
+  },
+  {
+    path: '/setup',
+    element: <SetupPage />
+  },
+  {
+    path: '/setup/loader',
+    element: <LoadingPage />
+  },
+  {
+    element: <PrivateRoute />,
     children: [
       {
-        element: <PrivateRoute />,
+        element: <WithNav />,
         children: [
           {
             path: '/',

@@ -1,38 +1,28 @@
 import LoginImage from '@assets/Login/LoginImage.svg'
 import TrickerLogo from '@assets/TrickerLogo'
 import TrickerTitle from '@assets/TrickerTitle'
-
 import { LoginWithButton } from '@components/LoginWithButton/LoginWithButton'
 import { NeedHelpButton } from '@components/NeedHelpButton/NeedHelpButton'
-import { service } from '@service/service'
-import React from 'react'
+import { useVerifyToken } from '@data-provider/query'
+import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const LoginPage = (): JSX.Element => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
-  React.useEffect((): void => {
-    const verifyToken = (): void => {
-      const code = searchParams.get('code')
-      if (code !== null) {
-        service
-          .verifyToken(code)
-          .then(() => {
-            navigate('/')
-            return null
-          })
-          .catch((error) => {
-            console.error('Error verifying token:', error)
-          })
-      }
+  const code = searchParams.get('code')
+  const { data } = useVerifyToken(code || '')
+
+  useEffect(() => {
+    if (data) {
+      navigate('/')
     }
-    verifyToken()
-  }, [searchParams, navigate])
+  }, [data, navigate])
 
   return (
     <div className={`flex bg-login bg-cover`}>
-      <div className="flex justify-center w-[542px] h-screen items-end bg-gray-700">
+      <div className="flex justify-center md:max-w-[542px] w-full h-screen items-end bg-gray-700">
         <div className="mb-[54px] flex flex-col w-fit h-[59%] items-center justify-between">
           <div className="flex flex-col items-center gap-6">
             <TrickerLogo />
@@ -48,7 +38,7 @@ const LoginPage = (): JSX.Element => {
           <NeedHelpButton />
         </div>
       </div>
-      <div className="flex justify-end items-end h-screen w-full">
+      <div className="hidden md:flex justify-end items-end h-screen w-full ">
         <img src={LoginImage} alt="Login image" />
       </div>
     </div>

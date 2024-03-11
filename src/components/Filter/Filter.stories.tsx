@@ -1,32 +1,39 @@
 // SearchButton.stories.tsx
 import { type Meta, type Story } from '@storybook/react'
-import SearchFilter, { type SearchButtonProps } from './SearchFilter'
-import * as icons from '@components/Icon/index.ts'
+import Filter, { type SearchButtonProps } from './Filter'
 import config from '../../../tailwind.config'
 
 const colors = config.theme.extend.colors
 
-const meta: Meta<typeof SearchFilter> = {
-  title: 'Components/SearchFilter',
-  component: SearchFilter,
+const meta: Meta<typeof Filter> = {
+  title: 'Components/Filter',
+  component: Filter,
   tags: ['autodocs'],
   argTypes: {
-    searchIcon: {
+    statusOptions: {
       control: {
-        type: 'select',
-        options: Object.keys(icons)
+        type: 'object'
       }
     },
-    priorityIcon: {
+    priorityOptions: {
       control: {
-        type: 'select',
-        options: Object.keys(icons)
+        type: 'object'
       }
+    },
+    show: {
+      control: {
+        type: 'boolean'
+      }
+    },
+    handleSelect: {
+      action: 'handleSelect'
     }
   },
   args: {
-    searchIcon: 'SearchIcon',
-    priorityIcon: 'MediumPriorityIcon',
+    show: true,
+    handleSelect: (options) => {
+      console.log(options)
+    },
     statusOptions: [
       { option: 'Todo', color: colors.white, selected: false },
       {
@@ -54,6 +61,6 @@ const meta: Meta<typeof SearchFilter> = {
 
 export default meta
 
-const Template: Story<SearchButtonProps> = (args) => <SearchFilter {...args} />
+const Template: Story<SearchButtonProps> = (args) => <Filter {...args} />
 
 export const Default = Template.bind({})

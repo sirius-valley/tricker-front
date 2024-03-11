@@ -9,23 +9,23 @@ const colors = config.theme.extend.colors
 
 const buttonVariants = cva(
   [
-    'rounded-xl p-2 gap-2 flex items-center justify-center cursor-pointer',
+    'w-fit rounded-xl p-4 gap-2 flex items-center justify-center cursor-pointer',
     'transition-all duration-300 ease-in-out focus:outline-none',
     'disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed'
   ],
   {
     variants: {
       size: {
-        large: 'w-[170px] h-[56px]',
-        medium: 'w-[170px] h-[42px]'
+        large: 'h-[56px]',
+        medium: 'h-[42px]'
       },
       variant: {
-        filled: ['bg-primary-400 hover:bg-primary-500', 'text-black'],
+        filled: ['bg-primary-400 hover:bg-primary-500 text-black'],
         outline: [
-          'bg-transparent border border-primary-400 hover:bg-gray-400',
-          'text-white'
+          'bg-transparent border border-primary-400 hover:bg-gray-400 text-white'
         ],
-        ghost: ['bg-transparent hover:bg-gray-400', 'text-primary-400']
+        ghost: ['bg-transparent hover:bg-gray-400', 'text-primary-400'],
+        error: ['bg-error-500 hover:bg-error-500/60 text-white']
       }
     },
     defaultVariants: {
@@ -39,6 +39,8 @@ export interface ButtonProps extends VariantProps<typeof buttonVariants> {
   children: React.ReactNode
   icon?: keyof typeof icons
   disabled?: boolean
+  className?: string
+  onClick: () => void
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -46,6 +48,8 @@ const Button: React.FC<ButtonProps> = ({
   disabled,
   variant,
   icon,
+  className = '',
+  onClick,
   ...props
 }) => {
   const buttonClass = buttonVariants({ ...props, variant })
@@ -65,13 +69,21 @@ const Button: React.FC<ButtonProps> = ({
       case 'ghost':
         iconColor = colors.primary['400']
         break
+      case 'error':
+        iconColor = colors.white
+        break
       default:
         iconColor = colors.black
     }
   }
 
   return (
-    <button className={buttonClass} {...props} disabled={disabled}>
+    <button
+      className={className + buttonClass + className}
+      {...props}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {icon && <Icon name={icon} fillColor={iconColor} />}
       <Subtitle>{children}</Subtitle>
       {icon && <Icon name={icon} fillColor={iconColor} />}

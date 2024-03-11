@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import Body2 from '@utils/typography/body2/body2'
 import HelperText from '@utils/typography/helpertext/helpertext'
+import { Tooltip } from '@components/Tooltip/Tooltip'
 
 const inputVariants = cva(
   [
-    'outline-none placeholder-gray-300 bg-transparent border rounded-lg py-3 px-4 w-[306px] h-[43px] text-gray-300'
+    'placeholder:italic outline-none placeholder-gray-300 bg-transparent border rounded-lg py-3 px-4 w-full h-[43px] text-gray-300'
   ],
   {
     variants: {
@@ -33,6 +34,7 @@ export interface InputProps
   label?: string
   required?: boolean
   placeholder?: string
+  tooltip?: string
   handleValue: (value: string) => void
 }
 
@@ -44,7 +46,8 @@ const Input = ({
   label = '',
   required = false,
   handleValue,
-  placeholder = ''
+  placeholder = '',
+  tooltip = ''
 }: InputProps): JSX.Element => {
   const [value, setValue] = useState<string>('')
   const textColor: string =
@@ -61,17 +64,25 @@ const Input = ({
   return (
     <div className="gap-2 flex flex-col">
       {label !== '' && (
-        <Body2
-          className={` ${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex text-sm`}
-        >
-          {label}
-          {variant !== 'disabled' && required && (
-            <Body2 className="text-error-500 flex text-sm">*</Body2>
+        <div className="flex">
+          <Body2
+            className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex items-center text-sm font-normal`}
+          >
+            {label}
+            &nbsp;
+          </Body2>
+          {tooltip !== '' && (
+            <Tooltip content={tooltip} iconWidth="16" iconHeight="16" />
           )}
-        </Body2>
+          {variant !== 'disabled' && required && (
+            <Body2 className="text-error-500 flex text-sm font-normal">
+              &nbsp;*
+            </Body2>
+          )}
+        </div>
       )}
       <input
-        className={inputVariants({ variant, className })}
+        className={className + inputVariants({ variant, className })}
         value={value}
         type={type}
         required={required}

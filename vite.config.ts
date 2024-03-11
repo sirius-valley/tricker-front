@@ -39,8 +39,8 @@ export default defineConfig({
         replacement: path.resolve(path.join(__dirname, '/src/redux'))
       },
       {
-        find: '@service',
-        replacement: path.resolve(path.join(__dirname, '/src/service'))
+        find: '@data-provider',
+        replacement: path.resolve(path.join(__dirname, '/src/data-provider'))
       }
     ]
   }

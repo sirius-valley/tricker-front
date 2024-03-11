@@ -34,7 +34,7 @@ export default meta
 
 type Story = StoryObj<typeof TabItem>
 
-export const ProfilePictureButton: Story = {
+export const Primary: Story = {
   tags: ['autodocs'],
   args: {
     teamMember: 'Team statistics'

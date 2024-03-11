@@ -1,24 +1,37 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { type User } from '@utils/types'
+import { type Step, type User } from '@utils/types'
 
 interface InitialStateType {
   user: User
+  currentStep: number
+  steps: Step[]
+  projectName: string
 }
 
 const initialState: InitialStateType = {
   user: {
     id: '',
-    username: '',
+    cognitoId: '',
     profileImage: '',
-    createdAt: new Date(),
+    email: '',
+    name: '',
+    createdAt: new Date().toString(),
     projectsRoleAssigned: [],
     emittedUserProjectRole: [],
-    emittedBlockerStatusModif: [],
+    // emittedBlockerStatusModification: [],
     authoredIssues: [],
     asignedIssues: [],
     emittedIssueChangeLogs: [],
-    emittedManualTimeModif: []
-  }
+    emittedManualTimeModification: []
+    // OrganizationAdministrator: []
+  },
+  currentStep: 0,
+  steps: [
+    { label: 'Initial Setup' },
+    { label: 'Project Selection' },
+    { label: 'Team Members' }
+  ],
+  projectName: ''
 }
 
 const userSlice = createSlice({
@@ -27,9 +40,15 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload
+    },
+    setCurrentStep: (state, action: PayloadAction<number>) => {
+      state.currentStep = action.payload
+    },
+    setProjectName: (state, action: PayloadAction<string>) => {
+      state.projectName = action.payload
     }
   }
 })
 
-export const { setUser } = userSlice.actions
+export const { setUser, setCurrentStep, setProjectName } = userSlice.actions
 export default userSlice.reducer
