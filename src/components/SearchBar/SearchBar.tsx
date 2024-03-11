@@ -3,11 +3,11 @@ import { type VariantProps, cva } from 'class-variance-authority'
 import React from 'react'
 
 const searchBarVariants = cva(
-  ['flex items-center bg-white/5 gap-2 w-[147px] h-fit placeholder:text-black'],
+  ['flex items-center bg-white/5 h-fit border border-white/30'],
   {
     variants: {
       variant: {
-        desktop: ['border border-white/30 py-1 px-2 rounded text-sm'],
+        desktop: ['py-1 px-2 w-[147px] rounded gap-2 text-sm'],
         mobile: ['py-2 px-4 w-[289px] rounded-lg gap-4']
       }
     },

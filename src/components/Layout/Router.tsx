@@ -34,14 +34,12 @@ export const ROUTER = createBrowserRouter([
   {
     path: '/login',
     element: (
-      <FilterSection
-        handleSelect={function (options: OptionAttr[]): void {
-          throw new Error('Function not implemented.')
-        }}
-        handleSearch={function (value: string): void {
-          throw new Error('Function not implemented.')
-        }}
-      />
+      <div className="h-screen w-screen bg-gray-700">
+        <FilterSection
+          handleSelect={function (options: OptionAttr[]): void {}}
+          handleSearch={function (value: string): void {}}
+        />
+      </div>
     ) // StepperExample
   },
   {

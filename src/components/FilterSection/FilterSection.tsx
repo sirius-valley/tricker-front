@@ -5,7 +5,8 @@ import Body1 from '@utils/typography/body1/body1'
 import { GridList } from '@components/GridList/GridList'
 import { SearchBar } from '@components/SearchBar/SearchBar'
 import SquaredIconButton from '@components/SquaredIconButton/SquaredIconButton'
-import { FilterIcon } from '@components/Icon'
+import { FilterIcon, TeamIcon } from '@components/Icon'
+import H2 from '@utils/typography/h2/h2'
 
 export interface FilterSectionProps {
   handleSelect: (options: OptionAttr[]) => void
@@ -57,7 +58,20 @@ const FilterSection: React.FC<FilterSectionProps> = ({ handleSearch }) =>
         </div>
       </div>
     ) : (
-      <div></div>
+      <div className=" flex flex-col justify-center gap-4 p-6 pb-4">
+        <div className="flex w-fit gap-2 items-center">
+          <TeamIcon />
+          <H2 className="text-xl leading-[22px] text-white">My Team</H2>
+        </div>
+        <div className="flex gap-4 items-center">
+          <SearchBar
+            handleValue={setSearchedValue}
+            placeholder="Search Ticket"
+            variant={'mobile'}
+          />
+          <SquaredIconButton icon={<FilterIcon />} isMobile />
+        </div>
+      </div>
     )
   }
 
