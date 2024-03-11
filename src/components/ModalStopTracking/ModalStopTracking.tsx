@@ -22,7 +22,7 @@ const ModalStop: React.FC<ModalStopProps> = ({ onStop, onClose, show }) => {
         <div className="max-w-[539px] w-[92%] min-w-[310px] min-h-[199px] bg-gray-500 border border-gray-300 px-8 py-6 rounded-xl shadow-lg text-white">
           <div className="flex justify-between w-[100%]">
             <h5 className="font-normal mb-2" style={{ fontSize: '24px' }}>
-              Remove Member
+              Stop Tracking
             </h5>
             <button
               className="h-fit hidden sm:block"
@@ -51,9 +51,9 @@ const ModalStop: React.FC<ModalStopProps> = ({ onStop, onClose, show }) => {
               Cancel
             </Button>
             <Button
-              variant="error"
+              variant="filled"
               size={'large'}
-              className="w-[225px] h-fit"
+              className="w-[225px] h-fit text-black"
               onClick={() => {
                 onStop()
               }}
