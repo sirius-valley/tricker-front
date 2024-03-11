@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import Example from './Example'
 import { render, screen } from '@testing-library/react'
-//import React from 'react'
+// import React from 'react'
 
 /**
  * For more info visit:
