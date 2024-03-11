@@ -1,9 +1,9 @@
 name: Deploy to AWS S3 and Invalidate CloudFront Cache
 
 on:
-  pull_request:
+  push:
     branches:
-      - dev
+      - main
 
 permissions:
   id-token: write # This is required for requesting the JWT
