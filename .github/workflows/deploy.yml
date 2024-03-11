@@ -1,12 +1,9 @@
 name: Deploy to AWS S3 and Invalidate CloudFront Cache
 
 on:
-  push:
+  pull_request:
     branches:
-      - main
-
-env:
-  AWS_REGION : <"us-east-1">
+      - dev
 
 jobs:
   deploy:
@@ -38,7 +35,7 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE }}
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: "us-east-1"
 
       - name: Sync to S3 bucket
         run: aws s3 sync build/ s3://tricker-ui-staging --delete
