@@ -2,6 +2,7 @@ import React from 'react'
 
 export interface SquaredIconButtonProps {
   icon?: React.ReactNode
+  onClick: () => void
   isMobile?: boolean
   className?: string
 }
@@ -9,6 +10,7 @@ export interface SquaredIconButtonProps {
 const SquaredIconButton: React.FC<SquaredIconButtonProps> = ({
   className,
   icon,
+  onClick,
   isMobile = false,
   ...props
 }) => {
@@ -28,6 +30,7 @@ const SquaredIconButton: React.FC<SquaredIconButtonProps> = ({
   return (
     <button
       className={`hover:bg-white/15 active:bg-white/10 bg-white/5 border-white/30 border ${isMobile ? 'p-2 rounded-lg' : 'p-1 rounded'} flex items-center justify-center cursor-pointer ${className}`}
+      onClick={onClick}
       {...props}
     >
       {IconComponent}

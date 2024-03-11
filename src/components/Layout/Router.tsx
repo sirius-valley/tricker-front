@@ -35,6 +35,7 @@ export const ROUTER = createBrowserRouter([
     path: '/login',
     element: (
       <div className="h-screen w-screen bg-gray-700">
+        <div className="w-30 h-10"></div>
         <FilterSection
           handleSelect={function (options: OptionAttr[]): void {}}
           handleSearch={function (value: string): void {}}
