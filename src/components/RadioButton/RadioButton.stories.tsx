@@ -2,7 +2,7 @@ import { type Meta, type StoryObj } from '@storybook/react'
 import { RadioButton } from './RadioButton'
 
 const meta: Meta<{
-  selectedValue: number
+  selectedValue: string
 }> = {
   title: 'Components/RadioButton',
   tags: ['autodocs'],
@@ -12,8 +12,8 @@ const meta: Meta<{
   },
   argTypes: {
     selectedValue: {
-      defaultValue: 0,
-      options: [0, 1, 2],
+      defaultValue: '0',
+      options: ['0', '1', '2'],
       control: {
         type: 'select'
       }
@@ -24,28 +24,28 @@ const meta: Meta<{
 export default meta
 
 type Story = StoryObj<{
-  selectedValue: number
+  selectedValue: string
 }>
 
 export const Primary: Story = {
   tags: ['autodocs'],
   args: {
-    selectedValue: 0
+    selectedValue: '0'
   },
   render: (args) => (
     <>
       <RadioButton
-        id={0}
+        id={'0'}
         selectedValue={args.selectedValue}
         handleChecked={() => {}}
       />
       <RadioButton
-        id={1}
+        id={'1'}
         selectedValue={args.selectedValue}
         handleChecked={() => {}}
       />
       <RadioButton
-        id={2}
+        id={'2'}
         selectedValue={args.selectedValue}
         handleChecked={() => {}}
       />
