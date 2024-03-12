@@ -9,6 +9,7 @@ import { FilterIcon, TeamIcon } from '@components/Icon'
 import H2 from '@utils/typography/h2/h2'
 import { priorityOptions, statusOptions } from './mockedFilterOptions'
 import Tag from '@components/Tag/Tag'
+import useDebounce from '@hooks/useDebounce'
 
 export interface FilterSectionProps {
   handleSelect: (options: OptionAttr[]) => void
@@ -28,9 +29,8 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const [selectedOptions, setSelectedOptions] = useState<OptionAttr[]>([])
   const screen = useScreenSize()
   const filterRef = useRef<HTMLDivElement | null>(null)
+
   useEffect(() => {
-    handleSearch(searchedValue)
-    handleSelect(selectedOptions)
     const handleClickOutside = (event: MouseEvent): void => {
       const target = event.target as HTMLElement
 
@@ -39,13 +39,25 @@ const FilterSection: React.FC<FilterSectionProps> = ({
         setShowFilter(false)
       }
     }
-
     document.addEventListener('mousedown', handleClickOutside)
-
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [handleSearch, handleSelect, selectedOptions, searchedValue])
+  }, [])
+
+  const handleSelectDebounced = useDebounce((options: OptionAttr[]) => {
+    handleSelect(options)
+  }, 2000)
+  useEffect(() => {
+    handleSelectDebounced(selectedOptions)
+  }, [selectedOptions, handleSelectDebounced])
+  const handleSearchDebounced = useDebounce((value: string) => {
+    handleSearch(value)
+  }, 1000)
+
+  useEffect(() => {
+    handleSearchDebounced(searchedValue)
+  }, [searchedValue, handleSearchDebounced])
 
   const handleCheckGridList = (isList: boolean): void => {
     isList ? handleView('list') : handleView('grid')
