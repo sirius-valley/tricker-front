@@ -10,7 +10,7 @@ export interface TagProps {
 const Tag: React.FC<TagProps> = ({ className, name, ...props }) => {
   return (
     <div
-      className={`bg-gray-500/90 rounded gap-2.5 w-fit h-[26px] px-2 py-1 flex items-center justify-between ${className}`}
+      className={`bg-gray-400 rounded gap-2.5 w-fit h-[26px] px-2 py-1 flex items-center justify-between ${className}`}
       {...props}
     >
       <Body2 className="text-white text-sm">{name}</Body2>

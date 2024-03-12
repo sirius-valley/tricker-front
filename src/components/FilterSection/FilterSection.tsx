@@ -8,6 +8,7 @@ import SquaredIconButton from '@components/SquaredIconButton/SquaredIconButton'
 import { FilterIcon, TeamIcon } from '@components/Icon'
 import H2 from '@utils/typography/h2/h2'
 import { priorityOptions, statusOptions } from './mockedFilterOptions'
+import Tag from '@components/Tag/Tag'
 
 export interface FilterSectionProps {
   handleSelect: (options: OptionAttr[]) => void
@@ -64,41 +65,50 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   }
 
   return screen.width >= 768 ? (
-    <div className="w-[467px] rounded-tl-xl border border-white-10 bg-gray-500 flex items-center gap-8 p-[22px] pl-6">
-      <div className="flex w-fit gap-2 items-center">
-        <Body1 className="text-[17px] leading-[22px] text-white">
-          Assigned to me
-        </Body1>
-        <GridList onChecked={handleCheckGridList} />
-      </div>
-      <div className="flex gap-2 items-center">
-        <SearchBar
-          handleValue={setSearchedValue}
-          placeholder="Search Ticket"
-          variant={'desktop'}
-        />
-        <div ref={filterRef}>
-          <SquaredIconButton
-            onClick={handleButtonClick}
-            icon={<FilterIcon />}
+    <div className="flex flex-col justify-center justify-center">
+      <div className="w-[467px] rounded-tl-xl border border-white-10 bg-gray-500 flex items-center gap-8 p-[22px] pl-6">
+        <div className="flex w-fit gap-2 items-center">
+          <Body1 className="text-[17px] leading-[22px] text-white">
+            Assigned to me
+          </Body1>
+          <GridList onChecked={handleCheckGridList} />
+        </div>
+        <div className="flex gap-2 items-center">
+          <SearchBar
+            handleValue={setSearchedValue}
+            placeholder="Search Ticket"
+            variant={'desktop'}
           />
-          {showFilter && (
-            <div
-              className="absolute"
-              style={{ top: filterPosition.top, left: filterPosition.left }}
-            >
-              <Filter
-                statusOptions={statusOptions}
-                priorityOptions={priorityOptions}
-                handleSelect={(options: OptionAttr[]) => {
-                  setSelectedOptions(options)
-                }}
-                show={showFilter}
-              />
-            </div>
-          )}
+          <div ref={filterRef}>
+            <SquaredIconButton
+              onClick={handleButtonClick}
+              icon={<FilterIcon />}
+            />
+            {showFilter && (
+              <div
+                className="absolute"
+                style={{ top: filterPosition.top, left: filterPosition.left }}
+              >
+                <Filter
+                  statusOptions={statusOptions}
+                  priorityOptions={priorityOptions}
+                  handleSelect={(options: OptionAttr[]) => {
+                    setSelectedOptions(options)
+                  }}
+                  show={showFilter}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
+      {selectedOptions.length !== 0 && (
+        <div className="w-[467px] h-fit border border-white-10 bg-gray-500 flex flex-wrap items-center gap-2 py-4 px-6">
+          {selectedOptions.map((option: OptionAttr, index: number) => (
+            <Tag name={option.option} key={index} />
+          ))}
+        </div>
+      )}
     </div>
   ) : (
     <div className=" flex flex-col justify-center gap-4 p-6 pb-4">
