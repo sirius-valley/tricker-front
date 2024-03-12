@@ -6,6 +6,7 @@ import { NeedHelpButton } from '@components/NeedHelpButton/NeedHelpButton'
 import { useVerifyToken } from '@data-provider/query'
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import config from "@utils/config.ts";
 
 const LoginPage = (): JSX.Element => {
   const [searchParams] = useSearchParams()
@@ -30,9 +31,7 @@ const LoginPage = (): JSX.Element => {
             <LoginWithButton
               title="Log In With Google"
               iconName="GoogleIcon"
-              redirectUrl={
-                'https://tricker.auth.us-east-2.amazoncognito.com/oauth2/authorize?response_type=code&client_id=1uibn62hen866a6qufocjp8uuk&identity_provider=Google&redirect_uri=http://localhost:5173/login/&scope=profile+email+openid'
-              }
+              redirectUrl={config.cognitoRedirectUrl}
             />
           </div>
           <NeedHelpButton />
