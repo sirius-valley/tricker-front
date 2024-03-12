@@ -58,9 +58,12 @@ const Filter: React.FC<SearchButtonProps> = ({
 
     if (!selectedOptions.some((opt) => opt.option === option.option)) {
       updatedOptions.push(option)
+      setSelectedOptions(updatedOptions)
+    } else {
+      setSelectedOptions((prevOptions: OptionAttr[]) =>
+        prevOptions.filter((opt) => opt !== option)
+      )
     }
-
-    setSelectedOptions(updatedOptions)
   }
 
   const handlePriorityOptionSelect = (option: OptionAttr): void => {
@@ -70,9 +73,12 @@ const Filter: React.FC<SearchButtonProps> = ({
 
     if (!selectedOptions.some((opt) => opt.option === option.option)) {
       updatedOptions.push(option)
+      setSelectedOptions(updatedOptions)
+    } else {
+      setSelectedOptions((prevOptions: OptionAttr[]) =>
+        prevOptions.filter((opt) => opt !== option)
+      )
     }
-
-    setSelectedOptions(updatedOptions)
   }
 
   if (!show) {
