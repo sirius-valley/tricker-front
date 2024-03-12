@@ -176,7 +176,7 @@ export interface TimeTracking {
 export interface UserProjectRole {
   id: string
   userId?: string
-  projectId?: string
+  projectId: string
   roleId?: string
   userEmitterId?: string
   createdAt?: Date

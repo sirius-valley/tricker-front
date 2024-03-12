@@ -17,7 +17,7 @@ export interface SidebarNavProps
   variant: 'pm' | 'dev'
   timeTracking?: TimeTracking
   dropdownOptions: Array<{ title: string; image: string }>
-  handleDropdownSelect: (option: { title: string; image: string }) => void
+  handleDropdownSelect: (selectedProjectId: string) => void
 }
 
 export const SidebarNav: React.FC<SidebarNavProps> = ({
