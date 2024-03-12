@@ -28,7 +28,6 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const [selectedOptions, setSelectedOptions] = useState<OptionAttr[]>([])
   const screen = useScreenSize()
   const filterRef = useRef<HTMLDivElement | null>(null)
-  console.log(selectedOptions)
   useEffect(() => {
     handleSearch(searchedValue)
     handleSelect(selectedOptions)
@@ -63,7 +62,9 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       setFilterPosition({ top: filterTop, left: filterLeft - 281 })
     }
   }
-
+  const handleRemoveTag = (index: number): void => {
+    setSelectedOptions(selectedOptions.filter((_, i) => i !== index))
+  }
   return screen.width >= 768 ? (
     <div className="flex flex-col justify-center justify-center">
       <div className="w-[467px] rounded-tl-xl border border-white-10 bg-gray-500 flex items-center gap-8 p-[22px] pl-6">
@@ -105,7 +106,13 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       {selectedOptions.length !== 0 && (
         <div className="w-[467px] h-fit border border-white-10 bg-gray-500 flex flex-wrap items-center gap-2 py-4 px-6">
           {selectedOptions.map((option: OptionAttr, index: number) => (
-            <Tag name={option.option} key={index} />
+            <Tag
+              handleRemove={() => {
+                handleRemoveTag(index)
+              }}
+              name={option.option}
+              key={index}
+            />
           ))}
         </div>
       )}
