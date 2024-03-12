@@ -182,7 +182,7 @@ export interface UserProjectRole {
   createdAt?: Date
   updatedAt?: Date
   deletedAt?: Date
-  project?: Project
+  project: Project
   user: User
   userEmitter?: User
   role?: Role
