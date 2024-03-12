@@ -14,6 +14,7 @@ export interface OptionAttr {
 export interface SearchButtonProps {
   statusOptions: OptionAttr[]
   priorityOptions: OptionAttr[]
+  selectedItems?: OptionAttr[]
   handleSelect: (options: OptionAttr[]) => void
   show: boolean
 }
@@ -21,12 +22,13 @@ export interface SearchButtonProps {
 const Filter: React.FC<SearchButtonProps> = ({
   statusOptions,
   priorityOptions,
+  selectedItems = [],
   handleSelect,
   show
 }) => {
   const [showStatusOptions, setShowStatusOptions] = useState(false)
   const [showPriorityOptions, setShowPriorityOptions] = useState(false)
-  const [selectedOptions, setSelectedOptions] = useState<OptionAttr[]>([])
+  const [selectedOptions, setSelectedOptions] = useState<OptionAttr[]>(selectedItems)
   const filterRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
 

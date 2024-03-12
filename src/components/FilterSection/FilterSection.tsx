@@ -93,6 +93,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
                 <Filter
                   statusOptions={statusOptions}
                   priorityOptions={priorityOptions}
+                  selectedItems={selectedOptions}
                   handleSelect={(options: OptionAttr[]) => {
                     setSelectedOptions(options)
                   }}
@@ -143,6 +144,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
               <Filter
                 statusOptions={statusOptions}
                 priorityOptions={priorityOptions}
+                selectedItems={selectedOptions}
                 handleSelect={setSelectedOptions}
                 show={showFilter}
               />
