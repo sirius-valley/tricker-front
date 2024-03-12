@@ -6,7 +6,6 @@ import RoleSelectPage from '@pages/Login/RoleSelectPage'
 import SetupPage from '@pages/InitialIntegration/InitialIntegrationPage'
 import LoadingPage from '@pages/Loader/LoadingPage'
 import FilterSection from '@components/FilterSection/FilterSection'
-import { type OptionAttr } from '@components/Filter/Filter'
 import HomeWrapperPage from '@components/HomeWrapperPage/HomeWrapperPage'
 
 export const ROUTER = createBrowserRouter([
@@ -15,8 +14,8 @@ export const ROUTER = createBrowserRouter([
     element: (
       <div className="h-screen w-screen bg-gray-700">
         <FilterSection
-          handleSelect={function (options: OptionAttr[]): void {}}
-          handleSearch={function (value: string): void {}}
+          handleSelect={function (): void {}}
+          handleSearch={function (): void {}}
           handleView={function (view: 'grid' | 'list'): void {
             console.log(view)
           }}
