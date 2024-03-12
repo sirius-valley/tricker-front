@@ -28,11 +28,11 @@ const Filter: React.FC<SearchButtonProps> = ({
 }) => {
   const [showStatusOptions, setShowStatusOptions] = useState(false)
   const [showPriorityOptions, setShowPriorityOptions] = useState(false)
-  const [selectedOptions, setSelectedOptions] = useState<OptionAttr[]>(selectedItems)
+  const [selectedOptions, setSelectedOptions] =
+    useState<OptionAttr[]>(selectedItems)
   const filterRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
 
-  console.log('selectedOptions', selectedOptions)
   useEffect(() => {
     handleSelect(selectedOptions)
 
