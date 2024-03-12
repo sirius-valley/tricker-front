@@ -27,7 +27,6 @@ const HomeWrapperPage: React.FC = (): JSX.Element => {
       (userProjectRole: UserProjectRole) =>
         userProjectRole.projectId === selectedProject.id
     )
-    console.log(userProjectRole)
     setUserRole(userProjectRole?.role?.name || 'Developer')
   }, [selectedProject, user.projectsRoleAssigned])
 
@@ -77,7 +76,7 @@ const HomeWrapperPage: React.FC = (): JSX.Element => {
     </div>
   ) : (
     <div className="bg-gray-500 h-screen w-screen flex items-center justify-center">
-      <NavBar />
+      <NavBar isProjectManager={userRole === 'Project Manager'} />
       <div className="w-full h-full flex-1 flex items-center justify-center bg-gray-700 pb-[70px]">
         <div className="w-full h-full bg-gray-500">
           <Outlet />
