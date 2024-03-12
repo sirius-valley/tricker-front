@@ -14,7 +14,7 @@ import { type TimeTracking, type User } from '@utils/types'
 export interface SidebarNavProps
   extends React.HTMLAttributes<HTMLInputElement> {
   user?: User
-  variant: 'pm' | 'dev'
+  variant: string
   timeTracking?: TimeTracking
   dropdownOptions: Array<{ title: string; image: string }>
   handleDropdownSelect: (selectedProjectId: string) => void

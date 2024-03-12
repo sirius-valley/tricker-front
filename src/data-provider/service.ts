@@ -243,3 +243,20 @@ export const postProjectIntegrationRequest = async (
   // await new Promise((resolve) => setTimeout(resolve, 1000))
   // return null
 }
+export const getRole = async (
+  userProjectRoleId: string
+): Promise<string | null> => {
+  // const res = await axios.get(`${url}/user/role/${userProjectRoleId}`, {
+  //   headers: {
+  //     Authorization: 'Bearer ' + getAccessToken()
+  //   }
+  // })
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  // return null
+
+  // TESTING
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  return 'Project Manager'
+}

@@ -1,42 +1,23 @@
 import NavBar from '@components/NavBar/NavBar'
 import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import useScreenSize from '@hooks/useScreenSize'
-import { useAppDispatch, useUser } from '@redux/hooks'
-import { setCurrentProjectId } from '@redux/user'
-import { type UserProjectRole } from '@utils/types'
-import React, { useEffect, useState } from 'react'
+import useValidateRole from '@hooks/useValidateRole'
+import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
 const HomeWrapperPage: React.FC = (): JSX.Element => {
-  const [dropdownOptions, setDropdownOptions] = useState<
-    Array<{ title: string; image: string }>
-  >([])
-  const user = useUser()
-  const dispatch = useAppDispatch()
-  useEffect(() => {
-    const setUserProjects = (): void => {
-      if (user.projectsRoleAssigned) {
-        dispatch(setCurrentProjectId(user.projectsRoleAssigned[0].projectId))
-        const dropdownItems = user.projectsRoleAssigned.map(
-          (project: UserProjectRole) => ({
-            id: project.projectId,
-            title: project.project.name,
-            image: project.project?.image || ''
-          })
-        )
-        setDropdownOptions(dropdownItems)
-      }
-    }
-    setUserProjects()
-  })
-  const handleDropdownSelect = (selectedProjectId: string): void => {
-    dispatch(setCurrentProjectId(selectedProjectId))
-  }
+  const [selectedProjectId, setSelectedProjectId] = useState<string>('')
+  const { dropdownOptions, userRole } = useValidateRole(selectedProjectId)
   const screen = useScreenSize()
+
+  const handleDropdownSelect = (selectedProjectId: string): void => {
+    setSelectedProjectId(selectedProjectId)
+  }
+
   return screen.width >= 768 ? (
     <div className="bg-gray-500 h-screen w-screen flex items-center justify-center">
       <SidebarNav
-        variant={'pm'}
+        variant={userRole}
         dropdownOptions={dropdownOptions}
         handleDropdownSelect={handleDropdownSelect}
       />

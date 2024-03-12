@@ -35,7 +35,7 @@ export interface User {
   createdAt?: Date | string
   updatedAt?: Date
   deletedAt?: Date
-  projectsRoleAssigned?: UserProjectRole[]
+  projectsRoleAssigned: UserProjectRole[]
   emittedUserProjectRole?: UserProjectRole[]
   // emittedBlockerStatusModification?: BlockerStatusModification[]
   authoredIssues?: Issue[]
