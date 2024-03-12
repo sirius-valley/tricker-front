@@ -112,7 +112,7 @@ export interface Project {
   providerId: string
   organizationId: string
   image?: string
-  createdAt: Date
+  createdAt: Date | string
   deletedAt?: Date
   organization: Organization
   usersRoles: UserProjectRole[]

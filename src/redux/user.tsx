@@ -1,5 +1,6 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { type Step, type User } from '@utils/types'
+import mockedUser from './mockedUser'
 
 interface InitialStateType {
   user: User
@@ -10,22 +11,23 @@ interface InitialStateType {
 }
 
 const initialState: InitialStateType = {
-  user: {
-    id: '',
-    cognitoId: '',
-    profileImage: '',
-    email: '',
-    name: '',
-    createdAt: new Date().toString(),
-    projectsRoleAssigned: [],
-    emittedUserProjectRole: [],
-    // emittedBlockerStatusModification: [],
-    authoredIssues: [],
-    asignedIssues: [],
-    emittedIssueChangeLogs: [],
-    emittedManualTimeModification: []
-    // OrganizationAdministrator: []
-  },
+  // user: {
+  //   id: '',
+  //   cognitoId: '',
+  //   profileImage: '',
+  //   email: '',
+  //   name: '',
+  //   createdAt: new Date().toString(),
+  //   projectsRoleAssigned: [],
+  //   emittedUserProjectRole: [],
+  //   // emittedBlockerStatusModification: [],
+  //   authoredIssues: [],
+  //   asignedIssues: [],
+  //   emittedIssueChangeLogs: [],
+  //   emittedManualTimeModification: []
+  //   // OrganizationAdministrator: []
+  // },
+  user: mockedUser,
   currentProjectId: '',
   currentStep: 0,
   steps: [

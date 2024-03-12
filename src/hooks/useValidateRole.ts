@@ -1,4 +1,3 @@
-import { useGetUserRole } from '@data-provider/query'
 import { useAppDispatch, useUser } from '@redux/hooks'
 import { setCurrentProjectId } from '@redux/user'
 import { type UserProjectRole } from '@utils/types'
@@ -21,10 +20,8 @@ const useValidateRole = (
     (userProjectRole: UserProjectRole) =>
       userProjectRole.projectId === selectedProjectId
   )
-  const { data } = useGetUserRole(
-    userProjectRole ? userProjectRole.id : user.projectsRoleAssigned[0].id
-  )
-  data ? setUserRole(data) : setUserRole('Developer')
+
+  setUserRole(userProjectRole?.role?.name || 'Developer')
 
   useEffect(() => {
     const setUserProjects = (): void => {
@@ -44,7 +41,7 @@ const useValidateRole = (
       setDropdownOptions(dropdownItems)
     }
     setUserProjects()
-  })
+  }, [selectedProjectId, user.projectsRoleAssigned, dispatch])
 
   return { dropdownOptions, userRole }
 }

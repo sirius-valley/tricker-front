@@ -39,7 +39,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
       </NavLink>
       <div className="flex flex-col justify-between h-full pb-6">
         <div className="flex flex-col gap-6 w-full h-[256px]">
-          {variant === 'pm' && (
+          {variant === 'Project Manager' && (
             <div className="px-6">
               <NavLink to="/projects">
                 {({ isActive }) => (
@@ -73,7 +73,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                 </NavbarItem>
               )}
             </NavLink>
-            {variant === 'pm' && (
+            {variant === 'Project Manager' && (
               <NavLink to="/team">
                 {({ isActive }) => (
                   <NavbarItem

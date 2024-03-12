@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
-import PrivateRoute from './PrivateRoute/PrivateRoute'
+// import PrivateRoute from './PrivateRoute/PrivateRoute'
 import EmptyProjectPage from '@pages/Login/EmptyProjectPage'
 import RoleSelectPage from '@pages/Login/RoleSelectPage'
 import LoginPage from '@pages/Login/LoginPage'
@@ -29,7 +29,6 @@ export const ROUTER = createBrowserRouter([
     element: <LoadingPage />
   },
   {
-    element: <PrivateRoute />,
     children: [
       {
         element: <HomeWrapperPage />,
