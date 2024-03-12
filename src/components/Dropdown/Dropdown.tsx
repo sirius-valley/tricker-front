@@ -4,6 +4,7 @@ import Body2 from '@utils/typography/body2/body2'
 import Body1 from '@utils/typography/body1/body1'
 import config from '../../../tailwind.config'
 import { type DropdownOption } from '@utils/types'
+import NoAvatarProject from '@components/NoAvatar/NoAvatarProject'
 
 const colors = config.theme.extend.colors
 
@@ -49,10 +50,14 @@ export const Dropdown: React.FC<DropdownProps> = ({
           className="relative w-full cursor-pointer py-2 px-6 flex items-center justify-between focus:outline-none "
         >
           <span className="flex items-center gap-2 w-fit">
-            <img
-              src={selectedOption.image}
-              className="h-[32px] w-[32px] rounded-sm"
-            />
+            {selectedOption.image ? (
+              <img
+                src={selectedOption.image}
+                className="h-[32px] w-[32px] rounded-sm"
+              />
+            ) : (
+              <NoAvatarProject text={selectedOption.title} />
+            )}
             <Body2 className="text-white font-semibold overflow-hidden overflow-ellipsis whitespace-nowrap">
               {selectedOption.title}
             </Body2>
@@ -82,11 +87,16 @@ export const Dropdown: React.FC<DropdownProps> = ({
                         : 'transparent'
                     }
                   />
-                  <img
-                    src={option.image}
-                    alt=""
-                    className="h-5 w-5 rounded-sm"
-                  />
+                  {selectedOption.image ? (
+                    <img
+                      src={option.image}
+                      alt=""
+                      className="h-5 w-5 rounded-sm"
+                    />
+                  ) : (
+                    <NoAvatarProject text={selectedOption.title} />
+                  )}
+
                   <Body1 className="text-white overflow-hidden overflow-ellipsis whitespace-nowrap">
                     {option.title}
                   </Body1>
