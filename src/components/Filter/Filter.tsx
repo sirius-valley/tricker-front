@@ -14,6 +14,7 @@ export interface OptionAttr {
 export interface SearchButtonProps {
   statusOptions: OptionAttr[]
   priorityOptions: OptionAttr[]
+  selectedItems?: OptionAttr[]
   handleSelect: (options: OptionAttr[]) => void
   show: boolean
 }
@@ -21,12 +22,14 @@ export interface SearchButtonProps {
 const Filter: React.FC<SearchButtonProps> = ({
   statusOptions,
   priorityOptions,
+  selectedItems = [],
   handleSelect,
   show
 }) => {
   const [showStatusOptions, setShowStatusOptions] = useState(false)
   const [showPriorityOptions, setShowPriorityOptions] = useState(false)
-  const [selectedOptions, setSelectedOptions] = useState<OptionAttr[]>([])
+  const [selectedOptions, setSelectedOptions] =
+    useState<OptionAttr[]>(selectedItems)
   const filterRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -50,27 +53,14 @@ const Filter: React.FC<SearchButtonProps> = ({
     }
   }, [handleSelect, selectedOptions])
 
-  const handleStatusOptionSelect = (option: OptionAttr): void => {
-    option.selected = !option.selected
-    if (option.selected) {
-      setSelectedOptions((prevOptions: OptionAttr[]) => [
-        ...prevOptions,
-        option
-      ])
-    } else {
-      setSelectedOptions((prevOptions: OptionAttr[]) =>
-        prevOptions.filter((opt) => opt !== option)
-      )
-    }
-  }
+  const handleOptionSelect = (option: OptionAttr): void => {
+    const updatedOptions = selectedOptions.map((opt) =>
+      opt.option === option.option ? { ...opt, selected: !opt.selected } : opt
+    )
 
-  const handlePriorityOptionSelect = (option: OptionAttr): void => {
-    option.selected = !option.selected
-    if (option.selected) {
-      setSelectedOptions((prevOptions: OptionAttr[]) => [
-        ...prevOptions,
-        option
-      ])
+    if (!selectedOptions.some((opt) => opt.option === option.option)) {
+      updatedOptions.push(option)
+      setSelectedOptions(updatedOptions)
     } else {
       setSelectedOptions((prevOptions: OptionAttr[]) =>
         prevOptions.filter((opt) => opt !== option)
@@ -141,7 +131,7 @@ const Filter: React.FC<SearchButtonProps> = ({
                     <Checkbox
                       defaultChecked={selectedOptions.includes(option)}
                       onChecked={() => {
-                        handleStatusOptionSelect(option)
+                        handleOptionSelect(option)
                       }}
                     />
                   </div>
@@ -193,7 +183,7 @@ const Filter: React.FC<SearchButtonProps> = ({
                   <Checkbox
                     defaultChecked={selectedOptions.includes(option)}
                     onChecked={() => {
-                      handlePriorityOptionSelect(option)
+                      handleOptionSelect(option)
                     }}
                   />
                 </div>
