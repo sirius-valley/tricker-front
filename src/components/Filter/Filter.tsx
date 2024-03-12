@@ -30,6 +30,7 @@ const Filter: React.FC<SearchButtonProps> = ({
   const filterRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
 
+  console.log('selectedOptions', selectedOptions)
   useEffect(() => {
     handleSelect(selectedOptions)
 
@@ -51,31 +52,27 @@ const Filter: React.FC<SearchButtonProps> = ({
   }, [handleSelect, selectedOptions])
 
   const handleStatusOptionSelect = (option: OptionAttr): void => {
-    option.selected = !option.selected
-    if (option.selected) {
-      setSelectedOptions((prevOptions: OptionAttr[]) => [
-        ...prevOptions,
-        option
-      ])
-    } else {
-      setSelectedOptions((prevOptions: OptionAttr[]) =>
-        prevOptions.filter((opt) => opt !== option)
-      )
+    const updatedOptions = selectedOptions.map((opt) =>
+      opt.option === option.option ? { ...opt, selected: !opt.selected } : opt
+    )
+
+    if (!selectedOptions.some((opt) => opt.option === option.option)) {
+      updatedOptions.push(option)
     }
+
+    setSelectedOptions(updatedOptions)
   }
 
   const handlePriorityOptionSelect = (option: OptionAttr): void => {
-    option.selected = !option.selected
-    if (option.selected) {
-      setSelectedOptions((prevOptions: OptionAttr[]) => [
-        ...prevOptions,
-        option
-      ])
-    } else {
-      setSelectedOptions((prevOptions: OptionAttr[]) =>
-        prevOptions.filter((opt) => opt !== option)
-      )
+    const updatedOptions = selectedOptions.map((opt) =>
+      opt.option === option.option ? { ...opt, selected: !opt.selected } : opt
+    )
+
+    if (!selectedOptions.some((opt) => opt.option === option.option)) {
+      updatedOptions.push(option)
     }
+
+    setSelectedOptions(updatedOptions)
   }
 
   if (!show) {

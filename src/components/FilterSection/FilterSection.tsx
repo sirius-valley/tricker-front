@@ -7,7 +7,7 @@ import { SearchBar } from '@components/SearchBar/SearchBar'
 import SquaredIconButton from '@components/SquaredIconButton/SquaredIconButton'
 import { FilterIcon, TeamIcon } from '@components/Icon'
 import H2 from '@utils/typography/h2/h2'
-import config from '../../../tailwind.config'
+import { priorityOptions, statusOptions } from './mockedFilterOptions'
 
 export interface FilterSectionProps {
   handleSelect: (options: OptionAttr[]) => void
@@ -16,6 +16,7 @@ export interface FilterSectionProps {
 }
 
 const FilterSection: React.FC<FilterSectionProps> = ({
+  handleSelect,
   handleSearch,
   handleView
 }) => {
@@ -26,33 +27,10 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const [selectedOptions, setSelectedOptions] = useState<OptionAttr[]>([])
   const screen = useScreenSize()
   const filterRef = useRef<HTMLDivElement | null>(null)
-
-  const colors = config.theme.extend.colors
   console.log(selectedOptions)
-  const statusOptions: OptionAttr[] = [
-    { option: 'Todo', color: colors.white, selected: false },
-    {
-      option: 'In Progress',
-      color: colors.secondary['400'],
-      selected: false
-    },
-    { option: 'In Review', color: colors.tertiary['400'], selected: false },
-    { option: 'Completed', color: colors.primary['400'], selected: false },
-    {
-      option: 'Merged to main',
-      color: colors.primary['700'],
-      selected: false
-    }
-  ]
-  const priorityOptions: OptionAttr[] = [
-    { option: 'No priority', icon: 'NoPriorityIcon', selected: false },
-    { option: 'Low', icon: 'LowPriorityIcon', selected: false },
-    { option: 'Medium', icon: 'MediumPriorityIcon', selected: false },
-    { option: 'High', icon: 'HighPriorityIcon', selected: false },
-    { option: 'Urgent', icon: 'UrgentIcon', selected: false }
-  ]
   useEffect(() => {
     handleSearch(searchedValue)
+    handleSelect(selectedOptions)
     const handleClickOutside = (event: MouseEvent): void => {
       const target = event.target as HTMLElement
 
@@ -67,7 +45,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [handleSearch, searchedValue])
+  }, [handleSearch, handleSelect, selectedOptions, searchedValue])
 
   const handleCheckGridList = (isList: boolean): void => {
     isList ? handleView('list') : handleView('grid')
@@ -80,7 +58,6 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
       const filterTop = buttonRect.bottom
       const filterLeft = buttonRect.left + buttonRect.width
-      console.log(filterLeft, filterTop)
 
       setFilterPosition({ top: filterTop, left: filterLeft - 281 })
     }
@@ -113,7 +90,9 @@ const FilterSection: React.FC<FilterSectionProps> = ({
               <Filter
                 statusOptions={statusOptions}
                 priorityOptions={priorityOptions}
-                handleSelect={setSelectedOptions}
+                handleSelect={(options: OptionAttr[]) => {
+                  setSelectedOptions(options)
+                }}
                 show={showFilter}
               />
             </div>
