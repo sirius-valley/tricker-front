@@ -2,21 +2,29 @@ import NavBar from '@components/NavBar/NavBar'
 import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import useScreenSize from '@hooks/useScreenSize'
 import useValidateRole from '@hooks/useValidateRole'
+import { type DropdownOption } from '@utils/types'
 import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
 const HomeWrapperPage: React.FC = (): JSX.Element => {
-  const [selectedProjectId, setSelectedProjectId] = useState<string>('')
-  const { dropdownOptions, userRole } = useValidateRole(selectedProjectId)
+  const [selectedProject, setSelectedProject] = useState<DropdownOption>({
+    id: '',
+    title: '',
+    image: ''
+  })
+  const { dropdownOptions, userRole } = useValidateRole(selectedProject.id)
   const screen = useScreenSize()
 
-  const handleDropdownSelect = (selectedProjectId: string): void => {
-    setSelectedProjectId(selectedProjectId)
+  const handleDropdownSelect = (selectedProject: DropdownOption): void => {
+    setSelectedProject(selectedProject)
   }
 
   return screen.width >= 768 ? (
     <div className="bg-gray-500 h-screen w-screen flex items-center justify-center">
       <SidebarNav
+        preSelectedOption={
+          selectedProject.id !== '' ? selectedProject : dropdownOptions[0]
+        }
         variant={userRole}
         dropdownOptions={dropdownOptions}
         handleDropdownSelect={handleDropdownSelect}

@@ -3,26 +3,23 @@ import Icon from '@components/Icon/Icon'
 import Body2 from '@utils/typography/body2/body2'
 import Body1 from '@utils/typography/body1/body1'
 import config from '../../../tailwind.config'
+import { type DropdownOption } from '@utils/types'
 
 const colors = config.theme.extend.colors
 
-export interface DropdownOption {
-  title: string
-  image: string
-}
-
 interface DropdownProps {
+  preSelectedOption: DropdownOption
   options: DropdownOption[]
   handleSelect: (option: DropdownOption) => void
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
+  preSelectedOption,
   options,
   handleSelect
 }): JSX.Element => {
-  const [selectedOption, setSelectedOption] = useState<DropdownOption>(
-    options[0]
-  )
+  const [selectedOption, setSelectedOption] =
+    useState<DropdownOption>(preSelectedOption)
   const [isOpen, setIsOpen] = useState(false)
 
   const dropdownRef = useRef<HTMLDivElement | null>(null)

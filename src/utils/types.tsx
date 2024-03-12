@@ -24,6 +24,12 @@ export interface Screen {
   height: number
 }
 
+export interface DropdownOption {
+  id: string
+  title: string
+  image: string
+}
+
 // Entities
 
 export interface User {

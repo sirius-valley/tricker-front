@@ -1,6 +1,6 @@
 import '../../index.css'
 import React from 'react'
-// import { Dropdown } from '@components/Dropdown/Dropdown'
+import { Dropdown } from '@components/Dropdown/Dropdown'
 import TrickerLogo from '@assets/TrickerLogo'
 import TrickerTitle from '@assets/TrickerTitle'
 import { NavbarItem } from '@components/NavbarItem/NavbarItem'
@@ -9,23 +9,25 @@ import TimeTrackingBadge from '@components/TimeTrackingBadge/TimeTrackingBadge'
 import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import Body1 from '@utils/typography/body1/body1'
 import { NavLink } from 'react-router-dom'
-import { type TimeTracking, type User } from '@utils/types'
+import { type DropdownOption, type TimeTracking, type User } from '@utils/types'
 
 export interface SidebarNavProps
   extends React.HTMLAttributes<HTMLInputElement> {
   user?: User
   variant: string
   timeTracking?: TimeTracking
-  dropdownOptions: Array<{ title: string; image: string }>
-  handleDropdownSelect: (selectedProjectId: string) => void
+  preSelectedOption: DropdownOption
+  dropdownOptions: DropdownOption[]
+  handleDropdownSelect: (selectedProjectId: DropdownOption) => void
 }
 
 export const SidebarNav: React.FC<SidebarNavProps> = ({
   user,
   variant,
-  // dropdownOptions,
-  timeTracking
-  // handleDropdownSelect
+  timeTracking,
+  preSelectedOption,
+  dropdownOptions,
+  handleDropdownSelect
 }) => {
   return (
     <div className="flex flex-col w-[224px] h-screen pt-10 gap-20 bg-gray-500">
@@ -52,16 +54,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
               </NavLink>
             </div>
           )}
-          {/*
-          
-          It is a provisionary version without dropdown as there are not projects to display already.
-
           <Dropdown
+            preSelectedOption={preSelectedOption}
             options={dropdownOptions}
             handleSelect={(option) => {
               handleDropdownSelect(option)
             }}
-          /> */}
+          />
           <div className="flex flex-col gap-2 px-6">
             <NavLink to="/">
               {({ isActive }) => (
