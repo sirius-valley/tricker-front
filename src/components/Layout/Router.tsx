@@ -1,34 +1,13 @@
-import { Outlet, createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute/PrivateRoute'
-import NavBar from '@components/NavBar/NavBar'
-import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import EmptyProjectPage from '@pages/Login/EmptyProjectPage'
 import RoleSelectPage from '@pages/Login/RoleSelectPage'
 // import LoginPage from '@pages/Login/LoginPage'
 import SetupPage from '@pages/InitialIntegration/InitialIntegrationPage'
-import useScreenSize from '@hooks/useScreenSize'
 import LoadingPage from '@pages/Loader/LoadingPage'
 import FilterSection from '@components/FilterSection/FilterSection'
 import { type OptionAttr } from '@components/Filter/Filter'
-
-const WithNav = (): JSX.Element => {
-  const screenSize = useScreenSize()
-
-  return (
-    <div>
-      {screenSize.width < 768 ? (
-        <NavBar isProjectManager />
-      ) : (
-        <SidebarNav
-          variant={'pm'}
-          dropdownOptions={[]}
-          handleDropdownSelect={function (): void {}}
-        />
-      )}
-      <Outlet />
-    </div>
-  )
-}
+import HomeWrapperPage from '@components/HomeWrapperPage/HomeWrapperPage'
 
 export const ROUTER = createBrowserRouter([
   {
@@ -65,11 +44,10 @@ export const ROUTER = createBrowserRouter([
     element: <PrivateRoute />,
     children: [
       {
-        element: <WithNav />,
+        element: <HomeWrapperPage />,
         children: [
           {
             path: '/',
-            // element: <HomePage />,
             element: <></>
           }
         ]

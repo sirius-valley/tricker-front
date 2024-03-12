@@ -19,7 +19,7 @@ export const ProjectMails: Story = {
   tags: ['autodocs'],
   render: () => (
     <WrapperPage>
-      <ProjectMail />
+      <ProjectMail projectName={'Tricker'} />
     </WrapperPage>
   )
 }

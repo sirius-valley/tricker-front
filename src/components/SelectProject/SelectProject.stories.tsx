@@ -16,6 +16,18 @@ const meta: Meta<typeof SelectProjectScreen> = {
   argTypes: {
     handleSelection: {
       action: 'handleSelection'
+    },
+    providerKey: {
+      control: {
+        type: 'text'
+      },
+      defaultValue: 'providerKey_1'
+    },
+    provider: {
+      control: {
+        type: 'text'
+      },
+      defaultValue: 'Provider'
     }
   }
 }
@@ -27,9 +39,9 @@ type Story = StoryObj<typeof SelectProjectScreen>
 export const Default: Story = {
   tags: ['autodocs'],
   args: {
-    handleSelection: (id: string) => {
-      console.log(id)
-    }
+    handleSelection: () => {},
+    provider: 'Provider',
+    providerKey: 'ProviderKey_1'
   },
   render: (args) => <SelectProjectScreen {...args} />
 }
