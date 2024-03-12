@@ -53,22 +53,7 @@ const Filter: React.FC<SearchButtonProps> = ({
     }
   }, [handleSelect, selectedOptions])
 
-  const handleStatusOptionSelect = (option: OptionAttr): void => {
-    const updatedOptions = selectedOptions.map((opt) =>
-      opt.option === option.option ? { ...opt, selected: !opt.selected } : opt
-    )
-
-    if (!selectedOptions.some((opt) => opt.option === option.option)) {
-      updatedOptions.push(option)
-      setSelectedOptions(updatedOptions)
-    } else {
-      setSelectedOptions((prevOptions: OptionAttr[]) =>
-        prevOptions.filter((opt) => opt !== option)
-      )
-    }
-  }
-
-  const handlePriorityOptionSelect = (option: OptionAttr): void => {
+  const handleOptionSelect = (option: OptionAttr): void => {
     const updatedOptions = selectedOptions.map((opt) =>
       opt.option === option.option ? { ...opt, selected: !opt.selected } : opt
     )
@@ -146,7 +131,7 @@ const Filter: React.FC<SearchButtonProps> = ({
                     <Checkbox
                       defaultChecked={selectedOptions.includes(option)}
                       onChecked={() => {
-                        handleStatusOptionSelect(option)
+                        handleOptionSelect(option)
                       }}
                     />
                   </div>
@@ -198,7 +183,7 @@ const Filter: React.FC<SearchButtonProps> = ({
                   <Checkbox
                     defaultChecked={selectedOptions.includes(option)}
                     onChecked={() => {
-                      handlePriorityOptionSelect(option)
+                      handleOptionSelect(option)
                     }}
                   />
                 </div>
