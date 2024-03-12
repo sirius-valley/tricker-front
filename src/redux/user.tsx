@@ -3,6 +3,7 @@ import { type Step, type User } from '@utils/types'
 
 interface InitialStateType {
   user: User
+  currentProjectId: string
   currentStep: number
   steps: Step[]
   projectName: string
@@ -25,6 +26,7 @@ const initialState: InitialStateType = {
     emittedManualTimeModification: []
     // OrganizationAdministrator: []
   },
+  currentProjectId: '',
   currentStep: 0,
   steps: [
     { label: 'Initial Setup' },
@@ -41,6 +43,9 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload
     },
+    setCurrentProjectId: (state, action: PayloadAction<string>) => {
+      state.currentProjectId = action.payload
+    },
     setCurrentStep: (state, action: PayloadAction<number>) => {
       state.currentStep = action.payload
     },
@@ -50,5 +55,6 @@ const userSlice = createSlice({
   }
 })
 
-export const { setUser, setCurrentStep, setProjectName } = userSlice.actions
+export const { setUser, setCurrentProjectId, setCurrentStep, setProjectName } =
+  userSlice.actions
 export default userSlice.reducer
