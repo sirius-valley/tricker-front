@@ -3,12 +3,16 @@ import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import useScreenSize from '@hooks/useScreenSize'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import { useUser } from '@redux/hooks'
 
 const HomeWrapperPage: React.FC = (): JSX.Element => {
   const screen = useScreenSize()
+  const user = useUser()
+
   return screen.width >= 768 ? (
     <div className="bg-gray-500 h-screen w-screen flex items-center justify-center">
       <SidebarNav
+        user={user}
         variant={'pm'}
         dropdownOptions={[]}
         handleDropdownSelect={function (): void {}}
