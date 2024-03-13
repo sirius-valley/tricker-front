@@ -6,7 +6,7 @@ import { NeedHelpButton } from '@components/NeedHelpButton/NeedHelpButton'
 import { useVerifyToken } from '@data-provider/query'
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import config from "@utils/config.ts";
+import config from '@utils/config.ts'
 
 const LoginPage = (): JSX.Element => {
   const [searchParams] = useSearchParams()
