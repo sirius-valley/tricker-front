@@ -22,9 +22,12 @@ const Chronology: React.FC<ChronologyProps> = ({ events }) => {
       <H2 className="font-bold text-lg">Chronology</H2>
       <div className="flex flex-col pr-6 overflow-y-scroll h-full max-w-[700px]">
         {events.map((event, index) => (
-          <div key={index} className="flex min-h-fit">
+          <div
+            key={index}
+            className={`flex min-h-fit ${events.length === index + 1 ? 'h-full overflow-hidden' : ''}`}
+          >
             <div
-              className={`flex w-[1px] h-full rounded-full ${event.blocker && events.length === index + 1 ? 'bg-error-500' : 'bg-primary-400'} relative left-[53px] top-4 -z-10`}
+              className={`flex w-[1px] h-full rounded-full ${event.blocker ? 'bg-error-500' : 'bg-primary-400'} relative left-[53px] top-4 -z-10`}
             ></div>
             <div className="flex gap-3 items-start py-2 w-full">
               <HelperText className="min-w-9 pt-[2px]">
@@ -38,7 +41,7 @@ const Chronology: React.FC<ChronologyProps> = ({ events }) => {
                       .toLocaleString('en-US', { minimumIntegerDigits: 2 })}
               </HelperText>
               <span
-                className={`flex min-w-[9px] h-[9px] rounded-full mt-1 ${event.blocker && events.length === index + 1 ? 'bg-error-500' : 'bg-primary-400'} `}
+                className={`flex min-w-[9px] h-[9px] rounded-full mt-1 ${event.blocker ? 'bg-error-500' : 'bg-primary-400'} `}
               ></span>
               <div className="flex flex-col gap-2  w-full">
                 <div className={`min-w-12 flex items-center gap-3`}>
