@@ -9,12 +9,12 @@ import TimeTrackingBadge from '@components/TimeTrackingBadge/TimeTrackingBadge'
 import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import Body1 from '@utils/typography/body1/body1'
 import { NavLink } from 'react-router-dom'
-import { type TimeTracking, type User } from '@utils/types'
+import { type TimeTracking } from '@utils/types'
 import Popover from '@components/Popover/Popover'
+import { useUser } from '@redux/hooks'
 
 export interface SidebarNavProps
   extends React.HTMLAttributes<HTMLInputElement> {
-  user: User
   variant: 'pm' | 'dev'
   timeTracking?: TimeTracking
   dropdownOptions: Array<{ title: string; image: string }>
@@ -22,13 +22,13 @@ export interface SidebarNavProps
 }
 
 export const SidebarNav: React.FC<SidebarNavProps> = ({
-  user,
   variant,
   // dropdownOptions,
   timeTracking
   // handleDropdownSelect
 }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const user = useUser()
 
   return (
     <div className="flex flex-col w-[224px] h-screen pt-10 gap-20 bg-gray-500">
