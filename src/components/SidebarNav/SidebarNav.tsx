@@ -1,5 +1,5 @@
 import '../../index.css'
-import React from 'react'
+import React, { useState } from 'react'
 // import { Dropdown } from '@components/Dropdown/Dropdown'
 import TrickerLogo from '@assets/TrickerLogo'
 import TrickerTitle from '@assets/TrickerTitle'
@@ -10,10 +10,11 @@ import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import Body1 from '@utils/typography/body1/body1'
 import { NavLink } from 'react-router-dom'
 import { type TimeTracking, type User } from '@utils/types'
+import Popover from '@components/Popover/Popover'
 
 export interface SidebarNavProps
   extends React.HTMLAttributes<HTMLInputElement> {
-  user?: User
+  user: User
   variant: 'pm' | 'dev'
   timeTracking?: TimeTracking
   dropdownOptions: Array<{ title: string; image: string }>
@@ -27,6 +28,8 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   timeTracking
   // handleDropdownSelect
 }) => {
+  const [isHovered, setIsHovered] = useState(false)
+
   return (
     <div className="flex flex-col w-[224px] h-screen pt-10 gap-20 bg-gray-500">
       <NavLink to="/">
@@ -102,17 +105,26 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         </div>
         <div className="flex flex-col items-center gap-2">
           {timeTracking && <TimeTrackingBadge ticketId={timeTracking.id} />}
-          <NavLink to={'/user/' + user?.id}>
+          <div
+            className="flex flex-col items-center h-fit w-fit"
+            onMouseEnter={() => {
+              setIsHovered(true)
+            }}
+            onMouseLeave={() => {
+              setIsHovered(false)
+            }}
+          >
+            <Popover userId={user?.id} show={isHovered} />
             <div className="flex items-center p-2 gap-3 max-w-[224px]">
               <ProfilePicture
                 className="min-w-10 min-h-10"
-                img="https://s3-alpha-sig.figma.com/img/4fe8/a23d/ddeece2a91e7cc5919fd149d572c6d1e?Expires=1708905600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=a33zUweOtCPNcY1RYMBSl7M0W3HvLrpSgGfHnnqS-~FBATDlE42BrkMOby65VNWC2eo3p7sknPz1zjtO3xZfNT4zZyke6ZRrYV1k2nllK6NJMDzTKFn~qe4R0xWUtyxxWtauAlAvqmDY7G2O417AE05nFyFXyLlo7zePBrxsCNWm9f3jD2W65zFwgLy8wzcy5ryT5OZPA5wxOXPXN-6-VngmrBmoZqg-SWVfgL-E6W3GkoLj4IvMi7LcJZ162JsXmP0o-mHJ4bRi9K04k3ACjyg7BT2f9fCLbGzy5Nddzk8p61tDl7OczzCY-K9bx0ju3uAbhMnWfpFU0vcp7gpOcw__"
+                img={user?.profileImage}
               />
               <Body1 className="text-white overflow-hidden overflow-ellipsis whitespace-nowrap">
-                {user?.name}
+                {user?.name || 'User name'}
               </Body1>
             </div>
-          </NavLink>
+          </div>
         </div>
       </div>
     </div>
