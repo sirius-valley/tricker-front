@@ -11,7 +11,7 @@ import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 export interface TicketCardProps {
   ticketId: string
   title?: string
-  status?: 'completed' | 'tracking' | 'blocked'
+  status?: 'label' | 'tracking' | 'blocked'
   category?: 'feature' | 'improvement' | 'bug'
   priority?:
     | 'no-priority'
@@ -94,7 +94,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
             <Pill variant={status}>
               {status === 'blocked'
                 ? 'Blocked'
-                : status === 'completed'
+                : status === 'label'
                   ? 'Completed'
                   : 'Tracking Time'}
             </Pill>
