@@ -12,6 +12,11 @@ const meta: Meta<typeof SquaredIconButton> = {
       control: {
         type: null
       }
+    },
+    isMobile: {
+      control: {
+        type: 'boolean'
+      }
     }
   }
 }
