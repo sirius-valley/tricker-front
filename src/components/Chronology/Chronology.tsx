@@ -4,7 +4,7 @@ import HelperText from '@utils/typography/helpertext/helpertext'
 import Body2 from '@utils/typography/body2/body2'
 import Body1 from '@utils/typography/body1/body1'
 import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
-
+import useScreenSize from '@hooks/useScreenSize'
 export interface ChronologyProps {
   events: Array<{
     date: Date
@@ -16,6 +16,7 @@ export interface ChronologyProps {
 }
 
 const Chronology: React.FC<ChronologyProps> = ({ events }) => {
+  const screen = useScreenSize()
   events.sort((a, b) => a.date.getTime() - b.date.getTime())
   return (
     <div className="flex flex-col gap-3 h-[400px] text-white w-full">
@@ -27,25 +28,39 @@ const Chronology: React.FC<ChronologyProps> = ({ events }) => {
             className={`flex min-h-fit ${events.length === index + 1 ? 'h-full overflow-hidden' : ''}`}
           >
             <div
-              className={`flex w-[1px] h-full rounded-full ${event.blocker ? 'bg-error-500' : 'bg-primary-400'} relative left-[53px] top-4 -z-10`}
+              className={`flex w-[1px] h-full rounded-full ${event.blocker ? 'bg-error-500' : 'bg-primary-400'} relative left-[73px] top-4 -z-10`}
             ></div>
             <div className="flex gap-3 items-start py-2 w-full">
-              <HelperText className="min-w-9 pt-[2px]">
-                {event.date.getDate() !== events[index - 1]?.date.getDate() &&
-                  event.date
-                    .getDate()
-                    .toLocaleString('en-US', { minimumIntegerDigits: 2 }) +
-                    '/' +
+              <div className="flex flex-col items-end">
+                <HelperText className="min-w-14 pt-[2px] flex flex-col items-end">
+                  {event.date.getDate() !== events[index - 1]?.date.getDate() &&
                     event.date
-                      .getMonth()
-                      .toLocaleString('en-US', { minimumIntegerDigits: 2 })}
-              </HelperText>
+                      .getDate()
+                      .toLocaleString('en-US', { minimumIntegerDigits: 2 }) +
+                      '/' +
+                      (event.date.getMonth() + 1).toLocaleString('en-US', {
+                        minimumIntegerDigits: 2
+                      }) +
+                      '/' +
+                      event.date.getFullYear().toString().slice(-2)}
+                </HelperText>
+                <HelperText
+                  className={`${screen.width < 420 ? 'block' : 'hidden'}`}
+                >
+                  {event.date.getHours().toString().padStart(2, '0') +
+                    ':' +
+                    event.date.getMinutes().toString().padStart(2, '0') +
+                    'hs'}
+                </HelperText>
+              </div>
               <span
                 className={`flex min-w-[9px] h-[9px] rounded-full mt-1 ${event.blocker ? 'bg-error-500' : 'bg-primary-400'} `}
               ></span>
               <div className="flex flex-col gap-2  w-full">
                 <div className={`min-w-12 flex items-center gap-3`}>
-                  <HelperText className={`px-1`}>
+                  <HelperText
+                    className={`px-1 ${screen.width > 420 ? 'block' : 'hidden'}`}
+                  >
                     {event.date.getHours().toString().padStart(2, '0') +
                       ':' +
                       event.date.getMinutes().toString().padStart(2, '0') +
@@ -56,7 +71,7 @@ const Chronology: React.FC<ChronologyProps> = ({ events }) => {
                   </Body2>
                 </div>
                 {event.description && (
-                  <div className="flex gap-2 pl-7">
+                  <div className="flex gap-2 pl-0 sm:pl-7">
                     <ProfilePicture
                       size="sm"
                       img="https://th.bing.com/th/id/OIP.IGNf7GuQaCqz_RPq5wCkPgAAAA?rs=1&pid=ImgDetMain"
