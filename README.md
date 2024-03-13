@@ -15,7 +15,6 @@ Tricker is a dynamic, real-time ticket tracking application designed to streamli
 
 - **React**: For building the user interface.
 - **Vite**: As the build tool for faster development and optimization.
-- Additional dependencies: (List any other key libraries or frameworks used in the frontend.)
 
 ## Getting Started
 
