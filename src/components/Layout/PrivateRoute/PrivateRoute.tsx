@@ -16,7 +16,7 @@ const PrivateRoute = (): JSX.Element => {
 
   React.useEffect(() => {
     if (error) {
-      showSnackBar('You are not authorized to access the home page', 'error')
+      showSnackBar('You are not authorized to access this page', 'error')
       setIsAuthorized(false)
       navigate('/login')
     }
