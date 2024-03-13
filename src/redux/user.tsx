@@ -8,7 +8,7 @@ interface InitialStateType {
   projectName: string
 }
 
-const initialState: InitialStateType = {
+export const initialState: InitialStateType = {
   user: {
     id: '',
     cognitoId: '',
