@@ -41,7 +41,6 @@ const LoginPage = (): JSX.Element => {
       <div className="hidden md:flex justify-end items-end h-screen w-full ">
         <img src={LoginImage} alt="Login image" />
       </div>
-
     </div>
   )
 }
