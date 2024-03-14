@@ -10,6 +10,17 @@ const meta: Meta<typeof Filter> = {
   component: Filter,
   tags: ['autodocs'],
   argTypes: {
+    variant: {
+      control: {
+        type: 'select',
+        options: ['pm', 'dev']
+      }
+    },
+    show: {
+      control: {
+        type: 'boolean'
+      }
+    },
     statusOptions: {
       control: {
         type: 'object'
@@ -20,20 +31,11 @@ const meta: Meta<typeof Filter> = {
         type: 'object'
       }
     },
-    show: {
-      control: {
-        type: 'boolean'
-      }
-    },
     handleSelect: {
       action: 'handleSelect'
     },
-    variant: {
-      options: ['pm', 'dev'],
-      defaultValue: 'pm',
-      control: {
-        type: 'select'
-      }
+    handleOutOfEstimation: {
+      action: 'handleOutOfEstimation'
     }
   }
 }
@@ -45,8 +47,12 @@ type Story = StoryObj<typeof Filter>
 export const Default: Story = {
   args: {
     show: true,
+    variant: 'pm',
     handleSelect: (options: OptionAttr[]) => {
       console.log(options)
+    },
+    handleOutOfEstimation: (value: boolean) => {
+      console.log('out of estimation ' + value)
     },
     statusOptions: [
       { option: 'Todo', color: colors.white, selected: false },
@@ -70,7 +76,13 @@ export const Default: Story = {
       { option: 'High', icon: 'HighPriorityIcon', selected: false },
       { option: 'Urgent', icon: 'UrgentIcon', selected: false }
     ],
-    variant: 'pm'
+    asigneeOptions: [
+      { option: 'Federico Martucci', selected: false },
+      { option: 'Matias Pizzi', selected: false },
+      { option: 'Nicolas Flores', selected: false },
+      { option: 'Juan Bianchi', selected: false },
+      { option: 'Ignacio Ferrari', selected: false }
+    ]
   },
   render: (args) => <Filter {...args} />
 }
