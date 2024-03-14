@@ -52,6 +52,7 @@ const Filter: React.FC<SearchButtonProps> = ({
       if (!isClickInside) {
         setShowStatusOptions(false)
         setShowPriorityOptions(false)
+        setShowAsigneeOptions(false)
       }
     }
 
@@ -78,7 +79,6 @@ const Filter: React.FC<SearchButtonProps> = ({
   }
 
   const handleOutOfEstimationClick = (value: boolean): void => {
-    console.log(value)
     handleOutOfEstimation(value)
   }
 
@@ -112,7 +112,7 @@ const Filter: React.FC<SearchButtonProps> = ({
           </button>
         </div>
         <div className="flex gap-[1px] rounded-b-xl bg-gray-400 flex-col">
-          {variant === 'pm' && asigneeOptions && (
+          {variant === 'pm' && (
             <>
               <div
                 className={`px-4 py-3 gap-3 h-[52px] text-white flex items-center bg-gray-600`}
