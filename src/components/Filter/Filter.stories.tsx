@@ -1,6 +1,6 @@
 // SearchButton.stories.tsx
-import { type Meta, type Story } from '@storybook/react'
-import Filter, { type SearchButtonProps } from './Filter'
+import { type Meta, type StoryObj } from '@storybook/react'
+import Filter, { type OptionAttr } from './Filter'
 import config from '../../../tailwind.config'
 
 const colors = config.theme.extend.colors
@@ -27,11 +27,25 @@ const meta: Meta<typeof Filter> = {
     },
     handleSelect: {
       action: 'handleSelect'
+    },
+    variant: {
+      options: ['pm', 'dev'],
+      defaultValue: 'pm',
+      control: {
+        type: 'select'
+      }
     }
-  },
+  }
+}
+
+export default meta
+
+type Story = StoryObj<typeof Filter>
+
+export const Default: Story = {
   args: {
     show: true,
-    handleSelect: (options) => {
+    handleSelect: (options: OptionAttr[]) => {
       console.log(options)
     },
     statusOptions: [
@@ -55,12 +69,8 @@ const meta: Meta<typeof Filter> = {
       { option: 'Medium', icon: 'MediumPriorityIcon', selected: false },
       { option: 'High', icon: 'HighPriorityIcon', selected: false },
       { option: 'Urgent', icon: 'UrgentIcon', selected: false }
-    ]
-  }
+    ],
+    variant: 'pm'
+  },
+  render: (args) => <Filter {...args} />
 }
-
-export default meta
-
-const Template: Story<SearchButtonProps> = (args) => <Filter {...args} />
-
-export const Default = Template.bind({})
