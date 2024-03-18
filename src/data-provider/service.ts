@@ -8,7 +8,9 @@ import {
   type AuthorizationRequest,
   type Project,
   type IssueView,
-  type OptionalIssueFilters
+  type OptionalIssueFilters,
+  Priority,
+  StageType
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -152,20 +154,208 @@ export const postProjectIntegrationRequest = async (
 export const getIssuesFilteredAndPaginated = async (
   userId: string,
   projectId: string,
-  filters: OptionalIssueFilters,
+  filters?: OptionalIssueFilters,
   cursor?: string
 ): Promise<IssueView[] | null> => {
-  const res = await axios.get(`${url}/user/${userId}/project/${projectId}`, {
-    headers: {
-      Authorization: 'Bearer ' + getAccessToken()
+  // const res = await axios.post(
+  //   `${url}/user/${userId}/project/${projectId}`,
+  //   {
+  //     stageIds: filters?.stageIds,
+  //     priorities: filters?.priorities,
+  //     isOutOfEstimation: filters?.isOutOfEstimation,
+  //     cursor
+  //   },
+  //   {
+  //     headers: {
+  //       Authorization: 'Bearer ' + getAccessToken()
+  //     }
+  //   }
+  // )
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  // return null
+  return await Promise.resolve([
+    {
+      id: '1',
+      assignee: {
+        id: '1',
+        name: 'John Doe',
+        profileUrl: 'https://randomuser.me/api/portraits'
+      },
+      stage: {
+        name: 'Backlog',
+        id: '1',
+        type: StageType.BACKLOG
+      },
+      name: 'Name of the ticket 1 long name',
+      title: 'TIK-001',
+      priority: Priority.LOW_PRIORITY,
+      storyPoints: 3,
+      labels: [],
+      blocked: true
     },
-    params: {
-      filters,
-      cursor
+    {
+      id: '2',
+      assignee: {
+        id: '2',
+        name: 'John Doe',
+        profileUrl: 'https://randomuser.me/api/portraits'
+      },
+      stage: {
+        name: 'Backlog',
+        id: '2',
+        type: StageType.UNSTARTED
+      },
+      name: 'Name of the ticket 2',
+      title: 'TIK-002',
+      priority: Priority.URGENT,
+      storyPoints: 1,
+      labels: []
+    },
+    {
+      id: '3',
+      assignee: {
+        id: '3',
+        name: 'John Doe',
+        profileUrl: 'https://randomuser.me/api/portraits'
+      },
+      stage: {
+        name: 'Backlog',
+        id: '3',
+        type: StageType.STARTED
+      },
+      name: 'Name of the ticket 3',
+      title: 'TIK-003',
+      priority: Priority.HIGH_PRIORITY,
+      storyPoints: 2,
+      labels: []
+    },
+    {
+      id: '4',
+      assignee: {
+        id: '4',
+        name: 'John Doe',
+        profileUrl: 'https://randomuser.me/api/portraits'
+      },
+      stage: {
+        name: 'Backlog',
+        id: '4',
+        type: StageType.COMPLETED
+      },
+      name: 'Name of the ticket 4',
+      title: 'TIK-004',
+      priority: Priority.MEDIUM_PRIORITY,
+      storyPoints: 5,
+      labels: []
+    },
+    {
+      id: '5',
+      assignee: {
+        id: '5',
+        name: 'John Doe',
+        profileUrl: 'https://randomuser.me/api/portraits'
+      },
+      stage: {
+        name: 'Backlog',
+        id: '5',
+        type: StageType.UNSTARTED
+      },
+      name: 'Name of the ticket 5',
+      title: 'TIK-005',
+      priority: Priority.LOW_PRIORITY,
+      storyPoints: 3,
+      labels: []
+    },
+    {
+      id: '6',
+      assignee: {
+        id: '6',
+        name: 'John Doe',
+        profileUrl: 'https://randomuser.me/api/portraits'
+      },
+      stage: {
+        name: 'Backlog',
+        id: '6',
+        type: StageType.COMPLETED
+      },
+      name: 'Name of the ticket 6',
+      title: 'TIK-006',
+      priority: Priority.MEDIUM_PRIORITY,
+      storyPoints: 5,
+      labels: []
+    },
+    {
+      id: '7',
+      assignee: {
+        id: '7',
+        name: 'John Doe',
+        profileUrl: 'https://randomuser.me/api/portraits'
+      },
+      stage: {
+        name: 'Backlog',
+        id: '7',
+        type: StageType.CANCELED
+      },
+      name: 'Name of the ticket 7',
+      title: 'TIK-007',
+      priority: Priority.LOW_PRIORITY,
+      storyPoints: 2,
+      labels: []
+    },
+    {
+      id: '8',
+      assignee: {
+        id: '8',
+        name: 'John Doe',
+        profileUrl: 'https://randomuser.me/api/portraits'
+      },
+      stage: {
+        name: 'Backlog',
+        id: '8',
+        type: StageType.OTHER
+      },
+      name: 'Name of the ticket 8',
+      title: 'TIK-008',
+      priority: Priority.LOW_PRIORITY,
+      storyPoints: 3,
+      labels: []
+    },
+    {
+      id: '9',
+      assignee: {
+        id: '9',
+        name: 'John Doe',
+        profileUrl: 'https://randomuser.me/api/portraits'
+      },
+      stage: {
+        name: 'Backlog',
+        id: '9',
+        type: StageType.COMPLETED
+      },
+      name: 'Name of the ticket 9',
+      title: 'TIK-009',
+      priority: Priority.URGENT,
+      storyPoints: 3,
+      labels: []
+    },
+    {
+      id: '10',
+      assignee: {
+        id: '10',
+        name: 'John Doe',
+        profileUrl: 'https://randomuser.me/api/portraits'
+      },
+      stage: {
+        name: 'Backlog',
+        id: '10',
+        type: StageType.COMPLETED
+      },
+      name: 'Name of the ticket 10',
+      title: 'TIK-010',
+      priority: Priority.LOW_PRIORITY,
+      storyPoints: 2,
+      labels: []
     }
-  })
-  if (res.status === 200) {
-    return res.data
-  }
-  return null
+  ])
 }
