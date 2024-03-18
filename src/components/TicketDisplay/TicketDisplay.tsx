@@ -1,15 +1,12 @@
-import CategoryIcon from '@components/CategoryIcon/CategoryIcon'
-// import { Pill } from "@components/Pill/Pill";
 import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
-import React from 'react'
-// import config from "../../../tailwind.config";
+import React, { useState } from 'react'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
-
+import { Pill } from '@components/Pill/Pill'
 export interface TicketDisplayProps {
   ticketId: string
   title?: string
-  category?: 'feature' | 'improvement' | 'bug'
+  variant: 'pm' | 'dev'
   priority?:
     | 'no-priority'
     | 'low-priority'
@@ -17,20 +14,28 @@ export interface TicketDisplayProps {
     | 'high-priority'
     | 'urgent'
   storyPoints: number
-  associatedUserProfile: string
+  pill?: 'label' | 'tracking' | 'blocked'
+  description: string
 }
 
 const TicketDisplay: React.FC<TicketDisplayProps> = ({
   ticketId,
   title,
-  category,
+  variant,
   priority,
   storyPoints,
-  associatedUserProfile
+  pill,
+  description
 }): JSX.Element => {
+  const [showFullText, setShowFullText] = useState(false)
+
+  const toggleTextVisibility = (): void => {
+    setShowFullText(!showFullText)
+  }
+
   return (
     <div
-      className={`w-[648px] h-[210px] gap-10 bg-transparent border border-white`}
+      className={`w-[648px] gap-10 bg-transparent border border-white relative`}
     >
       <div className={`flex justify-start items-start`}>
         <span className={`flex flex-col text-left text-white text-[16px] mb-3`}>
@@ -38,28 +43,45 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
         </span>
       </div>
 
-      <div className="flex">
-        <ProfilePicture img={associatedUserProfile} size={'sm'} />
-        <span className="text-white">Member name</span>
-      </div>
+      {variant === 'pm' && (
+        <div className="flex">
+          <ProfilePicture img={''} size={'sm'} />
+          <span className="text-white">Member name</span>
+        </div>
+      )}
 
       <span className="text-white text-[30px] font-medium">{title}</span>
       <div className="flex justify-between items-center w-full">
         <div className="flex items-center w-fit gap-4">
           <div className="flex gap-1 mt-3 mb-3">
             {priority && <PriorityIcon fillColor="white" variant={priority} />}
-            {category && <CategoryIcon fillColor="white" variant={category} />}
-            {category && (
+            {storyPoints && (
               <StoryPointsIcon fillColor="white" points={storyPoints} />
             )}
+            {pill && <Pill variant={pill}>{'Tracking'}</Pill>}
           </div>
         </div>
       </div>
       <div className="mt-3 text-white">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Non asperiores
-        ducimus consequatur minus architecto consequuntur quam adipisci amet
-        aspernatur necessitatibus voluptatum vel accusamus, minima soluta eaque
-        aut debitis beatae nesciunt!
+        {description}{' '}
+        {showFullText ? (
+          <>
+            {description}{' '}
+            <button
+              className="text-primary-400 bg-transparent border-none cursor-pointer"
+              onClick={toggleTextVisibility}
+            >
+              ...Ver menos (-)
+            </button>
+          </>
+        ) : (
+          <button
+            className="text-primary-400 bg-transparent border-none cursor-pointer"
+            onClick={toggleTextVisibility}
+          >
+            ...Ver más (+)
+          </button>
+        )}
       </div>
     </div>
   )

@@ -18,7 +18,13 @@ const meta: Meta<typeof TicketDisplay> = {
         type: 'text'
       }
     },
-
+    variant: {
+      description: 'The variant of the sidebar.',
+      control: {
+        type: 'select'
+      },
+      options: ['pm', 'dev']
+    },
     priority: {
       defaultValue: 'feature',
       control: {
@@ -32,17 +38,24 @@ const meta: Meta<typeof TicketDisplay> = {
         'urgent'
       ]
     },
-    category: {
-      defaultValue: 'urgent',
-      control: {
-        type: 'select'
-      },
-      options: ['feature', 'improvement', 'bug']
-    },
     storyPoints: {
       defaultValue: 3,
       control: {
         type: 'number'
+      }
+    },
+    pill: {
+      defaultValue: 'Tracking',
+      control: {
+        type: 'select'
+      },
+      options: ['Label', 'Tracking', 'Blocked']
+    },
+    description: {
+      defaultValue:
+        'Lorem ipsum Lorem, ipsum dolor sit amet consectetur adipisicing elit. Adipisci culpa delectus ipsum ipsa aliquam cum, soluta tenetur totam tempora quisquam velit quibusdam unde, necessitatibus at fuga. Facilis excepturi dolorem ut?',
+      control: {
+        type: 'text'
       }
     }
   }
@@ -57,9 +70,12 @@ export const Default: Story = {
   args: {
     ticketId: 'TKT-000',
     title: 'Ticket looooong name',
+    variant: 'dev',
     priority: 'urgent',
-    category: 'feature',
-    storyPoints: 3
+    storyPoints: 3,
+    pill: 'tracking',
+    description:
+      'Lorem ipsum Lorem, ipsum dolor sit amet consectetur adipisicing elit. Adipisci culpa delectus ipsum ipsa aliquam cum, soluta tenetur totam tempora quisquam velit quibusdam unde, necessitatibus at fuga. Facilis excepturi dolorem ut?'
   },
   render: (args) => <TicketDisplay {...args} />
 }
