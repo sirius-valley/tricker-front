@@ -6,6 +6,7 @@ import SetupPage from '@pages/InitialIntegration/InitialIntegrationPage'
 import LoadingPage from '@pages/Loader/LoadingPage'
 import HomeWrapperPage from '@components/HomeWrapperPage/HomeWrapperPage'
 import LoginPage from '@pages/Login/LoginPage'
+import RoleValidation from './RoleValidation/RoleValidation'
 
 export const ROUTER = createBrowserRouter([
   {
@@ -29,13 +30,23 @@ export const ROUTER = createBrowserRouter([
     element: <LoadingPage />
   },
   {
+    // element: <PrivateRoute />,
     children: [
       {
         element: <HomeWrapperPage />,
         children: [
           {
-            path: '/projects',
-            element: <></>
+            element: <RoleValidation />,
+            children: [
+              {
+                path: '/projects',
+                element: <></>
+              },
+              {
+                path: '/my-team',
+                element: <></>
+              }
+            ]
           },
           {
             path: '/stats',
@@ -43,10 +54,6 @@ export const ROUTER = createBrowserRouter([
           },
           {
             path: '/',
-            element: <></>
-          },
-          {
-            path: '/my-team',
             element: <></>
           },
           {
