@@ -45,7 +45,12 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
 
       {variant === 'pm' && (
         <div className="flex">
-          <ProfilePicture img={''} size={'sm'} />
+          <ProfilePicture
+            img={
+              'https://th.bing.com/th/id/OIP.IGNf7GuQaCqz_RPq5wCkPqAAAA?rs=1&pid=ImgDetMain'
+            }
+            size={'sm'}
+          />
           <span className="text-white">Member name</span>
         </div>
       )}
