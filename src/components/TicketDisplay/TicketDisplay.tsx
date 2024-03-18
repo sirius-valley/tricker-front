@@ -52,8 +52,8 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
 
       <span className="text-white text-[30px] font-medium">{title}</span>
       <div className="flex justify-between items-center w-full">
-        <div className="flex items-center w-fit gap-4">
-          <div className="flex gap-1 mt-3 mb-3">
+        <div className="flex w-fit gap-4">
+          <div className="flex gap-1 mt-3 mb-3 items-center">
             {priority && <PriorityIcon fillColor="white" variant={priority} />}
             {storyPoints && (
               <StoryPointsIcon fillColor="white" points={storyPoints} />
