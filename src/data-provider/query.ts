@@ -117,7 +117,7 @@ export const useGetUserProjects = (): {
 export const useGetIssuesFilteredAndPaginated = (
   userId: string,
   projectId: string,
-  filters: OptionalIssueFilters,
+  filters?: OptionalIssueFilters,
   cursor?: string
 ): {
   data: IssueView[] | null | undefined
@@ -127,10 +127,10 @@ export const useGetIssuesFilteredAndPaginated = (
   const { data, error, isLoading } = useQuery({
     queryKey: [
       'getIssuesFilteredAndPaginated',
-      filters,
-      cursor,
       userId,
-      projectId
+      projectId,
+      filters,
+      cursor
     ],
     queryFn: async () =>
       await ApiService.getIssuesFilteredAndPaginated(
