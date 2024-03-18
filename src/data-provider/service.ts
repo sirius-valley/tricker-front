@@ -6,7 +6,9 @@ import {
   type ProjectPreIntegrated,
   type MemberPreIntegrated,
   type AuthorizationRequest,
-  type Project
+  type Project,
+  type IssueView,
+  type OptionalIssueFilters
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -55,34 +57,6 @@ export const getOrCreateUser = async (): Promise<User | null> => {
     return res.data
   }
   return null
-
-  // TESTING
-  // const mockedUser: User = {
-  //   id: '1',
-  //   email: 'username@sirius.com.ar',
-  //   name: 'User Name',
-  //   projectsRoleAssigned: [
-  // {
-  //   id: '1',
-  //   userId: '1',
-  //   projectId: '1',
-  //   user: {
-  //     id: '1',
-  //     cognitoId: '',
-  //     profileImage: '',
-  //     email: '',
-  //     name: ''
-  //   },
-  //   role: {
-  //     id: '1',
-  //     name: 'Project Manager',
-  //     users: []
-  //   }
-  // }
-  //   ]
-  // }
-  // await new Promise((resolve) => setTimeout(resolve, 500))
-  // return mockedUser
 }
 
 export const verifyToken = async (
@@ -126,36 +100,6 @@ export const getPreIntegratedProjects = async (
     return res.data
   }
   return null
-
-  // TESTING
-  // await new Promise((resolve) => setTimeout(resolve, 1000))
-  // return [
-  //   {
-  //     providerProjectId: '1',
-  //     name: 'Tricker',
-  //     image: null
-  //   },
-  //   {
-  //     providerProjectId: '2',
-  //     name: 'WeCan',
-  //     image: null
-  //   },
-  //   {
-  //     providerProjectId: '3',
-  //     name: 'Bonterms',
-  //     image: null
-  //   },
-  //   {
-  //     providerProjectId: '4',
-  //     name: 'Mandiant',
-  //     image: null
-  //   },
-  //   {
-  //     providerProjectId: '5',
-  //     name: 'Sawyer',
-  //     image: null
-  //   }
-  // ]
 }
 
 export const getPreIntegratedMembers = async (
@@ -177,41 +121,6 @@ export const getPreIntegratedMembers = async (
     return res.data
   }
   return null
-
-  // TESTING
-  // await new Promise((resolve) => setTimeout(resolve, 1000))
-  // return [
-  //   {
-  //     providerUserId: '1',
-  //     email: 'victoriacapurro@sirius.com.ar',
-  //     name: 'Victoria Capurro',
-  //     profileImage: null
-  //   },
-  //   {
-  //     providerUserId: '2',
-  //     email: 'fabrizioserial@sirius.com.ar',
-  //     name: 'Fabrizio Serial',
-  //     profileImage: null
-  //   },
-  //   {
-  //     providerUserId: '3',
-  //     email: 'matiaspizzi@gmail.com',
-  //     name: 'Matias Pizzi',
-  //     profileImage: null
-  //   },
-  //   {
-  //     providerUserId: '4',
-  //     email: 'otro@sirius.com.ar',
-  //     name: 'Otro 1',
-  //     profileImage: null
-  //   },
-  //   {
-  //     providerUserId: '5',
-  //     email: 'otro2@sirius.com.ar',
-  //     name: 'Otro 2',
-  //     profileImage: null
-  //   }
-  // ]
 }
 
 export const postProjectIntegrationRequest = async (
@@ -238,8 +147,25 @@ export const postProjectIntegrationRequest = async (
     return res.data
   }
   return null
+}
 
-  // TESTING
-  // await new Promise((resolve) => setTimeout(resolve, 1000))
-  // return null
+export const getIssuesFilteredAndPaginated = async (
+  userId: string,
+  projectId: string,
+  filters: OptionalIssueFilters,
+  cursor?: string
+): Promise<IssueView[] | null> => {
+  const res = await axios.get(`${url}/user/${userId}/project/${projectId}`, {
+    headers: {
+      Authorization: 'Bearer ' + getAccessToken()
+    },
+    params: {
+      filters,
+      cursor
+    }
+  })
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
 }

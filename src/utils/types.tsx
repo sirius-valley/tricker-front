@@ -77,6 +77,22 @@ export interface Issue {
   manualTimeModifications: ManualTimeModification[]
 }
 
+export interface IssueView {
+  id: string
+  assigneeId: string | null
+  assigneeName: string | null
+  assigneeProfileUrl: string | null
+  stageId: string | null
+  stageName: string | null
+  typeId: string
+  typeName: string
+  name: string
+  title: string
+  priority: Priority
+  storyPoints: number | null
+  labelIds: string[]
+}
+
 export interface IssueLabel {
   id: string
   labelId: string
@@ -307,4 +323,11 @@ export interface MemberEmail {
   email: string
   pendingProjectAuthorizationId: string
   pendingProjectAuthorization: PendingProjectAuthorization
+}
+
+export interface OptionalIssueFilters {
+  stageIds?: string[]
+  priorities?: Priority[]
+  assigneeIds?: string[]
+  isOutOfEstimation?: boolean
 }
