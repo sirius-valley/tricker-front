@@ -74,7 +74,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
               )}
             </NavLink>
             {variant === 'Project Manager' && (
-              <NavLink to="/team">
+              <NavLink to="/my-team">
                 {({ isActive }) => (
                   <NavbarItem
                     title="Team"

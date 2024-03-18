@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import Icon from '@components/Icon/Icon'
 import Body2 from '@utils/typography/body2/body2'
 import Body1 from '@utils/typography/body1/body1'
@@ -19,25 +19,34 @@ export const Dropdown: React.FC<DropdownProps> = ({
   options,
   handleSelect
 }): JSX.Element => {
-  const [selectedOption, setSelectedOption] =
+  const [selectedProject, setSelectedProject] =
     useState<DropdownOption>(preSelectedOption)
   const [isOpen, setIsOpen] = useState(false)
 
   const dropdownRef = useRef<HTMLDivElement | null>(null)
 
-  const handleClickOutside = (event: MouseEvent): void => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setIsOpen(false)
-    }
-  }
+  const handleDropdownSelect = useCallback(
+    (selectedProject: DropdownOption): void => {
+      setSelectedProject(selectedProject)
+      handleSelect(selectedProject)
+    },
+    [handleSelect]
+  )
 
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent): void => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false)
+      }
+    }
     document.addEventListener('mousedown', handleClickOutside)
-    handleSelect(selectedOption)
-  }, [selectedOption, handleSelect])
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   return (
     <div className="w-[224px] h-[48px]" ref={dropdownRef}>
@@ -50,16 +59,16 @@ export const Dropdown: React.FC<DropdownProps> = ({
           className="relative w-full cursor-pointer py-2 px-6 flex items-center justify-between focus:outline-none "
         >
           <span className="flex items-center gap-2 w-fit">
-            {selectedOption.image ? (
+            {selectedProject.image ? (
               <img
-                src={selectedOption.image}
+                src={selectedProject.image}
                 className="h-[32px] w-[32px] rounded-sm"
               />
             ) : (
-              <NoAvatarProject text={selectedOption.title} />
+              <NoAvatarProject text={selectedProject.title} />
             )}
             <Body2 className="text-white font-semibold overflow-hidden overflow-ellipsis whitespace-nowrap">
-              {selectedOption.title}
+              {selectedProject.title}
             </Body2>
           </span>
           <div className="flex items-end ">
@@ -68,11 +77,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
         </button>
         {isOpen && (
           <ul className="absolute z-10 ml-6 w-[297px] rounded-lg py-2 border border-gray-300 bg-gray-500">
-            {options.map((option, index) => (
+            {options.map((option: DropdownOption, index: number) => (
               <li
                 key={index}
                 onClick={() => {
-                  setSelectedOption(option)
+                  handleDropdownSelect(option)
                 }}
                 className="relative cursor-pointer select-none p-4 hover:bg-gray-400 transition-colors duration-300"
               >
@@ -82,19 +91,19 @@ export const Dropdown: React.FC<DropdownProps> = ({
                     width="20"
                     height="20"
                     fillColor={
-                      selectedOption === option
+                      selectedProject.id === option.id
                         ? colors.primary[400]
                         : 'transparent'
                     }
                   />
-                  {selectedOption.image ? (
+                  {option.image ? (
                     <img
                       src={option.image}
                       alt=""
                       className="h-5 w-5 rounded-sm"
                     />
                   ) : (
-                    <NoAvatarProject text={selectedOption.title} />
+                    <NoAvatarProject text={option.title} />
                   )}
 
                   <Body1 className="text-white overflow-hidden overflow-ellipsis whitespace-nowrap">

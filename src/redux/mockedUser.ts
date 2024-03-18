@@ -13,6 +13,7 @@ const mockUser: User = {
         name: 'Proyecto 1',
         providerId: 'provider123',
         organizationId: 'organization123',
+        image: '',
         createdAt: new Date().toISOString(),
         organization: {
           id: 'organization123',
@@ -46,6 +47,7 @@ const mockUser: User = {
         name: 'Proyecto 2',
         providerId: 'provider456',
         organizationId: 'organization456',
+        image: '',
         createdAt: new Date().toISOString(),
         organization: {
           id: 'organization456',
@@ -76,9 +78,10 @@ const mockUser: User = {
       projectId: 'project3',
       project: {
         id: 'project3',
-        name: 'Proyecto 3',
+        name: 'Tricker',
         providerId: 'provider789',
         organizationId: 'organization789',
+        image: '',
         createdAt: new Date().toISOString(),
         organization: {
           id: 'organization789',

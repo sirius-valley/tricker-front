@@ -1,26 +1,32 @@
 import NavBar from '@components/NavBar/NavBar'
 import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import useScreenSize from '@hooks/useScreenSize'
-import { useAppDispatch, useUser } from '@redux/hooks'
+import { useAppDispatch, useCurrentProjectId, useUser } from '@redux/hooks'
 import { setCurrentProjectId } from '@redux/user'
 import { type UserProjectRole, type DropdownOption } from '@utils/types'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
 const HomeWrapperPage: React.FC = (): JSX.Element => {
-  const [userRole, setUserRole] = useState<string>('Developer')
-  const [dropdownOptions, setDropdownOptions] = useState<
-    Array<{ id: string; title: string; image: string }>
-  >([])
-  const [selectedProject, setSelectedProject] = useState<DropdownOption>({
-    id: '',
-    title: '',
-    image: ''
-  })
-
   const user = useUser()
   const dispatch = useAppDispatch()
   const screen = useScreenSize()
+  const currentProjectId = useCurrentProjectId()
+  const dropdownOptions = user.projectsRoleAssigned.map(
+    (project: UserProjectRole) => ({
+      id: project.projectId,
+      title: project.project.name,
+      image: project.project.image || ''
+    })
+  )
+  const currentProject = dropdownOptions.find(
+    (option: DropdownOption) => option.id === currentProjectId
+  )
+
+  const [userRole, setUserRole] = useState<string>('Developer')
+  const [selectedProject, setSelectedProject] = useState<DropdownOption>(
+    currentProject || dropdownOptions[0]
+  )
 
   useEffect(() => {
     const userProjectRole = user.projectsRoleAssigned.find(
@@ -39,14 +45,6 @@ const HomeWrapperPage: React.FC = (): JSX.Element => {
             : user.projectsRoleAssigned[0].projectId
         )
       )
-      const dropdownItems = user.projectsRoleAssigned.map(
-        (project: UserProjectRole) => ({
-          id: project.projectId,
-          title: project.project.name,
-          image: project.project?.image || ''
-        })
-      )
-      setDropdownOptions(dropdownItems)
     }
     setUserProjects()
   }, [selectedProject, user.projectsRoleAssigned, dispatch])
@@ -61,9 +59,7 @@ const HomeWrapperPage: React.FC = (): JSX.Element => {
   return screen.width >= 768 ? (
     <div className="bg-gray-500 h-screen w-screen flex items-center justify-center">
       <SidebarNav
-        preSelectedOption={
-          selectedProject.id !== '' ? selectedProject : dropdownOptions[0]
-        }
+        preSelectedOption={selectedProject}
         variant={userRole}
         dropdownOptions={dropdownOptions}
         handleDropdownSelect={handleDropdownSelect}

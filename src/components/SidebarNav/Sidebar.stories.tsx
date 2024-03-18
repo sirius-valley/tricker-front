@@ -1,20 +1,25 @@
 import { type Meta, type StoryObj } from '@storybook/react'
 import { SidebarNav } from './SidebarNav'
 import { MemoryRouter } from 'react-router-dom'
-import { type DropdownOption } from '@components/Dropdown/Dropdown'
-import { type User, type TimeTracking, type Issue } from '@utils/types'
+import {
+  type User,
+  type TimeTracking,
+  type Issue,
+  type DropdownOption
+} from '@utils/types'
 
-const dropdownOptions = [
-  { title: 'Option 1', image: 'https://imageplaceholder.net/20x20' },
-  { title: 'Option 2', image: 'https://imageplaceholder.net/20x20' },
-  { title: 'Option 3', image: 'https://imageplaceholder.net/20x20' },
-  { title: 'Option 4', image: 'https://imageplaceholder.net/20x20' }
+const dropdownOptions: DropdownOption[] = [
+  { id: '1', title: 'Option 1', image: 'https://imageplaceholder.net/20x20' },
+  { id: '2', title: 'Option 2', image: 'https://imageplaceholder.net/20x20' },
+  { id: '3', title: 'Option 3', image: 'https://imageplaceholder.net/20x20' },
+  { id: '4', title: 'Option 4', image: 'https://imageplaceholder.net/20x20' }
 ]
 
 const user: User = {
   name: 'Victoria Capurro',
   email: 'victoriacapurro@sirius.com.ar',
-  id: '123'
+  id: '123',
+  projectsRoleAssigned: []
 }
 
 const handleDropdownSelect = (option: DropdownOption): void => {
@@ -27,6 +32,12 @@ const timeTracking: TimeTracking = {
   startTime: 0,
   endTime: 0,
   issue: {} as Issue
+}
+
+const preSelectedOption: DropdownOption = {
+  id: '2',
+  title: 'Option 2',
+  image: 'https://imageplaceholder.net/20x20'
 }
 
 const meta: Meta<typeof SidebarNav> = {
@@ -44,6 +55,10 @@ const meta: Meta<typeof SidebarNav> = {
     dropdownOptions: {
       description: 'Options for the dropdown.',
       defaultValue: dropdownOptions
+    },
+    preSelectedOption: {
+      description: 'Pre selected option',
+      defaultValue: preSelectedOption
     },
     handleDropdownSelect: {
       description: 'Function to handle the dropdown select.',
@@ -77,6 +92,7 @@ export const DevView: Story = {
     user,
     dropdownOptions,
     handleDropdownSelect,
+    preSelectedOption,
     timeTracking
   },
   render: (args) => <SidebarNav {...args} />
@@ -89,6 +105,7 @@ export const PMView: Story = {
     user,
     dropdownOptions,
     handleDropdownSelect,
+    preSelectedOption,
     timeTracking
   },
   render: (args) => <SidebarNav {...args} />
