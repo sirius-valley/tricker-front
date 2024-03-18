@@ -34,9 +34,7 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
   }
 
   return (
-    <div
-      className={`w-[648px] gap-10 bg-transparent border border-white relative`}
-    >
+    <div className={`w-[648px] gap-10 bg-transparent relative`}>
       <div className={`flex justify-start items-start`}>
         <span className={`flex flex-col text-left text-white text-[16px] mb-3`}>
           [{ticketId}]

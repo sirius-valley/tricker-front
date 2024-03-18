@@ -49,7 +49,7 @@ const meta: Meta<typeof TicketDisplay> = {
       control: {
         type: 'select'
       },
-      options: ['Label', 'Tracking', 'Blocked']
+      options: ['label', 'tracking', 'blocked']
     },
     description: {
       defaultValue:
