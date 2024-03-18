@@ -86,7 +86,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                 )}
               </NavLink>
             )}
-            <NavLink to="/statistics">
+            <NavLink to="/stats">
               {({ isActive }) => (
                 <NavbarItem
                   title="Statistics"

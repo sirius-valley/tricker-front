@@ -34,7 +34,23 @@ export const ROUTER = createBrowserRouter([
         element: <HomeWrapperPage />,
         children: [
           {
+            path: '/projects',
+            element: <></>
+          },
+          {
+            path: '/stats',
+            element: <></>
+          },
+          {
             path: '/',
+            element: <></>
+          },
+          {
+            path: '/my-team',
+            element: <></>
+          },
+          {
+            path: '/profile',
             element: <></>
           }
         ]
