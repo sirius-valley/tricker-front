@@ -13,6 +13,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
 import { setCurrentTicketId } from '@redux/user'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 
 const TicketList = (): JSX.Element => {
   const { showSnackBar } = useSnackBar()
@@ -91,13 +92,13 @@ const TicketList = (): JSX.Element => {
           </SkeletonTheme>
         </div>
       )}
-      {Object.entries(groupedByStageName).map(([key, issues]) => {
-        return issues?.length !== 0 && !error ? (
+      {data && data.length !== 0 && !error ? (
+        Object.entries(groupedByStageName).map(([key, issues]) => (
           <div key={key} className="text-white">
             <div className="h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
               <div
                 className={`w-3 h-3 rounded-full ${stageColor(issues[0].stage.type)}`}
-              ></div>
+              />
               <Body2>
                 {key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()}
               </Body2>
@@ -128,10 +129,10 @@ const TicketList = (): JSX.Element => {
               ))}
             </div>
           </div>
-        ) : (
-          <div>No tickets found</div>
-        ) // change by NoTicketMessage component
-      })}
+        ))
+      ) : (
+        <NoTicketMessage />
+      )}
     </div>
   )
 }
