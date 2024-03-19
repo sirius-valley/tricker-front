@@ -37,7 +37,7 @@ const TicketList = (): JSX.Element => {
 
   let groupedByStageName: GroupedIssues = {}
 
-  if (data) {
+  if (data && !error) {
     data?.sort((a, b) => a.stage.type - b.stage.type)
 
     groupedByStageName = data.reduce((acc: GroupedIssues, issue) => {
@@ -48,9 +48,7 @@ const TicketList = (): JSX.Element => {
       return acc
     }, {})
   }
-  if (error) {
-    showSnackBar('Something went wrong', 'error')
-  }
+
   const stageColor = (stageType: StageType): string => {
     switch (stageType) {
       case StageType.BACKLOG:
@@ -73,7 +71,9 @@ const TicketList = (): JSX.Element => {
     dispatch(setCurrentTicketId(ticketId))
   }
 
-  // TODO: agregar snackbar cuando hay error
+  if (error) {
+    showSnackBar('Error fetching the tickets, please try again later', 'error')
+  }
   return (
     <div
       className={`w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-auto' : 'overflow-y-hidden'}`}
@@ -92,7 +92,7 @@ const TicketList = (): JSX.Element => {
         </div>
       )}
       {Object.entries(groupedByStageName).map(([key, issues]) => {
-        return issues?.length !== 0 ? (
+        return issues?.length !== 0 && !error ? (
           <div key={key} className="text-white">
             <div className="h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
               <div
@@ -128,7 +128,9 @@ const TicketList = (): JSX.Element => {
               ))}
             </div>
           </div>
-        ) : null // change by NoTicketMessage component
+        ) : (
+          <div>No tickets found</div>
+        ) // change by NoTicketMessage component
       })}
     </div>
   )
