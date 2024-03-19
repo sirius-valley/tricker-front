@@ -4,6 +4,7 @@ import mockedUser from './mockedUser'
 
 interface InitialStateType {
   user: User
+  currentTicketId: string
   currentProjectId: string
   currentStep: number
   steps: Step[]
@@ -28,6 +29,7 @@ export const initialState: InitialStateType = {
   //   // OrganizationAdministrator: []
   // },
   user: mockedUser,
+  currentTicketId: '',
   currentProjectId: '',
   currentStep: 0,
   steps: [
@@ -45,6 +47,9 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload
     },
+    setCurrentTicketId: (state, action: PayloadAction<string>) => {
+      state.currentTicketId = action.payload
+    },
     setCurrentProjectId: (state, action: PayloadAction<string>) => {
       state.currentProjectId = action.payload
     },
@@ -57,6 +62,11 @@ const userSlice = createSlice({
   }
 })
 
-export const { setUser, setCurrentProjectId, setCurrentStep, setProjectName } =
-  userSlice.actions
+export const {
+  setUser,
+  setCurrentTicketId,
+  setCurrentProjectId,
+  setCurrentStep,
+  setProjectName
+} = userSlice.actions
 export default userSlice.reducer

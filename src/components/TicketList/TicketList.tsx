@@ -1,21 +1,29 @@
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
-import { useCurrentProjectId, useUser } from '@redux/hooks'
+import {
+  useAppDispatch,
+  useCurrentProjectId,
+  useCurrentTicketId,
+  useUser
+} from '@redux/hooks'
 import { type IssueView, StageType, type UserProjectRole } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
 import Body2 from '@utils/typography/body2/body2'
 import { useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
+import { setCurrentTicketId } from '@redux/user'
 
 const TicketList = (): JSX.Element => {
   const currentProjectId = useCurrentProjectId()
-  const filters = {} // later to be replaced with redux
+  const filters = {} // Replace with redux
   const user = useUser()
+  const dispatch = useAppDispatch()
   const currentProject = user.projectsRoleAssigned.find(
     (project: UserProjectRole) => project.projectId === currentProjectId
   )
 
-  const [selectedTicket, setSelectedTicket] = useState<string>('') // later to be replaced with redux
+  const [selectedTicket, setSelectedTicket] =
+    useState<string>(useCurrentTicketId())
   const isProjectManager = currentProject?.role?.name === 'Project Manager'
 
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
@@ -57,6 +65,12 @@ const TicketList = (): JSX.Element => {
         return 'bg-gray-300'
     }
   }
+
+  const handleSelectedTicket = (ticketId: string): void => {
+    setSelectedTicket(ticketId)
+    dispatch(setCurrentTicketId(ticketId))
+  }
+
   // TODO: agregar snackbar cuando hay error
   return (
     <div
@@ -105,7 +119,7 @@ const TicketList = (): JSX.Element => {
                   selectedCard={selectedTicket === issue.id}
                   storyPoints={issue.storyPoints}
                   handleClick={() => {
-                    setSelectedTicket(issue.id)
+                    handleSelectedTicket(issue.id)
                   }}
                   key={issue.id}
                 />
