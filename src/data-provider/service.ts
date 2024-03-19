@@ -203,7 +203,7 @@ export const getIssuesFilteredAndPaginated = async (
         profileUrl: 'https://randomuser.me/api/portraits'
       },
       stage: {
-        name: 'Backlog',
+        name: 'TODO',
         id: '2',
         type: StageType.UNSTARTED
       },
@@ -221,7 +221,7 @@ export const getIssuesFilteredAndPaginated = async (
         profileUrl: 'https://randomuser.me/api/portraits'
       },
       stage: {
-        name: 'Backlog',
+        name: 'In Progress',
         id: '3',
         type: StageType.STARTED
       },
@@ -239,7 +239,7 @@ export const getIssuesFilteredAndPaginated = async (
         profileUrl: 'https://randomuser.me/api/portraits'
       },
       stage: {
-        name: 'Backlog',
+        name: 'In Review',
         id: '4',
         type: StageType.COMPLETED
       },
@@ -257,7 +257,7 @@ export const getIssuesFilteredAndPaginated = async (
         profileUrl: 'https://randomuser.me/api/portraits'
       },
       stage: {
-        name: 'Backlog',
+        name: 'TODO',
         id: '5',
         type: StageType.UNSTARTED
       },
@@ -275,7 +275,7 @@ export const getIssuesFilteredAndPaginated = async (
         profileUrl: 'https://randomuser.me/api/portraits'
       },
       stage: {
-        name: 'Backlog',
+        name: 'Done',
         id: '6',
         type: StageType.COMPLETED
       },
@@ -293,7 +293,7 @@ export const getIssuesFilteredAndPaginated = async (
         profileUrl: 'https://randomuser.me/api/portraits'
       },
       stage: {
-        name: 'Backlog',
+        name: 'Canceled',
         id: '7',
         type: StageType.CANCELED
       },
@@ -311,7 +311,7 @@ export const getIssuesFilteredAndPaginated = async (
         profileUrl: 'https://randomuser.me/api/portraits'
       },
       stage: {
-        name: 'Backlog',
+        name: 'Other',
         id: '8',
         type: StageType.OTHER
       },
@@ -329,7 +329,7 @@ export const getIssuesFilteredAndPaginated = async (
         profileUrl: 'https://randomuser.me/api/portraits'
       },
       stage: {
-        name: 'Backlog',
+        name: 'In Review',
         id: '9',
         type: StageType.COMPLETED
       },
@@ -347,7 +347,7 @@ export const getIssuesFilteredAndPaginated = async (
         profileUrl: 'https://randomuser.me/api/portraits'
       },
       stage: {
-        name: 'Backlog',
+        name: 'Done',
         id: '10',
         type: StageType.COMPLETED
       },
