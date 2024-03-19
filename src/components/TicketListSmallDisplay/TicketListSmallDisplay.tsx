@@ -8,6 +8,8 @@ import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 // import CategoryIcon from '@components/CategoryIcon/CategoryIcon'
 import { Pill } from '@components/Pill/Pill'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import config from '../../../tailwind.config'
 const colors = config.theme.extend.colors
 
@@ -57,8 +59,18 @@ const TicketListSmallDisplay: React.FC = (): JSX.Element => {
   }
 
   return (
-    <div className="w-[467px] h-[770px] bg-gray-500 overflow-y-scroll">
-      {isLoading && <div>Loading...</div>}
+    <div
+      className={`w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-scroll' : 'overflow-y-hidden'}`}
+    >
+      {isLoading && (
+        <div className="p-1">
+          <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
+            {Array.from({ length: 15 }, (_, index) => (
+              <Skeleton key={index} height={48} containerClassName="h-[14px]" />
+            ))}
+          </SkeletonTheme>
+        </div>
+      )}
       {error && <div>Error: {error.message}</div>}
       {Object.entries(groupedByStageName).map(([key, issues]) => {
         return issues?.length !== 0 ? (
