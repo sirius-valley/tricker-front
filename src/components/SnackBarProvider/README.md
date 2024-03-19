@@ -5,7 +5,7 @@ The Snackbar component provides a simple way to display brief and temporary mess
 ## Usage
 
 1- Import the SnackBarProvider into your application:
-```bash
+```javascript
 import { SnackBarProvider } from 'your-snackbar-package';
 
 const App = () => {
@@ -19,7 +19,7 @@ const App = () => {
 export default App;
 ```
 2- Use the useSnackbar hook to show messages in your application:
-```bash
+```javascript
 import React from 'react';
 import { useSnackbar } from 'your-snackbar-package';
 
