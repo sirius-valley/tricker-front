@@ -77,7 +77,7 @@ const TicketList = (): JSX.Element => {
   }
   return (
     <div
-      className={`w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-auto' : 'overflow-y-hidden'}`}
+      className={`w-[393px] md:w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-auto' : 'overflow-y-hidden'}`}
     >
       {isLoading && (
         <div className="p-6 w-full">
@@ -104,7 +104,7 @@ const TicketList = (): JSX.Element => {
               </Body2>
               <Body1>{issues?.length}</Body1>
             </div>
-            <div className="flex flex-col items-center gap-4 p-6 w-full ">
+            <div className="flex flex-col items-center gap-4 py-4 px-6 md:py-6 w-full ">
               {issues?.map((issue) => (
                 <TicketCard
                   ticketId={issue.title}

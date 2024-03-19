@@ -42,12 +42,12 @@ const TicketCard: React.FC<TicketCardProps> = ({
   }
   return (
     <button
-      className={`sm:w-[419px] w-[345px] h-[114px] bg-${activeColor(`white`)} bg-opacity-5  border border-${activeColor(`gray-400`)} py-4 px-6 gap-4 rounded-xl flex flex-col`}
+      className={`md:w-[419px] w-[345px] h-[114px] bg-${activeColor(`white`)} bg-opacity-5  border border-${activeColor(`gray-400`)} py-4 px-6 gap-4 rounded-xl flex flex-col`}
       onClick={handleClick}
     >
       <div className={`flex justify-start items-start gap-1`}>
         <span
-          className={`flex flex-col text-left gap-2 w-[265px] sm:w-[345px] h-[46px]`}
+          className={`flex flex-col text-left gap-2 w-[265px] md:w-[345px] h-[46px]`}
         >
           <Body2 className={`leading-[19.36px] text-${activeColor(`white`)}`}>
             {ticketId}
