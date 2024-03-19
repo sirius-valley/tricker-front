@@ -11,7 +11,7 @@ import RoleValidation from './RoleValidation/RoleValidation'
 export const ROUTER = createBrowserRouter([
   {
     path: '/login',
-    element: <LoginPage /> // StepperExample
+    element: <LoginPage />
   },
   {
     path: '/login/non-invited',

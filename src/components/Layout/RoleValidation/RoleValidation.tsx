@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { useCurrentProjectId, useUser } from '@redux/hooks'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
@@ -13,10 +14,16 @@ const RoleValidation = (): JSX.Element => {
       (project: UserProjectRole) => project.projectId === currentProjectId
     )
 
+  useEffect(() => {
+    if (currentProject && currentProject.role?.name !== 'Project Manager') {
+      showSnackBar('You are not authorized to access this page', 'error')
+    }
+  }, [currentProject, showSnackBar])
+
   if (currentProject && currentProject.role?.name === 'Project Manager') {
     return <Outlet />
   }
-  showSnackBar('You are not authorized to access this page', 'error')
+
   return <Navigate to="/" replace />
 }
 
