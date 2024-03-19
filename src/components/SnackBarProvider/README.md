@@ -20,18 +20,17 @@ export default App;
 ```
 2- Use the useSnackbar hook to show messages in your application:
 ```javascript
-import React from 'react';
-import { useSnackbar } from 'your-snackbar-package';
+import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider';
 
 const MyComponent = () => {
-  const { showSnackbar } = useSnackbar();
+  const { showSnackBar } = useSnackBar();
 
   const handleSuccess = () => {
-    showSnackbar('Operation completed successfully', 'success');
+    showSnackBar('Operation completed successfully', 'success');
   };
 
   const handleError = () => {
-    showSnackbar('An error occurred', 'error');
+    showSnackBar('An error occurred', 'error');
   };
 
   return (

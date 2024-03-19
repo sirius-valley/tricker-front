@@ -12,8 +12,10 @@ import { useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
 import { setCurrentTicketId } from '@redux/user'
+import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 
 const TicketList = (): JSX.Element => {
+  const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
   const filters = {} // Replace with redux
   const user = useUser()
@@ -47,7 +49,7 @@ const TicketList = (): JSX.Element => {
     }, {})
   }
   if (error) {
-    console.log(error)
+    showSnackBar('Something went wrong', 'error')
   }
   const stageColor = (stageType: StageType): string => {
     switch (stageType) {
