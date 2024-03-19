@@ -225,6 +225,7 @@ export const getIssuesFilteredAndPaginated = async (
         id: '3',
         type: StageType.STARTED
       },
+      tracking: true,
       name: 'Name of the ticket 3',
       title: 'TIK-003',
       priority: Priority.HIGH_PRIORITY,
