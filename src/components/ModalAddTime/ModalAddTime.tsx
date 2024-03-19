@@ -23,14 +23,43 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
   }
 
   const handleInputDate = (value: string): void => {
+    // Obtener la fecha actual
+    const currentDate = new Date()
+
+    // Obtener el año actual
+    const currentYear = currentDate.getFullYear()
+
     // Validación de fecha (Año actual, días y meses válidos)
     const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/ // DD/MM/YYYY
     if (regex.test(value)) {
-      setIsDateValid(true)
+      const [, , yearString] = value.split('/')
+      const year = parseInt(yearString, 10)
+
+      // Validar si el año ingresado es igual al año actual y la fecha es igual o anterior a la actual
+      if (year === currentYear) {
+        // Revisar si se ha ingresado tanto el día como el mes, para agregar automáticamente la barra
+        let formattedDate = value
+        if (formattedDate.length === 2 || formattedDate.length === 5) {
+          formattedDate += '/'
+        }
+
+        setInputDate(formattedDate)
+
+        // Crear un nuevo objeto Date para validar la fecha completa
+        const [day, month] = formattedDate.split('/')
+        const inputDate = new Date(`${year}-${month}-${day}`)
+
+        if (inputDate <= currentDate) {
+          setIsDateValid(true)
+        } else {
+          setIsDateValid(false)
+        }
+      } else {
+        setIsDateValid(false)
+      }
     } else {
       setIsDateValid(false)
     }
-    setInputDate(value)
   }
 
   const handleAddTime = (): void => {
@@ -76,7 +105,6 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
             handleValue={handleInputDate}
             placeholder="DD/MM/YYYY"
             variant={isDateValid ? 'default' : 'error'}
-            helpertext={isDateValid ? 'default' : 'error'}
           />
         </div>
         <div className="flex justify-center mt-4 gap-4">
