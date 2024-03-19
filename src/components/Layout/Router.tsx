@@ -5,18 +5,14 @@ import RoleSelectPage from '@pages/Login/RoleSelectPage'
 import SetupPage from '@pages/InitialIntegration/InitialIntegrationPage'
 import LoadingPage from '@pages/Loader/LoadingPage'
 import HomeWrapperPage from '@components/HomeWrapperPage/HomeWrapperPage'
-// import LoginPage from '@pages/Login/LoginPage'
+import LoginPage from '@pages/Login/LoginPage'
 import RoleValidation from './RoleValidation/RoleValidation'
-import TicketList from '@components/TicketList/TicketList'
+import TicketListWrapper from '@components/TicketListWrapper/TicketListWrapper'
 
 export const ROUTER = createBrowserRouter([
   {
     path: '/login',
-    element: (
-      <div className="bg-gray-600">
-        <TicketList />
-      </div>
-    )
+    element: <LoginPage />
   },
   {
     path: '/login/non-invited',
@@ -59,7 +55,7 @@ export const ROUTER = createBrowserRouter([
           },
           {
             path: '/',
-            element: <></>
+            element: <TicketListWrapper />
           },
           {
             path: '/profile',

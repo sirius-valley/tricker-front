@@ -4,6 +4,7 @@ import mockedUser from './mockedUser'
 
 interface InitialStateType {
   user: User
+  userRole: string
   currentTicketId: string
   currentProjectId: string
   currentStep: number
@@ -29,6 +30,7 @@ export const initialState: InitialStateType = {
   //   // OrganizationAdministrator: []
   // },
   user: mockedUser,
+  userRole: '',
   currentTicketId: '',
   currentProjectId: '',
   currentStep: 0,
@@ -47,6 +49,9 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload
     },
+    setUserRole: (state, action: PayloadAction<string>) => {
+      state.userRole = action.payload
+    },
     setCurrentTicketId: (state, action: PayloadAction<string>) => {
       state.currentTicketId = action.payload
     },
@@ -64,6 +69,7 @@ const userSlice = createSlice({
 
 export const {
   setUser,
+  setUserRole,
   setCurrentTicketId,
   setCurrentProjectId,
   setCurrentStep,

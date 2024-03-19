@@ -14,12 +14,14 @@ import useDebounce from '@hooks/useDebounce'
 export interface FilterSectionProps {
   handleSelect: (options: OptionAttr[]) => void
   handleSearch: (value: string) => void
+  handleOutOfEstimation: (isOutOfEst: boolean) => void
   handleView: (view: 'grid' | 'list') => void
 }
 
 const FilterSection: React.FC<FilterSectionProps> = ({
   handleSelect,
   handleSearch,
+  handleOutOfEstimation,
   handleView
 }) => {
   const [showFilter, setShowFilter] = useState<boolean>(false)
@@ -27,6 +29,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
   const [searchedValue, setSearchedValue] = useState<string>('')
   const [selectedOptions, setSelectedOptions] = useState<OptionAttr[]>([])
+  const [outOfEstimation, setOutOfEstimation] = useState<boolean>(false)
   const screen = useScreenSize()
   const filterRef = useRef<HTMLDivElement | null>(null)
 
@@ -48,9 +51,11 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const handleSelectDebounced = useDebounce((options: OptionAttr[]) => {
     handleSelect(options)
   }, 2000)
+
   useEffect(() => {
     handleSelectDebounced(selectedOptions)
   }, [selectedOptions, handleSelectDebounced])
+
   const handleSearchDebounced = useDebounce((value: string) => {
     handleSearch(value)
   }, 1000)
@@ -58,6 +63,14 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   useEffect(() => {
     handleSearchDebounced(searchedValue)
   }, [searchedValue, handleSearchDebounced])
+
+  const handleOutOfEstimationClick = useDebounce((isOutOfEst: boolean) => {
+    handleOutOfEstimation(isOutOfEst)
+  }, 1000)
+
+  useEffect(() => {
+    handleOutOfEstimationClick(outOfEstimation)
+  }, [outOfEstimation, handleOutOfEstimationClick])
 
   const handleCheckGridList = (isList: boolean): void => {
     isList ? handleView('list') : handleView('grid')
@@ -106,10 +119,9 @@ const FilterSection: React.FC<FilterSectionProps> = ({
                   statusOptions={statusOptions}
                   priorityOptions={priorityOptions}
                   selectedItems={selectedOptions}
-                  handleSelect={(options: OptionAttr[]) => {
-                    setSelectedOptions(options)
-                  }}
+                  handleSelect={setSelectedOptions}
                   show={showFilter}
+                  handleOutOfEstimation={setOutOfEstimation}
                 />
               </div>
             )}
@@ -159,6 +171,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
                 selectedItems={selectedOptions}
                 handleSelect={setSelectedOptions}
                 show={showFilter}
+                handleOutOfEstimation={setOutOfEstimation}
               />
             </div>
           )}

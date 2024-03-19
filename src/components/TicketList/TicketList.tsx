@@ -14,8 +14,15 @@ import TicketCard from '@components/TicketCard/TicketCard'
 import { setCurrentTicketId } from '@redux/user'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
+import { type OptionAttr } from '@components/Filter/Filter'
 
-const TicketList = (): JSX.Element => {
+export interface TicketListProps {
+  filters: OptionAttr[]
+  searchedTicket: string
+  isOutOfEstimation: boolean
+}
+
+const TicketList: React.FC<TicketListProps> = (): JSX.Element => {
   const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
   const filters = {} // Replace with redux

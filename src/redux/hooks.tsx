@@ -17,4 +17,6 @@ export const useCurrentTicketId = (): string =>
   useAppSelector((state) => state.user.currentTicketId)
 export const useCurrentProjectId = (): string =>
   useAppSelector((state) => state.user.currentProjectId)
+export const useUserRole = (): string =>
+  useAppSelector((state) => state.user.userRole)
 export const useUser = (): User => useAppSelector((state) => state.user.user)

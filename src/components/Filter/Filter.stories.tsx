@@ -2,6 +2,8 @@
 import { type Meta, type StoryObj } from '@storybook/react'
 import Filter, { type OptionAttr } from './Filter'
 import config from '../../../tailwind.config'
+import { Provider } from 'react-redux'
+import { store } from '@redux/store'
 
 const colors = config.theme.extend.colors
 
@@ -10,12 +12,6 @@ const meta: Meta<typeof Filter> = {
   component: Filter,
   tags: ['autodocs'],
   argTypes: {
-    variant: {
-      control: {
-        type: 'select',
-        options: ['pm', 'dev']
-      }
-    },
     show: {
       control: {
         type: 'boolean'
@@ -47,7 +43,6 @@ type Story = StoryObj<typeof Filter>
 export const Default: Story = {
   args: {
     show: true,
-    variant: 'pm',
     handleSelect: (options: OptionAttr[]) => {
       console.log(options)
     },
@@ -84,5 +79,9 @@ export const Default: Story = {
       { option: 'Ignacio Ferrari', selected: false }
     ]
   },
-  render: (args) => <Filter {...args} />
+  render: (args) => (
+    <Provider store={store}>
+      <Filter {...args} />
+    </Provider>
+  )
 }
