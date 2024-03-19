@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Priority, StageType } from '@utils/types'
+import { Priority, StageType, type IssueView } from '@utils/types'
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
 import { useUser } from '@redux/hooks'
 import Body2 from '@utils/typography/body2/body2'
@@ -29,30 +29,34 @@ const TicketListSmallDisplay: React.FC = (): JSX.Element => {
     filters
   )
 
-  const issues = {
-    backlog: data?.filter((issue) => issue.stage.type === StageType.BACKLOG),
-    unstarted: data?.filter(
-      (issue) => issue.stage.type === StageType.UNSTARTED
-    ),
-    started: data?.filter((issue) => issue.stage.type === StageType.STARTED),
-    completed: data?.filter(
-      (issue) => issue.stage.type === StageType.COMPLETED
-    ),
-    canceled: data?.filter((issue) => issue.stage.type === StageType.CANCELED),
-    other: data?.filter((issue) => issue.stage.type === StageType.OTHER)
+  type GroupedIssues = Record<string, IssueView[]>
+
+  let groupedByStageName: GroupedIssues = {}
+
+  if (data) {
+    data?.sort((a, b) => a.stage.type - b.stage.type)
+
+    groupedByStageName = data.reduce((acc: GroupedIssues, issue) => {
+      console.log(issue.stage.name)
+      if (acc[issue.stage.name] === undefined) {
+        acc[issue.stage.name] = []
+      }
+      acc[issue.stage.name].push(issue)
+      return acc
+    }, {})
   }
 
-  const stageColor = (stageType: string): string => {
+  const stageColor = (stageType: StageType): string => {
     switch (stageType) {
-      case 'backlog':
+      case StageType.BACKLOG:
         return 'bg-gray-300/60'
-      case 'unstarted':
+      case StageType.UNSTARTED:
         return 'bg-white'
-      case 'started':
+      case StageType.STARTED:
         return 'bg-secondary-400'
-      case 'completed':
+      case StageType.COMPLETED:
         return 'bg-primary-400'
-      case 'canceled':
+      case StageType.CANCELED:
         return 'bg-red-400'
       default:
         return 'bg-gray-300'
@@ -63,16 +67,15 @@ const TicketListSmallDisplay: React.FC = (): JSX.Element => {
     <div className="w-[467px] h-[770px] bg-gray-500 overflow-y-scroll">
       {isLoading && <div>Loading...</div>}
       {error && <div>Error: {error.message}</div>}
-      {Object.entries(issues).map(([stageType, issues]) => {
+      {Object.entries(groupedByStageName).map(([key, issues]) => {
         return issues?.length !== 0 ? (
-          <div key={stageType} className="text-white">
+          <div key={key} className="text-white">
             <div className="h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
               <div
-                className={`w-3 h-3 rounded-full ${stageColor(stageType)}`}
+                className={`w-3 h-3 rounded-full ${stageColor(issues[0].stage.type)}`}
               ></div>
               <Body2>
-                {stageType.charAt(0).toUpperCase() +
-                  stageType.slice(1).toLowerCase()}
+                {key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()}
               </Body2>
               <Body1>{issues?.length}</Body1>
             </div>
