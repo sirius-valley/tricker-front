@@ -8,7 +8,6 @@ import {
   type AuthorizationRequest,
   type Project,
   type IssueView,
-  Stage,
   StageType,
   Priority,
   type OptionalIssueFilters
@@ -305,7 +304,7 @@ export const getIssuesFilteredAndPaginated = async (
             id: '1',
             type: StageType.BACKLOG
           },
-          name: 'Name of the ticket 1 long name',
+          name: 'Name of the ticket 1 loooooooooooooooooooooong name',
           title: 'TIK-001',
           priority: Priority.LOW_PRIORITY,
           storyPoints: 3,

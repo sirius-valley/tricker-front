@@ -1,5 +1,6 @@
 import { type Meta, type StoryObj } from '@storybook/react'
 import PriorityIcon from './PriorityIcon'
+import { Priority } from '@utils/types'
 
 const meta: Meta<typeof PriorityIcon> = {
   title: 'Components/PriorityIcon',
@@ -39,7 +40,7 @@ type Story = StoryObj<typeof PriorityIcon>
 export const PriorityIcons: Story = {
   tags: ['autodocs'],
   args: {
-    variant: 'no-priority',
+    variant: Priority.MEDIUM_PRIORITY,
     fillColor: 'white'
   },
   render: (args) => (

@@ -56,11 +56,6 @@ export interface Role {
   name: string
   users: UserProjectRole[]
 }
-export interface UserIssue {
-  id: string
-  name: string | null
-  profileUrl: string | null
-}
 
 export interface IssueView {
   id: string

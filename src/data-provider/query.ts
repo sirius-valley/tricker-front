@@ -8,7 +8,6 @@ import {
   type AuthorizationRequest,
   type Project,
   type IssueView,
-  Stage,
   type OptionalIssueFilters
 } from '@utils/types'
 

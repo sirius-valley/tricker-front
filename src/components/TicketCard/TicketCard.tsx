@@ -7,30 +7,26 @@ import Body2 from '@utils/typography/body2/body2'
 import React from 'react'
 import config from '../../../tailwind.config'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
+import { type Priority } from '@utils/types'
 
 export interface TicketCardProps {
   ticketId: string
-  title?: string
-  status?: 'label' | 'tracking' | 'blocked'
+  name: string
+  status: 'label' | 'tracking' | 'blocked' | null
   category?: 'feature' | 'improvement' | 'bug'
-  priority?:
-    | 'no-priority'
-    | 'low-priority'
-    | 'medium-priority'
-    | 'high-priority'
-    | 'urgent'
+  priority?: Priority
   elapsedTime?: number
   isProjectManager?: boolean
   associatedUserProfile: string
   selectedCard: boolean
-  storyPoints: number
+  storyPoints: number | null
   handleClick: () => void
 }
 
 const TicketCard: React.FC<TicketCardProps> = ({
   ticketId,
-  title,
-  status,
+  name,
+  status = null,
   priority,
   category,
   elapsedTime,
@@ -59,7 +55,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
           <Body1
             className={`leading-[19.36px] truncate text-${activeColor(`white`)}`}
           >
-            {title}
+            {name}
           </Body1>
         </span>
         {isProjectManager && (
@@ -71,7 +67,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
       <div className="flex justify-between items-center w-full">
         <div className="flex items-center w-fit gap-4">
           <div className="flex gap-1">
-            {priority && (
+            {priority != null && (
               <PriorityIcon
                 fillColor={selectedCard ? colors.primary[400] : 'white'}
                 variant={priority}
@@ -83,7 +79,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
                 variant={category}
               />
             )}
-            {category && (
+            {storyPoints && (
               <StoryPointsIcon
                 fillColor={activeColor(`white`)}
                 points={storyPoints}
