@@ -93,6 +93,7 @@ export interface IssueView {
   storyPoints: number | null
   labels: Label[]
   blocked?: boolean
+  tracking?: boolean
 }
 
 export interface Stage {
