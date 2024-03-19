@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Priority, StageType, type IssueView } from '@utils/types'
+import { StageType, type IssueView } from '@utils/types'
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
 import { useUser } from '@redux/hooks'
 import Body2 from '@utils/typography/body2/body2'
@@ -13,13 +13,7 @@ const colors = config.theme.extend.colors
 
 const TicketListSmallDisplay: React.FC = (): JSX.Element => {
   const selectedProjectId = '123' // later to be replaced with redux
-  const filters = {
-    priorities: [
-      Priority.LOW_PRIORITY,
-      Priority.MEDIUM_PRIORITY,
-      Priority.HIGH_PRIORITY
-    ]
-  } // later to be replaced with redux
+  const filters = {} // later to be replaced with redux
   const [selectedTicket, setSelectedTicket] = useState('') // later to be replaced with redux
 
   const user = useUser()
@@ -37,7 +31,6 @@ const TicketListSmallDisplay: React.FC = (): JSX.Element => {
     data?.sort((a, b) => a.stage.type - b.stage.type)
 
     groupedByStageName = data.reduce((acc: GroupedIssues, issue) => {
-      console.log(issue.stage.name)
       if (acc[issue.stage.name] === undefined) {
         acc[issue.stage.name] = []
       }
@@ -111,6 +104,9 @@ const TicketListSmallDisplay: React.FC = (): JSX.Element => {
                 <Body1 className="truncate text-ellipsis ">{issue.name}</Body1>
                 {issue.blocked === true && (
                   <Pill variant="blocked">Blocked</Pill>
+                )}
+                {issue.tracking === true && (
+                  <Pill variant="tracking">Tracking time</Pill>
                 )}
               </div>
             ))}
