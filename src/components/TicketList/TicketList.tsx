@@ -38,7 +38,9 @@ const TicketList = (): JSX.Element => {
       return acc
     }, {})
   }
-
+  if (error) {
+    console.log(error)
+  }
   const stageColor = (stageType: StageType): string => {
     switch (stageType) {
       case StageType.BACKLOG:
@@ -73,7 +75,6 @@ const TicketList = (): JSX.Element => {
           </SkeletonTheme>
         </div>
       )}
-      {error && <div>Error: {error.message}</div>}
       {Object.entries(groupedByStageName).map(([key, issues]) => {
         return issues?.length !== 0 ? (
           <div key={key} className="text-white">
@@ -111,7 +112,7 @@ const TicketList = (): JSX.Element => {
               ))}
             </div>
           </div>
-        ) : null
+        ) : null // change by NoTicketMessage component
       })}
     </div>
   )

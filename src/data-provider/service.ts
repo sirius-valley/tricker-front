@@ -297,7 +297,7 @@ export const getIssuesFilteredAndPaginated = async (
           assignee: {
             id: '1',
             name: 'John Doe',
-            profileUrl: 'https://randomuser.me/api/portraits'
+            profileUrl: 'https://randomuser.me/api/portraits/men/75.jpg'
           },
           stage: {
             name: 'Backlog',
@@ -316,7 +316,7 @@ export const getIssuesFilteredAndPaginated = async (
           assignee: {
             id: '2',
             name: 'John Doe',
-            profileUrl: 'https://randomuser.me/api/portraits'
+            profileUrl: 'https://randomuser.me/api/portraits/men/65.jpg'
           },
           stage: {
             name: 'TODO',
@@ -334,7 +334,7 @@ export const getIssuesFilteredAndPaginated = async (
           assignee: {
             id: '3',
             name: 'John Doe',
-            profileUrl: 'https://randomuser.me/api/portraits'
+            profileUrl: 'https://randomuser.me/api/portraits/men/35.jpg'
           },
           stage: {
             name: 'In Progress',
@@ -353,7 +353,7 @@ export const getIssuesFilteredAndPaginated = async (
           assignee: {
             id: '4',
             name: 'John Doe',
-            profileUrl: 'https://randomuser.me/api/portraits'
+            profileUrl: 'https://randomuser.me/api/portraits/men/15.jpg'
           },
           stage: {
             name: 'In Review',
@@ -371,7 +371,7 @@ export const getIssuesFilteredAndPaginated = async (
           assignee: {
             id: '5',
             name: 'John Doe',
-            profileUrl: 'https://randomuser.me/api/portraits'
+            profileUrl: 'https://randomuser.me/api/portraits/women/19.jpg'
           },
           stage: {
             name: 'TODO',
@@ -389,7 +389,7 @@ export const getIssuesFilteredAndPaginated = async (
           assignee: {
             id: '6',
             name: 'John Doe',
-            profileUrl: 'https://randomuser.me/api/portraits'
+            profileUrl: 'https://randomuser.me/api/portraits/women/60.jpg'
           },
           stage: {
             name: 'Done',
@@ -407,7 +407,7 @@ export const getIssuesFilteredAndPaginated = async (
           assignee: {
             id: '7',
             name: 'John Doe',
-            profileUrl: 'https://randomuser.me/api/portraits'
+            profileUrl: 'https://randomuser.me/api/portraits/women/30.jpg'
           },
           stage: {
             name: 'Canceled',
@@ -425,7 +425,7 @@ export const getIssuesFilteredAndPaginated = async (
           assignee: {
             id: '8',
             name: 'John Doe',
-            profileUrl: 'https://randomuser.me/api/portraits'
+            profileUrl: 'https://randomuser.me/api/portraits/women/20.jpg'
           },
           stage: {
             name: 'Other',
@@ -443,7 +443,7 @@ export const getIssuesFilteredAndPaginated = async (
           assignee: {
             id: '9',
             name: 'John Doe',
-            profileUrl: 'https://randomuser.me/api/portraits'
+            profileUrl: 'https://randomuser.me/api/portraits/men/60.jpg'
           },
           stage: {
             name: 'In Review',
@@ -461,7 +461,7 @@ export const getIssuesFilteredAndPaginated = async (
           assignee: {
             id: '10',
             name: 'John Doe',
-            profileUrl: 'https://randomuser.me/api/portraits'
+            profileUrl: 'https://randomuser.me/api/portraits/women/1.jpg'
           },
           stage: {
             name: 'Done',
