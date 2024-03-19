@@ -6,7 +6,10 @@ import {
   type ProjectPreIntegrated,
   type MemberPreIntegrated,
   type AuthorizationRequest,
-  type Project
+  type Project,
+  type IssueView,
+  Stage,
+  type OptionalIssueFilters
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -112,16 +115,31 @@ export const useGetUserProjects = (): {
   return { data, error, isLoading }
 }
 
-export const useGetUserRole = (
-  userProjectRoleId: string
+export const useGetIssuesFilteredAndPaginated = (
+  userId: string,
+  projectId: string,
+  filters?: OptionalIssueFilters,
+  cursor?: string
 ): {
-  data: string | null | undefined
+  data: IssueView[] | null | undefined
   error: Error | null
   isLoading: boolean
 } => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ['useGetUserRole', userProjectRoleId],
-    queryFn: async () => await ApiService.getRole(userProjectRoleId)
+    queryKey: [
+      'getIssuesFilteredAndPaginated',
+      userId,
+      projectId,
+      filters,
+      cursor
+    ],
+    queryFn: async () =>
+      await ApiService.getIssuesFilteredAndPaginated(
+        userId,
+        projectId,
+        filters,
+        cursor
+      )
   })
   return { data, error, isLoading }
 }

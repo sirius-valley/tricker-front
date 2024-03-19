@@ -56,6 +56,29 @@ export interface Role {
   name: string
   users: UserProjectRole[]
 }
+export interface UserIssue {
+  id: string
+  name: string | null
+  profileUrl: string | null
+}
+
+export interface IssueView {
+  id: string
+  assignee: UserIssue | null
+  stage: StageExtended
+  name: string
+  title: string
+  priority: Priority
+  storyPoints: number | null
+  labels: Label[]
+  blocked?: boolean
+  tracking?: boolean
+}
+export interface UserIssue {
+  id: string
+  name: string | null
+  profileUrl: string | null
+}
 
 export interface Issue {
   id: string
@@ -102,8 +125,10 @@ export interface IssueCustomFields {
 export interface Stage {
   id: string
   name: string
-  projectStages: ProjectStage[]
-  issues: Issue[]
+}
+
+export interface StageExtended extends Stage {
+  type: StageType
 }
 
 export interface Project {
@@ -197,8 +222,6 @@ export interface UserProjectRole {
 export interface Label {
   id: string
   name: string
-  issues: IssueLabel[]
-  projectLabels: ProjectLabel[]
 }
 
 export interface BlockerStatusModification {
@@ -274,6 +297,15 @@ export enum Priority {
   URGENT
 }
 
+export enum StageType {
+  BACKLOG,
+  UNSTARTED,
+  STARTED,
+  COMPLETED,
+  CANCELED,
+  OTHER
+}
+
 export interface Organization {
   id: string
   name: string
@@ -313,4 +345,11 @@ export interface MemberEmail {
   email: string
   pendingProjectAuthorizationId: string
   pendingProjectAuthorization: PendingProjectAuthorization
+}
+
+export interface OptionalIssueFilters {
+  stageIds?: string[]
+  priorities?: Priority[]
+  assigneeIds?: string[]
+  isOutOfEstimation?: boolean
 }

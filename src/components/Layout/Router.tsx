@@ -7,11 +7,14 @@ import LoadingPage from '@pages/Loader/LoadingPage'
 import HomeWrapperPage from '@components/HomeWrapperPage/HomeWrapperPage'
 import LoginPage from '@pages/Login/LoginPage'
 import RoleValidation from './RoleValidation/RoleValidation'
+import TicketList from '@components/TicketList/TicketList'
 
 export const ROUTER = createBrowserRouter([
   {
     path: '/login',
-    element: <LoginPage />
+    element: <div className='bg-gray-600'><TicketList ticketId={''} associatedUserProfile={''} selectedCard={false} storyPoints={0} handleClick={function (): void {
+      throw new Error('Function not implemented.')
+    } } /></div>
   },
   {
     path: '/login/non-invited',
