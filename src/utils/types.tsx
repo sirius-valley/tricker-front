@@ -308,3 +308,9 @@ export interface MemberEmail {
   pendingProjectAuthorizationId: string
   pendingProjectAuthorization: PendingProjectAuthorization
 }
+
+export interface AddTimeData {
+  selectedTime: number
+  selectedReason: string
+  inputDate: string
+}

@@ -5,6 +5,8 @@ import Icon from '@components/Icon/Icon'
 import Body2 from '@utils/typography/body2/body2'
 import { Modal } from '@components/Modal/Modal'
 import Button from '@components/Button/Button'
+import { addTimeModal } from '@data-provider/service'
+import { type AddTimeData } from '@utils/types'
 
 interface AddTimeProps {
   onClose: () => void
@@ -98,14 +100,27 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
     }
   }
 
-  const handleAddTime = (): void => {
+  const handleAddTime = async (): Promise<void> => {
     // Lógica para agregar tiempo
     if (selectedTime && isDateValid) {
-      // Lógica para guardar la entrada de tiempo
-      console.log('Time added:', selectedTime)
-      console.log('Date:', inputDate)
-      console.log('Reason: ', selectedReason)
-      onClose()
+      const data: AddTimeData = {
+        selectedTime,
+        selectedReason,
+        inputDate
+      }
+
+      try {
+        // Llama a la función addTimeModal del servicio
+        await addTimeModal(data)
+        // Lógica para guardar la entrada de tiempo
+        console.log('Time added:', selectedTime)
+        console.log('Date:', inputDate)
+        console.log('Reason: ', selectedReason)
+        onClose()
+      } catch (error) {
+        alert('Failed to add time. Please try again later.')
+        console.error(error)
+      }
     } else {
       alert('Please fill the input field correctly')
     }

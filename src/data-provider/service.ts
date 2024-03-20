@@ -6,7 +6,8 @@ import {
   type ProjectPreIntegrated,
   type MemberPreIntegrated,
   type AuthorizationRequest,
-  type Project
+  type Project,
+  type AddTimeData
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -212,6 +213,20 @@ export const getPreIntegratedMembers = async (
   //     profileImage: null
   //   }
   // ]
+}
+
+// Add Time Modal
+export const addTimeModal = async (data: AddTimeData): Promise<any> => {
+  try {
+    const res = await axios.post(`${url}/add-time`, data, {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    })
+    return res.data
+  } catch (error) {
+    throw new Error('Failed to add time to backend')
+  }
 }
 
 export const postProjectIntegrationRequest = async (
