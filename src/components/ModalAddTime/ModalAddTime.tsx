@@ -13,13 +13,26 @@ interface AddTimeProps {
 
 const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
   const [selectedTime, setSelectedTime] = useState<string>('')
+  const [selectedReason, setSelectedReason] = useState<string>('')
   const [inputDate, setInputDate] = useState<string>('')
   const [isDateValid, setIsDateValid] = useState<boolean>(true)
 
   const times: string[] = ['10 minutes', '20 minutes', '30 minutes'] // Opciones de tiempo
+  const reasons: string[] = [
+    'I forgot to track time',
+    'Misestimated the task',
+    'Internet connection issues',
+    'Additional research required',
+    'Technical issues',
+    'Other unforeseen circumstances'
+  ] // Opciones de motivos
 
   const handleSelectedTime = (time: string): void => {
     setSelectedTime(time)
+  }
+
+  const handleSelectedReason = (reason: string): void => {
+    setSelectedReason(reason)
   }
 
   const handleInputDate = (value: string): void => {
@@ -38,18 +51,26 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
       // Validar si el año ingresado es igual al año actual y la fecha es igual o anterior a la actual
       if (year === currentYear) {
         // Revisar si se ha ingresado tanto el día como el mes, para agregar automáticamente la barra
+        const [day, month] = value.split('/')
         let formattedDate = value
-        if (formattedDate.length === 2 || formattedDate.length === 5) {
-          formattedDate += '/'
+
+        if (day.length === 2 && !value.includes('/')) {
+          formattedDate = `${day}/`
+        } else if (month.length === 2 && value.indexOf('/') === 2) {
+          formattedDate = `${value}`
         }
 
         setInputDate(formattedDate)
 
         // Crear un nuevo objeto Date para validar la fecha completa
-        const [day, month] = formattedDate.split('/')
-        const inputDate = new Date(`${year}-${month}-${day}`)
+        const inputDate = new Date(
+          year,
+          parseInt(month, 10) - 1,
+          parseInt(day, 10)
+        )
+        const maxDaysInMonth = new Date(year, parseInt(month, 10), 0).getDate() // Obtener el número máximo de días en el mes
 
-        if (inputDate <= currentDate) {
+        if (inputDate <= currentDate && parseInt(day, 10) <= maxDaysInMonth) {
           setIsDateValid(true)
         } else {
           setIsDateValid(false)
@@ -68,9 +89,10 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
       // Lógica para guardar la entrada de tiempo
       console.log('Time added:', selectedTime)
       console.log('Date:', inputDate)
+      console.log('Reason: ', selectedReason)
       onClose()
     } else {
-      alert('Please fill in all mandatory fields correctly.')
+      alert('Please fill the input field correctly')
     }
   }
 
@@ -85,11 +107,11 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
             <Icon name="DismissIcon" />
           </button>
         </div>
-        <Body2 className="text-sm font-normal mb-5">
+        <Body2 className="text-sm font-normal mb-6">
           Forgot to track time in real-time? No worries! You can manually add
           the time you spent on this task.
         </Body2>
-        <div className="flex flex-col w-full gap-2">
+        <div className="flex flex-col w-full gap-4">
           <SelectInput
             handleSelectedOption={handleSelectedTime}
             options={times.map((time: string) => ({
@@ -105,13 +127,37 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
             handleValue={handleInputDate}
             placeholder="DD/MM/YYYY"
             variant={isDateValid ? 'default' : 'error'}
+            helpertext={
+              isDateValid
+                ? 'Please enter a valid date'
+                : 'Please enter a valid date from the current year'
+            }
+          />
+          <SelectInput
+            handleSelectedOption={handleSelectedReason}
+            options={reasons.map((reason: string) => ({
+              value: reason,
+              label: reason
+            }))}
+            label="Reason"
+            required
           />
         </div>
-        <div className="flex justify-center mt-4 gap-4">
-          <Button variant="outline" onClick={onClose}>
+        <div className="flex justify-center mt-5 gap-6">
+          <Button
+            variant="outline"
+            size={'large'}
+            className="h-[56px] w-[313px] "
+            onClick={onClose}
+          >
             Cancel
           </Button>
-          <Button variant="filled" onClick={handleAddTime}>
+          <Button
+            variant="filled"
+            size={'large'}
+            className="h-[56px] w-[313px] text-black"
+            onClick={handleAddTime}
+          >
             Add Time
           </Button>
         </div>
