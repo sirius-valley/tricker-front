@@ -12,27 +12,27 @@ interface AddTimeProps {
 }
 
 const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
-  const [selectedTime, setSelectedTime] = useState<string>('')
+  const [selectedTime, setSelectedTime] = useState<number>(0)
   const [selectedReason, setSelectedReason] = useState<string>('')
   const [inputDate, setInputDate] = useState<string>('')
   const [isDateValid, setIsDateValid] = useState<boolean>(true)
 
-  const times: string[] = [
-    '10 minutes',
-    '30 minutes',
-    '45 minutes',
-    '1 hour',
-    '2 hours',
-    '3 hours',
-    '4 hours',
-    '5 hours',
-    '6 hours',
-    '7 hours',
-    '8 hours',
-    '10 hours',
-    '11 hours',
-    '12 hours'
-  ] // Opciones de tiempo
+  const timesInSeconds: Record<string, number> = {
+    '10 minutes': 600,
+    '30 minutes': 1800,
+    '45 minutes': 2700,
+    '1 hour': 3600,
+    '2 hours': 7200,
+    '3 hours': 10800,
+    '4 hours': 14400,
+    '5 hours': 18000,
+    '6 hours': 21600,
+    '7 hours': 25200,
+    '8 hours': 28800,
+    '10 hours': 36000,
+    '11 hours': 39600,
+    '12 hours': 43200
+  } // Opciones de tiempo (en segundos)
   const reasons: string[] = [
     'I forgot to track time',
     'Misestimated the task',
@@ -43,7 +43,7 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
   ] // Opciones de motivos
 
   const handleSelectedTime = (time: string): void => {
-    setSelectedTime(time)
+    setSelectedTime(timesInSeconds[time])
   }
 
   const handleSelectedReason = (reason: string): void => {
@@ -134,7 +134,7 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
         <div className="flex flex-col w-full gap-4">
           <SelectInput
             handleSelectedOption={handleSelectedTime}
-            options={times.map((time: string) => ({
+            options={Object.keys(timesInSeconds).map((time: string) => ({
               value: time,
               label: time
             }))}
@@ -149,7 +149,7 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
             variant={isDateValid ? 'default' : 'error'}
             helpertext={
               isDateValid
-                ? 'Please enter a valid date'
+                ? ''
                 : 'Please enter a valid date from the current year'
             }
           />
@@ -177,6 +177,7 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
             size={'large'}
             className="h-[56px] w-[313px] text-black"
             onClick={handleAddTime}
+            disabled={!selectedTime || !isDateValid || !selectedReason}
           >
             Add Time
           </Button>
