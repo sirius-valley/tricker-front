@@ -1,5 +1,5 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { type Step, type User } from '@utils/types'
+import { type Step, type User, type IssueView } from '@utils/types'
 import mockedUser from './mockedUser'
 
 interface InitialStateType {
@@ -10,6 +10,7 @@ interface InitialStateType {
   currentStep: number
   steps: Step[]
   projectName: string
+  selectedTicket?: IssueView
 }
 
 export const initialState: InitialStateType = {
@@ -63,6 +64,9 @@ const userSlice = createSlice({
     },
     setProjectName: (state, action: PayloadAction<string>) => {
       state.projectName = action.payload
+    },
+    setSelectedTicket: (state, action: PayloadAction<IssueView>) => {
+      state.selectedTicket = action.payload
     }
   }
 })

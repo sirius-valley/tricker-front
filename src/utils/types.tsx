@@ -57,18 +57,6 @@ export interface Role {
   users: UserProjectRole[]
 }
 
-export interface IssueView {
-  id: string
-  assignee: UserIssue | null
-  stage: StageExtended
-  name: string
-  title: string
-  priority: Priority
-  storyPoints: number | null
-  labels: Label[]
-  blocked?: boolean
-  tracking?: boolean
-}
 export interface UserIssue {
   id: string
   name: string | null
@@ -101,6 +89,27 @@ export interface Issue {
   manualTimeModifications: ManualTimeModification[]
 }
 
+export interface IssueView {
+  id: string
+  assignee: UserIssue | null
+  stage: StageExtended
+  name: string
+  title: string
+  priority: Priority
+  storyPoints: number | null
+  labels: Label[]
+  blocked?: boolean
+  tracking?: boolean
+}
+
+export interface Stage {
+  id: string
+  name: string
+}
+export interface StageExtended extends Stage {
+  type: StageType
+}
+
 export interface IssueLabel {
   id: string
   labelId: string
@@ -115,15 +124,6 @@ export interface IssueCustomFields {
   name: string
   value: string
   issue: Issue
-}
-
-export interface Stage {
-  id: string
-  name: string
-}
-
-export interface StageExtended extends Stage {
-  type: StageType
 }
 
 export interface Project {

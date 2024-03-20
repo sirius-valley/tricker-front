@@ -7,8 +7,8 @@ import {
   type MemberPreIntegrated,
   type AuthorizationRequest,
   type Project,
-  type IssueView,
-  type OptionalIssueFilters
+  type OptionalIssueFilters,
+  type IssueView
 } from '@utils/types'
 
 export const useGetMe = (): {
