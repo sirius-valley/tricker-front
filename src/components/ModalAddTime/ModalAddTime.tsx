@@ -147,7 +147,7 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
           <Button
             variant="outline"
             size={'large'}
-            className="h-[56px] w-[313px] "
+            className="h-[56px] w-[313px]"
             onClick={onClose}
           >
             Cancel
