@@ -17,7 +17,22 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
   const [inputDate, setInputDate] = useState<string>('')
   const [isDateValid, setIsDateValid] = useState<boolean>(true)
 
-  const times: string[] = ['10 minutes', '20 minutes', '30 minutes'] // Opciones de tiempo
+  const times: string[] = [
+    '10 minutes',
+    '30 minutes',
+    '45 minutes',
+    '1 hour',
+    '2 hours',
+    '3 hours',
+    '4 hours',
+    '5 hours',
+    '6 hours',
+    '7 hours',
+    '8 hours',
+    '10 hours',
+    '11 hours',
+    '12 hours'
+  ] // Opciones de tiempo
   const reasons: string[] = [
     'I forgot to track time',
     'Misestimated the task',
@@ -97,13 +112,18 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
   }
 
   return (
-    <Modal show={show} onClose={onClose}>
+    <Modal
+      show={show}
+      onClose={() => {
+        onClose()
+      }}
+    >
       <div className="max-w-[539px] w-[92%] min-w-[310px] min-h-[199px] bg-gray-500 border border-gray-300 px-8 py-6 rounded-xl shadow-lg text-white">
         <div className="flex justify-between w-[100%]">
           <h5 className="font-normal mb-2" style={{ fontSize: '24px' }}>
             Add time manually
           </h5>
-          <button className="h-fit hidden sm:block" onClick={onClose}>
+          <button className="hidden sm:block" onClick={onClose}>
             <Icon name="DismissIcon" />
           </button>
         </div>
