@@ -12,7 +12,7 @@ import { useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
 import { setCurrentTicketId } from '@redux/user'
-import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+// import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 import { type OptionAttr } from '@components/Filter/Filter'
 
@@ -23,9 +23,19 @@ export interface TicketListProps {
 }
 
 const TicketList: React.FC<TicketListProps> = (): JSX.Element => {
-  const { showSnackBar } = useSnackBar()
+  // const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
-  const filters = {} // Replace with filter props and parse it to OptionalIssueFilters
+  const filtersParams = {}
+  // if (filters.length !== 0) {
+  //   filtersParams = {}
+  // filtersParams = {
+
+  //   stageIds: filters.stageIds,
+  //   priorities: filters.priorities,
+  //   isOutOfEstimation: filters?.isOutOfEstimation,
+  //   cursor
+  // }
+  // } // Replace with filter props and parse it to OptionalIssueFilters
   const user = useUser()
   const dispatch = useAppDispatch()
   const currentProject = user.projectsRoleAssigned.find(
@@ -39,7 +49,7 @@ const TicketList: React.FC<TicketListProps> = (): JSX.Element => {
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
     user.id,
     currentProjectId,
-    filters
+    filtersParams
   )
   type GroupedIssues = Record<string, IssueView[]>
 
@@ -73,15 +83,15 @@ const TicketList: React.FC<TicketListProps> = (): JSX.Element => {
         return 'bg-gray-300'
     }
   }
-
+  console.log(groupedByStageName)
   const handleSelectedTicket = (ticketId: string): void => {
     setSelectedTicket(ticketId)
     dispatch(setCurrentTicketId(ticketId))
   }
 
-  if (error) {
-    showSnackBar('Error fetching the tickets, please try again later', 'error')
-  }
+  // if (error) {
+  //   showSnackBar('Error fetching the tickets, please try again later', 'error')
+  // }
   return (
     <div
       className={`w-[393px] md:w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-auto' : 'overflow-y-hidden'}`}

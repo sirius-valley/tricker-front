@@ -12,7 +12,6 @@ import {
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
-import { mockedTickets } from '@components/TicketListSmallDisplay/MockedTickets'
 
 const url: string = config.apiUrl || 'http://localhost:8080/api'
 
@@ -156,27 +155,24 @@ export const getIssuesFilteredAndPaginated = async (
   filters?: OptionalIssueFilters,
   cursor?: string
 ): Promise<IssueView[] | null> => {
-  // const res = await axios.post(
-  //   `${url}/user/${userId}/project/${projectId}`,
-  //   {
-  //     stageIds: filters?.stageIds,
-  //     priorities: filters?.priorities,
-  //     isOutOfEstimation: filters?.isOutOfEstimation,
-  //     cursor
-  //   },
-  //   {
-  //     headers: {
-  //       Authorization: 'Bearer ' + getAccessToken()
-  //     }
-  //   }
-  // )
-  // if (res.status === 200) {
-  //   return res.data
-  // }
-  // return null
-  return await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(mockedTickets)
-    }, 2000)
-  })
+  const res = await axios.post(
+    `${url}/issue/dev/${userId}/project/${projectId}`,
+    filters,
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  console.log(res.data)
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+  // TESTING
+  // return await new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     resolve(mockedTickets)
+  //   }, 2000)
+  // })
 }

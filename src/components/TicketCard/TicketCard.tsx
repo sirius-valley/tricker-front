@@ -7,7 +7,7 @@ import Body2 from '@utils/typography/body2/body2'
 import React from 'react'
 import config from '../../../tailwind.config'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
-import { type Priority } from '@utils/types'
+import { Priority } from '@utils/types'
 
 export interface TicketCardProps {
   ticketId: string
@@ -70,7 +70,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
             {priority != null && (
               <PriorityIcon
                 fillColor={selectedCard ? colors.primary[400] : 'white'}
-                variant={priority}
+                variant={Priority[priority as unknown as keyof typeof Priority]}
               />
             )}
             {category && (

@@ -132,6 +132,7 @@ export const useGetIssuesFilteredAndPaginated = (
       filters,
       cursor
     ],
+
     queryFn: async () =>
       await ApiService.getIssuesFilteredAndPaginated(
         userId,
