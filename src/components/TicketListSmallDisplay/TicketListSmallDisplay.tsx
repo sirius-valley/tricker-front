@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { StageType, type IssueView } from '@utils/types'
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
-import { useUser } from '@redux/hooks'
+import { useCurrentProjectId, useCurrentTicketId, useUser } from '@redux/hooks'
 import Body2 from '@utils/typography/body2/body2'
 import Body1 from '@utils/typography/body1/body1'
 import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
@@ -13,17 +13,30 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import config from '../../../tailwind.config'
 import NotificationBadge from '@components/NotificationBadge/NotificationBadge'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
+import { type TicketListProps } from '@components/TicketList/TicketList'
+
 const colors = config.theme.extend.colors
 
-const TicketListSmallDisplay: React.FC = (): JSX.Element => {
-  const selectedProjectId = '123' // later to be replaced with redux
-  const filters = {} // later to be replaced with redux
-  const [selectedTicket, setSelectedTicket] = useState('') // later to be replaced with redux
+const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
+  const selectedProjectId = useCurrentProjectId()
+  const filtersParams = {}
+  // if (filters.length !== 0) {
+  //   filtersParams = {}
+  // filtersParams = {
+
+  //   stageIds: filters.stageIds,
+  //   priorities: filters.priorities,
+  //   isOutOfEstimation: filters?.isOutOfEstimation,
+  //   cursor
+  // }
+  // } // Replace with filter props and parse it to OptionalIssueFilters
+  const [selectedTicket, setSelectedTicket] =
+    useState<string>(useCurrentTicketId())
   const user = useUser()
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
     user.id,
     selectedProjectId,
-    filters
+    filtersParams
   )
 
   type GroupedIssues = Record<string, IssueView[]>

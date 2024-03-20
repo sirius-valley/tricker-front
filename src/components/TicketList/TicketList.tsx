@@ -3,9 +3,10 @@ import {
   useAppDispatch,
   useCurrentProjectId,
   useCurrentTicketId,
-  useUser
+  useUser,
+  useUserRole
 } from '@redux/hooks'
-import { type IssueView, StageType, type UserProjectRole } from '@utils/types'
+import { type IssueView, StageType } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
 import Body2 from '@utils/typography/body2/body2'
 import { useState } from 'react'
@@ -38,13 +39,10 @@ const TicketList: React.FC<TicketListProps> = (): JSX.Element => {
   // } // Replace with filter props and parse it to OptionalIssueFilters
   const user = useUser()
   const dispatch = useAppDispatch()
-  const currentProject = user.projectsRoleAssigned.find(
-    (project: UserProjectRole) => project.projectId === currentProjectId
-  )
 
   const [selectedTicket, setSelectedTicket] =
     useState<string>(useCurrentTicketId())
-  const isProjectManager = currentProject?.role?.name === 'Project Manager'
+  const isProjectManager = useUserRole()
 
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
     user.id,
@@ -133,7 +131,7 @@ const TicketList: React.FC<TicketListProps> = (): JSX.Element => {
                         ? 'tracking'
                         : null
                   }
-                  isProjectManager={isProjectManager}
+                  isProjectManager={isProjectManager === 'Project Manager'}
                   associatedUserProfile={issue.assignee?.profileUrl || ''}
                   selectedCard={selectedTicket === issue.id}
                   storyPoints={issue.storyPoints}
