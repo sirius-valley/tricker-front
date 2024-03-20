@@ -83,6 +83,33 @@ export interface Issue {
   manualTimeModifications: ManualTimeModification[]
 }
 
+export interface Event {
+  type: EventType
+  user: UserIssue
+}
+
+export enum EventType {
+  CREATED,
+  ASSIGNED,
+  BLOCKED,
+  UNBLOCKED,
+  TRACKING,
+  UNTRACKING,
+  CUSTOM_FIELD
+}
+
+export interface IssueDetail {
+  id: string
+  asignee: UserIssue | null
+  name: string
+  title: string
+  description: string
+  priority: Priority
+  storyPoints: number | null
+  labels: Label[]
+  chronology: Event[]
+}
+
 export interface UserIssue {
   id: string
   name: string | null
@@ -226,8 +253,8 @@ export interface UserProjectRole {
 export interface Label {
   id: string
   name: string
-  issues: IssueLabel[]
-  projectLabels: ProjectLabel[]
+  issues?: IssueLabel[]
+  projectLabels?: ProjectLabel[]
 }
 
 export interface BlockerStatusModification {
