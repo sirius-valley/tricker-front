@@ -1,30 +1,35 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { type Step, type User } from '@utils/types'
+import { type Step, type User, type IssueView } from '@utils/types'
+import mockedUser from './mockedUser'
 
 interface InitialStateType {
   user: User
+  currentProjectId: string
   currentStep: number
   steps: Step[]
   projectName: string
+  selectedTicket?: IssueView
 }
 
 export const initialState: InitialStateType = {
-  user: {
-    id: '',
-    cognitoId: '',
-    profileImage: '',
-    email: '',
-    name: '',
-    createdAt: new Date().toString(),
-    projectsRoleAssigned: [],
-    emittedUserProjectRole: [],
-    // emittedBlockerStatusModification: [],
-    authoredIssues: [],
-    asignedIssues: [],
-    emittedIssueChangeLogs: [],
-    emittedManualTimeModification: []
-    // OrganizationAdministrator: []
-  },
+  // user: {
+  //   id: '',
+  //   cognitoId: '',
+  //   profileImage: '',
+  //   email: '',
+  //   name: '',
+  //   createdAt: new Date().toString(),
+  //   projectsRoleAssigned: [],
+  //   emittedUserProjectRole: [],
+  //   // emittedBlockerStatusModification: [],
+  //   authoredIssues: [],
+  //   asignedIssues: [],
+  //   emittedIssueChangeLogs: [],
+  //   emittedManualTimeModification: []
+  //   // OrganizationAdministrator: []
+  // },
+  user: mockedUser,
+  currentProjectId: '',
   currentStep: 0,
   steps: [
     { label: 'Initial Setup' },
@@ -41,14 +46,21 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload
     },
+    setCurrentProjectId: (state, action: PayloadAction<string>) => {
+      state.currentProjectId = action.payload
+    },
     setCurrentStep: (state, action: PayloadAction<number>) => {
       state.currentStep = action.payload
     },
     setProjectName: (state, action: PayloadAction<string>) => {
       state.projectName = action.payload
+    },
+    setSelectedTicket: (state, action: PayloadAction<IssueView>) => {
+      state.selectedTicket = action.payload
     }
   }
 })
 
-export const { setUser, setCurrentStep, setProjectName } = userSlice.actions
+export const { setUser, setCurrentProjectId, setCurrentStep, setProjectName } =
+  userSlice.actions
 export default userSlice.reducer

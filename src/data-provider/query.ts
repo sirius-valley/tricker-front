@@ -6,7 +6,9 @@ import {
   type ProjectPreIntegrated,
   type MemberPreIntegrated,
   type AuthorizationRequest,
-  type Project
+  type Project,
+  type OptionalIssueFilters,
+  type IssueView
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -108,6 +110,49 @@ export const useGetUserProjects = (): {
   const { data, error, isLoading } = useQuery({
     queryKey: ['getUserProjects'],
     queryFn: ApiService.getUserProjects
+  })
+  return { data, error, isLoading }
+}
+
+export const useGetUserRole = (
+  userProjectRoleId: string
+): {
+  data: string | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['useGetUserRole', userProjectRoleId],
+    queryFn: async () => await ApiService.getRole(userProjectRoleId)
+  })
+  return { data, error, isLoading }
+}
+
+export const useGetIssuesFilteredAndPaginated = (
+  userId: string,
+  projectId: string,
+  filters?: OptionalIssueFilters,
+  cursor?: string
+): {
+  data: IssueView[] | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: [
+      'getIssuesFilteredAndPaginated',
+      userId,
+      projectId,
+      filters,
+      cursor
+    ],
+    queryFn: async () =>
+      await ApiService.getIssuesFilteredAndPaginated(
+        userId,
+        projectId,
+        filters,
+        cursor
+      )
   })
   return { data, error, isLoading }
 }
