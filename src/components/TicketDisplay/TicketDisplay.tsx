@@ -1,86 +1,96 @@
 import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import { Pill } from '@components/Pill/Pill'
+import { type IssueDetail, Priority } from '@utils/types'
+import Subtitle from '@utils/typography/subtitle/subtitle'
 export interface TicketDisplayProps {
-  ticketId: string
-  title?: string
-  variant: 'pm' | 'dev'
-  priority?:
-    | 'no-priority'
-    | 'low-priority'
-    | 'medium-priority'
-    | 'high-priority'
-    | 'urgent'
-  storyPoints: number
-  pill?: 'label' | 'tracking' | 'blocked'
-  description: string
+  issue: IssueDetail
+  variant: 'Developer' | 'Project Manager'
 }
 
 const TicketDisplay: React.FC<TicketDisplayProps> = ({
-  ticketId,
-  title,
-  variant,
-  priority,
-  storyPoints,
-  pill,
-  description
+  issue,
+  variant
 }): JSX.Element => {
   const [showFullText, setShowFullText] = useState(false)
+  const [hasOverflow, setHasOverflow] = useState(false)
+  const textRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (textRef.current) {
+      const isOverflowing =
+        textRef.current.offsetHeight < textRef.current.scrollHeight ||
+        textRef.current.offsetWidth < textRef.current.scrollWidth
+      setHasOverflow(isOverflowing)
+    }
+  }, [])
 
   const toggleTextVisibility = (): void => {
     setShowFullText(!showFullText)
   }
 
   return (
-    <div className={`w-[648px] gap-10 bg-transparent relative`}>
-      <div className={`flex justify-start items-start`}>
-        <span className={`flex flex-col text-left text-white text-[16px] mb-3`}>
-          [{ticketId}]
-        </span>
-      </div>
-
-      {variant === 'pm' && (
-        <div className="flex">
-          <ProfilePicture
-            img="https://th.bing.com/th/id/OIP.IGNf7GuQaCqz_RPq5wCkPgAAAA?rs=1&pid=ImgDetMain"
-            size={'sm'}
-          />
-          <span className="text-white">Member Name</span>
+    <div className={`w-[648px] flex flex-col font-inter gap-10 text-white`}>
+      <div className="flex flex-col gap-4">
+        <div className={`flex justify-start items-start`}>
+          <Subtitle className="font-normal">[{issue.id}]</Subtitle>
         </div>
-      )}
 
-      <span className="text-white text-[30px] font-medium">{title}</span>
-      <div className="flex justify-between items-center w-full">
-        <div className="flex w-fit gap-4">
-          <div className="flex gap-1 mt-3 mb-3 items-center">
-            {priority && <PriorityIcon fillColor="white" variant={priority} />}
-            {storyPoints && (
-              <StoryPointsIcon fillColor="white" points={storyPoints} />
-            )}
-            {pill && <Pill variant={pill}>{'Tracking'}</Pill>}
+        {variant === 'Project Manager' && (
+          <div className="flex gap-2 items-center">
+            <ProfilePicture
+              img={issue.asignee?.profileUrl ? issue.asignee.profileUrl : ''}
+              size={'sm'}
+            />
+            <Subtitle className="font-normal">{issue.asignee?.name}</Subtitle>
+          </div>
+        )}
+
+        <span className="text-[30px] font-bold font-inter">{issue.title}</span>
+        <div className="flex justify-between items-center w-full">
+          <div className="flex w-fit gap-4">
+            <div className="flex gap-1 items-center">
+              <PriorityIcon
+                className="w-[26px] h-[26px]"
+                variant={
+                  issue.priority !== undefined
+                    ? issue.priority
+                    : Priority.NO_PRIORITY
+                }
+              />
+              {issue?.storyPoints && (
+                <StoryPointsIcon
+                  className="w-[26px] h-[26px]"
+                  points={issue.storyPoints}
+                />
+              )}
+              {issue.labels.map((label) => (
+                <Pill key={label.id} variant="label">
+                  {label.name}
+                </Pill>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-      <div className="mt-3 text-white">
-        {description}{' '}
-        {showFullText ? (
-          <>
-            {description}{' '}
-            <button
-              className="text-primary-400 bg-transparent border-none cursor-pointer"
-              onClick={toggleTextVisibility}
-            >
-              ...Ver menos (-)
-            </button>
-          </>
-        ) : (
-          <button
-            className="text-primary-400 bg-transparent border-none cursor-pointer"
-            onClick={toggleTextVisibility}
-          >
-            ...Ver más (+)
+      <div className="flex flex-col gap-2 items-start">
+        <div
+          className=" text-ellipsis overflow-hidden"
+          ref={textRef}
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: showFullText ? 'unset' : 3,
+            WebkitBoxOrient: 'vertical',
+            textOverflow: 'ellipsis'
+          }}
+        >
+          {issue.description}
+        </div>
+        {hasOverflow && !showFullText && (
+          <button className="underline" onClick={toggleTextVisibility}>
+            See more
           </button>
         )}
       </div>
