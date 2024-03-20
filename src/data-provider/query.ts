@@ -114,6 +114,20 @@ export const useGetUserProjects = (): {
   return { data, error, isLoading }
 }
 
+export const useGetUserRole = (
+  userProjectRoleId: string
+): {
+  data: string | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['useGetUserRole', userProjectRoleId],
+    queryFn: async () => await ApiService.getRole(userProjectRoleId)
+  })
+  return { data, error, isLoading }
+}
+
 export const useGetIssuesFilteredAndPaginated = (
   userId: string,
   projectId: string,

@@ -31,7 +31,7 @@ const NavBar: React.FC<NavBarProps> = ({
         )}
       </NavLink>
       {isProjectManager && (
-        <NavLink to={`/team`}>
+        <NavLink to={`/my-team`}>
           {({ isActive }) => (
             <NavButton variant="team" state={isActive ? 'on' : 'off'} />
           )}

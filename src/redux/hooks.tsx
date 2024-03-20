@@ -13,4 +13,6 @@ export const useSteps = (): Step[] =>
   useAppSelector((state) => state.user.steps)
 export const useProjectName = (): string =>
   useAppSelector((state) => state.user.projectName)
+export const useCurrentProjectId = (): string =>
+  useAppSelector((state) => state.user.currentProjectId)
 export const useUser = (): User => useAppSelector((state) => state.user.user)
