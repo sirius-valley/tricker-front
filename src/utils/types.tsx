@@ -83,6 +83,42 @@ export interface Issue {
   manualTimeModifications: ManualTimeModification[]
 }
 
+export interface UserIssue {
+  id: string
+  name: string | null
+  profileUrl: string | null
+}
+
+export interface IssueView {
+  id: string
+  assignee: UserIssue | null
+  stage: StageExtended
+  name: string
+  title: string
+  priority: Priority
+  storyPoints: number | null
+  labels: Label[]
+  blocked?: boolean
+  tracking?: boolean
+}
+
+export interface Stage {
+  id: string
+  name: string
+}
+export interface StageExtended extends Stage {
+  type: StageType
+}
+
+export enum StageType {
+  BACKLOG,
+  UNSTARTED,
+  STARTED,
+  COMPLETED,
+  CANCELED,
+  OTHER
+}
+
 export interface IssueLabel {
   id: string
   labelId: string
@@ -97,13 +133,6 @@ export interface IssueCustomFields {
   name: string
   value: string
   issue: Issue
-}
-
-export interface Stage {
-  id: string
-  name: string
-  projectStages: ProjectStage[]
-  issues: Issue[]
 }
 
 export interface Project {
@@ -313,4 +342,11 @@ export interface MemberEmail {
   email: string
   pendingProjectAuthorizationId: string
   pendingProjectAuthorization: PendingProjectAuthorization
+}
+
+export interface OptionalIssueFilters {
+  stageIds?: string[]
+  priorities?: Priority[]
+  assigneeIds?: string[]
+  isOutOfEstimation?: boolean
 }
