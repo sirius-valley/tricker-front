@@ -83,7 +83,6 @@ const TicketList: React.FC<TicketListProps> = (): JSX.Element => {
         return 'bg-gray-300'
     }
   }
-  console.log(groupedByStageName)
   const handleSelectedTicket = (ticketId: string): void => {
     setSelectedTicket(ticketId)
     dispatch(setCurrentTicketId(ticketId))
@@ -124,8 +123,8 @@ const TicketList: React.FC<TicketListProps> = (): JSX.Element => {
             <div className="flex flex-col items-center gap-4 py-4 px-6 md:py-6 w-full ">
               {issues?.map((issue) => (
                 <TicketCard
-                  ticketId={issue.title}
-                  name={issue.name}
+                  ticketId={issue.name}
+                  name={issue.title}
                   priority={issue.priority}
                   status={
                     issue.blocked === true

@@ -164,7 +164,6 @@ export const getIssuesFilteredAndPaginated = async (
       }
     }
   )
-  console.log(res.data)
   if (res.status === 200) {
     return res.data
   }

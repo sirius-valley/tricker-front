@@ -35,7 +35,6 @@ const PriorityIcon: React.FC<PriorityIconProps> = ({
       iconName = 'UrgentIcon'
       break
   }
-  console.log(iconName)
   return <ChildIcon iconName={iconName} fillColor={fillColor} {...props} />
 }
 
