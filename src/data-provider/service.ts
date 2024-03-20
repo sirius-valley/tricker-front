@@ -1,15 +1,15 @@
 import axios from 'axios'
 // import { setUpAxiosInterceptors } from './AxiosInterceptor'
-import {
-  type User,
-  type CognitoResponse,
-  type ProjectPreIntegrated,
-  type MemberPreIntegrated,
-  type AuthorizationRequest,
-  type Project,
-  type IssueView,
-  type OptionalIssueFilters,
-  type IssueDetail
+import type {
+  User,
+  CognitoResponse,
+  ProjectPreIntegrated,
+  MemberPreIntegrated,
+  AuthorizationRequest,
+  Project,
+  IssueView,
+  OptionalIssueFilters,
+  IssueDetail
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
