@@ -7,7 +7,7 @@ import LoadingPage from '@pages/Loader/LoadingPage'
 import HomeWrapperPage from '@components/HomeWrapperPage/HomeWrapperPage'
 import LoginPage from '@pages/Login/LoginPage'
 import RoleValidation from './RoleValidation/RoleValidation'
-import TicketListWrapper from '@components/TicketListWrapper/TicketListWrapper'
+import TicketListWrapper from '@components/WrapperTicketList/WrapperTicketList'
 
 export const ROUTER = createBrowserRouter([
   {

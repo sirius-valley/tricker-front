@@ -32,7 +32,7 @@ export const me = async (): Promise<User | null> => {
 }
 
 export const getUserProjects = async (): Promise<Project[] | null> => {
-  const res = await axios.get(`${url}/me/projects`, {
+  const res = await axios.get(`${url}/user/me`, {
     headers: {
       Authorization: 'Bearer ' + getAccessToken()
     }

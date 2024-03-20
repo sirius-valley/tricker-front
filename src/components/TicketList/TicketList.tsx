@@ -25,7 +25,7 @@ export interface TicketListProps {
 const TicketList: React.FC<TicketListProps> = (): JSX.Element => {
   const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
-  const filters = {} // Replace with redux
+  const filters = {} // Replace with filter props and parse it to OptionalIssueFilters
   const user = useUser()
   const dispatch = useAppDispatch()
   const currentProject = user.projectsRoleAssigned.find(
