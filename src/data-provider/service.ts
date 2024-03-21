@@ -13,7 +13,6 @@ import type {
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
-import { mockedTickets } from '@components/TicketListSmallDisplay/MockedTickets'
 import { mockedTicketDetail } from '@components/TicketDisplay/MockedTicketDetail'
 
 const url: string = config.apiUrl || 'http://localhost:8080/api'
@@ -172,6 +171,10 @@ export const getIssuesFilteredAndPaginated = async (
   }
   return null
   // TESTING
+}
+export const getIssueById = async (
+  ticketId: string
+): Promise<IssueDetail | null> => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
   return mockedTicketDetail
 }
