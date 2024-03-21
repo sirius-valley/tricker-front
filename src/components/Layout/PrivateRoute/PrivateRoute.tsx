@@ -21,11 +21,20 @@ const PrivateRoute = (): JSX.Element => {
       setIsAuthorized(false)
       navigate('/login')
     }
-    if (data && data.id !== '' && data.projectsRoleAssigned.length !== 0) {
+    if (data && (data.id === '' || data.projectsRoleAssigned.length === 0)) {
+      showSnackBar(
+        'You have to be invited to a project or integrate one to access.',
+        'error'
+      )
+    } else if (
+      data &&
+      data.id !== '' &&
+      data.projectsRoleAssigned.length !== 0
+    ) {
       setIsAuthorized(true)
     }
   }, [navigate, error, showSnackBar, data, dispatch])
-  console.log(data)
+
   return data && data.id === '' ? (
     <Navigate to="/login" replace />
   ) : data?.projectsRoleAssigned.length === 0 ? (
