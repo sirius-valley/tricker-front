@@ -4,14 +4,12 @@ import TrickerTitle from '@assets/TrickerTitle'
 import { LoginWithButton } from '@components/LoginWithButton/LoginWithButton'
 import { NeedHelpButton } from '@components/NeedHelpButton/NeedHelpButton'
 import { useVerifyToken } from '@data-provider/query'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import AddTimeModal from '@components/ModalAddTime/ModalAddTime'
 
 const LoginPage = (): JSX.Element => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
-  const [showModal, setShowModal] = useState(false)
 
   const code = searchParams.get('code')
   const { data } = useVerifyToken(code || '')
@@ -38,20 +36,6 @@ const LoginPage = (): JSX.Element => {
             />
           </div>
           <NeedHelpButton />
-          <button
-            onClick={() => {
-              setShowModal(true)
-            }}
-            className="text-white"
-          >
-            open modal
-          </button>
-          <AddTimeModal
-            show={showModal}
-            onClose={() => {
-              setShowModal(false)
-            }}
-          />
         </div>
       </div>
       <div className="hidden md:flex justify-end items-end h-screen w-full ">
