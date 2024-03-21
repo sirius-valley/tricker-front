@@ -314,3 +314,9 @@ export interface AddTimeData {
   selectedReason: string
   inputDate: string
 }
+
+export interface SubtractTimeData {
+  selectedTime: number
+  // selectedReason: string
+  inputDate: string
+}

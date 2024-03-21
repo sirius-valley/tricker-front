@@ -7,7 +7,8 @@ import {
   type MemberPreIntegrated,
   type AuthorizationRequest,
   type Project,
-  type AddTimeData
+  type AddTimeData,
+  type SubtractTimeData
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -226,6 +227,21 @@ export const addTimeModal = async (data: AddTimeData): Promise<any> => {
     return res.data
   } catch (error) {
     throw new Error('Failed to add time to backend')
+  }
+}
+
+export const subtractTimeModal = async (
+  data: SubtractTimeData
+): Promise<any> => {
+  try {
+    const res = await axios.post(`${url}/subtract-time`, data, {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    })
+    return res.data
+  } catch (error) {
+    throw new Error('Failed to subtract time to backend')
   }
 }
 

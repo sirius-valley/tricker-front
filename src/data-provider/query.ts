@@ -7,10 +7,11 @@ import {
   type MemberPreIntegrated,
   type AuthorizationRequest,
   type Project,
-  type AddTimeData
+  type AddTimeData,
+  type SubtractTimeData
 } from '@utils/types'
 
-import { addTimeModal } from './service'
+import { addTimeModal, subtractTimeModal } from './service'
 
 export const useGetMe = (): {
   data: User | null | undefined
@@ -124,6 +125,21 @@ export const useAddTimeMutation = (): {
   const { mutate, error, isPending, isSuccess } = useMutation({
     mutationFn: async (data: AddTimeData) => {
       return await addTimeModal(data)
+    }
+  })
+
+  return { mutate, error, isPending, isSuccess }
+}
+
+export const useSubtractTimeMutation = (): {
+  mutate: (data: AddTimeData) => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, error, isPending, isSuccess } = useMutation({
+    mutationFn: async (data: SubtractTimeData) => {
+      return await subtractTimeModal(data)
     }
   })
 
