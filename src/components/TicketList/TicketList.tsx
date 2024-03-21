@@ -3,8 +3,7 @@ import {
   useAppDispatch,
   useCurrentProjectId,
   useCurrentTicketId,
-  useUser,
-  useUserRole
+  useUser
 } from '@redux/hooks'
 import { type IssueView, StageType } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
@@ -21,9 +20,12 @@ export interface TicketListProps {
   filters: OptionAttr[]
   searchedTicket: string
   isOutOfEstimation: boolean
+  isProjectManager: boolean
 }
 
-const TicketList: React.FC<TicketListProps> = (): JSX.Element => {
+const TicketList: React.FC<TicketListProps> = ({
+  isProjectManager
+}: TicketListProps): JSX.Element => {
   // const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
   const filtersParams = {}
@@ -42,7 +44,6 @@ const TicketList: React.FC<TicketListProps> = (): JSX.Element => {
 
   const [selectedTicket, setSelectedTicket] =
     useState<string>(useCurrentTicketId())
-  const isProjectManager = useUserRole()
 
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
     user.id,
@@ -54,11 +55,8 @@ const TicketList: React.FC<TicketListProps> = (): JSX.Element => {
   let groupedByStageName: GroupedIssues = {}
 
   if (data && !error) {
-    data.sort(
-      (a, b) =>
-        Number(StageType[a.stage.type as unknown as keyof typeof StageType]) -
-        Number(StageType[b.stage.type as unknown as keyof typeof StageType])
-    )
+    data?.sort((a, b) => a.stage.type - b.stage.type)
+
     groupedByStageName = data.reduce((acc: GroupedIssues, issue) => {
       if (acc[issue.stage.name] === undefined) {
         acc[issue.stage.name] = []
@@ -114,7 +112,7 @@ const TicketList: React.FC<TicketListProps> = (): JSX.Element => {
           <div key={key} className="text-white">
             <div className="h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
               <div
-                className={`w-3 h-3 rounded-full ${stageColor(StageType[issues[0].stage.type as unknown as keyof typeof StageType])}`}
+                className={`w-3 h-3 rounded-full ${stageColor(issues[0].stage.type)}`}
               />
               <Body2>
                 {key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()}
@@ -134,7 +132,7 @@ const TicketList: React.FC<TicketListProps> = (): JSX.Element => {
                         ? 'tracking'
                         : null
                   }
-                  isProjectManager={isProjectManager === 'Project Manager'}
+                  isProjectManager={isProjectManager}
                   associatedUserProfile={issue.assignee?.profileUrl || ''}
                   selectedCard={selectedTicket === issue.id}
                   storyPoints={issue.storyPoints}

@@ -25,6 +25,7 @@ const TicketListWrapper = (): JSX.Element => {
           filters={selectedFilters}
           searchedTicket={searchedTicket}
           isOutOfEstimation={outOfEstimation}
+          isProjectManager={false}
         />
       )}
       {view === 'list' && (
@@ -32,6 +33,7 @@ const TicketListWrapper = (): JSX.Element => {
           filters={selectedFilters}
           searchedTicket={searchedTicket}
           isOutOfEstimation={outOfEstimation}
+          isProjectManager={false}
         />
       )}
     </div>
