@@ -1,17 +1,20 @@
 import axios from 'axios'
 // import { setUpAxiosInterceptors } from './AxiosInterceptor'
-import {
-  type User,
-  type CognitoResponse,
-  type ProjectPreIntegrated,
-  type MemberPreIntegrated,
-  type AuthorizationRequest,
-  type Project,
-  type IssueView,
-  type OptionalIssueFilters
+import type {
+  User,
+  CognitoResponse,
+  ProjectPreIntegrated,
+  MemberPreIntegrated,
+  AuthorizationRequest,
+  Project,
+  IssueView,
+  OptionalIssueFilters,
+  IssueDetail
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
+import { mockedTickets } from '@components/TicketListSmallDisplay/MockedTickets'
+import { mockedTicketDetail } from '@components/TicketDisplay/MockedTicketDetail'
 
 const url: string = config.apiUrl || 'http://localhost:8080/api'
 
@@ -169,9 +172,6 @@ export const getIssuesFilteredAndPaginated = async (
   }
   return null
   // TESTING
-  // return await new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve(mockedTickets)
-  //   }, 2000)
-  // })
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  return mockedTicketDetail
 }

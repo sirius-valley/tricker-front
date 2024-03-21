@@ -1,14 +1,15 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import * as ApiService from './service'
-import {
-  type User,
-  type CognitoResponse,
-  type ProjectPreIntegrated,
-  type MemberPreIntegrated,
-  type AuthorizationRequest,
-  type Project,
-  type OptionalIssueFilters,
-  type IssueView
+import type {
+  User,
+  CognitoResponse,
+  ProjectPreIntegrated,
+  MemberPreIntegrated,
+  AuthorizationRequest,
+  Project,
+  OptionalIssueFilters,
+  IssueView,
+  IssueDetail
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -140,6 +141,20 @@ export const useGetIssuesFilteredAndPaginated = (
         filters,
         cursor
       )
+  })
+  return { data, error, isLoading }
+}
+
+export const useGetIssueById = (
+  issueId: string
+): {
+  data: IssueDetail | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getIssueById', issueId],
+    queryFn: async () => await ApiService.getIssueById(issueId)
   })
   return { data, error, isLoading }
 }
