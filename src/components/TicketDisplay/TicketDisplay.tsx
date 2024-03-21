@@ -48,7 +48,9 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
           </div>
         )}
 
-        <span className="text-[30px] font-bold font-inter">{issue.title}</span>
+        <span className="text-[30px] font-bold font-inter overflow-hidden whitespace-nowrap truncate">
+          {issue.title}
+        </span>
         <div className="flex justify-between items-center w-full">
           <div className="flex w-fit gap-4">
             <div className="flex gap-1 items-center">
