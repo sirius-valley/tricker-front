@@ -78,7 +78,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
 
   return (
     <div
-      className={`w-[467px] h-full bg-gray-500 ${data ? 'overflow-y-scroll' : 'overflow-y-hidden'} border-r border-white/10 rounded-bl-xl`}
+      className={`w-[467px] h-full bg-gray-500 ${data ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {error && (
         <div className="w-full h-full flex items-center justify-center">
