@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import PageWrapper from './PrivateRouteWrapper'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '@redux/hooks'
 import { setUser } from '@redux/user'
 import { useGetOrCreateUser } from '@data-provider/query'
@@ -21,16 +21,18 @@ const PrivateRoute = (): JSX.Element => {
       setIsAuthorized(false)
       navigate('/login')
     }
-    if (data) {
-      if (data?.id !== '' && data.projectsRoleAssigned?.length === 0) {
-        navigate('/login/role')
-      } else {
-        setIsAuthorized(true)
-      }
+    if (data && data.id !== '' && data.projectsRoleAssigned.length !== 0) {
+      setIsAuthorized(true)
     }
   }, [navigate, error, showSnackBar, data, dispatch])
-
-  return <PageWrapper isLoading={isLoading} isAuthorized={isAuthorized} />
+  console.log(data)
+  return data && data.id === '' ? (
+    <Navigate to="/login" replace />
+  ) : data?.projectsRoleAssigned.length === 0 ? (
+    <Navigate to="/login/role" replace />
+  ) : (
+    <PageWrapper isLoading={isLoading} isAuthorized={isAuthorized} />
+  )
 }
 
 export default PrivateRoute

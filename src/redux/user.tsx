@@ -9,7 +9,6 @@ interface InitialStateType {
   steps: Step[]
   projectName: string
   selectedTicket?: IssueView
-  loginCode: string
 }
 
 export const initialState: InitialStateType = {
@@ -37,8 +36,7 @@ export const initialState: InitialStateType = {
     { label: 'Project Selection' },
     { label: 'Team Members' }
   ],
-  projectName: '',
-  loginCode: ''
+  projectName: ''
 }
 
 const userSlice = createSlice({
@@ -59,18 +57,10 @@ const userSlice = createSlice({
     },
     setSelectedTicket: (state, action: PayloadAction<IssueView>) => {
       state.selectedTicket = action.payload
-    },
-    setLoginCode: (state, action: PayloadAction<string>) => {
-      state.loginCode = action.payload
     }
   }
 })
 
-export const {
-  setUser,
-  setCurrentProjectId,
-  setCurrentStep,
-  setProjectName,
-  setLoginCode
-} = userSlice.actions
+export const { setUser, setCurrentProjectId, setCurrentStep, setProjectName } =
+  userSlice.actions
 export default userSlice.reducer

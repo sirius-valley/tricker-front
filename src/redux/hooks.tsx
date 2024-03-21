@@ -16,5 +16,3 @@ export const useProjectName = (): string =>
 export const useCurrentProjectId = (): string =>
   useAppSelector((state) => state.user.currentProjectId)
 export const useUser = (): User => useAppSelector((state) => state.user.user)
-export const useLoginCode = (): string =>
-  useAppSelector((state) => state.user.loginCode)

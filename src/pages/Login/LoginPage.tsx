@@ -4,15 +4,12 @@ import TrickerTitle from '@assets/TrickerTitle'
 import { LoginWithButton } from '@components/LoginWithButton/LoginWithButton'
 import { NeedHelpButton } from '@components/NeedHelpButton/NeedHelpButton'
 import { useVerifyToken } from '@data-provider/query'
-import { useAppDispatch } from '@redux/hooks'
-import { setLoginCode } from '@redux/user'
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const LoginPage = (): JSX.Element => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
 
   const code = searchParams.get('code')
 
@@ -23,10 +20,6 @@ const LoginPage = (): JSX.Element => {
       navigate('/')
     }
   }, [data, navigate])
-
-  useEffect(() => {
-    dispatch(setLoginCode(code || ''))
-  }, [code, dispatch])
 
   return (
     <div className={`flex bg-login bg-cover`}>
