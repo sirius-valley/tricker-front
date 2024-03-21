@@ -147,15 +147,17 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
           the time you spent on this task.
         </Body2>
         <div className="flex flex-col w-full gap-4">
-          <SelectInput
-            handleSelectedOption={handleSelectedTime}
-            options={Object.keys(timesInSeconds).map((time: string) => ({
-              value: time,
-              label: time
-            }))}
-            label="Amount of time"
-            required
-          />
+          <div className="z-10">
+            <SelectInput
+              handleSelectedOption={handleSelectedTime}
+              options={Object.keys(timesInSeconds).map((time: string) => ({
+                value: time,
+                label: time
+              }))}
+              label="Amount of time"
+              required
+            />
+          </div>
           <Input
             label="Date"
             required
