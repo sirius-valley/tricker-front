@@ -96,7 +96,7 @@ const TicketList: React.FC<TicketListProps> = ({
   // }
   return (
     <div
-      className={`w-[393px] md:w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide`}
+      className={`w-[393px] md:w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-6 w-full">
