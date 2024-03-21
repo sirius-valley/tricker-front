@@ -6,7 +6,6 @@ import {
   type ProjectPreIntegrated,
   type MemberPreIntegrated,
   type AuthorizationRequest,
-  type Project,
   type OptionalIssueFilters,
   type IssueView
 } from '@utils/types'
@@ -103,7 +102,7 @@ export const usePostProjectIntegrationRequest = (): {
 }
 
 export const useGetUserProjects = (): {
-  data: Project[] | null | undefined
+  data: User | null | undefined
   error: Error | null
   isLoading: boolean
 } => {

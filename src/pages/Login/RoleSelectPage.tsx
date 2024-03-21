@@ -17,7 +17,7 @@ const RoleSelectPage = (): JSX.Element => {
 
   useEffect(() => {
     if (error) navigate('login')
-    if (data && data.length > 0) navigate('/home')
+    if (data && data.projectsRoleAssigned.length !== 0) navigate('/')
   }, [data, error, navigate])
 
   const user = useUser()
@@ -27,7 +27,10 @@ const RoleSelectPage = (): JSX.Element => {
     if (user.id === '') {
       navigate('/login')
     }
-  })
+    if (user.projectsRoleAssigned.length !== 0) {
+      navigate('/')
+    }
+  }, [user, navigate])
 
   const handlePmClick = (): void => {
     navigate('/setup')

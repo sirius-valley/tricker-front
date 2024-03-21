@@ -6,7 +6,6 @@ import {
   type ProjectPreIntegrated,
   type MemberPreIntegrated,
   type AuthorizationRequest,
-  type Project,
   type IssueView,
   type OptionalIssueFilters
 } from '@utils/types'
@@ -30,7 +29,7 @@ export const me = async (): Promise<User | null> => {
   return null
 }
 
-export const getUserProjects = async (): Promise<Project[] | null> => {
+export const getUserProjects = async (): Promise<User | null> => {
   const res = await axios.get(`${url}/user/me`, {
     headers: {
       Authorization: 'Bearer ' + getAccessToken()
