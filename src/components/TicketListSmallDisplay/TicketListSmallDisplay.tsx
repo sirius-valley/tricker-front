@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StageType, type IssueView } from '@utils/types'
+import { StageType, type IssueView, Priority } from '@utils/types'
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
 import { useCurrentProjectId, useCurrentTicketId, useUser } from '@redux/hooks'
 import Body2 from '@utils/typography/body2/body2'
@@ -44,7 +44,11 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
   let groupedByStageName: GroupedIssues = {}
 
   if (data && !error) {
-    data.sort((a, b) => a.stage.type - b.stage.type)
+    data.sort(
+      (a, b) =>
+        Number(StageType[a.stage.type as unknown as keyof typeof StageType]) -
+        Number(StageType[b.stage.type as unknown as keyof typeof StageType])
+    )
 
     groupedByStageName = data.reduce((acc: GroupedIssues, issue) => {
       if (acc[issue.stage.name] === undefined) {
@@ -103,7 +107,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
             <div key={key} className="text-white">
               <div className="h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
                 <div
-                  className={`w-3 h-3 rounded-full ${stageColor(issues[0].stage.type)}`}
+                  className={`w-3 h-3 rounded-full ${stageColor(StageType[issues[0].stage.type as unknown as keyof typeof StageType])}`}
                 ></div>
                 <Body2>
                   {key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()}
@@ -120,7 +124,11 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
                 >
                   <div className="flex gap-1">
                     <PriorityIcon
-                      variant={issue.priority}
+                      variant={
+                        Priority[
+                          issue.priority as unknown as keyof typeof Priority
+                        ]
+                      }
                       fillColor={
                         selectedTicket === issue.id
                           ? colors.primary[400]
@@ -139,10 +147,10 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
                     )}
                   </div>
                   <Body1 className="font-semibold min-w-fit">
-                    {issue.title}
+                    {issue.name}
                   </Body1>
                   <Body1 className="truncate text-ellipsis ">
-                    {issue.name}
+                    {issue.title}
                   </Body1>
                   {issue.blocked === true && (
                     <Pill variant="blocked">Blocked</Pill>

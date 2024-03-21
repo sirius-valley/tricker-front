@@ -2,6 +2,7 @@ import FilterSection from '@components/FilterSection/FilterSection'
 import { type OptionAttr } from '@components/Filter/Filter'
 import TicketList from '@components/TicketList/TicketList'
 import { useState } from 'react'
+import TicketListSmallDisplay from '@components/TicketListSmallDisplay/TicketListSmallDisplay'
 
 const TicketListWrapper = (): JSX.Element => {
   const [selectedFilters, setSelectedFilters] = useState<OptionAttr[]>([])
@@ -21,6 +22,13 @@ const TicketListWrapper = (): JSX.Element => {
       />
       {view === 'grid' && (
         <TicketList
+          filters={selectedFilters}
+          searchedTicket={searchedTicket}
+          isOutOfEstimation={outOfEstimation}
+        />
+      )}
+      {view === 'list' && (
+        <TicketListSmallDisplay
           filters={selectedFilters}
           searchedTicket={searchedTicket}
           isOutOfEstimation={outOfEstimation}

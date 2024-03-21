@@ -5,10 +5,12 @@ import { useAppDispatch, useCurrentProjectId, useUser } from '@redux/hooks'
 import { setCurrentProjectId, setUserRole } from '@redux/user'
 import { type UserProjectRole, type DropdownOption } from '@utils/types'
 import React, { useCallback, useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 const HomeWrapperPage: React.FC = (): JSX.Element => {
   const user = useUser()
+  const navigate = useNavigate()
+  if (user.id === '') navigate('/login')
   const dispatch = useAppDispatch()
   const screen = useScreenSize()
   const currentProjectId = useCurrentProjectId()
