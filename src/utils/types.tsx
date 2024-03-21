@@ -24,6 +24,12 @@ export interface Screen {
   height: number
 }
 
+export interface DropdownOption {
+  id: string
+  title: string
+  image: string
+}
+
 // Entities
 
 export interface User {
@@ -35,7 +41,7 @@ export interface User {
   createdAt?: Date | string
   updatedAt?: Date
   deletedAt?: Date
-  projectsRoleAssigned?: UserProjectRole[]
+  projectsRoleAssigned: UserProjectRole[]
   emittedUserProjectRole?: UserProjectRole[]
   // emittedBlockerStatusModification?: BlockerStatusModification[]
   authoredIssues?: Issue[]
@@ -77,6 +83,42 @@ export interface Issue {
   manualTimeModifications: ManualTimeModification[]
 }
 
+export interface UserIssue {
+  id: string
+  name: string | null
+  profileUrl: string | null
+}
+
+export interface IssueView {
+  id: string
+  assignee: UserIssue | null
+  stage: StageExtended
+  name: string
+  title: string
+  priority: Priority
+  storyPoints: number | null
+  labels: Label[]
+  blocked?: boolean
+  tracking?: boolean
+}
+
+export interface Stage {
+  id: string
+  name: string
+}
+export interface StageExtended extends Stage {
+  type: StageType
+}
+
+export enum StageType {
+  BACKLOG,
+  UNSTARTED,
+  STARTED,
+  COMPLETED,
+  CANCELED,
+  OTHER
+}
+
 export interface IssueLabel {
   id: string
   labelId: string
@@ -93,20 +135,13 @@ export interface IssueCustomFields {
   issue: Issue
 }
 
-export interface Stage {
-  id: string
-  name: string
-  projectStages: ProjectStage[]
-  issues: Issue[]
-}
-
 export interface Project {
   id: string
   name: string
   providerId: string
   organizationId: string
   image?: string
-  createdAt: Date
+  createdAt: Date | string
   deletedAt?: Date
   organization: Organization
   usersRoles: UserProjectRole[]
@@ -176,13 +211,13 @@ export interface TimeTracking {
 export interface UserProjectRole {
   id: string
   userId?: string
-  projectId?: string
+  projectId: string
   roleId?: string
   userEmitterId?: string
   createdAt?: Date
   updatedAt?: Date
   deletedAt?: Date
-  project?: Project
+  project: Project
   user: User
   userEmitter?: User
   role?: Role
@@ -307,6 +342,13 @@ export interface MemberEmail {
   email: string
   pendingProjectAuthorizationId: string
   pendingProjectAuthorization: PendingProjectAuthorization
+}
+
+export interface OptionalIssueFilters {
+  stageIds?: string[]
+  priorities?: Priority[]
+  assigneeIds?: string[]
+  isOutOfEstimation?: boolean
 }
 
 export interface AddTimeData {

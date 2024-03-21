@@ -1,13 +1,8 @@
 import React from 'react'
 import ChildIcon from '@components/ChildIcon/ChildIcon'
-
+import { Priority } from '@utils/types'
 export interface PriorityIconProps {
-  variant:
-    | 'no-priority'
-    | 'low-priority'
-    | 'medium-priority'
-    | 'high-priority'
-    | 'urgent'
+  variant: Priority
   fillColor?: string
 }
 
@@ -24,19 +19,19 @@ const PriorityIcon: React.FC<PriorityIconProps> = ({
     | 'UrgentIcon'
 
   switch (variant) {
-    case 'no-priority':
+    case Priority.NO_PRIORITY:
       iconName = 'NoPriorityIcon'
       break
-    case 'low-priority':
+    case Priority.LOW_PRIORITY:
       iconName = 'LowPriorityIcon'
       break
-    case 'medium-priority':
+    case Priority.MEDIUM_PRIORITY:
       iconName = 'MediumPriorityIcon'
       break
-    case 'high-priority':
+    case Priority.HIGH_PRIORITY:
       iconName = 'HighPriorityIcon'
       break
-    case 'urgent':
+    case Priority.URGENT:
       iconName = 'UrgentIcon'
       break
   }
