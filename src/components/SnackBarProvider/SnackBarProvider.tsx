@@ -1,6 +1,6 @@
 import NotificationBadge from '@components/NotificationBadge/NotificationBadge'
-import React, {
-  ReactNode,
+import {
+  type ReactNode,
   createContext,
   useContext,
   useEffect,
@@ -35,7 +35,7 @@ interface SnackBarProviderProps {
 
 export const SnackBarProvider: React.FC<SnackBarProviderProps> = ({
   children
-}) => {
+}: SnackBarProviderProps) => {
   const [snackBars, setSnackBars] = useState<SnackBar[]>([])
 
   useEffect(() => {
