@@ -4,11 +4,13 @@ import { Priority } from '@utils/types'
 export interface PriorityIconProps {
   variant: Priority
   fillColor?: string
+  className?: string
 }
 
 const PriorityIcon: React.FC<PriorityIconProps> = ({
   variant,
   fillColor,
+  className,
   ...props
 }) => {
   let iconName:
@@ -36,7 +38,14 @@ const PriorityIcon: React.FC<PriorityIconProps> = ({
       break
   }
 
-  return <ChildIcon iconName={iconName} fillColor={fillColor} {...props} />
+  return (
+    <ChildIcon
+      iconName={iconName}
+      fillColor={fillColor}
+      className={className}
+      {...props}
+    />
+  )
 }
 
 export default PriorityIcon

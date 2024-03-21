@@ -1,18 +1,20 @@
 import axios from 'axios'
 // import { setUpAxiosInterceptors } from './AxiosInterceptor'
-import {
-  type User,
-  type CognitoResponse,
-  type ProjectPreIntegrated,
-  type MemberPreIntegrated,
-  type AuthorizationRequest,
-  type Project,
-  type IssueView,
-  type OptionalIssueFilters
+import type {
+  User,
+  CognitoResponse,
+  ProjectPreIntegrated,
+  MemberPreIntegrated,
+  AuthorizationRequest,
+  Project,
+  IssueView,
+  OptionalIssueFilters,
+  IssueDetail
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
 import { mockedTickets } from '@components/TicketListSmallDisplay/MockedTickets'
+import { mockedTicketDetail } from '@components/TicketDisplay/MockedTicketDetail'
 
 const url: string = config.apiUrl || 'http://localhost:8080/api'
 
@@ -180,10 +182,10 @@ export const getIssuesFilteredAndPaginated = async (
     }, 2000)
   })
 }
-export const getRole = async (
-  userProjectRoleId: string
-): Promise<string | null> => {
-  // const res = await axios.get(`${url}/user/role/${userProjectRoleId}`, {
+export const getIssueById = async (
+  issueId: string
+): Promise<IssueDetail | null> => {
+  // const res = await axios.get(`${url}/issue/${issueId}`, {
   //   headers: {
   //     Authorization: 'Bearer ' + getAccessToken()
   //   }
@@ -195,5 +197,5 @@ export const getRole = async (
 
   // TESTING
   await new Promise((resolve) => setTimeout(resolve, 1000))
-  return 'Project Manager'
+  return mockedTicketDetail
 }
