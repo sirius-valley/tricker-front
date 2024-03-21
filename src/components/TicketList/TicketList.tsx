@@ -42,7 +42,7 @@ const TicketList: React.FC<TicketListProps> = ({
   const user = useUser()
   const dispatch = useAppDispatch()
 
-  const [selectedTicket, setSelectedTicket] =
+  const [selectedTicketId, setSelectedTicketId] =
     useState<string>(useCurrentTicketId())
 
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
@@ -82,8 +82,8 @@ const TicketList: React.FC<TicketListProps> = ({
         return 'bg-gray-300'
     }
   }
-  const handleSelectedTicket = (ticketId: string): void => {
-    setSelectedTicket(ticketId)
+  const handleSelectedTicketId = (ticketId: string): void => {
+    setSelectedTicketId(ticketId)
     dispatch(setCurrentTicketId(ticketId))
   }
 
@@ -134,10 +134,10 @@ const TicketList: React.FC<TicketListProps> = ({
                   }
                   isProjectManager={isProjectManager}
                   associatedUserProfile={issue.assignee?.profileUrl || ''}
-                  selectedCard={selectedTicket === issue.id}
+                  selectedCard={selectedTicketId === issue.id}
                   storyPoints={issue.storyPoints}
                   handleClick={() => {
-                    handleSelectedTicket(issue.id)
+                    handleSelectedTicketId(issue.id)
                   }}
                   key={issue.id}
                 />

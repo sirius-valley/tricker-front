@@ -81,7 +81,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
             )}
             {storyPoints && (
               <StoryPointsIcon
-                fillColor={activeColor(`white`)}
+                fillColor={selectedCard ? colors.primary[400] : 'white'}
                 points={storyPoints}
               />
             )}
