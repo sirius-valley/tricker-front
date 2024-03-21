@@ -91,8 +91,8 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     setSelectedOptions(selectedOptions.filter((_, i) => i !== index))
   }
   return screen.width >= 768 ? (
-    <div className="flex flex-col justify-center justify-center">
-      <div className="w-[467px] rounded-tl-xl border border-white-10 bg-gray-500 flex items-center gap-8 p-[22px] pl-6">
+    <div className="flex flex-col justify-center">
+      <div className="w-[467px] rounded-tl-xl bg-gray-500 border-b border-white/10 flex items-center gap-8 p-[22px] pl-6">
         <div className="flex w-fit gap-2 items-center">
           <Body1 className="text-[17px] leading-[22px] text-white">
             Assigned to me
