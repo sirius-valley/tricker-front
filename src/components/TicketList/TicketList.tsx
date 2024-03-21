@@ -55,7 +55,11 @@ const TicketList: React.FC<TicketListProps> = ({
   let groupedByStageName: GroupedIssues = {}
 
   if (data && !error) {
-    data?.sort((a, b) => a.stage.type - b.stage.type)
+    data.sort(
+      (a, b) =>
+        Number(StageType[a.stage.type as unknown as keyof typeof StageType]) -
+        Number(StageType[b.stage.type as unknown as keyof typeof StageType])
+    )
 
     groupedByStageName = data.reduce((acc: GroupedIssues, issue) => {
       if (acc[issue.stage.name] === undefined) {
@@ -92,7 +96,7 @@ const TicketList: React.FC<TicketListProps> = ({
   // }
   return (
     <div
-      className={`w-[393px] md:w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-auto' : 'overflow-y-hidden'}`}
+      className={`w-[393px] md:w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide`}
     >
       {isLoading && (
         <div className="p-6 w-full">
@@ -112,7 +116,7 @@ const TicketList: React.FC<TicketListProps> = ({
           <div key={key} className="text-white">
             <div className="h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
               <div
-                className={`w-3 h-3 rounded-full ${stageColor(issues[0].stage.type)}`}
+                className={`w-3 h-3 rounded-full ${stageColor(StageType[issues[0].stage.type as unknown as keyof typeof StageType])}`}
               />
               <Body2>
                 {key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()}
