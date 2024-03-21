@@ -12,6 +12,7 @@ const LoginPage = (): JSX.Element => {
   const navigate = useNavigate()
 
   const code = searchParams.get('code')
+  
   const { data } = useVerifyToken(code || '')
 
   useEffect(() => {

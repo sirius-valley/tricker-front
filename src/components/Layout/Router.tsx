@@ -7,6 +7,7 @@ import LoadingPage from '@pages/Loader/LoadingPage'
 import HomeWrapperPage from '@components/HomeWrapperPage/HomeWrapperPage'
 import LoginPage from '@pages/Login/LoginPage'
 import RoleValidation from './RoleValidation/RoleValidation'
+import LoginFlowValidation from './LoginFlowValidation/LoginFlowValidation'
 
 export const ROUTER = createBrowserRouter([
   {
@@ -14,20 +15,25 @@ export const ROUTER = createBrowserRouter([
     element: <LoginPage />
   },
   {
-    path: '/login/non-invited',
-    element: <EmptyProjectPage />
-  },
-  {
-    path: '/login/role',
-    element: <RoleSelectPage />
-  },
-  {
-    path: '/setup',
-    element: <SetupPage />
-  },
-  {
-    path: '/setup/loader',
-    element: <LoadingPage />
+    element: <LoginFlowValidation />,
+    children: [
+      {
+        path: '/login/non-invited',
+        element: <EmptyProjectPage />
+      },
+      {
+        path: '/login/role',
+        element: <RoleSelectPage />
+      },
+      {
+        path: '/setup',
+        element: <SetupPage />
+      },
+      {
+        path: '/setup/loader',
+        element: <LoadingPage />
+      }
+    ]
   },
   {
     element: <PrivateRoute />,

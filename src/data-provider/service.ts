@@ -31,7 +31,7 @@ export const me = async (): Promise<User | null> => {
 }
 
 export const getUserProjects = async (): Promise<Project[] | null> => {
-  const res = await axios.get(`${url}/me/projects`, {
+  const res = await axios.get(`${url}/user/me`, {
     headers: {
       Authorization: 'Bearer ' + getAccessToken()
     }
@@ -63,6 +63,7 @@ export const getOrCreateUser = async (): Promise<User | null> => {
 export const verifyToken = async (
   code: string
 ): Promise<CognitoResponse | null> => {
+  if (code === '') return null
   const params = new URLSearchParams()
   params.append('grant_type', 'authorization_code')
   params.append('client_id', config.cognitoClientId)
