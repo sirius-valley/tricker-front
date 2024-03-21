@@ -118,7 +118,6 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show }) => {
         console.log('Reason: ', selectedReason)
         onClose()
       } catch (error) {
-        alert('Failed to add time. Please try again later.')
         console.error(error)
       }
     } else {

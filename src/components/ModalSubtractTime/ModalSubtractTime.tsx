@@ -113,7 +113,7 @@ const SubtractTimeModal: React.FC<SubtractTimeProps> = ({ onClose, show }) => {
         // Llama a la función addTimeModal del servicio
         await subtractTimeModal(data)
         // Lógica para guardar la entrada de tiempo
-        console.log('Time added:', selectedTime)
+        console.log('Time subtracted:', selectedTime)
         console.log('Date:', inputDate)
         // console.log('Reason: ', selectedReason)
         onClose()
@@ -197,6 +197,7 @@ const SubtractTimeModal: React.FC<SubtractTimeProps> = ({ onClose, show }) => {
             size={'large'}
             className="h-[56px] w-[313px] text-black"
             onClick={handleSubtractTime}
+            disabled={!selectedTime || !isDateValid}
           >
             Subtract Time
           </Button>
