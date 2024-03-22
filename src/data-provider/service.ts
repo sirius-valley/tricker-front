@@ -9,7 +9,8 @@ import type {
   Project,
   IssueView,
   OptionalIssueFilters,
-  IssueDetail
+  IssueDetail,
+  ModifyTimeData
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -112,6 +113,29 @@ export const getPreIntegratedMembers = async (
     `${url}/integration/linear/project/${projectId}/members`,
     {
       apiToken
+    },
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const postModifyTime = async (
+  data: ModifyTimeData,
+  variant: 'add' | 'subtract'
+): Promise<any> => {
+  console.log(data)
+  console.log(`${url}/${variant}-time`)
+  const res = await axios.post(
+    `${url}/${variant}-time`,
+    {
+      data
     },
     {
       headers: {

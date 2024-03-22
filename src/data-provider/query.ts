@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import * as ApiService from './service'
+
 import type {
   User,
   CognitoResponse,
@@ -9,7 +10,8 @@ import type {
   Project,
   OptionalIssueFilters,
   IssueView,
-  IssueDetail
+  IssueDetail,
+  ModifyTimeData
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -150,4 +152,25 @@ export const useGetIssueById = (
     queryFn: async () => await ApiService.getIssueById(issueId)
   })
   return { data, error, isLoading }
+}
+
+export const usePostModifyTime = (): {
+  mutate: (args: { data: ModifyTimeData; variant: 'add' | 'subtract' }) => void
+  reset: () => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, reset, error, isPending, isSuccess } = useMutation({
+    mutationFn: async ({
+      data,
+      variant
+    }: {
+      data: ModifyTimeData
+      variant: 'add' | 'subtract'
+    }) => {
+      return await ApiService.postModifyTime(data, variant)
+    }
+  })
+  return { mutate, reset, error, isPending, isSuccess }
 }
