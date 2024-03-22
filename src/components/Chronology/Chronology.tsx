@@ -57,7 +57,7 @@ const Chronology: React.FC<ChronologyProps> = ({ events }) => {
                 className={`flex min-w-[9px] h-[9px] rounded-full mt-1 ${event.blocker ? 'bg-error-500' : 'bg-primary-400'} `}
               ></span>
               <div className="flex flex-col gap-2  w-full">
-                <div className={`min-w-12 flex items-center gap-3`}>
+                <div className={`min-w-12 flex gap-3`}>
                   <HelperText
                     className={`px-1 ${screen.width > 420 ? 'block' : 'hidden'}`}
                   >
