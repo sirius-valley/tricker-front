@@ -1,5 +1,7 @@
 import { type Meta, type StoryObj } from '@storybook/react'
 import { ProfilePicture } from './ProfilePicture'
+import { Provider } from 'react-redux'
+import { store } from '@redux/store'
 
 const meta: Meta<typeof ProfilePicture> = {
   title: 'Components/ProfilePicture',
@@ -37,5 +39,9 @@ export const ProfilePictureButton: Story = {
   args: {
     img: 'https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg'
   },
-  render: (args) => <ProfilePicture {...args} />
+  render: (args) => (
+    <Provider store={store}>
+      <ProfilePicture {...args} />
+    </Provider>
+  )
 }

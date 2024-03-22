@@ -6,11 +6,13 @@ import SetupPage from '@pages/InitialIntegration/InitialIntegrationPage'
 import LoadingPage from '@pages/Loader/LoadingPage'
 import HomeWrapperPage from '@components/HomeWrapperPage/HomeWrapperPage'
 import LoginPage from '@pages/Login/LoginPage'
+import RoleValidation from './RoleValidation/RoleValidation'
+import TicketListWrapper from '@components/TicketListWrapper/TicketListWrapper'
 
 export const ROUTER = createBrowserRouter([
   {
     path: '/login',
-    element: <LoginPage /> // StepperExample
+    element: <LoginPage />
   },
   {
     path: '/login/non-invited',
@@ -35,7 +37,28 @@ export const ROUTER = createBrowserRouter([
         element: <HomeWrapperPage />,
         children: [
           {
+            element: <RoleValidation />,
+            children: [
+              {
+                path: '/projects',
+                element: <></>
+              },
+              {
+                path: '/my-team',
+                element: <></>
+              }
+            ]
+          },
+          {
+            path: '/stats',
+            element: <></>
+          },
+          {
             path: '/',
+            element: <TicketListWrapper />
+          },
+          {
+            path: '/profile',
             element: <></>
           }
         ]

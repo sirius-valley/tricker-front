@@ -1,12 +1,17 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import * as ApiService from './service'
-import {
-  type User,
-  type CognitoResponse,
-  type ProjectPreIntegrated,
-  type MemberPreIntegrated,
-  type AuthorizationRequest,
-  type Project
+
+import type {
+  User,
+  CognitoResponse,
+  ProjectPreIntegrated,
+  MemberPreIntegrated,
+  AuthorizationRequest,
+  Project,
+  OptionalIssueFilters,
+  IssueView,
+  IssueDetail,
+  ModifyTimeData
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -110,4 +115,62 @@ export const useGetUserProjects = (): {
     queryFn: ApiService.getUserProjects
   })
   return { data, error, isLoading }
+}
+
+export const useGetIssuesFilteredAndPaginated = (
+  userId: string,
+  projectId: string,
+  filters?: OptionalIssueFilters
+): {
+  data: IssueView[] | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getIssuesFilteredAndPaginated', userId, projectId, filters],
+
+    queryFn: async () =>
+      await ApiService.getIssuesFilteredAndPaginated(
+        userId,
+        projectId,
+        filters
+      ),
+    retry: false
+  })
+  return { data, error, isLoading }
+}
+
+export const useGetIssueById = (
+  issueId: string
+): {
+  data: IssueDetail | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getIssueById', issueId],
+    queryFn: async () => await ApiService.getIssueById(issueId)
+  })
+  return { data, error, isLoading }
+}
+
+export const usePostModifyTime = (): {
+  mutate: (args: { data: ModifyTimeData; variant: 'add' | 'subtract' }) => void
+  reset: () => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, reset, error, isPending, isSuccess } = useMutation({
+    mutationFn: async ({
+      data,
+      variant
+    }: {
+      data: ModifyTimeData
+      variant: 'add' | 'subtract'
+    }) => {
+      return await ApiService.postModifyTime(data, variant)
+    }
+  })
+  return { mutate, reset, error, isPending, isSuccess }
 }

@@ -1,6 +1,6 @@
 import '../../index.css'
 import React, { useState } from 'react'
-// import { Dropdown } from '@components/Dropdown/Dropdown'
+import { Dropdown } from '@components/Dropdown/Dropdown'
 import TrickerLogo from '@assets/TrickerLogo'
 import TrickerTitle from '@assets/TrickerTitle'
 import { NavbarItem } from '@components/NavbarItem/NavbarItem'
@@ -9,27 +9,28 @@ import TimeTrackingBadge from '@components/TimeTrackingBadge/TimeTrackingBadge'
 import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import Body1 from '@utils/typography/body1/body1'
 import { NavLink } from 'react-router-dom'
-import { type TimeTracking } from '@utils/types'
+import { type User, type DropdownOption, type TimeTracking } from '@utils/types'
 import Popover from '@components/Popover/Popover'
-import { useUser } from '@redux/hooks'
 
 export interface SidebarNavProps
   extends React.HTMLAttributes<HTMLInputElement> {
-  variant: 'pm' | 'dev'
+  user: User
+  variant: string
   timeTracking?: TimeTracking
-  dropdownOptions: Array<{ title: string; image: string }>
-  handleDropdownSelect: (option: { title: string; image: string }) => void
+  preSelectedOption: DropdownOption
+  dropdownOptions: DropdownOption[]
+  handleDropdownSelect: (selectedProjectId: DropdownOption) => void
 }
 
 export const SidebarNav: React.FC<SidebarNavProps> = ({
+  user,
   variant,
-  // dropdownOptions,
-  timeTracking
-  // handleDropdownSelect
+  timeTracking,
+  preSelectedOption,
+  dropdownOptions,
+  handleDropdownSelect
 }) => {
   const [isHovered, setIsHovered] = useState(false)
-  const user = useUser()
-
   return (
     <div className="flex flex-col w-[224px] h-screen pt-10 gap-20 bg-gray-500">
       <NavLink to="/">
@@ -40,7 +41,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
       </NavLink>
       <div className="flex flex-col justify-between h-full pb-6">
         <div className="flex flex-col gap-6 w-full h-[256px]">
-          {variant === 'pm' && (
+          {variant === 'Project Manager' && (
             <div className="px-6">
               <NavLink to="/projects">
                 {({ isActive }) => (
@@ -55,16 +56,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
               </NavLink>
             </div>
           )}
-          {/*
-          
-          It is a provisionary version without dropdown as there are not projects to display already.
-
           <Dropdown
+            preSelectedOption={preSelectedOption}
             options={dropdownOptions}
             handleSelect={(option) => {
               handleDropdownSelect(option)
             }}
-          /> */}
+          />
           <div className="flex flex-col gap-2 px-6">
             <NavLink to="/">
               {({ isActive }) => (
@@ -77,8 +75,8 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                 </NavbarItem>
               )}
             </NavLink>
-            {variant === 'pm' && (
-              <NavLink to="/team">
+            {variant === 'Project Manager' && (
+              <NavLink to="/my-team">
                 {({ isActive }) => (
                   <NavbarItem
                     title="Team"
@@ -90,7 +88,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                 )}
               </NavLink>
             )}
-            <NavLink to="/statistics">
+            <NavLink to="/stats">
               {({ isActive }) => (
                 <NavbarItem
                   title="Statistics"
