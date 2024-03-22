@@ -140,7 +140,8 @@ export const useGetIssuesFilteredAndPaginated = (
         projectId,
         filters,
         cursor
-      )
+      ),
+    retry: false
   })
   return { data, error, isLoading }
 }

@@ -156,10 +156,10 @@ export const getIssuesFilteredAndPaginated = async (
   projectId: string,
   filters?: OptionalIssueFilters,
   cursor?: string
-): Promise<IssueView[] | null> => {
+): Promise<IssueView[]> => {
   const res = await axios.post(
     `${url}/issue/dev/${userId}/project/${projectId}`,
-    filters,
+    { filters, cursor },
     {
       headers: {
         Authorization: 'Bearer ' + getAccessToken()
@@ -169,8 +169,7 @@ export const getIssuesFilteredAndPaginated = async (
   if (res.status === 200) {
     return res.data
   }
-  return null
-  // TESTING
+  return []
 }
 export const getIssueById = async (
   ticketId: string

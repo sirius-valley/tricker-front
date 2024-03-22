@@ -8,11 +8,11 @@ import {
 import { type IssueView, StageType } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
 import Body2 from '@utils/typography/body2/body2'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
 import { setCurrentTicketId } from '@redux/user'
-// import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 import { type OptionAttr } from '@components/Filter/Filter'
 
@@ -26,7 +26,7 @@ export interface TicketListProps {
 const TicketList: React.FC<TicketListProps> = ({
   isProjectManager
 }: TicketListProps): JSX.Element => {
-  // const { showSnackBar } = useSnackBar()
+  const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
   const filtersParams = {}
   // if (filters.length !== 0) {
@@ -91,9 +91,15 @@ const TicketList: React.FC<TicketListProps> = ({
     dispatch(setCurrentTicketId(ticketId))
   }
 
-  // if (error) {
-  //   showSnackBar('Error fetching the tickets, please try again later', 'error')
-  // }
+  useEffect(() => {
+    if (error) {
+      showSnackBar(
+        'Error fetching the tickets, please try again later',
+        'error'
+      )
+    }
+  }, [error])
+
   return (
     <div
       className={`w-[393px] md:w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
