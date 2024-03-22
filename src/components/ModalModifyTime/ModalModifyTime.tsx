@@ -130,7 +130,10 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
       onClose()
     }
     if (error) {
-      memoizedShowSnackBar('An error occurred while adding time', 'error')
+      memoizedShowSnackBar(
+        'An error occurred while submitting the time',
+        'error'
+      )
       setToInitialValues()
       reset()
     }
