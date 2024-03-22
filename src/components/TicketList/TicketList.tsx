@@ -24,7 +24,8 @@ export interface TicketListProps {
 }
 
 const TicketList: React.FC<TicketListProps> = ({
-  isProjectManager
+  isProjectManager,
+  searchedTicket
 }: TicketListProps): JSX.Element => {
   const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
@@ -52,18 +53,24 @@ const TicketList: React.FC<TicketListProps> = ({
     currentProjectId,
     filtersParams
   )
+
+  const filteredIssues: IssueView[] | undefined = data?.filter(
+    (issue: IssueView) =>
+      issue.name.toLowerCase().includes(searchedTicket.toLowerCase())
+  )
+
   type GroupedIssues = Record<string, IssueView[]>
 
   let groupedByStageName: GroupedIssues = {}
 
-  if (data && !error) {
-    data.sort(
+  if (filteredIssues && !error) {
+    filteredIssues.sort(
       (a, b) =>
         Number(StageType[a.stage.type as unknown as keyof typeof StageType]) -
         Number(StageType[b.stage.type as unknown as keyof typeof StageType])
     )
 
-    groupedByStageName = data.reduce((acc: GroupedIssues, issue) => {
+    groupedByStageName = filteredIssues.reduce((acc: GroupedIssues, issue) => {
       if (acc[issue.stage.name] === undefined) {
         acc[issue.stage.name] = []
       }
@@ -90,8 +97,8 @@ const TicketList: React.FC<TicketListProps> = ({
   }
   const handleSelectedTicketId = (ticketId: string): void => {
     setSelectedTicketId(ticketId)
-    if (data) {
-      const selectedTicked = data.find(
+    if (filteredIssues) {
+      const selectedTicked = filteredIssues.find(
         (issue: IssueView) => issue.id === ticketId
       )
       if (selectedTicked) {
@@ -111,7 +118,7 @@ const TicketList: React.FC<TicketListProps> = ({
 
   return (
     <div
-      className={`w-[393px] md:w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-[393px] md:w-[467px] h-[770px] bg-gray-500 ${filteredIssues ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-6 w-full">
@@ -126,7 +133,7 @@ const TicketList: React.FC<TicketListProps> = ({
           </SkeletonTheme>
         </div>
       )}
-      {data && data.length !== 0 && !error ? (
+      {filteredIssues && filteredIssues.length !== 0 && !error ? (
         Object.entries(groupedByStageName).map(([key, issues]) => (
           <div key={key} className="text-white">
             <div className="h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">

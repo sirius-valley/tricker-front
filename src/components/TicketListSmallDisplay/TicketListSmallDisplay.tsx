@@ -22,7 +22,9 @@ import { setCurrentTicket } from '@redux/user'
 
 const colors = config.theme.extend.colors
 
-const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
+const TicketListSmallDisplay: React.FC<TicketListProps> = ({
+  searchedTicket
+}: TicketListProps): JSX.Element => {
   const { showSnackBar } = useSnackBar()
   const selectedProjectId = useCurrentProjectId()
   const filtersParams = {}
@@ -48,18 +50,23 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
     filtersParams
   )
 
+  const filteredIssues: IssueView[] | undefined = data?.filter(
+    (issue: IssueView) =>
+      issue.name.toLowerCase().includes(searchedTicket.toLowerCase())
+  )
+
   type GroupedIssues = Record<string, IssueView[]>
 
   let groupedByStageName: GroupedIssues = {}
 
-  if (data && !error) {
-    data.sort(
+  if (filteredIssues && !error) {
+    filteredIssues.sort(
       (a, b) =>
         Number(StageType[a.stage.type as unknown as keyof typeof StageType]) -
         Number(StageType[b.stage.type as unknown as keyof typeof StageType])
     )
 
-    groupedByStageName = data.reduce((acc: GroupedIssues, issue) => {
+    groupedByStageName = filteredIssues.reduce((acc: GroupedIssues, issue) => {
       if (acc[issue.stage.name] === undefined) {
         acc[issue.stage.name] = []
       }
@@ -87,8 +94,8 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
 
   const handleSelectedTicketId = (ticketId: string): void => {
     setSelectedTicketId(ticketId)
-    if (data) {
-      const selectedTicked = data.find(
+    if (filteredIssues) {
+      const selectedTicked = filteredIssues.find(
         (issue: IssueView) => issue.id === ticketId
       )
       if (selectedTicked) {
@@ -108,7 +115,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
 
   return (
     <div
-      className={`w-[467px] h-full bg-gray-500 ${data ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-[467px] h-full bg-gray-500 ${filteredIssues ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-1">
@@ -119,7 +126,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
           </SkeletonTheme>
         </div>
       )}
-      {data && data.length !== 0 && !error ? (
+      {filteredIssues && filteredIssues.length !== 0 && !error ? (
         Object.entries(groupedByStageName).map(([key, issues]) => (
           <div key={key} className="text-white">
             <div className="h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
