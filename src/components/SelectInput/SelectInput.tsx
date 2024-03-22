@@ -138,7 +138,7 @@ const SelectInput = ({
         </button>
         {isOpen && (
           <div className="absolute left-0 w-full bg-gray-500 rounded-lg">
-            <div className="text-white border shadow-lg h-[210px] overflow-y-auto rounded-lg">
+            <div className="text-white border shadow-lg max-h-[210px] overflow-y-auto rounded-lg">
               {options.map((option) => (
                 <div
                   key={option.value}
