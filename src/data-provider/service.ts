@@ -154,12 +154,11 @@ export const postProjectIntegrationRequest = async (
 export const getIssuesFilteredAndPaginated = async (
   userId: string,
   projectId: string,
-  filters?: OptionalIssueFilters,
-  cursor?: string
+  filters?: OptionalIssueFilters
 ): Promise<IssueView[]> => {
   const res = await axios.post(
     `${url}/issue/dev/${userId}/project/${projectId}`,
-    { filters, cursor },
+    filters,
     {
       headers: {
         Authorization: 'Bearer ' + getAccessToken()

@@ -376,4 +376,5 @@ export interface OptionalIssueFilters {
   priorities?: Priority[]
   assigneeIds?: string[]
   isOutOfEstimation?: boolean
+  cursor?: string
 }
