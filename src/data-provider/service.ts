@@ -9,8 +9,7 @@ import {
   type Project,
   type IssueView,
   type OptionalIssueFilters,
-  type AddTimeData,
-  type SubtractTimeData
+  type ModifyTimeData
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -126,33 +125,27 @@ export const getPreIntegratedMembers = async (
   return null
 }
 
-// Add Time Modal
-export const addTimeModal = async (data: AddTimeData): Promise<any> => {
-  try {
-    const res = await axios.post(`${url}/add-time`, data, {
-      headers: {
-        Authorization: 'Bearer ' + getAccessToken()
-      }
-    })
-    return res.data
-  } catch (error) {
-    throw new Error('Failed to add time to backend')
-  }
-}
-
-export const subtractTimeModal = async (
-  data: SubtractTimeData
+export const postModifyTime = async (
+  data: ModifyTimeData,
+  variant: 'add' | 'subtract'
 ): Promise<any> => {
-  try {
-    const res = await axios.post(`${url}/subtract-time`, data, {
+  console.log(data)
+  console.log(`${url}/${variant}-time`)
+  const res = await axios.post(
+    `${url}/${variant}-time`,
+    {
+      data
+    },
+    {
       headers: {
         Authorization: 'Bearer ' + getAccessToken()
       }
-    })
+    }
+  )
+  if (res.status === 200) {
     return res.data
-  } catch (error) {
-    throw new Error('Failed to subtract time to backend')
   }
+  return null
 }
 
 export const postProjectIntegrationRequest = async (

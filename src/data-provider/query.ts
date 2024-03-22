@@ -9,11 +9,8 @@ import {
   type Project,
   type OptionalIssueFilters,
   type IssueView,
-  type AddTimeData,
-  type SubtractTimeData
+  type ModifyTimeData
 } from '@utils/types'
-
-import { addTimeModal, subtractTimeModal } from './service'
 
 export const useGetMe = (): {
   data: User | null | undefined
@@ -161,32 +158,23 @@ export const useGetIssuesFilteredAndPaginated = (
   return { data, error, isLoading }
 }
 
-export const useAddTimeMutation = (): {
-  mutate: (data: AddTimeData) => void
+export const usePostModifyTime = (): {
+  mutate: (args: { data: ModifyTimeData; variant: 'add' | 'subtract' }) => void
+  reset: () => void
   error: Error | null
   isPending: boolean
   isSuccess: boolean
 } => {
-  const { mutate, error, isPending, isSuccess } = useMutation({
-    mutationFn: async (data: AddTimeData) => {
-      return await addTimeModal(data)
+  const { mutate, reset, error, isPending, isSuccess } = useMutation({
+    mutationFn: async ({
+      data,
+      variant
+    }: {
+      data: ModifyTimeData
+      variant: 'add' | 'subtract'
+    }) => {
+      return await ApiService.postModifyTime(data, variant)
     }
   })
-
-  return { mutate, error, isPending, isSuccess }
-}
-
-export const useSubtractTimeMutation = (): {
-  mutate: (data: AddTimeData) => void
-  error: Error | null
-  isPending: boolean
-  isSuccess: boolean
-} => {
-  const { mutate, error, isPending, isSuccess } = useMutation({
-    mutationFn: async (data: SubtractTimeData) => {
-      return await subtractTimeModal(data)
-    }
-  })
-
-  return { mutate, error, isPending, isSuccess }
+  return { mutate, reset, error, isPending, isSuccess }
 }
