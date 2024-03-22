@@ -122,6 +122,7 @@ export interface IssueView {
   stage: StageExtended
   name: string
   title: string
+  description: string | null
   priority: Priority
   storyPoints: number | null
   labels: Label[]

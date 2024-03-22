@@ -2,7 +2,7 @@ import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
 import {
   useAppDispatch,
   useCurrentProjectId,
-  useCurrentTicketId,
+  useCurrentTicket,
   useUser
 } from '@redux/hooks'
 import { type IssueView, StageType } from '@utils/types'
@@ -11,7 +11,7 @@ import Body2 from '@utils/typography/body2/body2'
 import { useEffect, useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
-import { setCurrentTicketId } from '@redux/user'
+import { setCurrentTicket } from '@redux/user'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 import { type OptionAttr } from '@components/Filter/Filter'
@@ -40,10 +40,12 @@ const TicketList: React.FC<TicketListProps> = ({
   // }
   // } // Replace with filter props and parse it to OptionalIssueFilters
   const user = useUser()
+  const currentTicket = useCurrentTicket()
   const dispatch = useAppDispatch()
 
-  const [selectedTicketId, setSelectedTicketId] =
-    useState<string>(useCurrentTicketId())
+  const [selectedTicketId, setSelectedTicketId] = useState<string>(
+    currentTicket.id
+  )
 
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
     user.id,
@@ -88,7 +90,14 @@ const TicketList: React.FC<TicketListProps> = ({
   }
   const handleSelectedTicketId = (ticketId: string): void => {
     setSelectedTicketId(ticketId)
-    dispatch(setCurrentTicketId(ticketId))
+    if (data) {
+      const selectedTicked = data.find(
+        (issue: IssueView) => issue.id === ticketId
+      )
+      if (selectedTicked) {
+        dispatch(setCurrentTicket(selectedTicked))
+      }
+    }
   }
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { StageType, type IssueView, Priority } from '@utils/types'
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
-import { useCurrentProjectId, useCurrentTicketId, useUser } from '@redux/hooks'
+import { useCurrentProjectId, useCurrentTicket, useUser } from '@redux/hooks'
 import Body2 from '@utils/typography/body2/body2'
 import Body1 from '@utils/typography/body1/body1'
 import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
@@ -30,8 +30,8 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
   //   cursor
   // }
   // } // Replace with filter props and parse it to OptionalIssueFilters
-  const [selectedTicket, setSelectedTicket] =
-    useState<string>(useCurrentTicketId())
+  const currentTicket = useCurrentTicket()
+  const [selectedTicket, setSelectedTicket] = useState<string>(currentTicket.id)
   const user = useUser()
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
     user.id,

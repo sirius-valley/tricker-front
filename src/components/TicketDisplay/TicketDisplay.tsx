@@ -1,12 +1,12 @@
-import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
+// import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
 import React, { useEffect, useRef, useState } from 'react'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import { Pill } from '@components/Pill/Pill'
-import { type IssueDetail, Priority } from '@utils/types'
+import { Priority, type IssueView } from '@utils/types'
 import Subtitle from '@utils/typography/subtitle/subtitle'
 export interface TicketDisplayProps {
-  issue: IssueDetail
+  issue: IssueView
   variant: 'Developer' | 'Project Manager'
 }
 
@@ -30,21 +30,21 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
   const toggleTextVisibility = (): void => {
     setShowFullText(!showFullText)
   }
-
+  console.log(Priority[issue.priority as unknown as keyof typeof Priority])
   return (
     <div className={`w-fit flex flex-col font-inter gap-10 text-white`}>
       <div className="flex flex-col gap-4">
         <div className={`flex justify-start items-start`}>
-          <Subtitle className="font-normal">[{issue.id}]</Subtitle>
+          <Subtitle className="font-normal">[{issue.name}]</Subtitle>
         </div>
 
         {variant === 'Project Manager' && (
           <div className="flex gap-2 items-center">
             <ProfilePicture
-              img={issue.asignee?.profileUrl ? issue.asignee.profileUrl : ''}
+              img={issue.assignee?.profileUrl ? issue.assignee.profileUrl : ''}
               size={'sm'}
             />
-            <Subtitle className="font-normal">{issue.asignee?.name}</Subtitle>
+            <Subtitle className="font-normal">{issue.assignee?.name}</Subtitle>
           </div>
         )}
 
@@ -52,14 +52,14 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
         <div className="flex justify-between items-center w-full">
           <div className="flex w-fit gap-4">
             <div className="flex gap-1 items-center">
-              <PriorityIcon
+              {/* <PriorityIcon
                 className="w-[26px] h-[26px]"
                 variant={
                   issue.priority !== undefined
-                    ? issue.priority
+                    ? Priority[issue.priority as unknown as keyof typeof Priority]
                     : Priority.NO_PRIORITY
                 }
-              />
+              /> */}
               {issue?.storyPoints && (
                 <StoryPointsIcon
                   className="w-[26px] h-[26px]"
