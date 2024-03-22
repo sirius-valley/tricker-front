@@ -57,6 +57,12 @@ export interface Role {
   users: UserProjectRole[]
 }
 
+export interface UserIssue {
+  id: string
+  name: string | null
+  profileUrl: string | null
+}
+
 export interface Issue {
   id: string
   providerIssueId: string
@@ -110,12 +116,6 @@ export interface IssueDetail {
   chronology: Event[]
 }
 
-export interface UserIssue {
-  id: string
-  name: string | null
-  profileUrl: string | null
-}
-
 export interface IssueView {
   id: string
   assignee: UserIssue | null
@@ -135,15 +135,6 @@ export interface Stage {
 }
 export interface StageExtended extends Stage {
   type: StageType
-}
-
-export enum StageType {
-  BACKLOG,
-  UNSTARTED,
-  STARTED,
-  COMPLETED,
-  CANCELED,
-  OTHER
 }
 
 export interface IssueLabel {
@@ -330,6 +321,15 @@ export enum Priority {
   URGENT
 }
 
+export enum StageType {
+  BACKLOG,
+  UNSTARTED,
+  STARTED,
+  COMPLETED,
+  CANCELED,
+  OTHER
+}
+
 export interface Organization {
   id: string
   name: string
@@ -376,4 +376,5 @@ export interface OptionalIssueFilters {
   priorities?: Priority[]
   assigneeIds?: string[]
   isOutOfEstimation?: boolean
+  cursor?: string
 }

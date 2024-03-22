@@ -7,6 +7,7 @@ import LoadingPage from '@pages/Loader/LoadingPage'
 import HomeWrapperPage from '@components/HomeWrapperPage/HomeWrapperPage'
 import LoginPage from '@pages/Login/LoginPage'
 import RoleValidation from './RoleValidation/RoleValidation'
+import TicketListWrapper from '@components/TicketListWrapper/TicketListWrapper'
 
 export const ROUTER = createBrowserRouter([
   {
@@ -54,7 +55,7 @@ export const ROUTER = createBrowserRouter([
           },
           {
             path: '/',
-            element: <></>
+            element: <TicketListWrapper />
           },
           {
             path: '/profile',

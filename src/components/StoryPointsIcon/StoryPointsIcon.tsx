@@ -14,7 +14,7 @@ const StoryPointsIcon: React.FC<StoryPointsIconProps> = ({
   return (
     <div
       className={`${className} flex justify-center items-center border py-1 px-2 gap-2.5 rounded-full w-5 h-5`}
-      style={{ borderColor: fillColor }}
+      style={{ borderColor: fillColor, color: fillColor }}
     >
       <p
         className={`font-semibold font-inter leading-[14.52px] text-${fillColor}`}

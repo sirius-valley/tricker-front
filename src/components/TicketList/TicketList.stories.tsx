@@ -1,14 +1,14 @@
 import { type Meta, type StoryObj } from '@storybook/react'
-import TicketListSmallDisplay from './TicketListSmallDisplay'
+import TicketList from './TicketList'
 import { store } from '@redux/store'
 import { Provider } from 'react-redux'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const queryClient = new QueryClient()
 
-const meta: Meta<typeof TicketListSmallDisplay> = {
-  title: 'Components/TicketListSmallDisplay',
-  component: TicketListSmallDisplay,
+const meta: Meta<typeof TicketList> = {
+  title: 'Components/TicketList',
+  component: TicketList,
   tags: ['autodocs'],
   decorators: [
     (Story) => <Provider store={store}>{Story()}</Provider>,
@@ -21,8 +21,8 @@ const meta: Meta<typeof TicketListSmallDisplay> = {
 
 export default meta
 
-type Story = StoryObj<typeof TicketListSmallDisplay>
+type Story = StoryObj<typeof TicketList>
 
 export const Default: Story = {
-  render: (args) => <TicketListSmallDisplay {...args} />
+  render: () => <TicketList />
 }

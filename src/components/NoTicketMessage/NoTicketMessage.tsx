@@ -7,7 +7,7 @@ import useScreenSize from '@hooks/useScreenSize'
 const NoTicketMessage: React.FC = (): JSX.Element => {
   const screen = useScreenSize()
   return (
-    <div className="w-fit h-fit flex flex-col justify-center items-center gap-4 text-white">
+    <div className="w-full h-full flex flex-col justify-center items-center gap-4 text-white">
       <div className="flex flex-col gap-1">
         <img src={NoTicketSvg} alt="My SVG" />
         {screen.width >= 768 && (

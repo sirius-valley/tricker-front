@@ -13,7 +13,6 @@ import type {
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
-import { mockedTickets } from '@components/TicketListSmallDisplay/MockedTickets'
 import { mockedTicketDetail } from '@components/TicketDisplay/MockedTicketDetail'
 
 const url: string = config.apiUrl || 'http://localhost:8080/api'
@@ -33,7 +32,7 @@ export const me = async (): Promise<User | null> => {
 }
 
 export const getUserProjects = async (): Promise<Project[] | null> => {
-  const res = await axios.get(`${url}/me/projects`, {
+  const res = await axios.get(`${url}/user/me`, {
     headers: {
       Authorization: 'Bearer ' + getAccessToken()
     }
@@ -155,47 +154,25 @@ export const postProjectIntegrationRequest = async (
 export const getIssuesFilteredAndPaginated = async (
   userId: string,
   projectId: string,
-  filters?: OptionalIssueFilters,
-  cursor?: string
-): Promise<IssueView[] | null> => {
-  // const res = await axios.post(
-  //   `${url}/user/${userId}/project/${projectId}`,
-  //   {
-  //     stageIds: filters?.stageIds,
-  //     priorities: filters?.priorities,
-  //     isOutOfEstimation: filters?.isOutOfEstimation,
-  //     cursor
-  //   },
-  //   {
-  //     headers: {
-  //       Authorization: 'Bearer ' + getAccessToken()
-  //     }
-  //   }
-  // )
-  // if (res.status === 200) {
-  //   return res.data
-  // }
-  // return null
-  return await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(mockedTickets)
-    }, 2000)
-  })
+  filters?: OptionalIssueFilters
+): Promise<IssueView[]> => {
+  const res = await axios.post(
+    `${url}/issue/dev/${userId}/project/${projectId}`,
+    filters,
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return []
 }
 export const getIssueById = async (
-  issueId: string
+  ticketId: string
 ): Promise<IssueDetail | null> => {
-  // const res = await axios.get(`${url}/issue/${issueId}`, {
-  //   headers: {
-  //     Authorization: 'Bearer ' + getAccessToken()
-  //   }
-  // })
-  // if (res.status === 200) {
-  //   return res.data
-  // }
-  // return null
-
-  // TESTING
   await new Promise((resolve) => setTimeout(resolve, 1000))
   return mockedTicketDetail
 }

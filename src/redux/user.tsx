@@ -1,9 +1,10 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { type Step, type User, type IssueView } from '@utils/types'
-import mockedUser from './mockedUser'
 
 interface InitialStateType {
   user: User
+  userRole: string
+  currentTicketId: string
   currentProjectId: string
   currentStep: number
   steps: Step[]
@@ -12,23 +13,24 @@ interface InitialStateType {
 }
 
 export const initialState: InitialStateType = {
-  // user: {
-  //   id: '',
-  //   cognitoId: '',
-  //   profileImage: '',
-  //   email: '',
-  //   name: '',
-  //   createdAt: new Date().toString(),
-  //   projectsRoleAssigned: [],
-  //   emittedUserProjectRole: [],
-  //   // emittedBlockerStatusModification: [],
-  //   authoredIssues: [],
-  //   asignedIssues: [],
-  //   emittedIssueChangeLogs: [],
-  //   emittedManualTimeModification: []
-  //   // OrganizationAdministrator: []
-  // },
-  user: mockedUser,
+  user: {
+    id: '',
+    cognitoId: '',
+    profileImage: '',
+    email: '',
+    name: '',
+    createdAt: new Date().toString(),
+    projectsRoleAssigned: [],
+    emittedUserProjectRole: [],
+    // emittedBlockerStatusModification: [],
+    authoredIssues: [],
+    asignedIssues: [],
+    emittedIssueChangeLogs: [],
+    emittedManualTimeModification: []
+    // OrganizationAdministrator: []
+  },
+  userRole: '',
+  currentTicketId: '',
   currentProjectId: '',
   currentStep: 0,
   steps: [
@@ -46,6 +48,12 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload
     },
+    setUserRole: (state, action: PayloadAction<string>) => {
+      state.userRole = action.payload
+    },
+    setCurrentTicketId: (state, action: PayloadAction<string>) => {
+      state.currentTicketId = action.payload
+    },
     setCurrentProjectId: (state, action: PayloadAction<string>) => {
       state.currentProjectId = action.payload
     },
@@ -61,6 +69,12 @@ const userSlice = createSlice({
   }
 })
 
-export const { setUser, setCurrentProjectId, setCurrentStep, setProjectName } =
-  userSlice.actions
+export const {
+  setUser,
+  setUserRole,
+  setCurrentTicketId,
+  setCurrentProjectId,
+  setCurrentStep,
+  setProjectName
+} = userSlice.actions
 export default userSlice.reducer

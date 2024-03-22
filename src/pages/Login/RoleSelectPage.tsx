@@ -17,7 +17,7 @@ const RoleSelectPage = (): JSX.Element => {
   dispatch(setCurrentStep(0))
 
   useEffect(() => {
-    if (user.id === '') {
+    if (user.id === '' || !data) {
       navigate('/login')
     }
   })

@@ -13,6 +13,7 @@ const PrivateRoute = (): JSX.Element => {
   const { showSnackBar } = useSnackBar()
 
   const { data, isLoading, error } = useGetOrCreateUser()
+  data && dispatch(setUser(data))
 
   useEffect(() => {
     if (error) {
@@ -21,13 +22,10 @@ const PrivateRoute = (): JSX.Element => {
       navigate('/login')
     }
     if (data) {
-      if (data?.id !== '') {
-        dispatch(setUser(data))
-        if (data.projectsRoleAssigned?.length === 0) {
-          navigate('/login/role')
-        } else {
-          setIsAuthorized(true)
-        }
+      if (data?.id !== '' && data.projectsRoleAssigned?.length === 0) {
+        navigate('/login/role')
+      } else {
+        setIsAuthorized(true)
       }
     }
   }, [navigate, error, showSnackBar, data, dispatch])
