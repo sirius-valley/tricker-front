@@ -351,14 +351,8 @@ export interface OptionalIssueFilters {
   isOutOfEstimation?: boolean
 }
 
-export interface AddTimeData {
+export interface ModifyTimeData {
   selectedTime: number
   selectedReason: string
-  inputDate: string
-}
-
-export interface SubtractTimeData {
-  selectedTime: number
-  // selectedReason: string
   inputDate: string
 }
