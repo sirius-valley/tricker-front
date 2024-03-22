@@ -10,13 +10,17 @@ import { usePostModifyTime } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Spinner from '@components/Spinner/Spinner'
 
-interface AddTimeProps {
+interface ModalModifyTimeProps {
   onClose: () => void
   show: boolean
   variant: 'add' | 'subtract'
 }
 
-const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
+const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
+  onClose,
+  show,
+  variant
+}) => {
   const [selectedTime, setSelectedTime] = useState<number>(0)
   const [selectedReason, setSelectedReason] = useState<string>('')
   const [inputDate, setInputDate] = useState<string>('')
@@ -257,4 +261,4 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
   )
 }
 
-export default AddTimeModal
+export default ModalModifyTime
