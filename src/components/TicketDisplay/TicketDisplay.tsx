@@ -32,7 +32,7 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
   }
 
   return (
-    <div className={`w-[648px] flex flex-col font-inter gap-10 text-white`}>
+    <div className={`w-fit flex flex-col font-inter gap-10 text-white`}>
       <div className="flex flex-col gap-4">
         <div className={`flex justify-start items-start`}>
           <Subtitle className="font-normal">[{issue.id}]</Subtitle>

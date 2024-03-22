@@ -25,10 +25,10 @@ const Chronology: React.FC<ChronologyProps> = ({ events }) => {
         {events.map((event, index) => (
           <div
             key={index}
-            className={`flex min-h-fit ${events.length === index + 1 ? 'h-full overflow-hidden' : ''}`}
+            className={`flex min-h-fit z-20 ${events.length === index + 1 ? 'h-full overflow-hidden' : ''}`}
           >
             <div
-              className={`flex w-[1px] h-full rounded-full ${event.blocker ? 'bg-error-500' : 'bg-primary-400'} relative left-[73px] top-4 -z-10`}
+              className={`flex w-[1px] h-full rounded-full ${event.blocker ? 'bg-error-500' : 'bg-primary-400'} relative left-[73px] top-4 z-10`}
             ></div>
             <div className="flex gap-3 items-start py-2 w-full">
               <div className="flex flex-col items-end">
@@ -72,11 +72,13 @@ const Chronology: React.FC<ChronologyProps> = ({ events }) => {
                 </div>
                 {event.description && (
                   <div className="flex gap-2 pl-0 sm:pl-7">
-                    <ProfilePicture
-                      size="sm"
-                      img="https://th.bing.com/th/id/OIP.IGNf7GuQaCqz_RPq5wCkPgAAAA?rs=1&pid=ImgDetMain"
-                      className="min-w-7 min-h-7"
-                    />
+                    <div className="w-5 h-5">
+                      <ProfilePicture
+                        size="sm"
+                        img="https://th.bing.com/th/id/OIP.IGNf7GuQaCqz_RPq5wCkPgAAAA?rs=1&pid=ImgDetMain"
+                        className="min-w-7 min-h-7"
+                      />
+                    </div>
                     <div className="bg-gray-400 p-3 rounded-xl flex flex-col gap-1 w-full">
                       <Body2 className="font-semibold text-sm">User Name</Body2>
                       <Body1 className="min-w-fit flex text-sm">

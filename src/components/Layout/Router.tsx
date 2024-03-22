@@ -7,7 +7,7 @@ import LoadingPage from '@pages/Loader/LoadingPage'
 import HomeWrapperPage from '@components/HomeWrapperPage/HomeWrapperPage'
 import LoginPage from '@pages/Login/LoginPage'
 import RoleValidation from './RoleValidation/RoleValidation'
-import TicketListWrapper from '@components/TicketListWrapper/TicketListWrapper'
+import HomePageTicketsSection from '@components/TicketsSection/TicketsSection'
 
 export const ROUTER = createBrowserRouter([
   {
@@ -55,7 +55,7 @@ export const ROUTER = createBrowserRouter([
           },
           {
             path: '/',
-            element: <TicketListWrapper />
+            element: <HomePageTicketsSection />
           },
           {
             path: '/profile',
