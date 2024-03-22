@@ -155,7 +155,11 @@ export const useGetIssueById = (
 }
 
 export const usePostModifyTime = (): {
-  mutate: (args: { data: ModifyTimeData; variant: 'add' | 'subtract' }) => void
+  mutate: (args: {
+    ticketId: string
+    data: ModifyTimeData
+    variant: 'add' | 'remove'
+  }) => void
   reset: () => void
   error: Error | null
   isPending: boolean
@@ -163,13 +167,15 @@ export const usePostModifyTime = (): {
 } => {
   const { mutate, reset, error, isPending, isSuccess } = useMutation({
     mutationFn: async ({
+      ticketId,
       data,
       variant
     }: {
+      ticketId: string
       data: ModifyTimeData
-      variant: 'add' | 'subtract'
+      variant: 'add' | 'remove'
     }) => {
-      return await ApiService.postModifyTime(data, variant)
+      return await ApiService.postModifyTime(ticketId, data, variant)
     }
   })
   return { mutate, reset, error, isPending, isSuccess }
