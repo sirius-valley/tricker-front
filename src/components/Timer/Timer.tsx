@@ -2,12 +2,18 @@ import { GradientRoundedButton } from '@components/GradientRoundedButton/Gradien
 import Icon from '@components/Icon/Icon'
 import H1 from '@utils/typography/h1/h1'
 import Subtitle from '@utils/typography/subtitle/subtitle'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { RoundedIconButton } from '@components/RoundedIconButton/RoundedIconButton'
 import { BlockedIcon, AddTimeIcon, SubstractTimeIcon } from '@components/Icon'
 import { Tooltip } from '@components/Tooltip/Tooltip'
 import ModalResume from '@components/ModalResumeTracking/ModalResumeTracking'
 import ModalModifyTime from '@components/ModalModifyTime/ModalModifyTime'
+import {
+  usePostTimerAction,
+  usePostBlock,
+  usePostUnblock
+} from '@data-provider/query'
+import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 
 export interface TimerProps {
   ticketId: string
@@ -22,16 +28,37 @@ const Timer: React.FC<TimerProps> = ({
   elapsedTime = 0,
   handleElapsedTime
 }): JSX.Element => {
-  const [paused, setPaused] = React.useState<boolean>(true)
-  const [time, setTime] = React.useState<number>(elapsedTime)
-  const [showModal, setShowModal] = React.useState<boolean>(false)
-  const [isBlocked, setIsBlocked] = React.useState<boolean>(blocked)
-  const [modalVariant, setModalVariant] = React.useState<'add' | 'subtract'>(
-    'add'
-  )
-  const [showTimeModal, setShowTimeModal] = React.useState<boolean>(false)
+  const [paused, setPaused] = useState<boolean>(true)
+  const [time, setTime] = useState<number>(elapsedTime)
+  const [showModal, setShowModal] = useState<boolean>(false)
+  const [isBlocked, setIsBlocked] = useState<boolean>(blocked)
+  const [modalVariant, setModalVariant] = useState<'add' | 'subtract'>('add')
+  const [showTimeModal, setShowTimeModal] = useState<boolean>(false)
+  const { showSnackBar } = useSnackBar()
 
-  React.useEffect(() => {
+  const {
+    mutate: mutateTimer,
+    reset: resetTimer,
+    // isPending: pendingTimer,
+    isSuccess: successTimer,
+    error: errorTimer
+  } = usePostTimerAction()
+  const {
+    mutate: mutateBlock,
+    reset: resetBlock,
+    // isPending: pendingBlock,
+    isSuccess: successBlock,
+    error: errorBlock
+  } = usePostBlock()
+  const {
+    mutate: mutateUnblock,
+    reset: resetUnblock,
+    // isPending: pendingUnblock,
+    isSuccess: successUnblock,
+    error: errorUnblock
+  } = usePostUnblock()
+
+  useEffect(() => {
     window.onbeforeunload = function (e) {
       return e
     }
@@ -54,23 +81,76 @@ const Timer: React.FC<TimerProps> = ({
     if (paused && isBlocked) {
       setShowModal(true)
     } else {
-      setPaused(!paused)
+      mutateTimer({
+        ticketId,
+        date: new Date(),
+        action: paused ? 'resume' : 'pause'
+      })
     }
   }
 
-  const handleUnblock = (): void => {
-    // TODO: Implement request to unblock ticket
-    setIsBlocked(false)
+  const handleModalResume = (): void => {
+    mutateTimer({
+      ticketId,
+      date: new Date(),
+      action: 'resume'
+    })
+    mutateUnblock({ ticketId })
+    setShowModal(false)
   }
+
+  const handleUnblock = (): void => {
+    mutateUnblock({ ticketId })
+  }
+
+  const handleBlock = (): void => {
+    mutateBlock({
+      ticketId,
+      reason: 'Blocked by user',
+      comment: 'Blocked by user'
+    })
+  }
+
+  useEffect(() => {
+    if (successBlock) {
+      setIsBlocked(true)
+      resetBlock()
+    }
+    if (successUnblock) {
+      setIsBlocked(false)
+      resetUnblock()
+    }
+    if (successTimer) {
+      setPaused(!paused)
+      resetTimer()
+    }
+    if (errorBlock) {
+      showSnackBar('An error occurred while blocking the ticket', 'error')
+      resetBlock()
+    }
+    if (errorUnblock) {
+      showSnackBar('An error occurred while unblocking the ticket', 'error')
+      resetUnblock()
+    }
+    if (errorTimer) {
+      showSnackBar('An error occurred with the ticket', 'error')
+      resetTimer()
+      resetUnblock()
+    }
+  }, [
+    successUnblock,
+    successBlock,
+    successTimer,
+    errorUnblock,
+    errorTimer,
+    errorBlock
+  ])
 
   return (
     <div className="w-full self-end h-32 bg-gray-500 px-10 items-center lg:flex text-white hidden md:rounded-br-xl border-t border-white/10">
       <ModalResume
         onResume={() => {
-          console.log('resuming')
-          setPaused(false)
-          setShowModal(false)
-          handleUnblock()
+          handleModalResume()
         }}
         onClose={() => {
           setShowModal(false)
@@ -153,7 +233,8 @@ const Timer: React.FC<TimerProps> = ({
               className="w-11 h-11"
               icon={<BlockedIcon />}
               size="lg"
-              variant={!paused ? 'disabled' : isBlocked ? 'blocked' : 'default'}
+              variant={isBlocked ? 'blocked' : 'default'}
+              onClick={isBlocked ? handleUnblock : handleBlock}
             />
           )}
           <GradientRoundedButton
