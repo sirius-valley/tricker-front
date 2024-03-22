@@ -1,19 +1,20 @@
 import axios from 'axios'
 // import { setUpAxiosInterceptors } from './AxiosInterceptor'
-import {
-  type User,
-  type CognitoResponse,
-  type ProjectPreIntegrated,
-  type MemberPreIntegrated,
-  type AuthorizationRequest,
-  type Project,
-  type IssueView,
-  type OptionalIssueFilters,
-  type ModifyTimeData
+import type {
+  User,
+  CognitoResponse,
+  ProjectPreIntegrated,
+  MemberPreIntegrated,
+  AuthorizationRequest,
+  Project,
+  IssueView,
+  OptionalIssueFilters,
+  IssueDetail,
+  ModifyTimeData
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
-import { mockedTickets } from '@components/TicketListSmallDisplay/MockedTickets'
+import { mockedTicketDetail } from '@components/TicketDisplay/MockedTicketDetail'
 
 const url: string = config.apiUrl || 'http://localhost:8080/api'
 
@@ -32,7 +33,7 @@ export const me = async (): Promise<User | null> => {
 }
 
 export const getUserProjects = async (): Promise<Project[] | null> => {
-  const res = await axios.get(`${url}/me/projects`, {
+  const res = await axios.get(`${url}/user/me`, {
     headers: {
       Authorization: 'Bearer ' + getAccessToken()
     }
@@ -177,47 +178,25 @@ export const postProjectIntegrationRequest = async (
 export const getIssuesFilteredAndPaginated = async (
   userId: string,
   projectId: string,
-  filters?: OptionalIssueFilters,
-  cursor?: string
-): Promise<IssueView[] | null> => {
-  // const res = await axios.post(
-  //   `${url}/user/${userId}/project/${projectId}`,
-  //   {
-  //     stageIds: filters?.stageIds,
-  //     priorities: filters?.priorities,
-  //     isOutOfEstimation: filters?.isOutOfEstimation,
-  //     cursor
-  //   },
-  //   {
-  //     headers: {
-  //       Authorization: 'Bearer ' + getAccessToken()
-  //     }
-  //   }
-  // )
-  // if (res.status === 200) {
-  //   return res.data
-  // }
-  // return null
-  return await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(mockedTickets)
-    }, 2000)
-  })
+  filters?: OptionalIssueFilters
+): Promise<IssueView[]> => {
+  const res = await axios.post(
+    `${url}/issue/dev/${userId}/project/${projectId}`,
+    filters,
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return []
 }
-export const getRole = async (
-  userProjectRoleId: string
-): Promise<string | null> => {
-  // const res = await axios.get(`${url}/user/role/${userProjectRoleId}`, {
-  //   headers: {
-  //     Authorization: 'Bearer ' + getAccessToken()
-  //   }
-  // })
-  // if (res.status === 200) {
-  //   return res.data
-  // }
-  // return null
-
-  // TESTING
+export const getIssueById = async (
+  ticketId: string
+): Promise<IssueDetail | null> => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
-  return 'Project Manager'
+  return mockedTicketDetail
 }

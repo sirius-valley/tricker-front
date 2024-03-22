@@ -19,6 +19,12 @@ const meta: Meta<typeof FilterSection> = {
       },
       description: 'Callback to manage searched ticket.'
     },
+    handleOutOfEstimation: {
+      control: {
+        type: 'function'
+      },
+      description: 'Callback to manage out of estimation filter.'
+    },
     handleView: {
       control: {
         type: 'function'
@@ -40,6 +46,9 @@ export const DefaultFilterSection: Story = {
     },
     handleSearch: function (searchedValue: string): void {
       console.log(searchedValue)
+    },
+    handleOutOfEstimation: function (isOutOfEst: boolean): void {
+      console.log(isOutOfEst)
     },
     handleView: function (view: 'grid' | 'list'): void {
       console.log(view)

@@ -1,15 +1,17 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import * as ApiService from './service'
-import {
-  type User,
-  type CognitoResponse,
-  type ProjectPreIntegrated,
-  type MemberPreIntegrated,
-  type AuthorizationRequest,
-  type Project,
-  type OptionalIssueFilters,
-  type IssueView,
-  type ModifyTimeData
+
+import type {
+  User,
+  CognitoResponse,
+  ProjectPreIntegrated,
+  MemberPreIntegrated,
+  AuthorizationRequest,
+  Project,
+  OptionalIssueFilters,
+  IssueView,
+  IssueDetail,
+  ModifyTimeData
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -115,45 +117,39 @@ export const useGetUserProjects = (): {
   return { data, error, isLoading }
 }
 
-export const useGetUserRole = (
-  userProjectRoleId: string
-): {
-  data: string | null | undefined
-  error: Error | null
-  isLoading: boolean
-} => {
-  const { data, error, isLoading } = useQuery({
-    queryKey: ['useGetUserRole', userProjectRoleId],
-    queryFn: async () => await ApiService.getRole(userProjectRoleId)
-  })
-  return { data, error, isLoading }
-}
-
 export const useGetIssuesFilteredAndPaginated = (
   userId: string,
   projectId: string,
-  filters?: OptionalIssueFilters,
-  cursor?: string
+  filters?: OptionalIssueFilters
 ): {
   data: IssueView[] | null | undefined
   error: Error | null
   isLoading: boolean
 } => {
   const { data, error, isLoading } = useQuery({
-    queryKey: [
-      'getIssuesFilteredAndPaginated',
-      userId,
-      projectId,
-      filters,
-      cursor
-    ],
+    queryKey: ['getIssuesFilteredAndPaginated', userId, projectId, filters],
+
     queryFn: async () =>
       await ApiService.getIssuesFilteredAndPaginated(
         userId,
         projectId,
-        filters,
-        cursor
-      )
+        filters
+      ),
+    retry: false
+  })
+  return { data, error, isLoading }
+}
+
+export const useGetIssueById = (
+  issueId: string
+): {
+  data: IssueDetail | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getIssueById', issueId],
+    queryFn: async () => await ApiService.getIssueById(issueId)
   })
   return { data, error, isLoading }
 }
