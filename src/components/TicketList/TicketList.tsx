@@ -171,8 +171,13 @@ const TicketList: React.FC<TicketListProps> = ({
             </div>
           </div>
         ))
-      ) : (
+      ) : !data ? (
         <NoTicketMessage />
+      ) : (
+        <NoTicketMessage
+          title="No tickets found"
+          subtitle="It seems there are no tickets that match your search"
+        />
       )}
     </div>
   )

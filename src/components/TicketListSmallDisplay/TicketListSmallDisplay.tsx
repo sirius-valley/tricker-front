@@ -182,8 +182,13 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
             ))}
           </div>
         ))
-      ) : (
+      ) : !data ? (
         <NoTicketMessage />
+      ) : (
+        <NoTicketMessage
+          title="No tickets found"
+          subtitle="It seems there are no tickets that match your search"
+        />
       )}
     </div>
   )
