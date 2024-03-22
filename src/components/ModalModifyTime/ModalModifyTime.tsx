@@ -9,11 +9,12 @@ import { type ModifyTimeData } from '@utils/types'
 import { usePostModifyTime } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Spinner from '@components/Spinner/Spinner'
+import { useCurrentTicketId } from '@redux/hooks'
 
 interface ModalModifyTimeProps {
   onClose: () => void
   show: boolean
-  variant: 'add' | 'subtract'
+  variant: 'add' | 'remove'
 }
 
 const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
@@ -26,6 +27,8 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
   const [inputDate, setInputDate] = useState<string>('')
   const [isDateValid, setIsDateValid] = useState<boolean>(true)
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
+
+  const ticketId = useCurrentTicketId()
 
   const timesInSeconds: Record<string, number> = {
     '10 minutes': 600,
@@ -125,8 +128,9 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
       setButtonDisabled(false)
     }
     if (isSuccess) {
-      memoizedShowSnackBar('Time added successfully', 'success')
+      memoizedShowSnackBar('Time change submitted successfully', 'success')
       setToInitialValues()
+      reset()
       onClose()
     }
     if (error) {
@@ -148,15 +152,20 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
     inputDate
   ])
 
-  const handleAddTime = (): void => {
+  const parseDateToISOString = (date: string): string => {
+    const [day, month, year] = date.split('/')
+    return `${year}-${month}-${day}T12:00:00Z`
+  }
+
+  const handleSubmitTime = (): void => {
     if (selectedTime && isDateValid) {
       const data: ModifyTimeData = {
-        selectedTime,
-        selectedReason,
-        inputDate
+        timeAmount: selectedTime,
+        reason: selectedReason,
+        date: parseDateToISOString(inputDate)
       }
 
-      mutate({ data, variant })
+      mutate({ ticketId, data, variant })
     }
   }
 
@@ -251,7 +260,7 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
                 variant="filled"
                 size={'large'}
                 className="h-[56px] w-[313px] text-black"
-                onClick={handleAddTime}
+                onClick={handleSubmitTime}
                 disabled={buttonDisabled}
               >
                 {variant[0].toUpperCase() + variant.substring(1)} Time
