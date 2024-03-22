@@ -7,6 +7,7 @@ import { RoundedIconButton } from '@components/RoundedIconButton/RoundedIconButt
 import { BlockedIcon, AddTimeIcon, SubstractTimeIcon } from '@components/Icon'
 import { Tooltip } from '@components/Tooltip/Tooltip'
 import ModalResume from '@components/ModalResumeTracking/ModalResumeTracking'
+import ModalModifyTime from '@components/ModalModifyTime/ModalModifyTime'
 
 export interface TimerProps {
   ticketId: string
@@ -25,6 +26,10 @@ const Timer: React.FC<TimerProps> = ({
   const [time, setTime] = React.useState<number>(elapsedTime)
   const [showModal, setShowModal] = React.useState<boolean>(false)
   const [isBlocked, setIsBlocked] = React.useState<boolean>(blocked)
+  const [modalVariant, setModalVariant] = React.useState<'add' | 'subtract'>(
+    'add'
+  )
+  const [showTimeModal, setShowTimeModal] = React.useState<boolean>(false)
 
   React.useEffect(() => {
     window.onbeforeunload = function (e) {
@@ -59,7 +64,7 @@ const Timer: React.FC<TimerProps> = ({
   }
 
   return (
-    <div className="w-[729] h-32 bg-gray-500 py-10 px-8 flex text-white">
+    <div className="w-full self-end h-32 bg-gray-500 px-10 items-center lg:flex text-white hidden md:rounded-br-xl border-t border-white/10">
       <ModalResume
         onResume={() => {
           console.log('resuming')
@@ -72,12 +77,19 @@ const Timer: React.FC<TimerProps> = ({
         }}
         show={showModal}
       />
-      <div className="flex w-full justify-between">
+      <ModalModifyTime
+        variant={modalVariant}
+        show={showTimeModal}
+        onClose={() => {
+          setShowTimeModal(false)
+        }}
+      />
+      <div className="flex w-full justify-between gap-5">
         <div className="flex flex-col items-start gap-2">
-          <Subtitle className="bg-clip-text text-transparent bg-gradient text-sm">
+          <Subtitle className="bg-clip-text text-transparent bg-gradient text-sm overflow-hidden max-h-[14px]">
             {ticketId}
           </Subtitle>
-          <H1 className="text-[32px]">
+          <H1 className="md:text-[32px] text-[26px]">
             {Math.floor(time / 3600000)
               .toString()
               .padStart(2, '0')}
@@ -91,7 +103,7 @@ const Timer: React.FC<TimerProps> = ({
                 className="w-11 h-11"
                 icon={<SubstractTimeIcon />}
                 size="lg"
-                variant={paused ? 'default' : 'disabled'}
+                variant={'disabled'}
               />
             </Tooltip>
           ) : (
@@ -99,7 +111,11 @@ const Timer: React.FC<TimerProps> = ({
               className="w-11 h-11"
               icon={<SubstractTimeIcon />}
               size="lg"
-              variant={paused ? 'default' : 'disabled'}
+              variant={'default'}
+              onClick={() => {
+                setModalVariant('subtract')
+                setShowTimeModal(true)
+              }}
             />
           )}
           {!paused ? (
@@ -108,7 +124,7 @@ const Timer: React.FC<TimerProps> = ({
                 className="w-11 h-11"
                 icon={<AddTimeIcon />}
                 size="lg"
-                variant={paused ? 'default' : 'disabled'}
+                variant={'disabled'}
               />
             </Tooltip>
           ) : (
@@ -116,7 +132,11 @@ const Timer: React.FC<TimerProps> = ({
               className="w-11 h-11"
               icon={<AddTimeIcon />}
               size="lg"
-              variant={paused ? 'default' : 'disabled'}
+              variant={'default'}
+              onClick={() => {
+                setModalVariant('add')
+                setShowTimeModal(true)
+              }}
             />
           )}
           {!paused ? (
@@ -125,7 +145,7 @@ const Timer: React.FC<TimerProps> = ({
                 className="w-11 h-11"
                 icon={<BlockedIcon />}
                 size="lg"
-                variant={paused ? 'default' : 'disabled'}
+                variant={'disabled'}
               />
             </Tooltip>
           ) : (
