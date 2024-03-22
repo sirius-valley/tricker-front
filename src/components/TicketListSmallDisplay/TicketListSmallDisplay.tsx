@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { StageType, type IssueView, Priority } from '@utils/types'
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
-import { useCurrentProjectId, useCurrentTicket, useUser } from '@redux/hooks'
+import {
+  useAppDispatch,
+  useCurrentProjectId,
+  useCurrentTicket,
+  useUser
+} from '@redux/hooks'
 import Body2 from '@utils/typography/body2/body2'
 import Body1 from '@utils/typography/body1/body1'
 import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
@@ -13,6 +18,7 @@ import config from '../../../tailwind.config'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 import { type TicketListProps } from '@components/TicketList/TicketList'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import { setCurrentTicket } from '@redux/user'
 
 const colors = config.theme.extend.colors
 
@@ -31,7 +37,10 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
   // }
   // } // Replace with filter props and parse it to OptionalIssueFilters
   const currentTicket = useCurrentTicket()
-  const [selectedTicket, setSelectedTicket] = useState<string>(currentTicket.id)
+  const dispatch = useAppDispatch()
+  const [selectedTicketId, setSelectedTicketId] = useState<string>(
+    currentTicket.id
+  )
   const user = useUser()
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
     user.id,
@@ -76,6 +85,18 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
     }
   }
 
+  const handleSelectedTicketId = (ticketId: string): void => {
+    setSelectedTicketId(ticketId)
+    if (data) {
+      const selectedTicked = data.find(
+        (issue: IssueView) => issue.id === ticketId
+      )
+      if (selectedTicked) {
+        dispatch(setCurrentTicket(selectedTicked))
+      }
+    }
+  }
+
   useEffect(() => {
     if (error) {
       showSnackBar(
@@ -113,9 +134,9 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
             {issues?.map((issue) => (
               <div
                 key={issue.id}
-                className={`h-[51px] border-l-[2px]  items-center flex py-4 px-6 gap-2 cursor-pointer ${selectedTicket === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
+                className={`h-[51px] border-l-[2px]  items-center flex py-4 px-6 gap-2 cursor-pointer ${selectedTicketId === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
                 onClick={() => {
-                  setSelectedTicket(issue.id)
+                  handleSelectedTicketId(issue.id)
                 }}
               >
                 <div className="flex gap-1">
@@ -126,7 +147,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
                       ]
                     }
                     fillColor={
-                      selectedTicket === issue.id
+                      selectedTicketId === issue.id
                         ? colors.primary[400]
                         : 'white'
                     }
@@ -135,7 +156,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
                     <StoryPointsIcon
                       points={issue.storyPoints}
                       fillColor={
-                        selectedTicket === issue.id
+                        selectedTicketId === issue.id
                           ? colors.primary[400]
                           : 'white'
                       }
