@@ -380,7 +380,7 @@ export interface OptionalIssueFilters {
 }
 
 export interface ModifyTimeData {
-  selectedTime: number
-  selectedReason: string
-  inputDate: string
+  timeAmount: number
+  reason: string
+  date: string
 }
