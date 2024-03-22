@@ -32,7 +32,7 @@ const Timer: React.FC<TimerProps> = ({
   const [time, setTime] = useState<number>(elapsedTime)
   const [showModal, setShowModal] = useState<boolean>(false)
   const [isBlocked, setIsBlocked] = useState<boolean>(blocked)
-  const [modalVariant, setModalVariant] = useState<'add' | 'subtract'>('add')
+  const [modalVariant, setModalVariant] = useState<'add' | 'remove'>('add')
   const [showTimeModal, setShowTimeModal] = useState<boolean>(false)
   const { showSnackBar } = useSnackBar()
 
@@ -193,7 +193,7 @@ const Timer: React.FC<TimerProps> = ({
               size="lg"
               variant={'default'}
               onClick={() => {
-                setModalVariant('subtract')
+                setModalVariant('remove')
                 setShowTimeModal(true)
               }}
             />
