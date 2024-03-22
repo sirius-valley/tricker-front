@@ -127,14 +127,13 @@ export const getPreIntegratedMembers = async (
 }
 
 export const postModifyTime = async (
+  ticketId: string,
   data: ModifyTimeData,
-  variant: 'add' | 'subtract'
+  variant: 'add' | 'remove'
 ): Promise<any> => {
   const res = await axios.post(
-    `${url}/${variant}-time`,
-    {
-      data
-    },
+    `${url}/issue/${ticketId}/${variant}-time`,
+    data,
     {
       headers: {
         Authorization: 'Bearer ' + getAccessToken()
