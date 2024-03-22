@@ -1,5 +1,6 @@
 import NotificationBadge from '@components/NotificationBadge/NotificationBadge'
 import React from 'react'
+import ReactDom from 'react-dom'
 
 interface SnackBar {
   message: string
@@ -52,22 +53,28 @@ export const SnackBarProvider: React.FC<SnackBarProviderProps> = ({
     setSnackBars((prev) => prev.slice(1))
   }
 
-  return (
-    <SnackbarContext.Provider value={{ showSnackBar }}>
-      {children}
-      {snackBars.map((snackBar: SnackBar, index: number) => (
-        <div
-          className="fixed bottom-5 left-5 z-50 flex justify-center items-center animate-slideInLeft"
-          key={index}
-        >
-          <NotificationBadge
-            variant={snackBar.type}
-            handleClose={handleOnClose}
+  const portalElement = document.getElementById('portal')
+  if (!portalElement) {
+    return null
+  } else {
+    return ReactDom.createPortal(
+      <SnackbarContext.Provider value={{ showSnackBar }}>
+        {children}
+        {snackBars.map((snackBar: SnackBar, index: number) => (
+          <div
+            className="fixed bottom-5 left-5 z-50 flex justify-center items-center animate-slideInLeft"
+            key={index}
           >
-            {snackBar.message}
-          </NotificationBadge>
-        </div>
-      ))}
-    </SnackbarContext.Provider>
-  )
+            <NotificationBadge
+              variant={snackBar.type}
+              handleClose={handleOnClose}
+            >
+              {snackBar.message}
+            </NotificationBadge>
+          </div>
+        ))}
+      </SnackbarContext.Provider>,
+      portalElement
+    )
+  }
 }
