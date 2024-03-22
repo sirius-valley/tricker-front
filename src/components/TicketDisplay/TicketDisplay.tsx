@@ -3,34 +3,40 @@ import React, { useEffect, useRef, useState } from 'react'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import { Pill } from '@components/Pill/Pill'
-import { Priority, type IssueView } from '@utils/types'
+import { type IssueView } from '@utils/types'
 import Subtitle from '@utils/typography/subtitle/subtitle'
+import FormattedText from '@components/FormattedText/FormattedText'
+
 export interface TicketDisplayProps {
   issue: IssueView
   variant: 'Developer' | 'Project Manager'
 }
-
 const TicketDisplay: React.FC<TicketDisplayProps> = ({
   issue,
   variant
 }): JSX.Element => {
   const [showFullText, setShowFullText] = useState(false)
   const [hasOverflow, setHasOverflow] = useState(false)
+
   const textRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (textRef.current) {
       const isOverflowing =
-        textRef.current.offsetHeight < textRef.current.scrollHeight ||
-        textRef.current.offsetWidth < textRef.current.scrollWidth
+        textRef.current.offsetHeight < textRef.current.scrollHeight + 10 ||
+        textRef.current.offsetWidth < textRef.current.scrollWidth + 10
       setHasOverflow(isOverflowing)
     }
   }, [])
 
+  useEffect(() => {
+    setShowFullText(false)
+  }, [issue])
+
   const toggleTextVisibility = (): void => {
     setShowFullText(!showFullText)
   }
-  console.log(Priority[issue.priority as unknown as keyof typeof Priority])
+  // console.log(Priority[issue.priority as unknown as keyof typeof Priority])
   return (
     <div className={`w-fit flex flex-col font-inter gap-10 text-white`}>
       <div className="flex flex-col gap-4">
@@ -86,7 +92,7 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
             textOverflow: 'ellipsis'
           }}
         >
-          {issue.description}
+          <FormattedText text={issue.description} />
         </div>
         {hasOverflow && !showFullText && (
           <button className="underline" onClick={toggleTextVisibility}>
