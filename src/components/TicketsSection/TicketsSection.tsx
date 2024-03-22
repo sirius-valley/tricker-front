@@ -18,20 +18,22 @@ const TicketsSection: React.FC = ({
   if (user.id === '') navigate('/login')
 
   return (
-    <div className="h-full w-full flex items-center justify-center">
+    <div className="h-full w-full flex items-center">
       <TicketListWrapper />
-      <div className="flex flex-col items-center h-full w-full rounded-r-xl">
-        <div className="overflow-y-auto">
-          <div className="w-full h-full py-[72px] px-10 flex flex-col gap-10">
-            <TicketDisplay
-              issue={currentTicket}
-              variant={isProjectManager ? 'Project Manager' : 'Developer'}
-            />
-            <Chronology events={MockedEvents} />
+      {currentTicket.id !== '' && (
+        <div className="flex flex-col items-center h-full w-full rounded-r-xl">
+          <div className="overflow-y-auto">
+            <div className="w-full h-full py-[72px] px-10 flex flex-col gap-10">
+              <TicketDisplay
+                issue={currentTicket}
+                variant={isProjectManager ? 'Project Manager' : 'Developer'}
+              />
+              <Chronology events={MockedEvents} />
+            </div>
           </div>
+          {/* <TimerComponent /> */}
         </div>
-        {/* <TimerComponent /> */}
-      </div>
+      )}
     </div>
   )
 }

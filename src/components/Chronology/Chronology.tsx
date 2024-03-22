@@ -71,8 +71,8 @@ const Chronology: React.FC<ChronologyProps> = ({ events }) => {
                   </Body2>
                 </div>
                 {event.description && (
-                  <div className="flex gap-2 pl-0 sm:pl-7">
-                    <div className="w-5 h-5">
+                  <div className="flex gap-2 pl-0 sm:pl-7 w-fit flex-nowrap">
+                    <div className="min-w-7 min-h-7">
                       <ProfilePicture
                         size="sm"
                         img="https://th.bing.com/th/id/OIP.IGNf7GuQaCqz_RPq5wCkPgAAAA?rs=1&pid=ImgDetMain"
