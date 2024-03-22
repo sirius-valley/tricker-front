@@ -130,8 +130,6 @@ export const postModifyTime = async (
   data: ModifyTimeData,
   variant: 'add' | 'subtract'
 ): Promise<any> => {
-  console.log(data)
-  console.log(`${url}/${variant}-time`)
   const res = await axios.post(
     `${url}/${variant}-time`,
     {
@@ -199,4 +197,65 @@ export const getIssueById = async (
 ): Promise<IssueDetail | null> => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
   return mockedTicketDetail
+}
+
+export const postTimerAction = async (
+  ticketId: string,
+  date: Date,
+  action: 'resume' | 'pause'
+): Promise<any> => {
+  const res = await axios.post(
+    `${url}/issue/${ticketId}/${action}`,
+    {
+      date
+    },
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const postBlock = async (
+  ticketId: string,
+  reason: string,
+  comment: string
+): Promise<any> => {
+  const res = await axios.post(
+    `${url}/issue/${ticketId}/flag/add`,
+    {
+      reason,
+      comment
+    },
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const postUnblock = async (ticketId: string): Promise<any> => {
+  const res = await axios.post(
+    `${url}/issue/${ticketId}/flag/remove`,
+    {},
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
 }
