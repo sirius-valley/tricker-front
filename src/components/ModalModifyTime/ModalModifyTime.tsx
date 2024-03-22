@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Input from '@components/Input/Input'
 import SelectInput from '@components/SelectInput/SelectInput'
 import Icon from '@components/Icon/Icon'
@@ -21,6 +21,7 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
   const [selectedReason, setSelectedReason] = useState<string>('')
   const [inputDate, setInputDate] = useState<string>('')
   const [isDateValid, setIsDateValid] = useState<boolean>(true)
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
 
   const timesInSeconds: Record<string, number> = {
     '10 minutes': 600,
@@ -37,7 +38,8 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
     '10 hours': 36000,
     '11 hours': 39600,
     '12 hours': 43200
-  } // Opciones de tiempo (en segundos)
+  }
+
   const addReasons: string[] = [
     'I forgot to track time',
     'Misestimated the task',
@@ -76,7 +78,6 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
       const year = parseInt(yearString, 10)
 
       if (year === currentYear) {
-        // Revisar si se ha ingresado tanto el día como el mes, para agregar automáticamente la barra
         const [day, month] = value.split('/')
         let formattedDate = value
 
@@ -88,13 +89,12 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
 
         setInputDate(formattedDate)
 
-        // Crear un nuevo objeto Date para validar la fecha completa
         const inputDate = new Date(
           year,
           parseInt(month, 10) - 1,
           parseInt(day, 10)
         )
-        const maxDaysInMonth = new Date(year, parseInt(month, 10), 0).getDate() // Obtener el número máximo de días en el mes
+        const maxDaysInMonth = new Date(year, parseInt(month, 10), 0).getDate()
 
         if (inputDate <= currentDate && parseInt(day, 10) <= maxDaysInMonth) {
           setIsDateValid(true)
@@ -105,20 +105,41 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
     setIsDateValid(false)
   }
 
-  useEffect(() => {
+  const memoizedShowSnackBar = useCallback(showSnackBar, [showSnackBar])
+
+  const setToInitialValues = (): void => {
     setInputDate('')
     setSelectedTime(0)
     setSelectedReason('')
     setIsDateValid(true)
+  }
+
+  useEffect(() => {
+    if (selectedTime === 0 || selectedReason === '' || inputDate === '') {
+      setButtonDisabled(true)
+    } else {
+      setButtonDisabled(false)
+    }
     if (isSuccess) {
-      showSnackBar('Time added successfully', 'success')
+      memoizedShowSnackBar('Time added successfully', 'success')
+      setToInitialValues()
       onClose()
     }
     if (error) {
-      showSnackBar('An error occurred while adding time', 'error')
+      memoizedShowSnackBar('An error occurred while adding time', 'error')
+      setToInitialValues()
       reset()
     }
-  }, [isSuccess, error, reset, onClose])
+  }, [
+    isSuccess,
+    error,
+    reset,
+    memoizedShowSnackBar,
+    onClose,
+    selectedTime,
+    selectedReason,
+    inputDate
+  ])
 
   const handleAddTime = (): void => {
     if (selectedTime && isDateValid) {
@@ -137,6 +158,7 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
       show={show}
       onClose={() => {
         onClose()
+        setToInitialValues()
       }}
     >
       <div className="max-w-[539px] w-[92%] min-w-[310px] min-h-[473px] bg-gray-500 border border-gray-300 px-8 py-6 rounded-xl shadow-lg text-white items-center">
@@ -211,7 +233,10 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
                 variant="outline"
                 size={'large'}
                 className="h-[56px] w-[313px]"
-                onClick={onClose}
+                onClick={() => {
+                  onClose()
+                  setToInitialValues()
+                }}
               >
                 Cancel
               </Button>
@@ -220,12 +245,7 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
                 size={'large'}
                 className="h-[56px] w-[313px] text-black"
                 onClick={handleAddTime}
-                disabled={
-                  !selectedTime ||
-                  !isDateValid ||
-                  inputDate === '' ||
-                  !selectedReason
-                }
+                disabled={buttonDisabled}
               >
                 {variant[0].toUpperCase() + variant.substring(1)} Time
               </Button>
