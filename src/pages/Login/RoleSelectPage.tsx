@@ -14,6 +14,7 @@ const RoleSelectPage = (): JSX.Element => {
   const navigate = useNavigate()
   const { data } = useGetUserProjects()
   const user = useUser()
+  const screenWidth = useScreenSize().width
   dispatch(setCurrentStep(0))
 
   useEffect(() => {
@@ -21,6 +22,10 @@ const RoleSelectPage = (): JSX.Element => {
       navigate('/login')
     }
   })
+
+  const handleBackButton = (): void => {
+    navigate('/login')
+  }
 
   const handlePmClick = (): void => {
     navigate('/setup')
@@ -36,12 +41,13 @@ const RoleSelectPage = (): JSX.Element => {
 
   return (
     <WrapperPage>
-      {useScreenSize().width < 768 && (
-        <Link to="/login" className="text-white">
-          <button className="-rotate-90 top-[2px] absolute left-6 hover:bg-gray-500 rounded-full">
-            <Icon name="CaretUpIcon" width="32" height="32" />
-          </button>
-        </Link>
+      {screenWidth < 768 && (
+        <button
+          className="-rotate-90 top-[32px] absolute left-6 hover:bg-gray-500 rounded-full"
+          onClick={handleBackButton}
+        >
+          <Icon name="CaretUpIcon" width="32" height="32" />
+        </button>
       )}
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-white text-center text-2xl font-normal md:hidden flex mb-10">
