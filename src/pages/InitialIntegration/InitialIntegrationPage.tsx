@@ -184,6 +184,14 @@ const InitialIntegrationPage = (): JSX.Element => {
           }
         </NotificationBadge>
       )}
+      {screenWidth < 768 && (
+        <button
+          className="-rotate-90 top-[32px] absolute left-6 hover:bg-gray-500 rounded-full"
+          onClick={handleBackButton}
+        >
+          <Icon name="CaretUpIcon" width="32" height="32" />
+        </button>
+      )}
       {isSuccess && selectedProject && (
         <ProjectMail projectName={selectedProject.name} />
       )}
