@@ -58,7 +58,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
           onClick={() => {
             setIsOpen(!isOpen)
           }}
-          className="relative w-full cursor-pointer py-2 lg:px-8 flex items-center justify-between focus:outline-none "
+          className="relative w-full cursor-pointer py-2 lg:px-8 flex items-center justify-between focus:outline-none gap-1"
         >
           <span className="flex items-center gap-2 w-fit">
             {selectedProject.image ? (

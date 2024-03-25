@@ -76,8 +76,13 @@ const HomeWrapperPage: React.FC = (): JSX.Element => {
     </div>
   ) : (
     <div className="bg-gray-500 h-screen w-screen flex items-center justify-center">
-      <NavBar isProjectManager={currentUserRole === 'Project Manager'} />
-      <div className="w-full h-full flex-1 flex items-center justify-center bg-gray-700 pb-[70px]">
+      <NavBar
+        isProjectManager={currentUserRole === 'Project Manager'}
+        preSelectedOption={selectedProject}
+        dropdownOptions={dropdownOptions}
+        handleDropdownSelect={handleDropdownSelect}
+      />
+      <div className="w-full h-full flex-1 flex items-center justify-center bg-gray-700 py-[71px]">
         <div className="w-full h-full bg-gray-500">
           <Outlet />
         </div>
