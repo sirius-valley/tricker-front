@@ -155,7 +155,11 @@ export const useGetIssueById = (
 }
 
 export const usePostModifyTime = (): {
-  mutate: (args: { data: ModifyTimeData; variant: 'add' | 'subtract' }) => void
+  mutate: (args: {
+    ticketId: string
+    data: ModifyTimeData
+    variant: 'add' | 'remove'
+  }) => void
   reset: () => void
   error: Error | null
   isPending: boolean
@@ -163,13 +167,84 @@ export const usePostModifyTime = (): {
 } => {
   const { mutate, reset, error, isPending, isSuccess } = useMutation({
     mutationFn: async ({
+      ticketId,
       data,
       variant
     }: {
+      ticketId: string
       data: ModifyTimeData
-      variant: 'add' | 'subtract'
+      variant: 'add' | 'remove'
     }) => {
-      return await ApiService.postModifyTime(data, variant)
+      return await ApiService.postModifyTime(ticketId, data, variant)
+    }
+  })
+  return { mutate, reset, error, isPending, isSuccess }
+}
+
+export const usePostTimerAction = (): {
+  mutate: (args: {
+    ticketId: string
+    date: Date
+    action: 'resume' | 'pause'
+  }) => void
+  reset: () => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, reset, error, isPending, isSuccess } = useMutation({
+    mutationFn: async ({
+      ticketId,
+      date,
+      action
+    }: {
+      ticketId: string
+      date: Date
+      action: 'resume' | 'pause'
+    }) => {
+      return await ApiService.postTimerAction(ticketId, date, action)
+    }
+  })
+  return { mutate, reset, error, isPending, isSuccess }
+}
+
+export const usePostBlock = (): {
+  mutate: (args: {
+    ticketId: string
+    reason: string
+    comment: string | null
+  }) => void
+  reset: () => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, reset, error, isPending, isSuccess } = useMutation({
+    mutationFn: async ({
+      ticketId,
+      reason,
+      comment
+    }: {
+      ticketId: string
+      reason: string
+      comment: string | null
+    }) => {
+      return await ApiService.postBlock(ticketId, reason, comment)
+    }
+  })
+  return { mutate, reset, error, isPending, isSuccess }
+}
+
+export const usePostUnblock = (): {
+  mutate: (args: { ticketId: string }) => void
+  reset: () => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, reset, error, isPending, isSuccess } = useMutation({
+    mutationFn: async ({ ticketId }: { ticketId: string }) => {
+      return await ApiService.postUnblock(ticketId)
     }
   })
   return { mutate, reset, error, isPending, isSuccess }

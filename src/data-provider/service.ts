@@ -128,16 +128,13 @@ export const getPreIntegratedMembers = async (
 }
 
 export const postModifyTime = async (
+  ticketId: string,
   data: ModifyTimeData,
-  variant: 'add' | 'subtract'
+  variant: 'add' | 'remove'
 ): Promise<any> => {
-  console.log(data)
-  console.log(`${url}/${variant}-time`)
   const res = await axios.post(
-    `${url}/${variant}-time`,
-    {
-      data
-    },
+    `${url}/issue/${ticketId}/${variant}-time`,
+    data,
     {
       headers: {
         Authorization: 'Bearer ' + getAccessToken()
@@ -200,6 +197,67 @@ export const getIssueById = async () // ticketId: string
 : Promise<IssueDetail | null> => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
   return mockedTicketDetail
+}
+
+export const postTimerAction = async (
+  ticketId: string,
+  date: Date,
+  action: 'resume' | 'pause'
+): Promise<any> => {
+  const res = await axios.post(
+    `${url}/issue/${ticketId}/${action}`,
+    {
+      date
+    },
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const postBlock = async (
+  ticketId: string,
+  reason: string,
+  comment: string | null
+): Promise<any> => {
+  const res = await axios.post(
+    `${url}/issue/${ticketId}/flag/add`,
+    {
+      reason,
+      comment
+    },
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const postUnblock = async (ticketId: string): Promise<any> => {
+  const res = await axios.post(
+    `${url}/issue/${ticketId}/flag/remove`,
+    {},
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
 }
 
 export const getChronology = async (
