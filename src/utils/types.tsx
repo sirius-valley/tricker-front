@@ -57,6 +57,12 @@ export interface Role {
   users: UserProjectRole[]
 }
 
+export interface UserIssue {
+  id: string
+  name: string | null
+  profileUrl: string | null
+}
+
 export interface Issue {
   id: string
   providerIssueId: string
@@ -83,10 +89,31 @@ export interface Issue {
   manualTimeModifications: ManualTimeModification[]
 }
 
-export interface UserIssue {
+export interface Event {
+  type: EventType
+  user: UserIssue
+}
+
+export enum EventType {
+  CREATED,
+  ASSIGNED,
+  BLOCKED,
+  UNBLOCKED,
+  TRACKING,
+  UNTRACKING,
+  CUSTOM_FIELD
+}
+
+export interface IssueDetail {
   id: string
-  name: string | null
-  profileUrl: string | null
+  asignee: UserIssue | null
+  name: string
+  title: string
+  description: string
+  priority: Priority
+  storyPoints: number | null
+  labels: Label[]
+  chronology: Event[]
 }
 
 export interface IssueView {
@@ -108,15 +135,6 @@ export interface Stage {
 }
 export interface StageExtended extends Stage {
   type: StageType
-}
-
-export enum StageType {
-  BACKLOG,
-  UNSTARTED,
-  STARTED,
-  COMPLETED,
-  CANCELED,
-  OTHER
 }
 
 export interface IssueLabel {
@@ -226,8 +244,8 @@ export interface UserProjectRole {
 export interface Label {
   id: string
   name: string
-  issues: IssueLabel[]
-  projectLabels: ProjectLabel[]
+  issues?: IssueLabel[]
+  projectLabels?: ProjectLabel[]
 }
 
 export interface BlockerStatusModification {
@@ -303,6 +321,15 @@ export enum Priority {
   URGENT
 }
 
+export enum StageType {
+  BACKLOG,
+  UNSTARTED,
+  STARTED,
+  COMPLETED,
+  CANCELED,
+  OTHER
+}
+
 export interface Organization {
   id: string
   name: string
@@ -349,4 +376,11 @@ export interface OptionalIssueFilters {
   priorities?: Priority[]
   assigneeIds?: string[]
   isOutOfEstimation?: boolean
+  cursor?: string
+}
+
+export interface ModifyTimeData {
+  selectedTime: number
+  selectedReason: string
+  inputDate: string
 }

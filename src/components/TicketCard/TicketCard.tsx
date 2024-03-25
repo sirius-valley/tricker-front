@@ -7,30 +7,26 @@ import Body2 from '@utils/typography/body2/body2'
 import React from 'react'
 import config from '../../../tailwind.config'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
+import { Priority } from '@utils/types'
 
 export interface TicketCardProps {
   ticketId: string
-  title?: string
-  status?: 'label' | 'tracking' | 'blocked'
+  name: string
+  status: 'label' | 'tracking' | 'blocked' | null
   category?: 'feature' | 'improvement' | 'bug'
-  priority?:
-    | 'no-priority'
-    | 'low-priority'
-    | 'medium-priority'
-    | 'high-priority'
-    | 'urgent'
+  priority?: Priority
   elapsedTime?: number
   isProjectManager?: boolean
   associatedUserProfile: string
   selectedCard: boolean
-  storyPoints: number
+  storyPoints: number | null
   handleClick: () => void
 }
 
 const TicketCard: React.FC<TicketCardProps> = ({
   ticketId,
-  title,
-  status,
+  name,
+  status = null,
   priority,
   category,
   elapsedTime,
@@ -46,12 +42,12 @@ const TicketCard: React.FC<TicketCardProps> = ({
   }
   return (
     <button
-      className={`sm:w-[419px] w-[345px] h-[114px] bg-${activeColor(`white`)} bg-opacity-5  border border-${activeColor(`gray-400`)} py-4 px-6 gap-4 rounded-xl flex flex-col`}
+      className={`md:w-[419px] w-[345px] h-[114px] bg-${activeColor(`white`)} bg-opacity-5  border border-${activeColor(`gray-400`)} py-4 px-6 gap-4 rounded-xl flex flex-col`}
       onClick={handleClick}
     >
       <div className={`flex justify-start items-start gap-1`}>
         <span
-          className={`flex flex-col text-left gap-2 w-[265px] sm:w-[345px] h-[46px]`}
+          className={`flex flex-col text-left gap-2 w-[265px] md:w-[345px] h-[46px]`}
         >
           <Body2 className={`leading-[19.36px] text-${activeColor(`white`)}`}>
             {ticketId}
@@ -59,7 +55,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
           <Body1
             className={`leading-[19.36px] truncate text-${activeColor(`white`)}`}
           >
-            {title}
+            {name}
           </Body1>
         </span>
         {isProjectManager && (
@@ -71,10 +67,10 @@ const TicketCard: React.FC<TicketCardProps> = ({
       <div className="flex justify-between items-center w-full">
         <div className="flex items-center w-fit gap-4">
           <div className="flex gap-1">
-            {priority && (
+            {priority != null && (
               <PriorityIcon
                 fillColor={selectedCard ? colors.primary[400] : 'white'}
-                variant={priority}
+                variant={Priority[priority as unknown as keyof typeof Priority]}
               />
             )}
             {category && (
@@ -83,9 +79,9 @@ const TicketCard: React.FC<TicketCardProps> = ({
                 variant={category}
               />
             )}
-            {category && (
+            {storyPoints && (
               <StoryPointsIcon
-                fillColor={activeColor(`white`)}
+                fillColor={selectedCard ? colors.primary[400] : 'white'}
                 points={storyPoints}
               />
             )}

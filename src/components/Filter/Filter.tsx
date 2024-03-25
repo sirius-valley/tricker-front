@@ -4,6 +4,7 @@ import type * as icons from '@components/Icon/index.ts'
 import Checkbox from '@components/Checkbox/Checkbox'
 import Body1 from '@utils/typography/body1/body1'
 import { Switch } from '@components/Switch/Switch'
+import { useUserRole } from '@redux/hooks'
 
 export interface OptionAttr {
   option: string
@@ -20,7 +21,6 @@ export interface SearchButtonProps {
   selectedItems?: OptionAttr[]
   handleSelect: (options: OptionAttr[]) => void
   handleOutOfEstimation: (value: boolean) => void
-  variant: 'pm' | 'dev'
   show: boolean
 }
 
@@ -31,16 +31,16 @@ const Filter: React.FC<SearchButtonProps> = ({
   selectedItems = [],
   handleSelect,
   handleOutOfEstimation,
-  variant,
   show
 }) => {
-  const [showStatusOptions, setShowStatusOptions] = useState(false)
-  const [showAsigneeOptions, setShowAsigneeOptions] = useState(false)
-  const [showPriorityOptions, setShowPriorityOptions] = useState(false)
+  const [showStatusOptions, setShowStatusOptions] = useState<boolean>(false)
+  const [showAsigneeOptions, setShowAsigneeOptions] = useState<boolean>(false)
+  const [showPriorityOptions, setShowPriorityOptions] = useState<boolean>(false)
   const [selectedOptions, setSelectedOptions] =
     useState<OptionAttr[]>(selectedItems)
   const filterRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const userRole: string = useUserRole()
 
   useEffect(() => {
     handleSelect(selectedOptions)
@@ -112,7 +112,7 @@ const Filter: React.FC<SearchButtonProps> = ({
           </button>
         </div>
         <div className="flex gap-[1px] rounded-b-xl bg-gray-400 flex-col">
-          {variant === 'pm' && (
+          {userRole === 'Project Manager' && (
             <>
               <div
                 className={`px-4 py-3 gap-3 h-[52px] text-white flex items-center bg-gray-600`}

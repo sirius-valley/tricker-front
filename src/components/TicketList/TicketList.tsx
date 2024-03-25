@@ -1,24 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import { StageType, type IssueView, Priority } from '@utils/types'
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
-import { useCurrentProjectId, useCurrentTicketId, useUser } from '@redux/hooks'
-import Body2 from '@utils/typography/body2/body2'
+import {
+  useAppDispatch,
+  useCurrentProjectId,
+  useCurrentTicketId,
+  useUser
+} from '@redux/hooks'
+import { type IssueView, StageType } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
-import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
-import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
-import { Pill } from '@components/Pill/Pill'
+import Body2 from '@utils/typography/body2/body2'
+import { useEffect, useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
-import config from '../../../tailwind.config'
-import { type TicketListProps } from '@components/TicketList/TicketList'
+import TicketCard from '@components/TicketCard/TicketCard'
+import { setCurrentTicketId } from '@redux/user'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
+import { type OptionAttr } from '@components/Filter/Filter'
 
-const colors = config.theme.extend.colors
+export interface TicketListProps {
+  filters: OptionAttr[]
+  searchedTicket: string
+  isOutOfEstimation: boolean
+  isProjectManager: boolean
+}
 
-const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
+const TicketList: React.FC<TicketListProps> = ({
+  isProjectManager
+}: TicketListProps): JSX.Element => {
   const { showSnackBar } = useSnackBar()
-  const selectedProjectId = useCurrentProjectId()
+  const currentProjectId = useCurrentProjectId()
   const filtersParams = {}
   // if (filters.length !== 0) {
   //   filtersParams = {}
@@ -30,15 +39,17 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
   //   cursor
   // }
   // } // Replace with filter props and parse it to OptionalIssueFilters
-  const [selectedTicket, setSelectedTicket] =
-    useState<string>(useCurrentTicketId())
   const user = useUser()
+  const dispatch = useAppDispatch()
+
+  const [selectedTicketId, setSelectedTicketId] =
+    useState<string>(useCurrentTicketId())
+
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
     user.id,
-    selectedProjectId,
+    currentProjectId,
     filtersParams
   )
-
   type GroupedIssues = Record<string, IssueView[]>
 
   let groupedByStageName: GroupedIssues = {}
@@ -75,6 +86,10 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
         return 'bg-gray-300'
     }
   }
+  const handleSelectedTicketId = (ticketId: string): void => {
+    setSelectedTicketId(ticketId)
+    dispatch(setCurrentTicketId(ticketId))
+  }
 
   useEffect(() => {
     if (error) {
@@ -87,13 +102,17 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
 
   return (
     <div
-      className={`w-[467px] h-full bg-gray-500 ${data ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-[393px] md:w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
-        <div className="p-1">
+        <div className="p-6 w-full">
           <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
             {Array.from({ length: 15 }, (_, index) => (
-              <Skeleton key={index} height={48} containerClassName="h-[14px]" />
+              <Skeleton
+                key={index}
+                height={114}
+                containerClassName="flex p-2"
+              />
             ))}
           </SkeletonTheme>
         </div>
@@ -104,54 +123,36 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
             <div className="h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
               <div
                 className={`w-3 h-3 rounded-full ${stageColor(StageType[issues[0].stage.type as unknown as keyof typeof StageType])}`}
-              ></div>
+              />
               <Body2>
                 {key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()}
               </Body2>
               <Body1>{issues?.length}</Body1>
             </div>
-            {issues?.map((issue) => (
-              <div
-                key={issue.id}
-                className={`h-[51px] border-l-[2px]  items-center flex py-4 px-6 gap-2 cursor-pointer ${selectedTicket === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
-                onClick={() => {
-                  setSelectedTicket(issue.id)
-                }}
-              >
-                <div className="flex gap-1">
-                  <PriorityIcon
-                    variant={
-                      Priority[
-                        issue.priority as unknown as keyof typeof Priority
-                      ]
-                    }
-                    fillColor={
-                      selectedTicket === issue.id
-                        ? colors.primary[400]
-                        : 'white'
-                    }
-                  />
-                  {issue.storyPoints && (
-                    <StoryPointsIcon
-                      points={issue.storyPoints}
-                      fillColor={
-                        selectedTicket === issue.id
-                          ? colors.primary[400]
-                          : 'white'
-                      }
-                    />
-                  )}
-                </div>
-                <Body1 className="font-semibold min-w-fit">{issue.name}</Body1>
-                <Body1 className="truncate text-ellipsis ">{issue.title}</Body1>
-                {issue.blocked === true && (
-                  <Pill variant="blocked">Blocked</Pill>
-                )}
-                {issue.tracking === true && (
-                  <Pill variant="tracking">Tracking time</Pill>
-                )}
-              </div>
-            ))}
+            <div className="flex flex-col items-center gap-4 py-4 px-6 md:py-6 w-full ">
+              {issues?.map((issue) => (
+                <TicketCard
+                  ticketId={issue.name}
+                  name={issue.title}
+                  priority={issue.priority}
+                  status={
+                    issue.blocked === true
+                      ? 'blocked'
+                      : issue.tracking === true
+                        ? 'tracking'
+                        : null
+                  }
+                  isProjectManager={isProjectManager}
+                  associatedUserProfile={issue.assignee?.profileUrl || ''}
+                  selectedCard={selectedTicketId === issue.id}
+                  storyPoints={issue.storyPoints}
+                  handleClick={() => {
+                    handleSelectedTicketId(issue.id)
+                  }}
+                  key={issue.id}
+                />
+              ))}
+            </div>
           </div>
         ))
       ) : (
@@ -161,4 +162,4 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
   )
 }
 
-export default TicketListSmallDisplay
+export default TicketList
