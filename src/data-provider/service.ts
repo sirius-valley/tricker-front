@@ -14,24 +14,25 @@ import type {
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
 import { mockedTicketDetail } from '@components/TicketDisplay/MockedTicketDetail'
-import express from 'express'
-import rateLimit from 'express-rate-limit'
+// import express from 'express'
+// import rateLimit from 'express-rate-limit'
 
 const url: string = config.apiUrl || 'http://localhost:8080/api'
 
 // setUpAxiosInterceptors(axios)
-
+/*
 const app = express()
 
 // Apply rate limiting middleware
 const limiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute window
-  max: 5, // Max 5 requests per minute
-  message: 'Too many requests from this IP, please try again later.'
+windowMs: 60 * 1000, // 1 minute window
+max: 5, // Max 5 requests per minute
+message: 'Too many requests from this IP, please try again later.'
 })
 
 // Apply rate limiting only to the /projects endpoint
 app.use('/projects', limiter)
+*/
 
 export const me = async (): Promise<User | null> => {
   const res = await axios.get(`${url}/user/me`, {
