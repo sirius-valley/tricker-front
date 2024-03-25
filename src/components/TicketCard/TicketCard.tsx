@@ -53,7 +53,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
             {ticketId}
           </Body2>
           <Body1
-            className={`max-w-[22vw] leading-[19.36px] truncate text-${activeColor(`white`)}`}
+            className={`${screen.width > 760 ? 'max-w-[22vw]' : 'max-w-[70vw]'} leading-[19.36px] truncate text-${activeColor(`white`)}`}
           >
             {name}
           </Body1>

@@ -115,7 +115,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
 
   return (
     <div
-      className={`w-[467px] h-full bg-gray-500 ${filteredIssues ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-full max-w-[467px] h-full bg-gray-500 ${filteredIssues ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-1">
@@ -129,7 +129,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
       {filteredIssues && filteredIssues.length !== 0 && !error ? (
         Object.entries(groupedByStageName).map(([key, issues]) => (
           <div key={key} className="text-white">
-            <div className="h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
+            <div className="h-[51px] w-full bg-white/5 items-center flex py-4 px-6 gap-2">
               <div
                 className={`w-3 h-3 rounded-full ${stageColor(StageType[issues[0].stage.type as unknown as keyof typeof StageType])}`}
               ></div>
@@ -141,7 +141,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
             {issues?.map((issue) => (
               <div
                 key={issue.id}
-                className={`h-[51px] border-l-[2px]  items-center flex py-4 px-6 gap-2 cursor-pointer ${selectedTicketId === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
+                className={`h-[51px] border-l-[2px] w-full items-center flex py-4 px-6 gap-2 cursor-pointer ${selectedTicketId === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
                 onClick={() => {
                   handleSelectedTicketId(issue.id)
                 }}
@@ -171,7 +171,9 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
                   )}
                 </div>
                 <Body1 className="font-semibold min-w-fit">{issue.name}</Body1>
-                <Body1 className="truncate text-ellipsis ">{issue.title}</Body1>
+                <Body1 className="w-[20vw] truncate text-ellipsis ">
+                  {issue.title}
+                </Body1>
                 {issue.blocked === true && (
                   <Pill variant="blocked">Blocked</Pill>
                 )}

@@ -5,8 +5,7 @@ import Body1 from '@utils/typography/body1/body1'
 import { GridList } from '@components/GridList/GridList'
 import { SearchBar } from '@components/SearchBar/SearchBar'
 import SquaredIconButton from '@components/SquaredIconButton/SquaredIconButton'
-import { FilterIcon, TeamIcon } from '@components/Icon'
-import H2 from '@utils/typography/h2/h2'
+import { FilterIcon } from '@components/Icon'
 import { priorityOptions, statusOptions } from './mockedFilterOptions'
 import Tag from '@components/Tag/Tag'
 import useDebounce from '@hooks/useDebounce'
@@ -139,11 +138,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       )}
     </div>
   ) : (
-    <div className="flex flex-col items-center justify-center gap-4 p-6 pb-4">
-      <div className="flex gap-2 items-center">
-        <TeamIcon />
-        <H2 className="text-xl leading-[22px] text-white">My Team</H2>
-      </div>
+    <div className="flex flex-col w-full items-center justify-center gap-4 p-6 pb-4">
       <div className="flex gap-4 items-center">
         <SearchBar
           handleValue={setSearchedValue}

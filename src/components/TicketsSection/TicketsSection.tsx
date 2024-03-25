@@ -2,6 +2,7 @@ import Chronology from '@components/Chronology/Chronology'
 import { MockedEvents } from '@components/Chronology/MockedEvents'
 import TicketDisplay from '@components/TicketDisplay/TicketDisplay'
 import TicketListWrapper from '@components/TicketListWrapper/TicketListWrapper'
+import useScreenSize from '@hooks/useScreenSize'
 import { useCurrentTicket, useUser } from '@redux/hooks'
 import { useNavigate } from 'react-router-dom'
 
@@ -13,11 +14,12 @@ const TicketsSection: React.FC = ({
   isProjectManager = false
 }: TicketsSectionProps): JSX.Element => {
   const user = useUser()
+  const screen = useScreenSize()
   const currentTicket = useCurrentTicket()
   const navigate = useNavigate()
   if (user.id === '') navigate('/login')
 
-  return (
+  return screen.width >= 768 ? (
     <div className="h-full w-full flex items-center">
       <TicketListWrapper />
       {currentTicket.id !== '' && (
@@ -34,6 +36,11 @@ const TicketsSection: React.FC = ({
           {/* <TimerComponent /> */}
         </div>
       )}
+    </div>
+  ) : (
+    <div className="h-full w-full flex items-center">
+      <TicketListWrapper />
+      {currentTicket.id !== '' && <></>}
     </div>
   )
 }
