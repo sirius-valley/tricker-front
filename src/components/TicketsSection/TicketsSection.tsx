@@ -46,7 +46,7 @@ const TicketsSection: React.FC = ({
       {currentTicket.id !== '' && (
         <div className="flex flex-col justify-between h-full w-full rounded-r-xl">
           <div className="overflow-y-hidden hover:overflow-y-auto h-full">
-            <div className="w-full h-full pt-[72px] px-10 flex flex-col gap-10">
+            <div className="w-full h-full pt-[72px] xl:px-10 px-5 flex flex-col gap-10">
               <TicketDisplay
                 issue={currentTicket}
                 variant={isProjectManager ? 'Project Manager' : 'Developer'}
