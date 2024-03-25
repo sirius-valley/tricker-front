@@ -10,9 +10,9 @@ import { Pill } from '@components/Pill/Pill'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import config from '../../../tailwind.config'
-import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 import { type TicketListProps } from '@components/TicketList/TicketList'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 
 const colors = config.theme.extend.colors
 

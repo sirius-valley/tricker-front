@@ -1,5 +1,11 @@
 import NotificationBadge from '@components/NotificationBadge/NotificationBadge'
-import React from 'react'
+import {
+  type ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
 
 interface SnackBar {
   message: string
@@ -13,10 +19,10 @@ interface SnackBarContextType {
   ) => void
 }
 
-const SnackbarContext = React.createContext<SnackBarContextType | null>(null)
+const SnackbarContext = createContext<SnackBarContextType | null>(null)
 
 export const useSnackBar = (): SnackBarContextType => {
-  const context = React.useContext(SnackbarContext)
+  const context = useContext(SnackbarContext)
   if (!context) {
     throw new Error('useSnackbar must be used within a SnackbarProvider')
   }
@@ -24,15 +30,15 @@ export const useSnackBar = (): SnackBarContextType => {
 }
 
 interface SnackBarProviderProps {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export const SnackBarProvider: React.FC<SnackBarProviderProps> = ({
   children
-}) => {
-  const [snackBars, setSnackBars] = React.useState<SnackBar[]>([])
+}: SnackBarProviderProps) => {
+  const [snackBars, setSnackBars] = useState<SnackBar[]>([])
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timer = setTimeout(() => {
       setSnackBars((prev) => prev.slice(1))
     }, 5000)
