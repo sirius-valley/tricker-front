@@ -194,9 +194,8 @@ export const getIssuesFilteredAndPaginated = async (
   }
   return []
 }
-export const getIssueById = async (
-  //ticketId: string
-): Promise<IssueDetail | null> => {
+export const getIssueById = async () // ticketId: string
+: Promise<IssueDetail | null> => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
   return mockedTicketDetail
 }

@@ -19,7 +19,7 @@ export const mockedTickets: IssueView[] = [
     storyPoints: 3,
     labels: [],
     blocked: true,
-    description: "Description 1",
+    description: 'Description 1'
   },
   {
     id: '2',
@@ -38,7 +38,7 @@ export const mockedTickets: IssueView[] = [
     priority: Priority.URGENT,
     storyPoints: 1,
     labels: [],
-    description: "Description 2",
+    description: 'Description 2'
   },
   {
     id: '3',
@@ -58,7 +58,7 @@ export const mockedTickets: IssueView[] = [
     priority: Priority.HIGH_PRIORITY,
     storyPoints: 2,
     labels: [],
-    description: "Description 3",
+    description: 'Description 3'
   },
   {
     id: '4',
@@ -77,7 +77,7 @@ export const mockedTickets: IssueView[] = [
     priority: Priority.MEDIUM_PRIORITY,
     storyPoints: 5,
     labels: [],
-    description: "Description 4",
+    description: 'Description 4'
   },
   {
     id: '5',
@@ -96,7 +96,7 @@ export const mockedTickets: IssueView[] = [
     priority: Priority.LOW_PRIORITY,
     storyPoints: 3,
     labels: [],
-    description: "Description 5",
+    description: 'Description 5'
   },
   {
     id: '6',
@@ -115,7 +115,7 @@ export const mockedTickets: IssueView[] = [
     priority: Priority.MEDIUM_PRIORITY,
     storyPoints: 5,
     labels: [],
-    description: "Description 6",
+    description: 'Description 6'
   },
   {
     id: '7',
@@ -134,7 +134,7 @@ export const mockedTickets: IssueView[] = [
     priority: Priority.LOW_PRIORITY,
     storyPoints: 2,
     labels: [],
-    description: "Description 7",
+    description: 'Description 7'
   },
   {
     id: '8',
@@ -153,7 +153,7 @@ export const mockedTickets: IssueView[] = [
     priority: Priority.LOW_PRIORITY,
     storyPoints: 3,
     labels: [],
-    description: "Description 8",
+    description: 'Description 8'
   },
   {
     id: '9',
@@ -172,7 +172,7 @@ export const mockedTickets: IssueView[] = [
     priority: Priority.URGENT,
     storyPoints: 3,
     labels: [],
-    description: "Description 9",
+    description: 'Description 9'
   },
   {
     id: '10',
@@ -191,6 +191,6 @@ export const mockedTickets: IssueView[] = [
     priority: Priority.LOW_PRIORITY,
     storyPoints: 2,
     labels: [],
-    description: "Description 10",
+    description: 'Description 10'
   }
 ]
