@@ -28,11 +28,11 @@ const Timer: React.FC<TimerProps> = ({
 }): JSX.Element => {
   const [paused, setPaused] = useState<boolean>(true)
   const [time, setTime] = useState<number>(elapsedTime)
-  const [showModalResume, setShowModalResume] = useState<boolean>(false)
   const [isBlocked, setIsBlocked] = useState<boolean>(blocked)
   const [modalVariant, setModalVariant] = useState<'add' | 'remove'>('add')
   const [showModalTime, setShowModalTime] = useState<boolean>(false)
   const [showModalBlock, setShowModalBlock] = useState<boolean>(false)
+  const [showModalResume, setShowModalResume] = useState<boolean>(false)
   const [showModalUnblock, setShowModalUnblock] = useState<boolean>(false)
 
   const { showSnackBar } = useSnackBar()
@@ -100,6 +100,7 @@ const Timer: React.FC<TimerProps> = ({
 
   useEffect(() => {
     if (successUnblock) {
+      showSnackBar('The ticket is now Unblocked', 'success')
       setIsBlocked(false)
       resetUnblock()
     }
