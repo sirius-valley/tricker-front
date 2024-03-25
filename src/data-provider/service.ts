@@ -275,6 +275,7 @@ export const getChronology = async (
   //   return res.data
   // }
   await new Promise((resolve) => setTimeout(resolve, 1000))
+  console.log(issueId)
   return [
     {
       id: '1',
@@ -299,9 +300,9 @@ export const getChronology = async (
     },
     {
       id: '1',
-      message: 'Blocked by other ticket',
+      message: 'Blocked by another ticket',
       comment: 'Blocked by TIK-292',
-      isBlocker: false,
+      isBlocker: true,
       date: new Date()
     },
     {

@@ -23,7 +23,7 @@ const Chronology: React.FC = () => {
   data?.sort((a, b) => a.date.getTime() - b.date.getTime())
 
   return (
-    <div className="flex flex-col gap-3 min-h-full text-white w-full">
+    <div className="flex flex-col gap-3 h-full text-white w-full">
       <H2 className="font-bold text-lg flex">Chronology</H2>
       {(isLoading || error) && (
         <div className="h-full flex items-center justify-center">
@@ -36,7 +36,7 @@ const Chronology: React.FC = () => {
         </div>
       )}
       {data && (
-        <div className="flex flex-col pr-6 h-full max-w-[660px]">
+        <div className="flex flex-col pr-6 min-h-full max-w-[660px]">
           {data?.map((event, index) => (
             <div
               key={index}
@@ -61,7 +61,7 @@ const Chronology: React.FC = () => {
                         event.date.getFullYear().toString().slice(-2)}
                   </HelperText>
                   <HelperText
-                    className={`${screen.width < 420 ? 'block' : 'hidden'}`}
+                    className={`${screen.width < 1000 ? 'block' : 'hidden'}`}
                   >
                     {event.date.getHours().toString().padStart(2, '0') +
                       ':' +
@@ -76,7 +76,7 @@ const Chronology: React.FC = () => {
                   <div className={`min-w-12 flex items-start gap-3`}>
                     <div className="flex mt-[1px]">
                       <HelperText
-                        className={`px-1 ${screen.width > 420 ? 'block' : 'hidden'}`}
+                        className={`px-1 ${screen.width > 1000 ? 'block' : 'hidden'}`}
                       >
                         {event.date.getHours().toString().padStart(2, '0') +
                           ':' +
@@ -91,15 +91,17 @@ const Chronology: React.FC = () => {
                     </div>
                   </div>
                   {event.comment && event.comment !== '' && (
-                    <div className="flex gap-2 pl-0 sm:pl-7 w-fit flex-nowrap">
-                      <div className="min-w-7 min-h-7">
-                        <ProfilePicture
-                          userName={currentTicket?.assignee?.name || ''}
-                          size="sm"
-                          img={currentTicket?.assignee?.profileUrl || ''}
-                          className="min-w-7 min-h-7"
-                        />
-                      </div>
+                    <div className="flex gap-2 pl-0 lg:pl-7 w-fit flex-nowrap">
+                      {screen.width > 1000 && (
+                        <div className="min-w-7 min-h-7">
+                          <ProfilePicture
+                            userName={currentTicket?.assignee?.name || ''}
+                            size="sm"
+                            img={currentTicket?.assignee?.profileUrl || ''}
+                            className="min-w-7 min-h-7"
+                          />
+                        </div>
+                      )}
                       <div className="bg-gray-400 p-3 rounded-xl flex flex-col gap-1 w-full">
                         <Body2 className="font-semibold text-sm">
                           {currentTicket?.assignee?.name}

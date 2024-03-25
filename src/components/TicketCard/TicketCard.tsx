@@ -7,7 +7,7 @@ import Body2 from '@utils/typography/body2/body2'
 import React from 'react'
 import config from '../../../tailwind.config'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
-import { Priority } from '@utils/types'
+import { Priority, type UserIssue } from '@utils/types'
 
 export interface TicketCardProps {
   ticketId: string
@@ -17,7 +17,7 @@ export interface TicketCardProps {
   priority?: Priority
   elapsedTime?: number
   isProjectManager?: boolean
-  associatedUserProfile: string
+  associatedUserProfile: UserIssue | null
   selectedCard: boolean
   storyPoints: number | null
   handleClick: () => void
@@ -42,10 +42,10 @@ const TicketCard: React.FC<TicketCardProps> = ({
   }
   return (
     <button
-      className={`md:w-full w-full h-[114px] bg-${activeColor(`white`)} bg-opacity-5 border border-${activeColor(`gray-400`)} py-4 px-6 gap-4 rounded-xl flex flex-col`}
+      className={`w-full h-[114px] bg-${activeColor(`white`)} bg-opacity-5 border border-${activeColor(`gray-400`)} py-4 px-6 gap-4 rounded-xl flex flex-col`}
       onClick={handleClick}
     >
-      <div className={`flex justify-start items-start gap-1`}>
+      <div className={`flex justify-start items-start gap-1 w-full`}>
         <span
           className={`flex flex-col text-left gap-2 w-full md:w-full h-[46px]`}
         >
@@ -53,14 +53,18 @@ const TicketCard: React.FC<TicketCardProps> = ({
             {ticketId}
           </Body2>
           <Body1
-            className={`${screen.width > 760 ? 'max-w-[22vw]' : 'max-w-[70vw]'} leading-[19.36px] truncate text-${activeColor(`white`)}`}
+            className={`max-w-[22vw] xl:max-w-[70vw] min-w-full leading-[19.36px] truncate text-${activeColor(`white`)}`}
           >
             {name}
           </Body1>
         </span>
         {isProjectManager && (
           <div className="min-w-7">
-            <ProfilePicture img={associatedUserProfile} size={'sm'} />
+            <ProfilePicture
+              img={associatedUserProfile?.profileUrl || ''}
+              userName={associatedUserProfile?.name || ''}
+              size={'sm'}
+            />
           </div>
         )}
       </div>

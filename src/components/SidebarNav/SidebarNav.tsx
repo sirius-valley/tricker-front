@@ -123,7 +123,8 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
             <div className="flex items-center p-2 gap-3 max-w-[224px]">
               <ProfilePicture
                 className="min-w-10 min-h-10"
-                img={user?.profileImage}
+                img={user?.profileImage || ''}
+                userName={user.name || ''}
               />
               {screen.width > 1024 && (
                 <Body1 className="text-white overflow-hidden overflow-ellipsis whitespace-nowrap">

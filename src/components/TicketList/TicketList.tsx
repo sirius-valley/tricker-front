@@ -150,7 +150,7 @@ const TicketList: React.FC<TicketListProps> = ({
                         : null
                   }
                   isProjectManager={isProjectManager}
-                  associatedUserProfile={issue.assignee?.profileUrl || ''}
+                  associatedUserProfile={issue.assignee || null}
                   selectedCard={currentTicket.id === issue.id}
                   storyPoints={issue.storyPoints}
                   handleClick={() => {

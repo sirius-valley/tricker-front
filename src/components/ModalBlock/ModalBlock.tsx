@@ -8,7 +8,7 @@ import Button from '@components/Button/Button'
 import { usePostBlock } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Spinner from '@components/Spinner/Spinner'
-import { useCurrentTicketId } from '@redux/hooks'
+import { useCurrentTicket } from '@redux/hooks'
 
 interface ModalBlockProps {
   onClose: () => void
@@ -20,7 +20,7 @@ const ModalBlock: React.FC<ModalBlockProps> = ({ onClose, show }) => {
   const [selectedComment, setSelectedComment] = useState<string>('')
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
 
-  const ticketId = useCurrentTicketId()
+  const currentTicket = useCurrentTicket()
 
   const blockReasons: string[] = [
     'Blocked by another ticket',
@@ -76,7 +76,11 @@ const ModalBlock: React.FC<ModalBlockProps> = ({ onClose, show }) => {
 
   const handleSubmitBlock = (): void => {
     if (selectedReason) {
-      mutate({ ticketId, reason: selectedReason, comment: selectedComment })
+      mutate({
+        ticketId: currentTicket.id,
+        reason: selectedReason,
+        comment: selectedComment
+      })
     }
   }
 

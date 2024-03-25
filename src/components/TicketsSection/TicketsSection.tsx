@@ -8,13 +8,14 @@ import { useAppDispatch, useCurrentTicket, useUser } from '@redux/hooks'
 import { setCurrentTicket } from '@redux/user'
 import { Priority, StageType } from '@utils/types'
 import { useNavigate } from 'react-router-dom'
+import Timer from '@components/Timer/Timer'
 
 export interface TicketsSectionProps {
   isProjectManager?: boolean
 }
 
 const TicketsSection: React.FC = ({
-  isProjectManager = false
+  isProjectManager = true
 }: TicketsSectionProps): JSX.Element => {
   const user = useUser()
   const screen = useScreenSize()
@@ -43,9 +44,9 @@ const TicketsSection: React.FC = ({
     <div className="h-full w-full flex items-center">
       <TicketListWrapper currentTicket={currentTicket} />
       {currentTicket.id !== '' && (
-        <div className="flex flex-col h-full w-full rounded-r-xl">
-          <div className="overflow-y-hidden hover:overflow-y-auto">
-            <div className="w-full h-full py-[72px] px-8 flex flex-col gap-10">
+        <div className="flex flex-col justify-between h-full w-full rounded-r-xl">
+          <div className="overflow-y-hidden hover:overflow-y-auto h-full">
+            <div className="w-full h-full pt-[72px] px-8 flex flex-col gap-10">
               <TicketDisplay
                 issue={currentTicket}
                 variant={isProjectManager ? 'Project Manager' : 'Developer'}
@@ -53,7 +54,7 @@ const TicketsSection: React.FC = ({
               <Chronology />
             </div>
           </div>
-          {/* <TimerComponent /> */}
+          <Timer ticketId={currentTicket.name} />
         </div>
       )}
     </div>
@@ -62,7 +63,7 @@ const TicketsSection: React.FC = ({
       <TicketListWrapper currentTicket={currentTicket} />
       {currentTicket.id !== '' && (
         <Modal onClose={deselectCurrentTicket} show={currentTicket.id !== ''}>
-          <div className="max-h-[70vh] flex flex-col bg-gray-700 items-center h-full w-full rounded-r-xl">
+          <div className="max-h-[70vh] flex flex-col bg-gray-700 items-center h-full w-full">
             <div className="overflow-y-auto">
               <button
                 onClick={deselectCurrentTicket}
@@ -78,7 +79,7 @@ const TicketsSection: React.FC = ({
                 <Chronology />
               </div>
             </div>
-            {/* <TimerComponent /> */}
+            <Timer ticketId={currentTicket.name} />
           </div>
         </Modal>
       )}

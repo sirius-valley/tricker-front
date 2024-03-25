@@ -47,6 +47,7 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
         {variant === 'Project Manager' && (
           <div className="flex gap-2 items-center">
             <ProfilePicture
+              userName={issue.assignee?.name || ''}
               img={issue.assignee?.profileUrl ? issue.assignee.profileUrl : ''}
               size={'sm'}
             />
