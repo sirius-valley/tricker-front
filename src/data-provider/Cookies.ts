@@ -19,9 +19,9 @@ export const setLoginCookies = (response: CognitoResponse): void => {
 }
 
 export const removeLoginCookies = (): void => {
-  cookies.remove('id_token')
-  cookies.remove('access_token')
-  cookies.remove('refresh_token')
+  cookies.remove('id_token', { path: '/' })
+  cookies.remove('access_token', { path: '/' })
+  cookies.remove('refresh_token', { path: '/' })
 }
 
 export const getTokens = (): Tokens => {
