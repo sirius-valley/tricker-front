@@ -36,7 +36,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   return (
     <div className="flex flex-col items-center flex-1 w-fit max-w-[224px] h-screen pt-10 gap-20 bg-gray-500">
       <NavLink to="/">
-        <div className="flex items-center h-[30px] gap-2 lg:px-6 cursor-pointer">
+        <div className="w-full flex items-center pr-4 h-[30px] gap-2 cursor-pointer">
           <TrickerLogo height="30" width="30" />
           {screen.width > 1024 && <TrickerTitle height="19" width="83" />}
         </div>
