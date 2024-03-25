@@ -36,7 +36,7 @@ const Chronology: React.FC = () => {
         </div>
       )}
       {data && (
-        <div className="flex flex-col pr-6 min-h-full max-w-[660px]">
+        <div className="flex flex-col pr-6 min-h-full">
           {data?.map((event, index) => (
             <div
               key={index}
@@ -91,7 +91,7 @@ const Chronology: React.FC = () => {
                     </div>
                   </div>
                   {event.comment && event.comment !== '' && (
-                    <div className="flex gap-2 pl-0 lg:pl-7 w-fit flex-nowrap">
+                    <div className="flex gap-2 pl-0 lg:pl-7 w-full flex-nowrap">
                       {screen.width > 1000 && (
                         <div className="min-w-7 min-h-7">
                           <ProfilePicture
@@ -106,7 +106,7 @@ const Chronology: React.FC = () => {
                         <Body2 className="font-semibold text-sm">
                           {currentTicket?.assignee?.name}
                         </Body2>
-                        <Body1 className="min-w-fit flex text-sm">
+                        <Body1 className="min-w-fit w-full flex text-sm">
                           &quot;{event.comment}&quot;
                         </Body1>
                       </div>
