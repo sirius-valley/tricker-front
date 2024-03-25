@@ -12,7 +12,6 @@ import { usePostTimerAction, usePostUnblock } from '@data-provider/query'
 import ModalBlock from '@components/ModalBlock/ModalBlock'
 import ModalUnblock from '@components/ModalUnblock/ModalUnblock'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
-import useScreenSize from '@hooks/useScreenSize'
 
 export interface TimerProps {
   ticketId: string
@@ -37,7 +36,6 @@ const Timer: React.FC<TimerProps> = ({
   const [showModalUnblock, setShowModalUnblock] = useState<boolean>(false)
 
   const { showSnackBar } = useSnackBar()
-  const screen = useScreenSize()
 
   const {
     mutate: mutateTimer,
@@ -122,7 +120,7 @@ const Timer: React.FC<TimerProps> = ({
   }, [successUnblock, successTimer, errorUnblock, errorTimer])
 
   return (
-    <div className="w-full self-end h-32 bg-gray-500 xl:px-10 px-5 items-center lg:flex text-white hidden md:rounded-br-xl border-t border-white/10">
+    <div className="w-full self-end h-32 md:bg-gray-500  bg-gray-700 xl:px-10 py-4 px-5 items-center flex text-white md:rounded-br-xl border-t border-white/10">
       <ModalResume
         onResume={() => {
           handleModalResume()
@@ -166,7 +164,7 @@ const Timer: React.FC<TimerProps> = ({
             :{('0' + Math.floor((time / 60000) % 60)).slice(-2)}hs
           </H1>
         </div>
-        <div className="flex w-fit xl:gap-4 gap-2 items-center justify-center">
+        <div className="flex w-fit gap-4 items-center justify-center">
           {!paused ? (
             <Tooltip content={'Stop the timer before substracting time'}>
               <RoundedIconButton
@@ -180,7 +178,7 @@ const Timer: React.FC<TimerProps> = ({
             <RoundedIconButton
               className="w-11 h-11"
               icon={<SubstractTimeIcon />}
-              size={screen.width > 1280 ? 'lg' : 'sm'}
+              size="lg"
               variant={'default'}
               onClick={() => {
                 setModalVariant('remove')
@@ -193,7 +191,7 @@ const Timer: React.FC<TimerProps> = ({
               <RoundedIconButton
                 className="w-11 h-11"
                 icon={<AddTimeIcon />}
-                size={screen.width > 1280 ? 'lg' : 'sm'}
+                size="lg"
                 variant={'disabled'}
               />
             </Tooltip>
@@ -201,7 +199,7 @@ const Timer: React.FC<TimerProps> = ({
             <RoundedIconButton
               className="w-11 h-11"
               icon={<AddTimeIcon />}
-              size={screen.width > 1280 ? 'lg' : 'sm'}
+              size="lg"
               variant={'default'}
               onClick={() => {
                 setModalVariant('add')
@@ -214,7 +212,7 @@ const Timer: React.FC<TimerProps> = ({
               <RoundedIconButton
                 className="w-11 h-11"
                 icon={<BlockedIcon />}
-                size={screen.width > 1280 ? 'lg' : 'sm'}
+                size="lg"
                 variant={'disabled'}
               />
             </Tooltip>
@@ -222,7 +220,7 @@ const Timer: React.FC<TimerProps> = ({
             <RoundedIconButton
               className="w-11 h-11"
               icon={<BlockedIcon />}
-              size={screen.width > 1280 ? 'lg' : 'sm'}
+              size="lg"
               variant={isBlocked ? 'blocked' : 'default'}
               onClick={
                 isBlocked
@@ -234,7 +232,7 @@ const Timer: React.FC<TimerProps> = ({
             />
           )}
           <GradientRoundedButton
-            size={screen.width > 1280 ? 'lg' : 'md'}
+            size="lg"
             icon={
               <Icon name={paused ? 'PlayIcon' : 'StopIcon'} fillColor="black" />
             }

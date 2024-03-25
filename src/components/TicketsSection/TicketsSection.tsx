@@ -59,12 +59,17 @@ const TicketsSection: React.FC = ({
       )}
     </div>
   ) : (
-    <div className="h-full w-full flex items-center">
+    <div className="h-full w-full flex items-center ">
       <TicketListWrapper currentTicket={currentTicket} />
       {currentTicket.id !== '' && (
         <Modal onClose={deselectCurrentTicket} show={currentTicket.id !== ''}>
-          <div className="max-h-[70vh] flex flex-col bg-gray-700 items-center h-full w-full">
-            <div className="overflow-y-auto">
+          <div className="max-h-[70vh] flex flex-col bg-gray-700 items-center h-full w-full border-t ">
+            <div
+              className="overflow-y-auto"
+              style={{
+                boxShadow: 'inset 0px -104px 47px 0px rgba(0,0,0,1);'
+              }}
+            >
               <button
                 onClick={deselectCurrentTicket}
                 className="-rotate-90 hover:bg-gray-500 absolute top-0 left-0 rounded-full m-4"
