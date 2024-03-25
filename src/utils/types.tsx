@@ -379,3 +379,9 @@ export interface OptionalIssueFilters {
   isOutOfEstimation?: boolean
   cursor?: string
 }
+
+export interface ModifyTimeData {
+  selectedTime: number
+  selectedReason: string
+  inputDate: string
+}

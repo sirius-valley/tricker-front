@@ -6,10 +6,10 @@ import type {
   ProjectPreIntegrated,
   MemberPreIntegrated,
   AuthorizationRequest,
-  Project,
   IssueView,
   OptionalIssueFilters,
-  IssueDetail
+  IssueDetail,
+  ModifyTimeData
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -31,7 +31,7 @@ export const me = async (): Promise<User | null> => {
   return null
 }
 
-export const getUserProjects = async (): Promise<Project[] | null> => {
+export const getUserProjects = async (): Promise<User | null> => {
   const res = await axios.get(`${url}/user/me`, {
     headers: {
       Authorization: 'Bearer ' + getAccessToken()
@@ -64,6 +64,7 @@ export const getOrCreateUser = async (): Promise<User | null> => {
 export const verifyToken = async (
   code: string
 ): Promise<CognitoResponse | null> => {
+  if (code === '') return null
   const params = new URLSearchParams()
   params.append('grant_type', 'authorization_code')
   params.append('client_id', config.cognitoClientId)
@@ -112,6 +113,29 @@ export const getPreIntegratedMembers = async (
     `${url}/integration/linear/project/${projectId}/members`,
     {
       apiToken
+    },
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const postModifyTime = async (
+  data: ModifyTimeData,
+  variant: 'add' | 'subtract'
+): Promise<any> => {
+  console.log(data)
+  console.log(`${url}/${variant}-time`)
+  const res = await axios.post(
+    `${url}/${variant}-time`,
+    {
+      data
     },
     {
       headers: {
