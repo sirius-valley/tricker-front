@@ -61,17 +61,17 @@ export const Dropdown: React.FC<DropdownProps> = ({
           className="relative w-full cursor-pointer py-2 lg:px-8 flex items-center justify-between focus:outline-none gap-1"
         >
           <span className="flex items-center gap-2 w-fit">
-            {selectedProject.image ? (
+            {selectedProject?.image ? (
               <img
-                src={selectedProject.image}
+                src={selectedProject?.image}
                 className="h-[32px] w-[32px] rounded-sm"
               />
             ) : (
-              <NoAvatarProject text={selectedProject.title} />
+              <NoAvatarProject text={selectedProject?.title} />
             )}
             {showText && (
               <Body2 className="text-white font-semibold overflow-hidden overflow-ellipsis whitespace-nowrap">
-                {selectedProject.title}
+                {selectedProject?.title}
               </Body2>
             )}
           </span>
@@ -97,7 +97,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                     width="20"
                     height="20"
                     fillColor={
-                      selectedProject.id === option.id
+                      selectedProject?.id === option.id
                         ? colors.primary[400]
                         : 'transparent'
                     }

@@ -96,7 +96,7 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
         >
           <FormattedText text={issue.description} />
         </div>
-        {hasOverflow && !showFullText && (
+        {issue.description && hasOverflow && !showFullText && (
           <button className="underline" onClick={toggleTextVisibility}>
             See more
           </button>

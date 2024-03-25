@@ -1,5 +1,4 @@
 import Chronology from '@components/Chronology/Chronology'
-import { MockedEvents } from '@components/Chronology/MockedEvents'
 import Icon from '@components/Icon/Icon'
 import { Modal } from '@components/Modal/Modal'
 import TicketDisplay from '@components/TicketDisplay/TicketDisplay'
@@ -44,14 +43,14 @@ const TicketsSection: React.FC = ({
     <div className="h-full w-full flex items-center">
       <TicketListWrapper currentTicket={currentTicket} />
       {currentTicket.id !== '' && (
-        <div className="flex flex-col items-center h-full w-full rounded-r-xl">
+        <div className="flex flex-col h-full w-full rounded-r-xl">
           <div className="overflow-y-hidden hover:overflow-y-auto">
             <div className="w-full h-full py-[72px] px-8 flex flex-col gap-10">
               <TicketDisplay
                 issue={currentTicket}
                 variant={isProjectManager ? 'Project Manager' : 'Developer'}
               />
-              <Chronology events={MockedEvents} />
+              <Chronology />
             </div>
           </div>
           {/* <TimerComponent /> */}
@@ -76,7 +75,7 @@ const TicketsSection: React.FC = ({
                   issue={currentTicket}
                   variant={isProjectManager ? 'Project Manager' : 'Developer'}
                 />
-                <Chronology events={MockedEvents} />
+                <Chronology />
               </div>
             </div>
             {/* <TimerComponent /> */}

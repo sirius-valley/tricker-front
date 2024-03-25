@@ -49,7 +49,7 @@ const NotificationBadge: React.FC<NotificationBadgeProps> = ({
       className={notificationBadgeVariants({ variant, className })}
       {...props}
     >
-      <Body1 className={'text-[14px] leading-[15.4px] text-wrap'}>
+      <Body1 className={'text-[14px] leading-[15.4px] text-wrap w-full'}>
         {children}
       </Body1>
       {handleClose && (

@@ -8,12 +8,13 @@ import useScreenSize from '@hooks/useScreenSize'
 import { useGetChronology } from '@data-provider/query'
 import { useCurrentTicket } from '@redux/hooks'
 import Spinner from '@components/Spinner/Spinner'
+import NotificationBadge from '@components/NotificationBadge/NotificationBadge'
 
 const Chronology: React.FC = () => {
   const screen = useScreenSize()
   const currentTicket = useCurrentTicket()
 
-  const { data, isLoading } = useGetChronology(currentTicket?.id)
+  const { data, isLoading, error } = useGetChronology(currentTicket?.id)
 
   data?.forEach((event) => {
     event.date = new Date(event.date)
@@ -22,9 +23,18 @@ const Chronology: React.FC = () => {
   data?.sort((a, b) => a.date.getTime() - b.date.getTime())
 
   return (
-    <div className="flex flex-col gap-3 h-[400px] text-white w-full">
+    <div className="flex flex-col gap-3 min-h-full text-white w-full">
       <H2 className="font-bold text-lg flex">Chronology</H2>
-      {isLoading && <Spinner variant="primary" size={50} />}
+      {(isLoading || error) && (
+        <div className="h-full flex items-center justify-center">
+          {isLoading && <Spinner variant="primary" size={50} />}
+          {error && (
+            <NotificationBadge variant="error" className="w-fit items-center">
+              We had a problem loading the chronology, please try again later.
+            </NotificationBadge>
+          )}
+        </div>
+      )}
       {data && (
         <div className="flex flex-col pr-6 h-full max-w-[660px]">
           {data?.map((event, index) => (
@@ -84,14 +94,15 @@ const Chronology: React.FC = () => {
                     <div className="flex gap-2 pl-0 sm:pl-7 w-fit flex-nowrap">
                       <div className="min-w-7 min-h-7">
                         <ProfilePicture
+                          userName={currentTicket?.assignee?.name || ''}
                           size="sm"
-                          img="https://th.bing.com/th/id/OIP.IGNf7GuQaCqz_RPq5wCkPgAAAA?rs=1&pid=ImgDetMain"
+                          img={currentTicket?.assignee?.profileUrl || ''}
                           className="min-w-7 min-h-7"
                         />
                       </div>
                       <div className="bg-gray-400 p-3 rounded-xl flex flex-col gap-1 w-full">
                         <Body2 className="font-semibold text-sm">
-                          User Name
+                          {currentTicket?.assignee?.name}
                         </Body2>
                         <Body1 className="min-w-fit flex text-sm">
                           &quot;{event.comment}&quot;

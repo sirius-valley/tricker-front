@@ -13,7 +13,7 @@ const FormattedText: React.FC<FormattedTextProps> = ({
     <></>
   ) : (
     <>
-      {text.split('\n').map((paragraph, index) => {
+      {text?.split('\n').map((paragraph, index) => {
         if (bulletRegex.test(paragraph)) {
           return (
             <li key={index}>
