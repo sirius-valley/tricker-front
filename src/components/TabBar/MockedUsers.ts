@@ -1,4 +1,4 @@
-import { UserProjectRole } from '@utils/types'
+import { type UserProjectRole } from '@utils/types'
 
 export const mockedUsers: UserProjectRole[] = [
   {

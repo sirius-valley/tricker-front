@@ -33,7 +33,7 @@ type Story = StoryObj<typeof TabBar>
 export const Default: Story = {
   tags: ['autodocs'],
   args: {
-      users: mockedUsers
+    users: mockedUsers
   },
 
   render: (args) => (
