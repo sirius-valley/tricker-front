@@ -1,9 +1,13 @@
 import Chronology from '@components/Chronology/Chronology'
 import { MockedEvents } from '@components/Chronology/MockedEvents'
+import Icon from '@components/Icon/Icon'
+import { Modal } from '@components/Modal/Modal'
 import TicketDisplay from '@components/TicketDisplay/TicketDisplay'
 import TicketListWrapper from '@components/TicketListWrapper/TicketListWrapper'
 import useScreenSize from '@hooks/useScreenSize'
-import { useCurrentTicket, useUser } from '@redux/hooks'
+import { useAppDispatch, useCurrentTicket, useUser } from '@redux/hooks'
+import { setCurrentTicket } from '@redux/user'
+import { Priority, StageType } from '@utils/types'
 import { useNavigate } from 'react-router-dom'
 
 export interface TicketsSectionProps {
@@ -16,12 +20,29 @@ const TicketsSection: React.FC = ({
   const user = useUser()
   const screen = useScreenSize()
   const currentTicket = useCurrentTicket()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   if (user.id === '') navigate('/login')
 
+  const deselectCurrentTicket = (): void => {
+    dispatch(
+      setCurrentTicket({
+        id: '',
+        assignee: null,
+        stage: { id: '', name: '', type: StageType.BACKLOG },
+        name: '',
+        title: '',
+        description: '',
+        priority: Priority.NO_PRIORITY,
+        storyPoints: 0,
+        labels: []
+      })
+    )
+  }
+
   return screen.width >= 768 ? (
     <div className="h-full w-full flex items-center">
-      <TicketListWrapper />
+      <TicketListWrapper currentTicket={currentTicket} />
       {currentTicket.id !== '' && (
         <div className="flex flex-col items-center h-full w-full rounded-r-xl">
           <div className="overflow-y-hidden hover:overflow-y-auto">
@@ -39,8 +60,29 @@ const TicketsSection: React.FC = ({
     </div>
   ) : (
     <div className="h-full w-full flex items-center">
-      <TicketListWrapper />
-      {currentTicket.id !== '' && <></>}
+      <TicketListWrapper currentTicket={currentTicket} />
+      {currentTicket.id !== '' && (
+        <Modal onClose={deselectCurrentTicket} show={currentTicket.id !== ''}>
+          <div className="max-h-[70vh] flex flex-col bg-gray-700 items-center h-full w-full rounded-r-xl">
+            <div className="overflow-y-auto">
+              <button
+                onClick={deselectCurrentTicket}
+                className="-rotate-90 hover:bg-gray-500 absolute top-0 left-0 rounded-full m-4"
+              >
+                <Icon name="CaretUpIcon" width="32" height="32" />
+              </button>
+              <div className="w-full h-full py-[72px] px-8 flex flex-col gap-10">
+                <TicketDisplay
+                  issue={currentTicket}
+                  variant={isProjectManager ? 'Project Manager' : 'Developer'}
+                />
+                <Chronology events={MockedEvents} />
+              </div>
+            </div>
+            {/* <TimerComponent /> */}
+          </div>
+        </Modal>
+      )}
     </div>
   )
 }

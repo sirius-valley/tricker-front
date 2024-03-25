@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { StageType, type IssueView, Priority } from '@utils/types'
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
-import {
-  useAppDispatch,
-  useCurrentProjectId,
-  useCurrentTicket,
-  useUser
-} from '@redux/hooks'
+import { useAppDispatch, useCurrentProjectId, useUser } from '@redux/hooks'
 import Body2 from '@utils/typography/body2/body2'
 import Body1 from '@utils/typography/body1/body1'
 import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
@@ -23,7 +18,8 @@ import { setCurrentTicket } from '@redux/user'
 const colors = config.theme.extend.colors
 
 const TicketListSmallDisplay: React.FC<TicketListProps> = ({
-  searchedTicket
+  searchedTicket,
+  currentTicket
 }: TicketListProps): JSX.Element => {
   const { showSnackBar } = useSnackBar()
   const selectedProjectId = useCurrentProjectId()
@@ -38,11 +34,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
   //   cursor
   // }
   // } // Replace with filter props and parse it to OptionalIssueFilters
-  const currentTicket = useCurrentTicket()
   const dispatch = useAppDispatch()
-  const [selectedTicketId, setSelectedTicketId] = useState<string>(
-    currentTicket.id
-  )
   const user = useUser()
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
     user.id,
@@ -93,7 +85,6 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
   }
 
   const handleSelectedTicketId = (ticketId: string): void => {
-    setSelectedTicketId(ticketId)
     if (filteredIssues) {
       const selectedTicked = filteredIssues.find(
         (issue: IssueView) => issue.id === ticketId
@@ -141,7 +132,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
             {issues?.map((issue) => (
               <div
                 key={issue.id}
-                className={`h-[51px] border-l-[2px] w-full items-center flex py-4 px-6 gap-2 cursor-pointer ${selectedTicketId === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
+                className={`h-[51px] border-l-[2px] w-full items-center flex py-4 px-6 gap-2 cursor-pointer ${currentTicket.id === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
                 onClick={() => {
                   handleSelectedTicketId(issue.id)
                 }}
@@ -154,7 +145,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
                       ]
                     }
                     fillColor={
-                      selectedTicketId === issue.id
+                      currentTicket.id === issue.id
                         ? colors.primary[400]
                         : 'white'
                     }
@@ -163,7 +154,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
                     <StoryPointsIcon
                       points={issue.storyPoints}
                       fillColor={
-                        selectedTicketId === issue.id
+                        currentTicket.id === issue.id
                           ? colors.primary[400]
                           : 'white'
                       }

@@ -1,14 +1,9 @@
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
-import {
-  useAppDispatch,
-  useCurrentProjectId,
-  useCurrentTicket,
-  useUser
-} from '@redux/hooks'
+import { useAppDispatch, useCurrentProjectId, useUser } from '@redux/hooks'
 import { type IssueView, StageType } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
 import Body2 from '@utils/typography/body2/body2'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
 import { setCurrentTicket } from '@redux/user'
@@ -21,11 +16,13 @@ export interface TicketListProps {
   searchedTicket: string
   isOutOfEstimation: boolean
   isProjectManager: boolean
+  currentTicket: IssueView
 }
 
 const TicketList: React.FC<TicketListProps> = ({
   isProjectManager,
-  searchedTicket
+  searchedTicket,
+  currentTicket
 }: TicketListProps): JSX.Element => {
   const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
@@ -41,12 +38,7 @@ const TicketList: React.FC<TicketListProps> = ({
   // }
   // } // Replace with filter props and parse it to OptionalIssueFilters
   const user = useUser()
-  const currentTicket = useCurrentTicket()
   const dispatch = useAppDispatch()
-
-  const [selectedTicketId, setSelectedTicketId] = useState<string>(
-    currentTicket.id
-  )
 
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
     user.id,
@@ -96,7 +88,6 @@ const TicketList: React.FC<TicketListProps> = ({
     }
   }
   const handleSelectedTicketId = (ticketId: string): void => {
-    setSelectedTicketId(ticketId)
     if (filteredIssues) {
       const selectedTicked = filteredIssues.find(
         (issue: IssueView) => issue.id === ticketId
@@ -160,7 +151,7 @@ const TicketList: React.FC<TicketListProps> = ({
                   }
                   isProjectManager={isProjectManager}
                   associatedUserProfile={issue.assignee?.profileUrl || ''}
-                  selectedCard={selectedTicketId === issue.id}
+                  selectedCard={currentTicket.id === issue.id}
                   storyPoints={issue.storyPoints}
                   handleClick={() => {
                     handleSelectedTicketId(issue.id)

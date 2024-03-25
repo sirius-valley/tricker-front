@@ -3,8 +3,15 @@ import { type OptionAttr } from '@components/Filter/Filter'
 import TicketList from '@components/TicketList/TicketList'
 import { useState } from 'react'
 import TicketListSmallDisplay from '@components/TicketListSmallDisplay/TicketListSmallDisplay'
+import { type IssueView } from '@utils/types'
 
-const TicketListWrapper = (): JSX.Element => {
+interface TicketListWrapperProps {
+  currentTicket: IssueView
+}
+
+const TicketListWrapper: React.FC<TicketListWrapperProps> = ({
+  currentTicket
+}: TicketListWrapperProps): JSX.Element => {
   const [selectedFilters, setSelectedFilters] = useState<OptionAttr[]>([])
   const [searchedTicket, setSearchedTicket] = useState<string>('')
   const [outOfEstimation, setOutOfEstimation] = useState<boolean>(false)
@@ -26,6 +33,7 @@ const TicketListWrapper = (): JSX.Element => {
           searchedTicket={searchedTicket}
           isOutOfEstimation={outOfEstimation}
           isProjectManager={false}
+          currentTicket={currentTicket}
         />
       )}
       {view === 'list' && (
@@ -34,6 +42,7 @@ const TicketListWrapper = (): JSX.Element => {
           searchedTicket={searchedTicket}
           isOutOfEstimation={outOfEstimation}
           isProjectManager={false}
+          currentTicket={currentTicket}
         />
       )}
     </div>
