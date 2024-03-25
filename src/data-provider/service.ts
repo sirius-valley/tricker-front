@@ -223,7 +223,7 @@ export const postTimerAction = async (
 export const postBlock = async (
   ticketId: string,
   reason: string,
-  comment: string
+  comment: string | null
 ): Promise<any> => {
   const res = await axios.post(
     `${url}/issue/${ticketId}/flag/add`,

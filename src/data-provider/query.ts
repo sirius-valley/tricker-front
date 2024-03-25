@@ -209,7 +209,11 @@ export const usePostTimerAction = (): {
 }
 
 export const usePostBlock = (): {
-  mutate: (args: { ticketId: string; reason: string; comment: string }) => void
+  mutate: (args: {
+    ticketId: string
+    reason: string
+    comment: string | null
+  }) => void
   reset: () => void
   error: Error | null
   isPending: boolean
@@ -223,7 +227,7 @@ export const usePostBlock = (): {
     }: {
       ticketId: string
       reason: string
-      comment: string
+      comment: string | null
     }) => {
       return await ApiService.postBlock(ticketId, reason, comment)
     }
