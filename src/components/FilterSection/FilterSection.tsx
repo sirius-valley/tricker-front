@@ -88,7 +88,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   }
   return screen.width >= 768 ? (
     <div className="flex flex-col justify-center">
-      <div className="w-[467px] rounded-tl-xl bg-gray-500 border-b border-white/10 flex items-center gap-8 p-[22px] pl-6">
+      <div className="max-w-[467px] h-fit rounded-tl-xl bg-gray-500 border-b border-white/10 flex flex-wrap items-center justify-center gap-8 p-[22px] pl-6">
         <div className="flex w-fit gap-2 items-center">
           <Body1 className="text-[17px] leading-[22px] text-white">
             Assigned to me
@@ -125,7 +125,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
         </div>
       </div>
       {selectedOptions.length !== 0 && (
-        <div className="w-[467px] h-fit border border-white-10 bg-gray-500 flex flex-wrap items-center gap-2 py-4 px-6">
+        <div className="max-w-[467px] h-fit border border-white-10 bg-gray-500 flex flex-wrap items-center gap-2 py-4 px-6">
           {selectedOptions.map((option: OptionAttr, index: number) => (
             <Tag
               handleRemove={() => {
@@ -139,8 +139,8 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       )}
     </div>
   ) : (
-    <div className=" flex flex-col justify-center gap-4 p-6 pb-4">
-      <div className="flex w-fit gap-2 items-center">
+    <div className="flex flex-col items-center justify-center gap-4 p-6 pb-4">
+      <div className="flex gap-2 items-center">
         <TeamIcon />
         <H2 className="text-xl leading-[22px] text-white">My Team</H2>
       </div>

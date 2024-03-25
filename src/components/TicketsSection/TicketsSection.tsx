@@ -22,8 +22,8 @@ const TicketsSection: React.FC = ({
       <TicketListWrapper />
       {currentTicket.id !== '' && (
         <div className="flex flex-col items-center h-full w-full rounded-r-xl">
-          <div className="overflow-y-auto">
-            <div className="w-full h-full py-[72px] px-10 flex flex-col gap-10">
+          <div className="overflow-y-hidden hover:overflow-y-auto">
+            <div className="w-full h-full py-[72px] px-8 flex flex-col gap-10">
               <TicketDisplay
                 issue={currentTicket}
                 variant={isProjectManager ? 'Project Manager' : 'Developer'}

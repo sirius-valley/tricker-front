@@ -20,8 +20,8 @@ const Chronology: React.FC<ChronologyProps> = ({ events }) => {
   events.sort((a, b) => a.date.getTime() - b.date.getTime())
   return (
     <div className="flex flex-col gap-3 h-[400px] text-white w-full">
-      <H2 className="font-bold text-lg">Chronology</H2>
-      <div className="flex flex-col pr-6 overflow-y-scroll h-full max-w-[700px]">
+      <H2 className="font-bold text-lg flex">Chronology</H2>
+      <div className="flex flex-col pr-6 h-full max-w-[660px]">
         {events.map((event, index) => (
           <div
             key={index}
@@ -57,18 +57,20 @@ const Chronology: React.FC<ChronologyProps> = ({ events }) => {
                 className={`flex min-w-[9px] h-[9px] rounded-full mt-1 ${event.blocker ? 'bg-error-500' : 'bg-primary-400'} `}
               ></span>
               <div className="flex flex-col gap-2  w-full">
-                <div className={`min-w-12 flex gap-3`}>
-                  <HelperText
-                    className={`px-1 ${screen.width > 420 ? 'block' : 'hidden'}`}
-                  >
-                    {event.date.getHours().toString().padStart(2, '0') +
-                      ':' +
-                      event.date.getMinutes().toString().padStart(2, '0') +
-                      'hs'}
-                  </HelperText>
-                  <Body2 className="min-w-fit flex text-sm">
-                    {event.message}
-                  </Body2>
+                <div className={`min-w-12 flex items-start gap-3`}>
+                  <div className="flex mt-[1px]">
+                    <HelperText
+                      className={`px-1 ${screen.width > 420 ? 'block' : 'hidden'}`}
+                    >
+                      {event.date.getHours().toString().padStart(2, '0') +
+                        ':' +
+                        event.date.getMinutes().toString().padStart(2, '0') +
+                        'hs'}
+                    </HelperText>
+                  </div>
+                  <div className="flex flex-wrap">
+                    <Body2 className="min-w-fit text-sm">{event.message}</Body2>
+                  </div>
                 </div>
                 {event.description && (
                   <div className="flex gap-2 pl-0 sm:pl-7 w-fit flex-nowrap">

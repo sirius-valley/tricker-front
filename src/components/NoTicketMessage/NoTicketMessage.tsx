@@ -25,7 +25,7 @@ const NoTicketMessage: React.FC<NoTicketMessageProps> = ({
           </>
         )}
       </div>
-      <div className="flex flex-col items-center justify-center gap-1">
+      <div className="flex flex-col items-center justify-center text-center gap-1">
         <Body2>{title}</Body2>
         <Body1>{subtitle}</Body1>
       </div>

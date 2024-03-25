@@ -11,7 +11,7 @@ const TicketListWrapper = (): JSX.Element => {
   const [view, setView] = useState<'grid' | 'list'>('grid')
 
   return (
-    <div className="flex flex-col items-center justify-center h-full w-fit min-w-[467px] border-r border-white/10">
+    <div className="flex flex-col max-w-[467px] items-center justify-center h-full w-full border-r border-white/10">
       <FilterSection
         handleSelect={(options: OptionAttr[]) => {
           setSelectedFilters(options)

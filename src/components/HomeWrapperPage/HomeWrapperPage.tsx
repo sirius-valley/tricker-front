@@ -60,7 +60,7 @@ const HomeWrapperPage: React.FC = (): JSX.Element => {
   )
 
   return screen.width >= 768 ? (
-    <div className="bg-gray-500 h-screen w-screen flex items-center justify-center">
+    <div className="bg-gray-500 h-screen w-screen flex flex-1 items-center justify-center">
       <SidebarNav
         user={user}
         preSelectedOption={selectedProject}
@@ -68,8 +68,8 @@ const HomeWrapperPage: React.FC = (): JSX.Element => {
         dropdownOptions={dropdownOptions}
         handleDropdownSelect={handleDropdownSelect}
       />
-      <div className="w-full h-full flex-1 flex items-center justify-center bg-gray-700 py-[70px] px-12">
-        <div className="w-full h-full bg-gray-500 rounded-xl border border-white/10">
+      <div className="w-full h-full flex items-center justify-center bg-gray-700 py-[70px] px-12">
+        <div className="w-full h-full bg-gray-500 rounded-xl border border-white/10 flex">
           <Outlet />
         </div>
       </div>
