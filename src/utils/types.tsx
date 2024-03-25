@@ -130,6 +130,22 @@ export interface IssueView {
   tracking?: boolean
 }
 
+export interface IssueChronologyEventDTO {
+  id: string
+  message: string
+  comment: string | null
+  isBlocker: boolean
+  date: string | Date
+}
+
+export interface IssueChronologyEvent {
+  id: string
+  message: string
+  comment: string | null
+  isBlocker: boolean
+  date: Date
+}
+
 export interface Stage {
   id: string
   name: string

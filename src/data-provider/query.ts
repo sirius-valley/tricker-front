@@ -10,7 +10,8 @@ import type {
   OptionalIssueFilters,
   IssueView,
   IssueDetail,
-  ModifyTimeData
+  ModifyTimeData,
+  IssueChronologyEvent
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -172,4 +173,18 @@ export const usePostModifyTime = (): {
     }
   })
   return { mutate, reset, error, isPending, isSuccess }
+}
+
+export const useGetChronology = (
+  issueId: string
+): {
+  data: IssueChronologyEvent[] | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getChronology', issueId],
+    queryFn: async () => await ApiService.getChronology(issueId)
+  })
+  return { data, error, isLoading }
 }

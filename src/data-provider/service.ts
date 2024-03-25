@@ -9,7 +9,9 @@ import type {
   IssueView,
   OptionalIssueFilters,
   IssueDetail,
-  ModifyTimeData
+  ModifyTimeData,
+  IssueChronologyEvent,
+  IssueChronologyEventDTO
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -194,8 +196,26 @@ export const getIssuesFilteredAndPaginated = async (
   }
   return []
 }
+
 export const getIssueById = async () // ticketId: string
 : Promise<IssueDetail | null> => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
   return mockedTicketDetail
+}
+
+export const getChronology = async (
+  issueId: string
+): Promise<IssueChronologyEvent[]> => {
+  const res = await axios.get(`${url}/issue/${issueId}/chronology`, {
+    headers: {
+      Authorization: 'Bearer ' + getAccessToken()
+    }
+  })
+  if (res.status === 200) {
+    ;(res.data as IssueChronologyEventDTO[]).forEach((element) => {
+      element.date = new Date(element.date)
+    })
+    return res.data
+  }
+  return []
 }
