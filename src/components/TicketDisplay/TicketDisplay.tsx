@@ -1,9 +1,9 @@
-// import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
+import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
 import React, { useEffect, useRef, useState } from 'react'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import { Pill } from '@components/Pill/Pill'
-import { type IssueView } from '@utils/types'
+import { Priority, type IssueView } from '@utils/types'
 import Subtitle from '@utils/typography/subtitle/subtitle'
 import FormattedText from '@components/FormattedText/FormattedText'
 
@@ -36,7 +36,7 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
   const toggleTextVisibility = (): void => {
     setShowFullText(!showFullText)
   }
-  // console.log(Priority[issue.priority as unknown as keyof typeof Priority])
+
   return (
     <div className={`w-fit flex flex-col font-inter gap-10 text-white`}>
       <div className="flex flex-col gap-4">
@@ -58,14 +58,16 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
         <div className="flex justify-between items-center w-full">
           <div className="flex w-fit gap-4">
             <div className="flex gap-1 items-center">
-              {/* <PriorityIcon
+              <PriorityIcon
                 className="w-[26px] h-[26px]"
                 variant={
                   issue.priority !== undefined
-                    ? Priority[issue.priority as unknown as keyof typeof Priority]
+                    ? Priority[
+                        issue.priority as unknown as keyof typeof Priority
+                      ]
                     : Priority.NO_PRIORITY
                 }
-              /> */}
+              />
               {issue?.storyPoints && (
                 <StoryPointsIcon
                   className="w-[26px] h-[26px]"
