@@ -3,13 +3,14 @@ import { useAppDispatch, useCurrentProjectId, useUser } from '@redux/hooks'
 import { type IssueView, StageType } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
 import Body2 from '@utils/typography/body2/body2'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
 import { setCurrentTicket } from '@redux/user'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 import { type OptionAttr } from '@components/Filter/Filter'
+import ModalStop from '@components/ModalStopTracking/ModalStopTracking'
 
 export interface TicketListProps {
   filters: OptionAttr[]
@@ -24,6 +25,7 @@ const TicketList: React.FC<TicketListProps> = ({
   searchedTicket,
   currentTicket
 }: TicketListProps): JSX.Element => {
+  const [openModal, setOpenModal] = useState(false)
   const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
   const filtersParams = {}
@@ -92,8 +94,11 @@ const TicketList: React.FC<TicketListProps> = ({
       const selectedTicked = filteredIssues.find(
         (issue: IssueView) => issue.id === ticketId
       )
-      if (selectedTicked) {
+      if (selectedTicked && !currentTicket.isTracking) {
         dispatch(setCurrentTicket(selectedTicked))
+      } else {
+        console.log('esta trackeando')
+        setOpenModal(true)
       }
     }
   }
@@ -143,9 +148,9 @@ const TicketList: React.FC<TicketListProps> = ({
                   name={issue.title}
                   priority={issue.priority}
                   status={
-                    issue.blocked === true
+                    issue.isBlocked
                       ? 'blocked'
-                      : issue.tracking === true
+                      : issue.isTracking
                         ? 'tracking'
                         : null
                   }
@@ -168,6 +173,15 @@ const TicketList: React.FC<TicketListProps> = ({
         <NoTicketMessage
           title="No tickets found"
           subtitle="It seems there are no tickets that match your search"
+        />
+      )}
+      {openModal && (
+        <ModalStop
+          onStop={() => {}}
+          onClose={() => {
+            setOpenModal(false)
+          }}
+          show={openModal}
         />
       )}
     </div>
