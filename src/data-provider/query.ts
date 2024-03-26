@@ -33,7 +33,8 @@ export const useGetOrCreateUser = (): {
 } => {
   const { data, error, isLoading } = useQuery({
     queryKey: ['getOrCreateUser'],
-    queryFn: ApiService.getOrCreateUser
+    queryFn: ApiService.getOrCreateUser,
+    retry: false
   })
   return { data, error, isLoading }
 }

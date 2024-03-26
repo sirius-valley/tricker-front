@@ -54,7 +54,7 @@ const TicketsSection: React.FC = ({
               <Chronology />
             </div>
           </div>
-          <Timer ticketId={currentTicket.name} />
+          <Timer ticketId={currentTicket.id} ticketName={currentTicket.name} />
         </div>
       )}
     </div>
@@ -84,7 +84,10 @@ const TicketsSection: React.FC = ({
                 <Chronology />
               </div>
             </div>
-            <Timer ticketId={currentTicket.name} />
+            <Timer
+              ticketId={currentTicket.id}
+              ticketName={currentTicket.name}
+            />
           </div>
         </Modal>
       )}

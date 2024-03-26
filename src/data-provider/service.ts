@@ -10,6 +10,7 @@ import type {
   OptionalIssueFilters,
   IssueDetail,
   ModifyTimeData,
+  IssueChronologyEventDTO,
   IssueChronologyEvent
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
@@ -277,61 +278,62 @@ export const getTicketElapsedTime = async (
 export const getChronology = async (
   issueId: string
 ): Promise<IssueChronologyEvent[]> => {
-  // const res = await axios.get(`${url}/issue/${issueId}/chronology`, {
-  //   headers: {
-  //     Authorization: 'Bearer ' + getAccessToken()
-  //   }
-  // })
-  // if (res.status === 200) {
-  //   ;(res.data as IssueChronologyEventDTO[]).forEach((element) => {
-  //     element.date = new Date(element.date)
-  //   })
-  //   return res.data
-  // }
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  console.log(issueId)
-  return [
-    {
-      id: '1',
-      message: 'Ticket created',
-      comment: null,
-      isBlocker: false,
-      date: new Date()
-    },
-    {
-      id: '1',
-      message: 'Assigned to me',
-      comment: null,
-      isBlocker: false,
-      date: new Date()
-    },
-    {
-      id: '1',
-      message: 'Ticket started',
-      comment: null,
-      isBlocker: false,
-      date: new Date()
-    },
-    {
-      id: '1',
-      message: 'Blocked by another ticket',
-      comment: 'Blocked by TIK-292',
-      isBlocker: true,
-      date: new Date()
-    },
-    {
-      id: '1',
-      message: 'Ticket started again',
-      comment: null,
-      isBlocker: false,
-      date: new Date()
-    },
-    {
-      id: '1',
-      message: 'Ticket paused',
-      comment: null,
-      isBlocker: false,
-      date: new Date()
+  const res = await axios.get(`${url}/issue/${issueId}/chronology`, {
+    headers: {
+      Authorization: 'Bearer ' + getAccessToken()
     }
-  ]
+  })
+  if (res.status === 200) {
+    ;(res.data as IssueChronologyEventDTO[]).forEach((element) => {
+      element.date = new Date(element.date)
+    })
+    return res.data
+  }
+  return []
+  // await new Promise((resolve) => setTimeout(resolve, 1000))
+  // console.log(issueId)
+  // return [
+  //   {
+  //     id: '1',
+  //     message: 'Ticket created',
+  //     comment: null,
+  //     isBlocker: false,
+  //     date: new Date()
+  //   },
+  //   {
+  //     id: '1',
+  //     message: 'Assigned to me',
+  //     comment: null,
+  //     isBlocker: false,
+  //     date: new Date()
+  //   },
+  //   {
+  //     id: '1',
+  //     message: 'Ticket started',
+  //     comment: null,
+  //     isBlocker: false,
+  //     date: new Date()
+  //   },
+  //   {
+  //     id: '1',
+  //     message: 'Blocked by another ticket',
+  //     comment: 'Blocked by TIK-292',
+  //     isBlocker: true,
+  //     date: new Date()
+  //   },
+  //   {
+  //     id: '1',
+  //     message: 'Ticket started again',
+  //     comment: null,
+  //     isBlocker: false,
+  //     date: new Date()
+  //   },
+  //   {
+  //     id: '1',
+  //     message: 'Ticket paused',
+  //     comment: null,
+  //     isBlocker: false,
+  //     date: new Date()
+  //   }
+  // ]
 }
