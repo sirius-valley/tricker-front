@@ -3,48 +3,55 @@ import React, { useEffect, useRef, useState } from 'react'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import { Pill } from '@components/Pill/Pill'
-import { type IssueDetail, Priority } from '@utils/types'
+import { Priority, type IssueView } from '@utils/types'
 import Subtitle from '@utils/typography/subtitle/subtitle'
+import FormattedText from '@components/FormattedText/FormattedText'
+
 export interface TicketDisplayProps {
-  issue: IssueDetail
+  issue: IssueView
   variant: 'Developer' | 'Project Manager'
 }
-
 const TicketDisplay: React.FC<TicketDisplayProps> = ({
   issue,
   variant
 }): JSX.Element => {
   const [showFullText, setShowFullText] = useState(false)
   const [hasOverflow, setHasOverflow] = useState(false)
+
   const textRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (textRef.current) {
       const isOverflowing =
-        textRef.current.offsetHeight < textRef.current.scrollHeight ||
-        textRef.current.offsetWidth < textRef.current.scrollWidth
+        textRef.current.offsetHeight < textRef.current.scrollHeight + 10 ||
+        textRef.current.offsetWidth < textRef.current.scrollWidth + 10
       setHasOverflow(isOverflowing)
     }
   }, [])
+
+  useEffect(() => {
+    setShowFullText(false)
+  }, [issue])
 
   const toggleTextVisibility = (): void => {
     setShowFullText(!showFullText)
   }
 
   return (
-    <div className={`w-[648px] flex flex-col font-inter gap-10 text-white`}>
+    <div className={`w-fit flex flex-col font-inter gap-10 text-white`}>
       <div className="flex flex-col gap-4">
         <div className={`flex justify-start items-start`}>
-          <Subtitle className="font-normal">[{issue.id}]</Subtitle>
+          <Subtitle className="font-normal">[{issue.name}]</Subtitle>
         </div>
 
         {variant === 'Project Manager' && (
           <div className="flex gap-2 items-center">
             <ProfilePicture
-              img={issue.asignee?.profileUrl ? issue.asignee.profileUrl : ''}
+              userName={issue.assignee?.name || ''}
+              img={issue.assignee?.profileUrl ? issue.assignee.profileUrl : ''}
               size={'sm'}
             />
-            <Subtitle className="font-normal">{issue.asignee?.name}</Subtitle>
+            <Subtitle className="font-normal">{issue.assignee?.name}</Subtitle>
           </div>
         )}
 
@@ -56,7 +63,9 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
                 className="w-[26px] h-[26px]"
                 variant={
                   issue.priority !== undefined
-                    ? issue.priority
+                    ? Priority[
+                        issue.priority as unknown as keyof typeof Priority
+                      ]
                     : Priority.NO_PRIORITY
                 }
               />
@@ -86,9 +95,9 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
             textOverflow: 'ellipsis'
           }}
         >
-          {issue.description}
+          <FormattedText text={issue.description} />
         </div>
-        {hasOverflow && !showFullText && (
+        {issue.description && hasOverflow && !showFullText && (
           <button className="underline" onClick={toggleTextVisibility}>
             See more
           </button>

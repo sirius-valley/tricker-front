@@ -10,29 +10,35 @@ export interface TooltipProps {
   iconWidth?: string
   iconHeight?: string
   content: string
+  children?: React.ReactNode
 }
 
 export const Tooltip: React.FC<TooltipProps> = ({
   iconName,
   content,
   iconWidth,
-  iconHeight
+  iconHeight,
+  children
 }) => {
   const tooltipId = uuidv4()
   const colors = config.theme.extend.colors
 
   return (
     <>
+      {' '}
       <a
         data-tooltip-id={tooltipId}
         data-tooltip-content={content}
         className="flex w-fit cursor-pointer"
       >
-        <Icon
-          name={iconName || 'QuestionIcon'}
-          width={iconWidth}
-          height={iconHeight}
-        />
+        {children === undefined && (
+          <Icon
+            name={iconName || 'QuestionIcon'}
+            width={iconWidth}
+            height={iconHeight}
+          />
+        )}
+        {children}
       </a>
       <ReactTooltip
         id={tooltipId}

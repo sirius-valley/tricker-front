@@ -25,8 +25,8 @@ const Popover: React.FC<PopoverProps> = ({ show = false }) => {
   return (
     <div>
       {show && screen.width > 500 && (
-        <div className="pb-2">
-          <div className="w-[184px] h-[62px] rounded-lg bg-gray-400 border border-[#939393] flex flex-col text-white">
+        <div className="pb-16">
+          <div className="w-[184px] h-[62px] absolute rounded-lg bg-gray-400 border border-[#939393] flex flex-col text-white left-[12px]">
             <Link
               to=""
               className="w-full h-1/2 flex items-center py-2 px-4 hover:bg-[#93939393] rounded-t-lg"

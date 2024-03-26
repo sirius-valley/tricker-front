@@ -1,5 +1,4 @@
 import NoAvatarProject from '@components/NoAvatar/NoAvatarProject'
-import { useUser } from '@redux/hooks'
 import { type VariantProps, cva } from 'class-variance-authority'
 import React from 'react'
 
@@ -20,25 +19,27 @@ interface ProfilePictureProps
   extends VariantProps<typeof profilePictureVariants>,
     React.HTMLAttributes<HTMLImageElement> {
   className?: string
-  img?: string
+  img: string
   border?: boolean
+  userName: string
 }
 
 export const ProfilePicture: React.FC<ProfilePictureProps> = ({
   className,
+  img,
   border = false,
-  size = 'sm'
+  size = 'sm',
+  userName
 }) => {
-  const user = useUser()
-  return user.profileImage ? (
+  return img ? (
     <img
-      src={user.profileImage}
+      src={img}
       alt="User's profile picture"
       className={`${profilePictureVariants({ size, className })} bg-${border ? 'gradient' : 'transparent'} ${className}`}
     />
   ) : (
     <NoAvatarProject
-      text={user.name}
+      text={userName}
       className={`${profilePictureVariants({ size, className })} ${className}`}
     />
   )

@@ -4,7 +4,15 @@ import Body1 from '@utils/typography/body1/body1'
 import NoTicketSvg from '../../assets/NoTicket.svg'
 import useScreenSize from '@hooks/useScreenSize'
 
-const NoTicketMessage: React.FC = (): JSX.Element => {
+interface NoTicketMessageProps {
+  title?: string
+  subtitle?: string
+}
+
+const NoTicketMessage: React.FC<NoTicketMessageProps> = ({
+  title = 'No assigned tasks',
+  subtitle = "Once you get one, it'll pop up here."
+}: NoTicketMessageProps): JSX.Element => {
   const screen = useScreenSize()
   return (
     <div className="w-full h-full flex flex-col justify-center items-center gap-4 text-white">
@@ -17,9 +25,9 @@ const NoTicketMessage: React.FC = (): JSX.Element => {
           </>
         )}
       </div>
-      <div className="flex flex-col items-center justify-center gap-1">
-        <Body2>No assigned tasks</Body2>
-        <Body1>Once you get one, it&apos;ll pop up here.</Body1>
+      <div className="flex flex-col items-center justify-center text-center gap-1">
+        <Body2>{title}</Body2>
+        <Body1>{subtitle}</Body1>
       </div>
     </div>
   )

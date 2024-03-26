@@ -18,7 +18,8 @@ export const mockedTickets: IssueView[] = [
     priority: Priority.LOW_PRIORITY,
     storyPoints: 3,
     labels: [],
-    blocked: true
+    blocked: true,
+    description: 'Description 1'
   },
   {
     id: '2',
@@ -36,7 +37,8 @@ export const mockedTickets: IssueView[] = [
     title: 'TIK-002',
     priority: Priority.URGENT,
     storyPoints: 1,
-    labels: []
+    labels: [],
+    description: 'Description 2'
   },
   {
     id: '3',
@@ -55,7 +57,8 @@ export const mockedTickets: IssueView[] = [
     title: 'TIK-003',
     priority: Priority.HIGH_PRIORITY,
     storyPoints: 2,
-    labels: []
+    labels: [],
+    description: 'Description 3'
   },
   {
     id: '4',
@@ -73,7 +76,8 @@ export const mockedTickets: IssueView[] = [
     title: 'TIK-004',
     priority: Priority.MEDIUM_PRIORITY,
     storyPoints: 5,
-    labels: []
+    labels: [],
+    description: 'Description 4'
   },
   {
     id: '5',
@@ -91,7 +95,8 @@ export const mockedTickets: IssueView[] = [
     title: 'TIK-005',
     priority: Priority.LOW_PRIORITY,
     storyPoints: 3,
-    labels: []
+    labels: [],
+    description: 'Description 5'
   },
   {
     id: '6',
@@ -109,7 +114,8 @@ export const mockedTickets: IssueView[] = [
     title: 'TIK-006',
     priority: Priority.MEDIUM_PRIORITY,
     storyPoints: 5,
-    labels: []
+    labels: [],
+    description: 'Description 6'
   },
   {
     id: '7',
@@ -127,7 +133,8 @@ export const mockedTickets: IssueView[] = [
     title: 'TIK-007',
     priority: Priority.LOW_PRIORITY,
     storyPoints: 2,
-    labels: []
+    labels: [],
+    description: 'Description 7'
   },
   {
     id: '8',
@@ -145,7 +152,8 @@ export const mockedTickets: IssueView[] = [
     title: 'TIK-008',
     priority: Priority.LOW_PRIORITY,
     storyPoints: 3,
-    labels: []
+    labels: [],
+    description: 'Description 8'
   },
   {
     id: '9',
@@ -163,7 +171,8 @@ export const mockedTickets: IssueView[] = [
     title: 'TIK-009',
     priority: Priority.URGENT,
     storyPoints: 3,
-    labels: []
+    labels: [],
+    description: 'Description 9'
   },
   {
     id: '10',
@@ -181,6 +190,7 @@ export const mockedTickets: IssueView[] = [
     title: 'TIK-010',
     priority: Priority.LOW_PRIORITY,
     storyPoints: 2,
-    labels: []
+    labels: [],
+    description: 'Description 10'
   }
 ]

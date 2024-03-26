@@ -111,7 +111,10 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                       >
                         <div className="flex w-full gap-4 items-center">
                           {member.profileImage ? (
-                            <ProfilePicture img={member.profileImage} />
+                            <ProfilePicture
+                              img={member.profileImage}
+                              userName={member.name}
+                            />
                           ) : (
                             <NoAvatarProject
                               text={member.name}
