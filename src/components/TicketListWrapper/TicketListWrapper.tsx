@@ -9,10 +9,12 @@ import useScreenSize from '@hooks/useScreenSize'
 
 interface TicketListWrapperProps {
   currentTicket: IssueView
+  userRole: 'Project Manager' | 'Developer'
 }
 
 const TicketListWrapper: React.FC<TicketListWrapperProps> = ({
-  currentTicket
+  currentTicket,
+  userRole
 }: TicketListWrapperProps): JSX.Element => {
   const [selectedFilters, setSelectedFilters] = useState<OptionAttr[]>([])
   const [searchedTicket, setSearchedTicket] = useState<string>('')
@@ -35,7 +37,7 @@ const TicketListWrapper: React.FC<TicketListWrapperProps> = ({
           filters={selectedFilters}
           searchedTicket={searchedTicket}
           isOutOfEstimation={outOfEstimation}
-          isProjectManager={false}
+          isProjectManager={userRole === 'Project Manager'}
           currentTicket={currentTicket}
         />
       )}
@@ -44,7 +46,7 @@ const TicketListWrapper: React.FC<TicketListWrapperProps> = ({
           filters={selectedFilters}
           searchedTicket={searchedTicket}
           isOutOfEstimation={outOfEstimation}
-          isProjectManager={false}
+          isProjectManager={userRole === 'Project Manager'}
           currentTicket={currentTicket}
         />
       )}
