@@ -1,7 +1,9 @@
 // SearchButton.stories.tsx
-import { type Meta, type Story } from '@storybook/react'
-import Filter, { type SearchButtonProps } from './Filter'
+import { type Meta, type StoryObj } from '@storybook/react'
+import Filter, { type OptionAttr } from './Filter'
 import config from '../../../tailwind.config'
+import { Provider } from 'react-redux'
+import { store } from '@redux/store'
 
 const colors = config.theme.extend.colors
 
@@ -10,6 +12,11 @@ const meta: Meta<typeof Filter> = {
   component: Filter,
   tags: ['autodocs'],
   argTypes: {
+    show: {
+      control: {
+        type: 'boolean'
+      }
+    },
     statusOptions: {
       control: {
         type: 'object'
@@ -20,19 +27,27 @@ const meta: Meta<typeof Filter> = {
         type: 'object'
       }
     },
-    show: {
-      control: {
-        type: 'boolean'
-      }
-    },
     handleSelect: {
       action: 'handleSelect'
+    },
+    handleOutOfEstimation: {
+      action: 'handleOutOfEstimation'
     }
-  },
+  }
+}
+
+export default meta
+
+type Story = StoryObj<typeof Filter>
+
+export const Default: Story = {
   args: {
     show: true,
-    handleSelect: (options) => {
+    handleSelect: (options: OptionAttr[]) => {
       console.log(options)
+    },
+    handleOutOfEstimation: (value: boolean) => {
+      console.log('out of estimation ' + value)
     },
     statusOptions: [
       { option: 'Todo', color: colors.white, selected: false },
@@ -55,12 +70,18 @@ const meta: Meta<typeof Filter> = {
       { option: 'Medium', icon: 'MediumPriorityIcon', selected: false },
       { option: 'High', icon: 'HighPriorityIcon', selected: false },
       { option: 'Urgent', icon: 'UrgentIcon', selected: false }
+    ],
+    asigneeOptions: [
+      { option: 'Federico Martucci', selected: false },
+      { option: 'Matias Pizzi', selected: false },
+      { option: 'Nicolas Flores', selected: false },
+      { option: 'Juan Bianchi', selected: false },
+      { option: 'Ignacio Ferrari', selected: false }
     ]
-  }
+  },
+  render: (args) => (
+    <Provider store={store}>
+      <Filter {...args} />
+    </Provider>
+  )
 }
-
-export default meta
-
-const Template: Story<SearchButtonProps> = (args) => <Filter {...args} />
-
-export const Default = Template.bind({})

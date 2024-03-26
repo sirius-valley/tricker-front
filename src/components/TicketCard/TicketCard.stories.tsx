@@ -1,5 +1,6 @@
 import { type Meta, type StoryObj } from '@storybook/react'
 import TicketCard from './TicketCard'
+import { Priority } from '@utils/types'
 
 const meta: Meta<typeof TicketCard> = {
   title: 'Components/TicketCard',
@@ -12,7 +13,7 @@ const meta: Meta<typeof TicketCard> = {
         type: 'text'
       }
     },
-    title: {
+    name: {
       defaultValue: 'Ticket looooong name',
       control: {
         type: 'text'
@@ -23,7 +24,7 @@ const meta: Meta<typeof TicketCard> = {
       control: {
         type: 'select'
       },
-      options: ['completed', 'tracking', 'blocked', undefined]
+      options: ['completed', 'tracking', 'blocked', null]
     },
     priority: {
       defaultValue: 'feature',
@@ -31,11 +32,11 @@ const meta: Meta<typeof TicketCard> = {
         type: 'select'
       },
       options: [
-        'no-priority',
-        'low-priority',
-        'medium-priority',
-        'high-priority',
-        'urgent'
+        Priority.NO_PRIORITY,
+        Priority.LOW_PRIORITY,
+        Priority.MEDIUM_PRIORITY,
+        Priority.HIGH_PRIORITY,
+        Priority.URGENT
       ]
     },
     category: {
@@ -95,15 +96,13 @@ export const Default: Story = {
   tags: ['autodocs'],
   args: {
     ticketId: 'TKT-000',
-    title: 'Ticket looooong name',
+    name: 'Ticket looooong name',
     status: 'blocked',
-    priority: 'urgent',
+    priority: Priority.URGENT,
     category: 'feature',
     elapsedTime: 200,
     isProjectManager: true,
-    storyPoints: 3,
-    associatedUserProfile:
-      'https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg'
+    storyPoints: 3
   },
   render: (args) => <TicketCard {...args} />
 }

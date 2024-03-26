@@ -38,6 +38,7 @@
     ],
     "linebreak-style": ["error", "windows"],
     "promise/no-promise-in-callback": "off",
+    "react-hooks/exhaustive-deps": "off",
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/consistent-type-assertions": "off",

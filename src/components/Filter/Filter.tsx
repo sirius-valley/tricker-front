@@ -3,30 +3,42 @@ import Icon from '@components/Icon/Icon'
 import type * as icons from '@components/Icon/index.ts'
 import Checkbox from '@components/Checkbox/Checkbox'
 import Body1 from '@utils/typography/body1/body1'
+import { Switch } from '@components/Switch/Switch'
 
 export interface OptionAttr {
   option: string
   color?: string
   selected: boolean
   icon?: keyof typeof icons
+  id?: string
 }
 
 export interface SearchButtonProps {
   statusOptions: OptionAttr[]
   priorityOptions: OptionAttr[]
+  asigneeOptions?: OptionAttr[]
+  selectedItems?: OptionAttr[]
   handleSelect: (options: OptionAttr[]) => void
+  handleOutOfEstimation: (value: boolean) => void
   show: boolean
+  userRole?: 'Project Manager' | 'Developer'
 }
 
 const Filter: React.FC<SearchButtonProps> = ({
   statusOptions,
   priorityOptions,
+  asigneeOptions,
+  selectedItems = [],
   handleSelect,
-  show
+  handleOutOfEstimation,
+  show,
+  userRole = 'Developer'
 }) => {
-  const [showStatusOptions, setShowStatusOptions] = useState(false)
-  const [showPriorityOptions, setShowPriorityOptions] = useState(false)
-  const [selectedOptions, setSelectedOptions] = useState<OptionAttr[]>([])
+  const [showStatusOptions, setShowStatusOptions] = useState<boolean>(false)
+  const [showAsigneeOptions, setShowAsigneeOptions] = useState<boolean>(false)
+  const [showPriorityOptions, setShowPriorityOptions] = useState<boolean>(false)
+  const [selectedOptions, setSelectedOptions] =
+    useState<OptionAttr[]>(selectedItems)
   const filterRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -40,6 +52,7 @@ const Filter: React.FC<SearchButtonProps> = ({
       if (!isClickInside) {
         setShowStatusOptions(false)
         setShowPriorityOptions(false)
+        setShowAsigneeOptions(false)
       }
     }
 
@@ -50,13 +63,14 @@ const Filter: React.FC<SearchButtonProps> = ({
     }
   }, [handleSelect, selectedOptions])
 
-  const handleStatusOptionSelect = (option: OptionAttr): void => {
-    option.selected = !option.selected
-    if (option.selected) {
-      setSelectedOptions((prevOptions: OptionAttr[]) => [
-        ...prevOptions,
-        option
-      ])
+  const handleOptionSelect = (option: OptionAttr): void => {
+    const updatedOptions = selectedOptions.map((opt) =>
+      opt.option === option.option ? { ...opt, selected: !opt.selected } : opt
+    )
+
+    if (!selectedOptions.some((opt) => opt.option === option.option)) {
+      updatedOptions.push(option)
+      setSelectedOptions(updatedOptions)
     } else {
       setSelectedOptions((prevOptions: OptionAttr[]) =>
         prevOptions.filter((opt) => opt !== option)
@@ -64,18 +78,8 @@ const Filter: React.FC<SearchButtonProps> = ({
     }
   }
 
-  const handlePriorityOptionSelect = (option: OptionAttr): void => {
-    option.selected = !option.selected
-    if (option.selected) {
-      setSelectedOptions((prevOptions: OptionAttr[]) => [
-        ...prevOptions,
-        option
-      ])
-    } else {
-      setSelectedOptions((prevOptions: OptionAttr[]) =>
-        prevOptions.filter((opt) => opt !== option)
-      )
-    }
+  const handleOutOfEstimationClick = (value: boolean): void => {
+    handleOutOfEstimation(value)
   }
 
   if (!show) {
@@ -108,6 +112,70 @@ const Filter: React.FC<SearchButtonProps> = ({
           </button>
         </div>
         <div className="flex gap-[1px] rounded-b-xl bg-gray-400 flex-col">
+          {userRole === 'Project Manager' && (
+            <>
+              <div
+                className={`px-4 py-3 gap-3 h-[52px] text-white flex items-center bg-gray-600`}
+              >
+                <div className="w-fit">
+                  <Icon name="AlarmIcon" width="20" height="20" />
+                </div>
+                <div className="flex justify-between items-center w-full">
+                  <Body1 className="font-medium leading-[19.36px]">
+                    Out of estimation
+                  </Body1>
+                  <Switch
+                    onChecked={(checked) => {
+                      handleOutOfEstimationClick(checked)
+                    }}
+                  />
+                </div>
+              </div>
+              <button
+                className={`px-4 py-3 gap-3 h-[52px] text-white flex items-center bg-gray-600 hover:bg-gray-400 cursor-pointer`}
+                onClick={() => {
+                  setShowAsigneeOptions(!showAsigneeOptions)
+                }}
+              >
+                <div className="w-fit">
+                  <Icon name="UserIcon" width="20" height="20" />
+                </div>
+                <div className="flex justify-between w-full">
+                  <Body1 className="font-medium leading-[19.36px]">
+                    Asignee
+                  </Body1>
+                  <Icon
+                    width="20"
+                    height="20"
+                    name={showAsigneeOptions ? 'CaretUpIcon' : 'CaretDownIcon'}
+                  />
+                </div>
+              </button>
+            </>
+          )}
+          {asigneeOptions && showAsigneeOptions && (
+            <div className="flex flex-col w-full gap-[1px] text-white bg-gray-400 border-gray-400">
+              {asigneeOptions.map((option, index) => (
+                <label key={index} className="w-full h-11">
+                  <div className="px-5 h-full py-2 bg-gray-500 hover:bg-gray-400  flex justify-between items-center cursor-pointer">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className="w-[10px] h-[10px] rounded-full"
+                        style={{ backgroundColor: option.color }}
+                      />
+                      <span>{option.option}</span>
+                    </div>
+                    <Checkbox
+                      defaultChecked={selectedOptions.includes(option)}
+                      onChecked={() => {
+                        handleOptionSelect(option)
+                      }}
+                    />
+                  </div>
+                </label>
+              ))}
+            </div>
+          )}
           <button
             className={`px-4 py-3 gap-3 h-[52px] text-white flex items-center bg-gray-600 hover:bg-gray-400 cursor-pointer`}
             onClick={() => {
@@ -115,7 +183,7 @@ const Filter: React.FC<SearchButtonProps> = ({
             }}
           >
             <div className="w-fit">
-              <div className="w-[14px] h-[14px] rounded-full bg-white" />
+              <div className="ml-0.5 w-[14px] h-[14px] rounded-full bg-white" />
             </div>
             <div className="flex justify-between w-full">
               <Body1 className="font-medium leading-[19.36px]">Status</Body1>
@@ -141,7 +209,7 @@ const Filter: React.FC<SearchButtonProps> = ({
                     <Checkbox
                       defaultChecked={selectedOptions.includes(option)}
                       onChecked={() => {
-                        handleStatusOptionSelect(option)
+                        handleOptionSelect(option)
                       }}
                     />
                   </div>
@@ -193,7 +261,7 @@ const Filter: React.FC<SearchButtonProps> = ({
                   <Checkbox
                     defaultChecked={selectedOptions.includes(option)}
                     onChecked={() => {
-                      handlePriorityOptionSelect(option)
+                      handleOptionSelect(option)
                     }}
                   />
                 </div>

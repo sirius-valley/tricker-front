@@ -1,5 +1,5 @@
 import WrapperPage from '@components/Wrapper/WrapperPage'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import useScreenSize from '@hooks/useScreenSize'
 import RoleButton from '@components/RoleButton/RoleButton'
 import Icon from '@components/Icon/Icon'
@@ -8,11 +8,18 @@ import { setCurrentStep } from '@redux/user'
 import { useAppDispatch, useUser } from '@redux/hooks'
 import { useGetUserProjects } from '@data-provider/query'
 import { useEffect } from 'react'
+import { removeLoginCookies } from '@data-provider/Cookies'
 
 const RoleSelectPage = (): JSX.Element => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { data } = useGetUserProjects()
+  const { data, error } = useGetUserProjects()
+
+  useEffect(() => {
+    if (error) navigate('login')
+    if (data && data.projectsRoleAssigned.length !== 0) navigate('/')
+  }, [data, error, navigate])
+
   const user = useUser()
   dispatch(setCurrentStep(0))
 
@@ -20,28 +27,32 @@ const RoleSelectPage = (): JSX.Element => {
     if (user.id === '') {
       navigate('/login')
     }
-  })
+    if (user.projectsRoleAssigned.length !== 0) {
+      navigate('/')
+    }
+  }, [user, navigate])
 
   const handlePmClick = (): void => {
     navigate('/setup')
   }
 
   const handleMemberClick = (): void => {
-    if (data && data.length > 0) {
-      navigate('/home')
-    } else {
-      navigate('/login/non-invited')
-    }
+    navigate('/login/non-invited')
+  }
+
+  const handleLogoutClick = (): void => {
+    removeLoginCookies()
+    navigate('/login')
   }
 
   return (
     <WrapperPage>
       {useScreenSize().width < 768 && (
-        <Link to="/login" className="text-white">
-          <button className="-rotate-90 top-[2px] absolute left-6 hover:bg-gray-500 rounded-full">
+        <button onClick={handleLogoutClick} className="text-white">
+          <div className="-rotate-90 top-[2px] absolute left-6 hover:bg-gray-500 rounded-full">
             <Icon name="CaretUpIcon" width="32" height="32" />
-          </button>
-        </Link>
+          </div>
+        </button>
       )}
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-white text-center text-2xl font-normal md:hidden flex mb-10">
@@ -49,15 +60,15 @@ const RoleSelectPage = (): JSX.Element => {
         </h1>
         {useScreenSize().width >= 768 && (
           <div className="flex justify-center self-start pr-2 hover:bg-gray-500 rounded-full mb-4">
-            <Link
-              to="/login"
+            <button
+              onClick={handleLogoutClick}
               className="text-white flex items-center gap-2 justify-center"
             >
-              <button className="-rotate-90">
+              <div className="-rotate-90">
                 <Icon name="CaretUpIcon" width="32" height="32" />
-              </button>
+              </div>
               <Subtitle className="text-xl">Log Out</Subtitle>
-            </Link>
+            </button>
           </div>
         )}
         <div>

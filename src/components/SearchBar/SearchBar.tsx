@@ -3,12 +3,12 @@ import { type VariantProps, cva } from 'class-variance-authority'
 import React from 'react'
 
 const searchBarVariants = cva(
-  ['flex items-center bg-gray-600 gap-2 w-full h-fit'],
+  ['flex items-center bg-white/5 h-fit border border-white/30'],
   {
     variants: {
       variant: {
-        desktop: ['border border-white/30 py-1 px-2 rounded'],
-        mobile: ['py-2 px-4 w-[289px] rounded-lg']
+        desktop: ['py-1 px-2 w-[147px] rounded gap-2 text-sm'],
+        mobile: ['py-2 px-4 w-[289px] rounded-lg gap-4']
       }
     },
     defaultVariants: {
@@ -21,11 +21,13 @@ interface SearchBarProps
   extends VariantProps<typeof searchBarVariants>,
     React.HTMLAttributes<HTMLDivElement> {
   handleValue: (value: string) => void
+  placeholder?: string
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
   variant,
   handleValue,
+  placeholder = 'Search',
   className
 }) => {
   const [value, setValue] = React.useState<string>('')
@@ -42,9 +44,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     }
   }
   return (
-    <div
-      className={`${variant === 'mobile' ? 'bg-gradient p-px rounded-lg w-[289px]' : 'w-48'} flex`}
-    >
+    <div className={`${variant === 'mobile' && 'rounded-lg w-[289px]'} flex`}>
       <div
         className={`${searchBarVariants({ variant, className })}`}
         onClick={handleClick}
@@ -55,7 +55,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         <input
           ref={inputRef}
           value={value}
-          placeholder="Search"
+          placeholder={placeholder}
           onChange={handleChange}
           className={`flex bg-transparent focus:outline-none placeholder:text-gray-300 text-white w-full font-inter`}
         />
@@ -65,6 +65,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
               className="hover:bg-gray-300/10 rounded-xl px-1 cursor-pointer"
               onClick={() => {
                 setValue('')
+                handleValue('')
               }}
             >
               <DismissIcon width={iconSize} height={iconSize} />

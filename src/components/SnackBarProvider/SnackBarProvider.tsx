@@ -1,5 +1,12 @@
 import NotificationBadge from '@components/NotificationBadge/NotificationBadge'
-import React from 'react'
+import React, {
+  type ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
+import ReactDom from 'react-dom'
 
 interface SnackBar {
   message: string
@@ -13,10 +20,10 @@ interface SnackBarContextType {
   ) => void
 }
 
-const SnackbarContext = React.createContext<SnackBarContextType | null>(null)
+const SnackbarContext = createContext<SnackBarContextType | null>(null)
 
 export const useSnackBar = (): SnackBarContextType => {
-  const context = React.useContext(SnackbarContext)
+  const context = useContext(SnackbarContext)
   if (!context) {
     throw new Error('useSnackbar must be used within a SnackbarProvider')
   }
@@ -24,15 +31,15 @@ export const useSnackBar = (): SnackBarContextType => {
 }
 
 interface SnackBarProviderProps {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export const SnackBarProvider: React.FC<SnackBarProviderProps> = ({
   children
-}) => {
-  const [snackBars, setSnackBars] = React.useState<SnackBar[]>([])
+}: SnackBarProviderProps) => {
+  const [snackBars, setSnackBars] = useState<SnackBar[]>([])
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timer = setTimeout(() => {
       setSnackBars((prev) => prev.slice(1))
     }, 5000)
@@ -52,22 +59,28 @@ export const SnackBarProvider: React.FC<SnackBarProviderProps> = ({
     setSnackBars((prev) => prev.slice(1))
   }
 
-  return (
-    <SnackbarContext.Provider value={{ showSnackBar }}>
-      {children}
-      {snackBars.map((snackBar: SnackBar, index: number) => (
-        <div
-          className="fixed bottom-5 left-5 z-50 flex justify-center items-center animate-slideInLeft"
-          key={index}
-        >
-          <NotificationBadge
-            variant={snackBar.type}
-            handleClose={handleOnClose}
+  const portalElement = document.getElementById('portal')
+  if (!portalElement) {
+    return null
+  } else {
+    return ReactDom.createPortal(
+      <SnackbarContext.Provider value={{ showSnackBar }}>
+        {children}
+        {snackBars.map((snackBar: SnackBar, index: number) => (
+          <div
+            className="fixed bottom-5 left-5 z-50 flex justify-center items-center animate-slideInLeft"
+            key={index}
           >
-            {snackBar.message}
-          </NotificationBadge>
-        </div>
-      ))}
-    </SnackbarContext.Provider>
-  )
+            <NotificationBadge
+              variant={snackBar.type}
+              handleClose={handleOnClose}
+            >
+              {snackBar.message}
+            </NotificationBadge>
+          </div>
+        ))}
+      </SnackbarContext.Provider>,
+      portalElement
+    )
+  }
 }

@@ -1,3 +1,4 @@
+import NoAvatarProject from '@components/NoAvatar/NoAvatarProject'
 import { type VariantProps, cva } from 'class-variance-authority'
 import React from 'react'
 
@@ -20,20 +21,26 @@ interface ProfilePictureProps
   className?: string
   img: string
   border?: boolean
-  onClick?: () => void
+  userName: string
 }
 
 export const ProfilePicture: React.FC<ProfilePictureProps> = ({
-  className = '',
+  className,
   img,
   border = false,
-  size = 'sm'
+  size = 'sm',
+  userName
 }) => {
-  return (
+  return img ? (
     <img
       src={img}
       alt="User's profile picture"
       className={`${profilePictureVariants({ size, className })} bg-${border ? 'gradient' : 'transparent'} ${className}`}
+    />
+  ) : (
+    <NoAvatarProject
+      text={userName}
+      className={`${profilePictureVariants({ size, className })} ${className}`}
     />
   )
 }

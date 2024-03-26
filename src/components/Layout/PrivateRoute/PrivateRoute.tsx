@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import PageWrapper from './PrivateRouteWrapper'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '@redux/hooks'
 import { setUser } from '@redux/user'
 import { useGetOrCreateUser } from '@data-provider/query'
-import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider.tsx'
+import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 
 const PrivateRoute = (): JSX.Element => {
-  const [isAuthorized, setIsAuthorized] = React.useState<boolean>(true)
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(true)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { showSnackBar } = useSnackBar()
 
   const { data, isLoading, error } = useGetOrCreateUser()
+  data && dispatch(setUser(data))
 
   useEffect(() => {
     if (error) {
@@ -23,7 +24,7 @@ const PrivateRoute = (): JSX.Element => {
     }
   }, [error, navigate, showSnackBar])
 
-  React.useEffect(() => {
+  useEffect(() => {
     try {
       if (data) {
         if (data?.id !== '') {
@@ -38,11 +39,20 @@ const PrivateRoute = (): JSX.Element => {
     } catch (e) {
       console.error(e, error)
       setIsAuthorized(false)
-      throw e
+      navigate('/login')
     }
-  }, [data, navigate, dispatch, error])
+    if (data && data.id !== '' && data.projectsRoleAssigned.length !== 0) {
+      setIsAuthorized(true)
+    }
+  }, [navigate, error, showSnackBar, data, dispatch])
 
-  return <PageWrapper isLoading={isLoading} isAuthorized={isAuthorized} />
+  return data && data.id === '' ? (
+    <Navigate to="/login" replace />
+  ) : data?.projectsRoleAssigned.length === 0 ? (
+    <Navigate to="/login/role" replace />
+  ) : (
+    <PageWrapper isLoading={isLoading} isAuthorized={isAuthorized} />
+  )
 }
 
 export default PrivateRoute
