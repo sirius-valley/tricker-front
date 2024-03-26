@@ -76,7 +76,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
             )}
           </span>
           {showText && (
-            <div className="flex items-end ">
+            <div className="flex items-end">
               <Icon name="ChevronIcon" width="20" height="20" />
             </div>
           )}
@@ -88,6 +88,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                 key={index}
                 onClick={() => {
                   handleDropdownSelect(option)
+                  setIsOpen(false)
                 }}
                 className="relative cursor-pointer select-none p-4 hover:bg-gray-400 transition-colors duration-300"
               >
