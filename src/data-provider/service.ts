@@ -153,7 +153,7 @@ export const postProjectIntegrationRequest = async (
   authorizationRequest: AuthorizationRequest
 ): Promise<null> => {
   const res = await axios.post(
-    `${url}/integration/${provider}/authorization`,
+    `${url}/integration/${provider.toLowerCase()}/authorization`,
     {
       apiToken: authorizationRequest.apiToken,
       projectId: authorizationRequest.projectId,
