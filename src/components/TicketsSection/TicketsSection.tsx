@@ -4,20 +4,26 @@ import { Modal } from '@components/Modal/Modal'
 import TicketDisplay from '@components/TicketDisplay/TicketDisplay'
 import TicketListWrapper from '@components/TicketListWrapper/TicketListWrapper'
 import useScreenSize from '@hooks/useScreenSize'
-import { useAppDispatch, useCurrentTicket, useUser } from '@redux/hooks'
+import {
+  useAppDispatch,
+  useCurrentTicket,
+  useUser,
+  useUserRole
+} from '@redux/hooks'
 import { setCurrentTicket } from '@redux/user'
 import { Priority, StageType } from '@utils/types'
 import { useNavigate } from 'react-router-dom'
 import Timer from '@components/Timer/Timer'
 
 export interface TicketsSectionProps {
-  isProjectManager?: boolean
+  myTeam?: boolean
 }
 
-const TicketsSection: React.FC = ({
-  isProjectManager = true
+const TicketsSection: React.FC<TicketsSectionProps> = ({
+  myTeam = false
 }: TicketsSectionProps): JSX.Element => {
   const user = useUser()
+  const userRole = useUserRole()
   const screen = useScreenSize()
   const currentTicket = useCurrentTicket()
   const dispatch = useAppDispatch()
@@ -42,14 +48,23 @@ const TicketsSection: React.FC = ({
 
   return screen.width >= 768 ? (
     <div className="h-full w-full flex items-center">
-      <TicketListWrapper currentTicket={currentTicket} />
+      <TicketListWrapper
+        currentTicket={currentTicket}
+        userRole={
+          myTeam && userRole === 'Project Manager' ? userRole : 'Developer'
+        }
+      />
       {currentTicket.id !== '' && (
         <div className="flex flex-col justify-between h-full w-full rounded-r-xl">
           <div className="overflow-y-hidden hover:overflow-y-auto h-full">
             <div className="w-full h-full pt-[72px] xl:px-10 px-5 flex flex-col gap-10">
               <TicketDisplay
                 issue={currentTicket}
-                variant={isProjectManager ? 'Project Manager' : 'Developer'}
+                variant={
+                  myTeam && userRole === 'Project Manager'
+                    ? userRole
+                    : 'Developer'
+                }
               />
               <Chronology />
             </div>
@@ -60,7 +75,12 @@ const TicketsSection: React.FC = ({
     </div>
   ) : (
     <div className="h-full w-full flex flex-col justify-center">
-      <TicketListWrapper currentTicket={currentTicket} />
+      <TicketListWrapper
+        currentTicket={currentTicket}
+        userRole={
+          myTeam && userRole === 'Project Manager' ? userRole : 'Developer'
+        }
+      />
       {currentTicket.id !== '' && (
         <Modal onClose={deselectCurrentTicket} show={currentTicket.id !== ''}>
           <div className="max-h-[70vh] flex flex-col bg-gray-700 items-center h-full w-full border-t ">
@@ -79,7 +99,11 @@ const TicketsSection: React.FC = ({
               <div className="w-full h-full py-[72px] px-8 flex flex-col gap-10">
                 <TicketDisplay
                   issue={currentTicket}
-                  variant={isProjectManager ? 'Project Manager' : 'Developer'}
+                  variant={
+                    myTeam && userRole === 'Project Manager'
+                      ? userRole
+                      : 'Developer'
+                  }
                 />
                 <Chronology />
               </div>
