@@ -9,7 +9,9 @@ import type {
   IssueView,
   OptionalIssueFilters,
   IssueDetail,
-  ModifyTimeData
+  ModifyTimeData,
+  IssueChronologyEventDTO,
+  IssueChronologyEvent
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -142,16 +144,13 @@ export const getPreIntegratedMembers = async (
 }
 
 export const postModifyTime = async (
+  ticketId: string,
   data: ModifyTimeData,
-  variant: 'add' | 'subtract'
+  variant: 'add' | 'remove'
 ): Promise<any> => {
-  console.log(data)
-  console.log(`${url}/${variant}-time`)
   const res = await axios.post(
-    `${url}/${variant}-time`,
-    {
-      data
-    },
+    `${url}/issue/${ticketId}/${variant}-time`,
+    data,
     {
       headers: {
         Authorization: 'Bearer ' + getAccessToken()
@@ -209,9 +208,147 @@ export const getIssuesFilteredAndPaginated = async (
   }
   return []
 }
-export const getIssueById = async (
-  ticketId: string
-): Promise<IssueDetail | null> => {
+
+export const getIssueById = async () // ticketId: string
+: Promise<IssueDetail | null> => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
   return mockedTicketDetail
+}
+
+export const postTimerAction = async (
+  ticketId: string,
+  date: Date,
+  action: 'resume' | 'pause'
+): Promise<any> => {
+  const res = await axios.post(
+    `${url}/issue/${ticketId}/${action}`,
+    {
+      date
+    },
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const postBlock = async (
+  ticketId: string,
+  reason: string,
+  comment: string | null
+): Promise<any> => {
+  const res = await axios.post(
+    `${url}/issue/${ticketId}/flag/add`,
+    {
+      reason,
+      comment
+    },
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const postUnblock = async (ticketId: string): Promise<any> => {
+  const res = await axios.post(
+    `${url}/issue/${ticketId}/flag/remove`,
+    {},
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
+    }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const getTicketElapsedTime = async (
+  ticketId: string
+): Promise<number | null> => {
+  const res = await axios.get(`${url}/issue/${ticketId}/worked-time`, {
+    headers: {
+      Authorization: 'Bearer ' + getAccessToken()
+    }
+  })
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const getChronology = async (
+  issueId: string
+): Promise<IssueChronologyEvent[]> => {
+  const res = await axios.get(`${url}/issue/${issueId}/chronology`, {
+    headers: {
+      Authorization: 'Bearer ' + getAccessToken()
+    }
+  })
+  if (res.status === 200) {
+    ;(res.data as IssueChronologyEventDTO[]).forEach((element) => {
+      element.date = new Date(element.date)
+    })
+    return res.data
+  }
+  return []
+  // await new Promise((resolve) => setTimeout(resolve, 1000))
+  // console.log(issueId)
+  // return [
+  //   {
+  //     id: '1',
+  //     message: 'Ticket created',
+  //     comment: null,
+  //     isBlocker: false,
+  //     date: new Date()
+  //   },
+  //   {
+  //     id: '1',
+  //     message: 'Assigned to me',
+  //     comment: null,
+  //     isBlocker: false,
+  //     date: new Date()
+  //   },
+  //   {
+  //     id: '1',
+  //     message: 'Ticket started',
+  //     comment: null,
+  //     isBlocker: false,
+  //     date: new Date()
+  //   },
+  //   {
+  //     id: '1',
+  //     message: 'Blocked by another ticket',
+  //     comment: 'Blocked by TIK-292',
+  //     isBlocker: true,
+  //     date: new Date()
+  //   },
+  //   {
+  //     id: '1',
+  //     message: 'Ticket started again',
+  //     comment: null,
+  //     isBlocker: false,
+  //     date: new Date()
+  //   },
+  //   {
+  //     id: '1',
+  //     message: 'Ticket paused',
+  //     comment: null,
+  //     isBlocker: false,
+  //     date: new Date()
+  //   }
+  // ]
 }

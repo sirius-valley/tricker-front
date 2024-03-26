@@ -65,6 +65,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
               className="hover:bg-gray-300/10 rounded-xl px-1 cursor-pointer"
               onClick={() => {
                 setValue('')
+                handleValue('')
               }}
             >
               <DismissIcon width={iconSize} height={iconSize} />

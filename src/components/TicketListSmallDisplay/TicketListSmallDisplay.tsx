@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { StageType, type IssueView, Priority } from '@utils/types'
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
-import { useCurrentProjectId, useCurrentTicketId, useUser } from '@redux/hooks'
+import { useAppDispatch, useCurrentProjectId, useUser } from '@redux/hooks'
 import Body2 from '@utils/typography/body2/body2'
 import Body1 from '@utils/typography/body1/body1'
 import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
@@ -12,11 +12,15 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import config from '../../../tailwind.config'
 import { type TicketListProps } from '@components/TicketList/TicketList'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import { setCurrentTicket } from '@redux/user'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 
 const colors = config.theme.extend.colors
 
-const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
+const TicketListSmallDisplay: React.FC<TicketListProps> = ({
+  searchedTicket,
+  currentTicket
+}: TicketListProps): JSX.Element => {
   const { showSnackBar } = useSnackBar()
   const selectedProjectId = useCurrentProjectId()
   const filtersParams = {}
@@ -30,8 +34,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
   //   cursor
   // }
   // } // Replace with filter props and parse it to OptionalIssueFilters
-  const [selectedTicket, setSelectedTicket] =
-    useState<string>(useCurrentTicketId())
+  const dispatch = useAppDispatch()
   const user = useUser()
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
     user.id,
@@ -39,18 +42,23 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
     filtersParams
   )
 
+  const filteredIssues: IssueView[] | undefined = data?.filter(
+    (issue: IssueView) =>
+      issue.name.toLowerCase().includes(searchedTicket.toLowerCase())
+  )
+
   type GroupedIssues = Record<string, IssueView[]>
 
   let groupedByStageName: GroupedIssues = {}
 
-  if (data && !error) {
-    data.sort(
+  if (filteredIssues && !error) {
+    filteredIssues.sort(
       (a, b) =>
         Number(StageType[a.stage.type as unknown as keyof typeof StageType]) -
         Number(StageType[b.stage.type as unknown as keyof typeof StageType])
     )
 
-    groupedByStageName = data.reduce((acc: GroupedIssues, issue) => {
+    groupedByStageName = filteredIssues.reduce((acc: GroupedIssues, issue) => {
       if (acc[issue.stage.name] === undefined) {
         acc[issue.stage.name] = []
       }
@@ -76,6 +84,17 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
     }
   }
 
+  const handleSelectedTicketId = (ticketId: string): void => {
+    if (filteredIssues) {
+      const selectedTicked = filteredIssues.find(
+        (issue: IssueView) => issue.id === ticketId
+      )
+      if (selectedTicked) {
+        dispatch(setCurrentTicket(selectedTicked))
+      }
+    }
+  }
+
   useEffect(() => {
     if (error) {
       showSnackBar(
@@ -87,7 +106,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
 
   return (
     <div
-      className={`w-[467px] h-full bg-gray-500 ${data ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-full max-w-[467px] h-full bg-gray-500 ${filteredIssues ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-1">
@@ -98,10 +117,10 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
           </SkeletonTheme>
         </div>
       )}
-      {data && data.length !== 0 && !error ? (
+      {filteredIssues && filteredIssues.length !== 0 && !error ? (
         Object.entries(groupedByStageName).map(([key, issues]) => (
           <div key={key} className="text-white">
-            <div className="h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
+            <div className="h-[51px] w-full bg-white/5 items-center flex py-4 px-6 gap-2">
               <div
                 className={`w-3 h-3 rounded-full ${stageColor(StageType[issues[0].stage.type as unknown as keyof typeof StageType])}`}
               ></div>
@@ -113,9 +132,9 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
             {issues?.map((issue) => (
               <div
                 key={issue.id}
-                className={`h-[51px] border-l-[2px]  items-center flex py-4 px-6 gap-2 cursor-pointer ${selectedTicket === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
+                className={`h-[51px] border-l-[2px] w-full items-center flex py-4 px-6 gap-2 cursor-pointer ${currentTicket.id === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
                 onClick={() => {
-                  setSelectedTicket(issue.id)
+                  handleSelectedTicketId(issue.id)
                 }}
               >
                 <div className="flex gap-1">
@@ -126,7 +145,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
                       ]
                     }
                     fillColor={
-                      selectedTicket === issue.id
+                      currentTicket.id === issue.id
                         ? colors.primary[400]
                         : 'white'
                     }
@@ -135,7 +154,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
                     <StoryPointsIcon
                       points={issue.storyPoints}
                       fillColor={
-                        selectedTicket === issue.id
+                        currentTicket.id === issue.id
                           ? colors.primary[400]
                           : 'white'
                       }
@@ -143,7 +162,9 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
                   )}
                 </div>
                 <Body1 className="font-semibold min-w-fit">{issue.name}</Body1>
-                <Body1 className="truncate text-ellipsis ">{issue.title}</Body1>
+                <Body1 className="w-[20vw] truncate text-ellipsis ">
+                  {issue.title}
+                </Body1>
                 {issue.blocked === true && (
                   <Pill variant="blocked">Blocked</Pill>
                 )}
@@ -154,8 +175,13 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = (): JSX.Element => {
             ))}
           </div>
         ))
-      ) : (
+      ) : !data ? (
         <NoTicketMessage />
+      ) : (
+        <NoTicketMessage
+          title="No tickets found"
+          subtitle="It seems there are no tickets that match your search"
+        />
       )}
     </div>
   )
