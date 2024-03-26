@@ -39,13 +39,19 @@ const Timer: React.FC<TimerProps> = ({
     error: errorElapsedTime
   } = useGetTicketElapsedTime(ticketId)
   const [paused, setPaused] = useState<boolean>(true)
-  const [time, setTime] = useState<number>(elapsedTime || 0)
+  const [time, setTime] = useState<number>(0)
   const [isBlocked, setIsBlocked] = useState<boolean>(blocked)
   const [modalVariant, setModalVariant] = useState<'add' | 'remove'>('add')
   const [showModalTime, setShowModalTime] = useState<boolean>(false)
   const [showModalBlock, setShowModalBlock] = useState<boolean>(false)
   const [showModalResume, setShowModalResume] = useState<boolean>(false)
   const [showModalUnblock, setShowModalUnblock] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (elapsedTime) {
+      setTime(elapsedTime.workedTime)
+    }
+  }, [elapsedTime])
 
   const { showSnackBar } = useSnackBar()
 
@@ -80,12 +86,11 @@ const Timer: React.FC<TimerProps> = ({
     window.onbeforeunload = function (e) {
       return e
     }
-
-    let interval: string | number | NodeJS.Timeout | undefined
+    let interval: NodeJS.Timeout | undefined
     if (!paused)
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime + 10)
-      }, 10)
+        setTime((prevTime) => prevTime + 1)
+      }, 1000)
     else {
       clearInterval(interval)
       handleElapsedTime && handleElapsedTime(time)
@@ -187,13 +192,13 @@ const Timer: React.FC<TimerProps> = ({
             </SkeletonTheme>
           )}
           {!isLoading && (
-            <H1 className="xl:text-[32px] lg:text-[26px] text-[20px]">
-              {Math.floor(time / 3600000)
-                .toString()
-                .padStart(2, '0')}
-              :{('0' + Math.floor((time / 60000) % 60)).slice(-2)}hs
-              {/* {('0' + Math.floor((time / 1000) % 60)).slice(-2)}hs */}
-            </H1>
+            <div role="timer">
+              <H1 className="xl:text-[32px] lg:text-[26px] text-[20px]">
+                {('0' + Math.floor(time / 3600)).slice(-2)}:
+                {('0' + Math.floor((time % 3600) / 60)).slice(-2)}:
+                {('0' + Math.floor(time % 60)).slice(-2)}
+              </H1>
+            </div>
           )}
         </div>
         <div className="flex w-fit gap-4 items-center justify-center">

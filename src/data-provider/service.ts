@@ -263,7 +263,7 @@ export const postUnblock = async (ticketId: string): Promise<any> => {
 
 export const getTicketElapsedTime = async (
   ticketId: string
-): Promise<number | null> => {
+): Promise<{ workedTime: number } | null> => {
   const res = await axios.get(`${url}/issue/${ticketId}/worked-time`, {
     headers: {
       Authorization: 'Bearer ' + getAccessToken()

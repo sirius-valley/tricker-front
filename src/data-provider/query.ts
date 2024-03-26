@@ -254,7 +254,7 @@ export const usePostUnblock = (): {
 export const useGetTicketElapsedTime = (
   issueId: string
 ): {
-  data: number | null | undefined
+  data: { workedTime: number } | null | undefined
   error: Error | null
   isLoading: boolean
 } => {
