@@ -7,8 +7,9 @@ import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import useScreenSize from '@hooks/useScreenSize'
 import { useGetChronology } from '@data-provider/query'
 import { useCurrentTicket } from '@redux/hooks'
-import Spinner from '@components/Spinner/Spinner'
 import NotificationBadge from '@components/NotificationBadge/NotificationBadge'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const Chronology: React.FC = () => {
   const screen = useScreenSize()
@@ -25,15 +26,22 @@ const Chronology: React.FC = () => {
   return (
     <div className="flex flex-col gap-3 h-full text-white w-full">
       <H2 className="font-bold text-lg flex">Chronology</H2>
-      {(isLoading || error) && (
-        <div className="h-full flex items-center justify-center">
-          {isLoading && <Spinner variant="primary" size={50} />}
-          {error && (
-            <NotificationBadge variant="error" className="w-fit items-center">
-              We had a problem loading the chronology, please try again later.
-            </NotificationBadge>
-          )}
-        </div>
+      {isLoading &&
+        Array.from({ length: 6 }).map((_, index) => (
+          <div key={index} className="flex p-2 pl-4 items-center">
+            <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
+              <Skeleton
+                width={Math.random() * 130 + (screen.width > 500 ? 200 : 50)}
+                height={20}
+                containerClassName="h-[20px]"
+              />
+            </SkeletonTheme>
+          </div>
+        ))}
+      {error && (
+        <NotificationBadge variant="error" className="w-fit items-center">
+          We had a problem loading the chronology, please try again later.
+        </NotificationBadge>
       )}
       {data && (
         <div className="flex flex-col pr-6 min-h-full">

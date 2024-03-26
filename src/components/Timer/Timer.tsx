@@ -2,32 +2,42 @@ import { GradientRoundedButton } from '@components/GradientRoundedButton/Gradien
 import Icon from '@components/Icon/Icon'
 import H1 from '@utils/typography/h1/h1'
 import Subtitle from '@utils/typography/subtitle/subtitle'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { RoundedIconButton } from '@components/RoundedIconButton/RoundedIconButton'
 import { BlockedIcon, AddTimeIcon, SubstractTimeIcon } from '@components/Icon'
 import { Tooltip } from '@components/Tooltip/Tooltip'
 import ModalResume from '@components/ModalResumeTracking/ModalResumeTracking'
 import ModalModifyTime from '@components/ModalModifyTime/ModalModifyTime'
-import { usePostTimerAction, usePostUnblock } from '@data-provider/query'
+import {
+  usePostTimerAction,
+  usePostUnblock,
+  useGetTicketElapsedTime
+} from '@data-provider/query'
 import ModalBlock from '@components/ModalBlock/ModalBlock'
 import ModalUnblock from '@components/ModalUnblock/ModalUnblock'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export interface TimerProps {
   ticketId: string
   blocked?: boolean
-  elapsedTime?: number
   handleElapsedTime?: (elapsedTime: number) => void
 }
 
 const Timer: React.FC<TimerProps> = ({
   ticketId,
   blocked = false,
-  elapsedTime = 0,
   handleElapsedTime
 }): JSX.Element => {
+  const {
+    data: elapsedTime,
+    isLoading,
+    error: errorElapsedTime
+  } = useGetTicketElapsedTime(ticketId)
+
   const [paused, setPaused] = useState<boolean>(true)
-  const [time, setTime] = useState<number>(elapsedTime)
+  const [time, setTime] = useState<number>(elapsedTime || 0)
   const [isBlocked, setIsBlocked] = useState<boolean>(blocked)
   const [modalVariant, setModalVariant] = useState<'add' | 'remove'>('add')
   const [showModalTime, setShowModalTime] = useState<boolean>(false)
@@ -51,6 +61,17 @@ const Timer: React.FC<TimerProps> = ({
     isSuccess: successUnblock,
     error: errorUnblock
   } = usePostUnblock()
+
+  const memoizedShowSnackBar = useCallback(showSnackBar, [])
+
+  useEffect(() => {
+    if (errorElapsedTime) {
+      memoizedShowSnackBar(
+        'An error occurred while fetching the ticket time',
+        'error'
+      )
+    }
+  }, [errorElapsedTime, memoizedShowSnackBar])
 
   useEffect(() => {
     window.onbeforeunload = function (e) {
@@ -157,12 +178,19 @@ const Timer: React.FC<TimerProps> = ({
           <Subtitle className="bg-clip-text text-transparent bg-gradient text-sm overflow-hidden max-h-[14px]">
             {ticketId}
           </Subtitle>
-          <H1 className="xl:text-[32px] text-[26px]">
-            {Math.floor(time / 3600000)
-              .toString()
-              .padStart(2, '0')}
-            :{('0' + Math.floor((time / 60000) % 60)).slice(-2)}hs
-          </H1>
+          {isLoading && (
+            <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
+              <Skeleton height={32} width={130} />
+            </SkeletonTheme>
+          )}
+          {!isLoading && (
+            <H1 className="xl:text-[32px] text-[26px]">
+              {Math.floor(time / 3600000)
+                .toString()
+                .padStart(2, '0')}
+              :{('0' + Math.floor((time / 60000) % 60)).slice(-2)}hs
+            </H1>
+          )}
         </div>
         <div className="flex w-fit gap-4 items-center justify-center">
           {!paused ? (
