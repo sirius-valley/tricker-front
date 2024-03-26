@@ -250,6 +250,20 @@ export const usePostUnblock = (): {
   return { mutate, reset, error, isPending, isSuccess }
 }
 
+export const useGetTicketElapsedTime = (
+  issueId: string
+): {
+  data: number | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getTicketElapsedTime', issueId],
+    queryFn: async () => await ApiService.getTicketElapsedTime(issueId)
+  })
+  return { data, error, isLoading }
+}
+
 export const useGetChronology = (
   issueId: string
 ): {
