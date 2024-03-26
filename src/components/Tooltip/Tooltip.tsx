@@ -52,7 +52,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
           maxWidth: '280px',
           textAlign: 'center',
           borderRadius: '4px',
-          lineHeight: '14.5px'
+          lineHeight: '14.5px',
+          zIndex: 9999
         }}
       />
     </>
