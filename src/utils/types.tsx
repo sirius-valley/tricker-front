@@ -122,11 +122,28 @@ export interface IssueView {
   stage: StageExtended
   name: string
   title: string
+  description: string | null
   priority: Priority
   storyPoints: number | null
   labels: Label[]
-  blocked?: boolean
-  tracking?: boolean
+  isBlocked: boolean
+  isTracking: boolean
+}
+
+export interface IssueChronologyEventDTO {
+  id: string
+  message: string
+  comment: string | null
+  isBlocker: boolean
+  date: string | Date
+}
+
+export interface IssueChronologyEvent {
+  id: string
+  message: string
+  comment: string | null
+  isBlocker: boolean
+  date: Date
 }
 
 export interface Stage {
@@ -380,7 +397,7 @@ export interface OptionalIssueFilters {
 }
 
 export interface ModifyTimeData {
-  selectedTime: number
-  selectedReason: string
-  inputDate: string
+  timeAmount: number
+  reason: string
+  date: string
 }

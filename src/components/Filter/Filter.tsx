@@ -4,7 +4,6 @@ import type * as icons from '@components/Icon/index.ts'
 import Checkbox from '@components/Checkbox/Checkbox'
 import Body1 from '@utils/typography/body1/body1'
 import { Switch } from '@components/Switch/Switch'
-import { useUserRole } from '@redux/hooks'
 
 export interface OptionAttr {
   option: string
@@ -22,6 +21,7 @@ export interface SearchButtonProps {
   handleSelect: (options: OptionAttr[]) => void
   handleOutOfEstimation: (value: boolean) => void
   show: boolean
+  userRole?: 'Project Manager' | 'Developer'
 }
 
 const Filter: React.FC<SearchButtonProps> = ({
@@ -31,7 +31,8 @@ const Filter: React.FC<SearchButtonProps> = ({
   selectedItems = [],
   handleSelect,
   handleOutOfEstimation,
-  show
+  show,
+  userRole = 'Developer'
 }) => {
   const [showStatusOptions, setShowStatusOptions] = useState<boolean>(false)
   const [showAsigneeOptions, setShowAsigneeOptions] = useState<boolean>(false)
@@ -40,7 +41,6 @@ const Filter: React.FC<SearchButtonProps> = ({
     useState<OptionAttr[]>(selectedItems)
   const filterRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const userRole: string = useUserRole()
 
   useEffect(() => {
     handleSelect(selectedOptions)

@@ -102,9 +102,7 @@ export const Default: Story = {
     category: 'feature',
     elapsedTime: 200,
     isProjectManager: true,
-    storyPoints: 3,
-    associatedUserProfile:
-      'https://icon-library.com/images/default-user-icon/default-user-icon-13.jpg'
+    storyPoints: 3
   },
   render: (args) => <TicketCard {...args} />
 }

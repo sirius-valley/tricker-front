@@ -1,7 +1,7 @@
 import { type Meta, type StoryObj } from '@storybook/react'
 import TicketDisplay from './TicketDisplay'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { mockedTicketDetail } from './MockedTicketDetail'
+import { mockedTicket } from '@components/TicketList/MockedTicket'
 
 const queryClient = new QueryClient()
 
@@ -39,7 +39,7 @@ export const Default: Story = {
   tags: ['autodocs'],
   args: {
     variant: 'Project Manager',
-    issue: mockedTicketDetail
+    issue: mockedTicket
   },
   render: (args) => <TicketDisplay {...args} />
 }

@@ -6,7 +6,7 @@ import config from '../../../tailwind.config.js'
 const colors = config.theme.extend.colors
 
 const navbarItemVariants = cva(
-  ['flex p-[8px] gap-[8px] w-[184px] max-h-fit  items-center'],
+  ['flex p-[8px] gap-[8px] w-fit max-w-[184px] max-h-fit  items-center'],
   {
     variants: {
       variant: {
@@ -28,6 +28,7 @@ export interface NavbarItemProps
   extends VariantProps<typeof navbarItemVariants>,
     React.HTMLAttributes<HTMLDivElement> {
   icon?: React.ReactNode
+  showText?: boolean
 }
 
 export const NavbarItem: React.FC<NavbarItemProps> = ({
@@ -35,6 +36,7 @@ export const NavbarItem: React.FC<NavbarItemProps> = ({
   variant,
   icon,
   children,
+  showText = true,
   ...props
 }) => {
   let iconColor
@@ -57,7 +59,7 @@ export const NavbarItem: React.FC<NavbarItemProps> = ({
   return (
     <div className={navbarItemVariants({ variant, className })} {...props}>
       {IconComponent}
-      <Body1>{children}</Body1>
+      {showText && <Body1>{children}</Body1>}
     </div>
   )
 }

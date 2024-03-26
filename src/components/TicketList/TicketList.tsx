@@ -1,31 +1,31 @@
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
-import {
-  useAppDispatch,
-  useCurrentProjectId,
-  useCurrentTicketId,
-  useUser
-} from '@redux/hooks'
+import { useAppDispatch, useCurrentProjectId, useUser } from '@redux/hooks'
 import { type IssueView, StageType } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
 import Body2 from '@utils/typography/body2/body2'
 import { useEffect, useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
-import { setCurrentTicketId } from '@redux/user'
+import { setCurrentTicket } from '@redux/user'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 import { type OptionAttr } from '@components/Filter/Filter'
+import ModalStop from '@components/ModalStopTracking/ModalStopTracking'
 
 export interface TicketListProps {
   filters: OptionAttr[]
   searchedTicket: string
   isOutOfEstimation: boolean
   isProjectManager: boolean
+  currentTicket: IssueView
 }
 
 const TicketList: React.FC<TicketListProps> = ({
-  isProjectManager
+  isProjectManager,
+  searchedTicket,
+  currentTicket
 }: TicketListProps): JSX.Element => {
+  const [openModal, setOpenModal] = useState(false)
   const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
   const filtersParams = {}
@@ -42,26 +42,29 @@ const TicketList: React.FC<TicketListProps> = ({
   const user = useUser()
   const dispatch = useAppDispatch()
 
-  const [selectedTicketId, setSelectedTicketId] =
-    useState<string>(useCurrentTicketId())
-
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
     user.id,
     currentProjectId,
     filtersParams
   )
+
+  const filteredIssues: IssueView[] | undefined = data?.filter(
+    (issue: IssueView) =>
+      issue.name.toLowerCase().includes(searchedTicket.toLowerCase())
+  )
+
   type GroupedIssues = Record<string, IssueView[]>
 
   let groupedByStageName: GroupedIssues = {}
 
-  if (data && !error) {
-    data.sort(
+  if (filteredIssues && !error) {
+    filteredIssues.sort(
       (a, b) =>
         Number(StageType[a.stage.type as unknown as keyof typeof StageType]) -
         Number(StageType[b.stage.type as unknown as keyof typeof StageType])
     )
 
-    groupedByStageName = data.reduce((acc: GroupedIssues, issue) => {
+    groupedByStageName = filteredIssues.reduce((acc: GroupedIssues, issue) => {
       if (acc[issue.stage.name] === undefined) {
         acc[issue.stage.name] = []
       }
@@ -87,8 +90,17 @@ const TicketList: React.FC<TicketListProps> = ({
     }
   }
   const handleSelectedTicketId = (ticketId: string): void => {
-    setSelectedTicketId(ticketId)
-    dispatch(setCurrentTicketId(ticketId))
+    if (filteredIssues) {
+      const selectedTicked = filteredIssues.find(
+        (issue: IssueView) => issue.id === ticketId
+      )
+      if (selectedTicked && !currentTicket.isTracking) {
+        dispatch(setCurrentTicket(selectedTicked))
+      } else {
+        console.log('esta trackeando')
+        setOpenModal(true)
+      }
+    }
   }
 
   useEffect(() => {
@@ -102,7 +114,7 @@ const TicketList: React.FC<TicketListProps> = ({
 
   return (
     <div
-      className={`w-[393px] md:w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-full max-w-full md:max-w-[467px] h-[770px] bg-gray-500 ${filteredIssues ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-6 w-full">
@@ -117,10 +129,10 @@ const TicketList: React.FC<TicketListProps> = ({
           </SkeletonTheme>
         </div>
       )}
-      {data && data.length !== 0 && !error ? (
+      {filteredIssues && filteredIssues.length !== 0 && !error ? (
         Object.entries(groupedByStageName).map(([key, issues]) => (
           <div key={key} className="text-white">
-            <div className="h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
+            <div className="w-full h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
               <div
                 className={`w-3 h-3 rounded-full ${stageColor(StageType[issues[0].stage.type as unknown as keyof typeof StageType])}`}
               />
@@ -129,22 +141,22 @@ const TicketList: React.FC<TicketListProps> = ({
               </Body2>
               <Body1>{issues?.length}</Body1>
             </div>
-            <div className="flex flex-col items-center gap-4 py-4 px-6 md:py-6 w-full ">
+            <div className="flex flex-col items-center gap-4 py-4 px-6 md:py-6 w-full">
               {issues?.map((issue) => (
                 <TicketCard
                   ticketId={issue.name}
                   name={issue.title}
                   priority={issue.priority}
                   status={
-                    issue.blocked === true
+                    issue.isBlocked
                       ? 'blocked'
-                      : issue.tracking === true
+                      : issue.isTracking
                         ? 'tracking'
                         : null
                   }
                   isProjectManager={isProjectManager}
-                  associatedUserProfile={issue.assignee?.profileUrl || ''}
-                  selectedCard={selectedTicketId === issue.id}
+                  associatedUserProfile={issue.assignee || null}
+                  selectedCard={currentTicket.id === issue.id}
                   storyPoints={issue.storyPoints}
                   handleClick={() => {
                     handleSelectedTicketId(issue.id)
@@ -155,8 +167,22 @@ const TicketList: React.FC<TicketListProps> = ({
             </div>
           </div>
         ))
-      ) : (
+      ) : !data ? (
         <NoTicketMessage />
+      ) : (
+        <NoTicketMessage
+          title="No tickets found"
+          subtitle="It seems there are no tickets that match your search"
+        />
+      )}
+      {openModal && (
+        <ModalStop
+          onStop={() => {}}
+          onClose={() => {
+            setOpenModal(false)
+          }}
+          show={openModal}
+        />
       )}
     </div>
   )
