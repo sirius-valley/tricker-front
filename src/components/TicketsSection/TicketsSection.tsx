@@ -59,7 +59,7 @@ const TicketsSection: React.FC = ({
       )}
     </div>
   ) : (
-    <div className="h-full w-full flex items-center ">
+    <div className="h-full w-full flex flex-col justify-center">
       <TicketListWrapper currentTicket={currentTicket} />
       {currentTicket.id !== '' && (
         <Modal onClose={deselectCurrentTicket} show={currentTicket.id !== ''}>
@@ -84,10 +84,6 @@ const TicketsSection: React.FC = ({
                 <Chronology />
               </div>
             </div>
-            <Timer
-              ticketId={currentTicket.id}
-              ticketName={currentTicket.name}
-            />
           </div>
         </Modal>
       )}

@@ -144,7 +144,7 @@ const Timer: React.FC<TimerProps> = ({
   }, [successUnblock, successTimer, errorUnblock, errorTimer])
 
   return (
-    <div className="w-full self-end h-32 md:bg-gray-500  bg-gray-700 xl:px-10 py-4 px-5 items-center flex text-white md:rounded-br-xl border-t border-white/10">
+    <div className="w-full h-fit self-end h-32 md:bg-gray-500 bg-gray-700 xl:px-10 py-4 px-5 items-center flex text-white md:rounded-br-xl border-t border-white/10">
       <ModalResume
         onResume={() => {
           handleModalResume()
@@ -187,12 +187,12 @@ const Timer: React.FC<TimerProps> = ({
             </SkeletonTheme>
           )}
           {!isLoading && (
-            <H1 className="xl:text-[32px] text-[26px]">
+            <H1 className="xl:text-[32px] lg:text-[26px] text-[20px]">
               {Math.floor(time / 3600000)
                 .toString()
                 .padStart(2, '0')}
-              :{('0' + Math.floor((time / 60000) % 60)).slice(-2)}:
-              {('0' + Math.floor((time / 1000) % 60)).slice(-2)}hs
+              :{('0' + Math.floor((time / 60000) % 60)).slice(-2)}hs
+              {/* {('0' + Math.floor((time / 1000) % 60)).slice(-2)}hs */}
             </H1>
           )}
         </div>
@@ -202,7 +202,7 @@ const Timer: React.FC<TimerProps> = ({
               <RoundedIconButton
                 className="w-11 h-11"
                 icon={<SubstractTimeIcon />}
-                size={screen.width > 1120 ? 'lg' : 'sm'}
+                size={screen.width > 1024 ? 'lg' : 'sm'}
                 variant={'disabled'}
               />
             </Tooltip>
@@ -210,7 +210,7 @@ const Timer: React.FC<TimerProps> = ({
             <RoundedIconButton
               className="w-11 h-11"
               icon={<SubstractTimeIcon />}
-              size={screen.width > 1120 ? 'lg' : 'sm'}
+              size={screen.width > 1024 ? 'lg' : 'sm'}
               variant={'default'}
               onClick={() => {
                 setModalVariant('remove')
@@ -223,7 +223,7 @@ const Timer: React.FC<TimerProps> = ({
               <RoundedIconButton
                 className="w-11 h-11"
                 icon={<AddTimeIcon />}
-                size={screen.width > 1120 ? 'lg' : 'sm'}
+                size={screen.width > 1024 ? 'lg' : 'sm'}
                 variant={'disabled'}
               />
             </Tooltip>
@@ -231,7 +231,7 @@ const Timer: React.FC<TimerProps> = ({
             <RoundedIconButton
               className="w-11 h-11"
               icon={<AddTimeIcon />}
-              size={screen.width > 1120 ? 'lg' : 'sm'}
+              size={screen.width > 1024 ? 'lg' : 'sm'}
               variant={'default'}
               onClick={() => {
                 setModalVariant('add')
@@ -244,7 +244,7 @@ const Timer: React.FC<TimerProps> = ({
               <RoundedIconButton
                 className="w-11 h-11"
                 icon={<BlockedIcon />}
-                size={screen.width > 1120 ? 'lg' : 'sm'}
+                size={screen.width > 1024 ? 'lg' : 'sm'}
                 variant={'disabled'}
               />
             </Tooltip>
@@ -252,7 +252,7 @@ const Timer: React.FC<TimerProps> = ({
             <RoundedIconButton
               className="w-11 h-11"
               icon={<BlockedIcon />}
-              size={screen.width > 1120 ? 'lg' : 'sm'}
+              size={screen.width > 1024 ? 'lg' : 'sm'}
               variant={isBlocked ? 'blocked' : 'default'}
               onClick={
                 isBlocked
@@ -264,7 +264,7 @@ const Timer: React.FC<TimerProps> = ({
             />
           )}
           <GradientRoundedButton
-            size={screen.width > 1120 ? 'lg' : 'md'}
+            size={screen.width > 1024 ? 'lg' : 'md'}
             icon={
               <Icon name={paused ? 'PlayIcon' : 'StopIcon'} fillColor="black" />
             }
