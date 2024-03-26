@@ -31,6 +31,7 @@ const TicketListWrapper: React.FC<TicketListWrapperProps> = ({
         handleSearch={setSearchedTicket}
         handleView={setView}
         handleOutOfEstimation={setOutOfEstimation}
+        userRole={userRole}
       />
       {view === 'grid' && (
         <TicketList
