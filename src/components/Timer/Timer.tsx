@@ -19,6 +19,8 @@ import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import useScreenSize from '@hooks/useScreenSize'
+import { useAppDispatch, useCurrentTicket } from '@redux/hooks'
+import { setCurrentTicket } from '@redux/user'
 
 export interface TimerProps {
   ticketId: string
@@ -38,7 +40,9 @@ const Timer: React.FC<TimerProps> = ({
     isLoading,
     error: errorElapsedTime
   } = useGetTicketElapsedTime(ticketId)
-  const [paused, setPaused] = useState<boolean>(true)
+  const currentTicket = useCurrentTicket()
+
+  const [paused, setPaused] = useState<boolean>(!currentTicket.isTracking)
   const [time, setTime] = useState<number>(0)
   const [isBlocked, setIsBlocked] = useState<boolean>(blocked)
   const [modalVariant, setModalVariant] = useState<'add' | 'remove'>('add')
@@ -46,6 +50,15 @@ const Timer: React.FC<TimerProps> = ({
   const [showModalBlock, setShowModalBlock] = useState<boolean>(false)
   const [showModalResume, setShowModalResume] = useState<boolean>(false)
   const [showModalUnblock, setShowModalUnblock] = useState<boolean>(false)
+
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (currentTicket.id) {
+      console.log(currentTicket.isTracking)
+      setPaused(!currentTicket.isTracking)
+    }
+  }, [currentTicket.id])
 
   useEffect(() => {
     if (elapsedTime) {
@@ -136,6 +149,7 @@ const Timer: React.FC<TimerProps> = ({
     if (successTimer) {
       setPaused(!paused)
       resetTimer()
+      dispatch(setCurrentTicket({ ...currentTicket, isTracking: !paused }))
     }
     if (errorUnblock) {
       showSnackBar('An error occurred while unblocking the ticket', 'error')

@@ -41,7 +41,9 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
         description: '',
         priority: Priority.NO_PRIORITY,
         storyPoints: 0,
-        labels: []
+        labels: [],
+        isBlocked: false,
+        isTracking: false
       })
     )
   }
