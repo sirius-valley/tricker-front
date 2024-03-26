@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 import PageWrapper from './PrivateRouteWrapper'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '@redux/hooks'
