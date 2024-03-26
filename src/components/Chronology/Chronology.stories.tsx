@@ -1,5 +1,5 @@
 import { type Meta, type Story } from '@storybook/react'
-import Chronology, { type ChronologyProps } from './Chronology'
+import Chronology from './Chronology'
 import { MockedEvents } from './MockedEvents'
 
 const meta: Meta<typeof Chronology> = {
@@ -18,9 +18,9 @@ const meta: Meta<typeof Chronology> = {
 
 export default meta
 
-const Template: Story<ChronologyProps> = (args) => <Chronology {...args} />
+const Template: Story = (args) => <Chronology {...args} />
 
-export const Primary: Story<ChronologyProps> = Template.bind({})
+export const Primary: Story = Template.bind({})
 Primary.args = {
   events: MockedEvents
 }

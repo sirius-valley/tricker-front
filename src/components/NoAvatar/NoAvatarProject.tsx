@@ -14,7 +14,7 @@ const NoAvatarProject: React.FC<NoAvatarProjectProps> = ({
   width = 32,
   height = 32
 }) => {
-  const firstLetter = text.charAt(0).toUpperCase()
+  const firstLetter = text?.charAt(0).toUpperCase()
 
   return (
     <div

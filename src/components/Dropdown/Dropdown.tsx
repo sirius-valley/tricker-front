@@ -9,12 +9,14 @@ import NoAvatarProject from '@components/NoAvatar/NoAvatarProject'
 const colors = config.theme.extend.colors
 
 interface DropdownProps {
+  showText?: boolean
   preSelectedOption: DropdownOption
   options: DropdownOption[]
   handleSelect: (option: DropdownOption) => void
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
+  showText = true,
   preSelectedOption,
   options,
   handleSelect
@@ -49,31 +51,35 @@ export const Dropdown: React.FC<DropdownProps> = ({
   }, [])
 
   return (
-    <div className="w-[224px] h-[48px]" ref={dropdownRef}>
+    <div className="w-fit lg:w-full h-[48px]" ref={dropdownRef}>
       <div className="relative">
         <button
           type="button"
           onClick={() => {
             setIsOpen(!isOpen)
           }}
-          className="relative w-full cursor-pointer py-2 px-6 flex items-center justify-between focus:outline-none "
+          className="relative w-full cursor-pointer py-2 lg:px-8 flex items-center justify-between focus:outline-none gap-1"
         >
           <span className="flex items-center gap-2 w-fit">
-            {selectedProject.image ? (
+            {selectedProject?.image ? (
               <img
-                src={selectedProject.image}
+                src={selectedProject?.image}
                 className="h-[32px] w-[32px] rounded-sm"
               />
             ) : (
-              <NoAvatarProject text={selectedProject.title} />
+              <NoAvatarProject text={selectedProject?.title} />
             )}
-            <Body2 className="text-white font-semibold overflow-hidden overflow-ellipsis whitespace-nowrap">
-              {selectedProject.title}
-            </Body2>
+            {showText && (
+              <Body2 className="text-white font-semibold overflow-hidden overflow-ellipsis whitespace-nowrap">
+                {selectedProject?.title}
+              </Body2>
+            )}
           </span>
-          <div className="flex items-end ">
-            <Icon name="ChevronIcon" width="20" height="20" />
-          </div>
+          {showText && (
+            <div className="flex items-end ">
+              <Icon name="ChevronIcon" width="20" height="20" />
+            </div>
+          )}
         </button>
         {isOpen && (
           <ul className="absolute z-10 ml-6 w-[297px] rounded-lg py-2 border border-gray-300 bg-gray-500">
@@ -91,7 +97,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                     width="20"
                     height="20"
                     fillColor={
-                      selectedProject.id === option.id
+                      selectedProject?.id === option.id
                         ? colors.primary[400]
                         : 'transparent'
                     }

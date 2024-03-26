@@ -9,19 +9,26 @@ import { type ModifyTimeData } from '@utils/types'
 import { usePostModifyTime } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Spinner from '@components/Spinner/Spinner'
+import { useCurrentTicket } from '@redux/hooks'
 
-interface AddTimeProps {
+interface ModalModifyTimeProps {
   onClose: () => void
   show: boolean
-  variant: 'add' | 'subtract'
+  variant: 'add' | 'remove'
 }
 
-const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
+const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
+  onClose,
+  show,
+  variant
+}) => {
   const [selectedTime, setSelectedTime] = useState<number>(0)
   const [selectedReason, setSelectedReason] = useState<string>('')
   const [inputDate, setInputDate] = useState<string>('')
   const [isDateValid, setIsDateValid] = useState<boolean>(true)
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
+
+  const currentTicket = useCurrentTicket()
 
   const timesInSeconds: Record<string, number> = {
     '10 minutes': 600,
@@ -121,12 +128,16 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
       setButtonDisabled(false)
     }
     if (isSuccess) {
-      memoizedShowSnackBar('Time added successfully', 'success')
+      memoizedShowSnackBar('Time change submitted successfully', 'success')
       setToInitialValues()
+      reset()
       onClose()
     }
     if (error) {
-      memoizedShowSnackBar('An error occurred while adding time', 'error')
+      memoizedShowSnackBar(
+        'An error occurred while submitting the time',
+        'error'
+      )
       setToInitialValues()
       reset()
     }
@@ -141,15 +152,20 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
     inputDate
   ])
 
-  const handleAddTime = (): void => {
+  const parseDateToISOString = (date: string): string => {
+    const [day, month, year] = date.split('/')
+    return `${year}-${month}-${day}T12:00:00Z`
+  }
+
+  const handleSubmitTime = (): void => {
     if (selectedTime && isDateValid) {
       const data: ModifyTimeData = {
-        selectedTime,
-        selectedReason,
-        inputDate
+        timeAmount: selectedTime,
+        reason: selectedReason,
+        date: parseDateToISOString(inputDate)
       }
 
-      mutate({ data, variant })
+      mutate({ ticketId: currentTicket.id, data, variant })
     }
   }
 
@@ -244,7 +260,7 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
                 variant="filled"
                 size={'large'}
                 className="h-[56px] w-[313px] text-black"
-                onClick={handleAddTime}
+                onClick={handleSubmitTime}
                 disabled={buttonDisabled}
               >
                 {variant[0].toUpperCase() + variant.substring(1)} Time
@@ -257,4 +273,4 @@ const AddTimeModal: React.FC<AddTimeProps> = ({ onClose, show, variant }) => {
   )
 }
 
-export default AddTimeModal
+export default ModalModifyTime

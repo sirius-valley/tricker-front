@@ -1,15 +1,20 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { type Step, type User, type IssueView } from '@utils/types'
+import {
+  type Step,
+  type User,
+  type IssueView,
+  StageType,
+  Priority
+} from '@utils/types'
 
 interface InitialStateType {
   user: User
   userRole: string
-  currentTicketId: string
+  currentTicket: IssueView
   currentProjectId: string
   currentStep: number
   steps: Step[]
   projectName: string
-  selectedTicket?: IssueView
 }
 
 export const initialState: InitialStateType = {
@@ -30,7 +35,17 @@ export const initialState: InitialStateType = {
     // OrganizationAdministrator: []
   },
   userRole: '',
-  currentTicketId: '',
+  currentTicket: {
+    id: '',
+    assignee: null,
+    stage: { id: '', name: '', type: StageType.BACKLOG },
+    name: '',
+    title: '',
+    description: '',
+    priority: Priority.NO_PRIORITY,
+    storyPoints: 0,
+    labels: []
+  },
   currentProjectId: '',
   currentStep: 0,
   steps: [
@@ -51,8 +66,8 @@ const userSlice = createSlice({
     setUserRole: (state, action: PayloadAction<string>) => {
       state.userRole = action.payload
     },
-    setCurrentTicketId: (state, action: PayloadAction<string>) => {
-      state.currentTicketId = action.payload
+    setCurrentTicket: (state, action: PayloadAction<IssueView>) => {
+      state.currentTicket = action.payload
     },
     setCurrentProjectId: (state, action: PayloadAction<string>) => {
       state.currentProjectId = action.payload
@@ -62,9 +77,6 @@ const userSlice = createSlice({
     },
     setProjectName: (state, action: PayloadAction<string>) => {
       state.projectName = action.payload
-    },
-    setSelectedTicket: (state, action: PayloadAction<IssueView>) => {
-      state.selectedTicket = action.payload
     }
   }
 })
@@ -72,7 +84,7 @@ const userSlice = createSlice({
 export const {
   setUser,
   setUserRole,
-  setCurrentTicketId,
+  setCurrentTicket,
   setCurrentProjectId,
   setCurrentStep,
   setProjectName

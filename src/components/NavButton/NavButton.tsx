@@ -20,11 +20,18 @@ const navButtonVariants = cva(
 )
 const iconVariant = (
   variant: string,
-  profilePicture?: string
+  profilePicture?: string,
+  userName?: string
 ): React.ReactElement => {
   switch (variant) {
     case 'profile':
-      return <ProfilePicture img={profilePicture ?? ''} className="w-8 h-8" />
+      return (
+        <ProfilePicture
+          img={profilePicture ?? ''}
+          userName={userName ?? ''}
+          className="w-8 h-8"
+        />
+      )
     case 'projects':
       return <Icon name="FolderIcon" width="32px" height="32px" />
     case 'home':
