@@ -1,11 +1,9 @@
 import { type Meta, type StoryObj } from '@storybook/react'
 import { SidebarNav } from './SidebarNav'
 import { MemoryRouter } from 'react-router-dom'
-import {
-  type TimeTracking,
-  type Issue,
-  type DropdownOption
-} from '@utils/types'
+import type { TimeTracking, Issue, DropdownOption, User } from '@utils/types'
+import { Provider } from 'react-redux'
+import { store } from '@redux/store'
 
 const dropdownOptions: DropdownOption[] = [
   { id: '1', title: 'Option 1', image: 'https://imageplaceholder.net/20x20' },
@@ -16,6 +14,13 @@ const dropdownOptions: DropdownOption[] = [
 
 const handleDropdownSelect = (option: DropdownOption): void => {
   console.log(option)
+}
+
+const user: User = {
+  id: '1',
+  email: '',
+  name: 'Matias Nahuel Pizzi Vinco',
+  projectsRoleAssigned: []
 }
 
 const timeTracking: TimeTracking = {
@@ -36,7 +41,8 @@ const meta: Meta<typeof SidebarNav> = {
   title: 'Components/SidebarNav',
   component: SidebarNav,
   decorators: [
-    (story) => <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>
+    (story) => <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>,
+    (Story) => <Provider store={store}>{Story()}</Provider>
   ],
   tags: ['autodocs'],
   argTypes: {
@@ -65,6 +71,12 @@ const meta: Meta<typeof SidebarNav> = {
       control: {
         type: 'object'
       }
+    },
+    user: {
+      description: 'The user information.',
+      control: {
+        type: 'object'
+      }
     }
   }
 }
@@ -76,6 +88,7 @@ type Story = StoryObj<typeof SidebarNav>
 export const DevView: Story = {
   tags: ['autodocs'],
   args: {
+    user,
     variant: 'dev',
     dropdownOptions,
     handleDropdownSelect,
@@ -88,6 +101,7 @@ export const DevView: Story = {
 export const PMView: Story = {
   tags: ['autodocs'],
   args: {
+    user,
     variant: 'pm',
     dropdownOptions,
     handleDropdownSelect,

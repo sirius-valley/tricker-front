@@ -58,7 +58,7 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
       />
       {currentTicket.id !== '' && (
         <div className="flex flex-col justify-between h-full w-full rounded-r-xl">
-          <div className="overflow-y-hidden hover:overflow-y-auto h-full">
+          <div className="overflow-y-hidden hover:overflow-y-scroll h-full pr-[5px] hover:pr-0">
             <div className="w-full h-full pt-[72px] xl:px-10 px-5 flex flex-col gap-10">
               <TicketDisplay
                 issue={currentTicket}

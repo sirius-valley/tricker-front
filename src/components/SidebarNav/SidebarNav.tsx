@@ -120,16 +120,14 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
             }}
           >
             <Popover userId={user?.id} show={isHovered} />
-            <div className="flex items-center p-2 gap-3 max-w-[224px]">
+            <div className="flex items-center p-2 px-4 gap-3 max-w-[224px] overflow-hidden">
               <ProfilePicture
                 className="min-w-10 min-h-10"
                 img={user?.profileImage || ''}
                 userName={user.name || ''}
               />
               {screen.width > 1024 && (
-                <Body1 className="text-white overflow-hidden overflow-ellipsis whitespace-nowrap">
-                  {user?.name || 'User name'}
-                </Body1>
+                <Body1 className="text-white text-wrap">{user?.name}</Body1>
               )}
             </div>
           </div>
