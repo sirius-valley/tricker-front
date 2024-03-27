@@ -17,6 +17,7 @@ export const mockedTicket = {
   priority: Priority.LOW_PRIORITY,
   storyPoints: 3,
   labels: [],
-  blocked: true,
+  isBlocked: true,
+  isTracking: false,
   description: 'Description 1'
 }

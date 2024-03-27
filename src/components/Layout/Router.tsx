@@ -51,7 +51,7 @@ export const ROUTER = createBrowserRouter([
               },
               {
                 path: '/my-team',
-                element: <></>
+                element: <TicketsSection myTeam />
               }
             ]
           },

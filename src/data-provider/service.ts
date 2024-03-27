@@ -153,7 +153,7 @@ export const postProjectIntegrationRequest = async (
   authorizationRequest: AuthorizationRequest
 ): Promise<null> => {
   const res = await axios.post(
-    `${url}/integration/${provider}/authorization`,
+    `${url}/integration/${provider.toLowerCase()}/authorization`,
     {
       apiToken: authorizationRequest.apiToken,
       projectId: authorizationRequest.projectId,
@@ -263,7 +263,7 @@ export const postUnblock = async (ticketId: string): Promise<any> => {
 
 export const getTicketElapsedTime = async (
   ticketId: string
-): Promise<number | null> => {
+): Promise<{ workedTime: number } | null> => {
   const res = await axios.get(`${url}/issue/${ticketId}/worked-time`, {
     headers: {
       Authorization: 'Bearer ' + getAccessToken()

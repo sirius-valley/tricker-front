@@ -15,13 +15,15 @@ export interface FilterSectionProps {
   handleSearch: (value: string) => void
   handleOutOfEstimation: (isOutOfEst: boolean) => void
   handleView: (view: 'grid' | 'list') => void
+  userRole?: 'Project Manager' | 'Developer'
 }
 
 const FilterSection: React.FC<FilterSectionProps> = ({
   handleSelect,
   handleSearch,
   handleOutOfEstimation,
-  handleView
+  handleView,
+  userRole = 'Developer'
 }) => {
   const [showFilter, setShowFilter] = useState<boolean>(false)
   const [filterPosition, setFilterPosition] = useState({ top: 0, left: 0 })
@@ -117,6 +119,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
                   handleSelect={setSelectedOptions}
                   show={showFilter}
                   handleOutOfEstimation={setOutOfEstimation}
+                  userRole={userRole}
                 />
               </div>
             )}
@@ -163,6 +166,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
                 handleSelect={setSelectedOptions}
                 show={showFilter}
                 handleOutOfEstimation={setOutOfEstimation}
+                userRole={userRole}
               />
             </div>
           )}
