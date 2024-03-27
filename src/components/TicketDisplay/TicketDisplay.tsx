@@ -5,7 +5,9 @@ import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import { Pill } from '@components/Pill/Pill'
 import { Priority, type IssueView } from '@utils/types'
 import Subtitle from '@utils/typography/subtitle/subtitle'
-import FormattedText from '@components/FormattedText/FormattedText'
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
 
 export interface TicketDisplayProps {
   issue: IssueView
@@ -86,20 +88,34 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
       </div>
       <div className="flex flex-col gap-2 items-start">
         <div
-          className=" text-ellipsis overflow-hidden"
+          className=" text-ellipsis overflow-hidden "
           ref={textRef}
           style={{
             display: '-webkit-box',
             WebkitLineClamp: showFullText ? 'unset' : 3,
             WebkitBoxOrient: 'vertical',
+            maxHeight: showFullText ? 'unset' : '72px',
             textOverflow: 'ellipsis'
           }}
         >
-          <FormattedText text={issue.description} />
+          <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+            {issue.description}
+          </Markdown>
         </div>
         {issue.description && hasOverflow && !showFullText && (
-          <button className="underline" onClick={toggleTextVisibility}>
+          <button
+            className="underline text-gray-300/70 hover:text-gray-300 active:text"
+            onClick={toggleTextVisibility}
+          >
             See more
+          </button>
+        )}
+        {issue.description && showFullText && (
+          <button
+            className="underline text-gray-300/70 hover:text-gray-300 active:text"
+            onClick={toggleTextVisibility}
+          >
+            <p>See less</p>
           </button>
         )}
       </div>
