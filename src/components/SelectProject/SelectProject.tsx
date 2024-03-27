@@ -50,28 +50,18 @@ const SelectProject: React.FC<SelectProjectProps> = ({
       {!error && (
         <div className="flex flex-col items-center justify-center mx-8 lg:h-[425px] md:w-fit lg:w-[1032px] bg-gray-600 shadow-2 md:shadow-none border border-primary-400 py-10 px-6 md:py-20 md:px-[140px] gap-8 md:gap-10 rounded-xl">
           <H1 className="text-white text-2xl md:text-[34px] font-semibold">
-            Select Project
+            {data?.length !== 0 ? 'Select Project' : 'Upss!'}
           </H1>
           <div className="flex flex-col gap-4 items-center">
-            {!data && !isLoading && (
-              <Body1 className="text-white">No projects found</Body1>
+            {data?.length === 0 && (
+              <Body1 className="text-white text-[18px] leading-6 text-center">
+                We coulndn&apos;t find any projects to integrate with the
+                provided API key.
+              </Body1>
             )}
-            <div className="flex gap-1 items-center lg:w-[752px] w-full">
-              <Body2 className="text-white font-semibold self-start flex">
-                {/* Change this to not show it when there's no project found */}
-                Now, select the project you would like to start with
-              </Body2>
-              {screenSize.width > 700 && (
-                <Tooltip
-                  iconHeight="16"
-                  iconWidth="16"
-                  content="If you don't see your team, the token is probably from another workspace. Change your workspace and try again."
-                />
-              )}
-            </div>
-            <div className="border overflow-y-scroll max-h-[233px] border-gray-300 py-2 rounded-[8px] max-w-[752px] w-full">
-              {isLoading &&
-                Array.from({ length: 4 }).map((_, index) => (
+            {isLoading && (
+              <div className="border overflow-y-scroll max-h-[233px] border-gray-300 py-2 rounded-[8px] max-w-[752px] w-full">
+                {Array.from({ length: 4 }).map((_, index) => (
                   <div key={index} className="flex gap-4 p-4 items-center">
                     <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
                       <Skeleton
@@ -91,37 +81,57 @@ const SelectProject: React.FC<SelectProjectProps> = ({
                     </SkeletonTheme>
                   </div>
                 ))}
-              {data?.map((project: ProjectPreIntegrated) => (
-                <div
-                  key={project.providerProjectId}
-                  className="flex items-center gap-4 p-4 hover:bg-gray-500 cursor-pointer"
-                  onClick={() => {
-                    setSelectedProject(project)
-                    handleSelection(project)
-                  }}
-                >
-                  <RadioButton
-                    handleChecked={() => {}}
-                    id={project.providerProjectId}
-                    selectedValue={selectedProject?.providerProjectId || ''}
-                  />
-                  {project.image && project.image !== '' ? (
-                    <img
-                      src={project.image}
-                      alt={project.name}
-                      className="w-[20px] h-[20px] rounded-sm"
-                    />
-                  ) : (
-                    <NoAvatarProject
-                      text={project.name}
-                      width={20}
-                      height={20}
+              </div>
+            )}
+            {data?.length !== 0 && (
+              <>
+                <div className="flex gap-1 items-center lg:w-[752px] w-full">
+                  <Body2 className="text-white font-semibold self-start flex">
+                    {/* Change this to not show it when there's no project found */}
+                    Now, select the project you would like to start with
+                  </Body2>
+                  {screenSize.width > 700 && (
+                    <Tooltip
+                      iconHeight="16"
+                      iconWidth="16"
+                      content="If you don't see your team, the token is probably from another workspace. Change your workspace and try again."
                     />
                   )}
-                  <Body1 className="text-white">{project.name}</Body1>
                 </div>
-              ))}
-            </div>
+                <div className="border overflow-y-scroll max-h-[233px] border-gray-300 py-2 rounded-[8px] max-w-[752px] w-full">
+                  {data?.map((project: ProjectPreIntegrated) => (
+                    <div
+                      key={project.providerProjectId}
+                      className="flex items-center gap-4 p-4 hover:bg-gray-500 cursor-pointer"
+                      onClick={() => {
+                        setSelectedProject(project)
+                        handleSelection(project)
+                      }}
+                    >
+                      <RadioButton
+                        handleChecked={() => {}}
+                        id={project.providerProjectId}
+                        selectedValue={selectedProject?.providerProjectId || ''}
+                      />
+                      {project.image && project.image !== '' ? (
+                        <img
+                          src={project.image}
+                          alt={project.name}
+                          className="w-[20px] h-[20px] rounded-sm"
+                        />
+                      ) : (
+                        <NoAvatarProject
+                          text={project.name}
+                          width={20}
+                          height={20}
+                        />
+                      )}
+                      <Body1 className="text-white">{project.name}</Body1>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
             {screenSize.width < 700 && (
               <HelperText className="text-white">
                 If you don&apos;t see your team, the token is probably from
