@@ -2,8 +2,14 @@ import StepNavigation, {
   StepType
 } from '@components/NextBackButtons/NextBackButtons'
 import { Stepper } from '@components/Stepper/Stepper'
-import { useAppDispatch, useAppSelector, useSteps, useUser } from '@redux/hooks'
-import { setCurrentStep } from '@redux/user'
+import {
+  useAppDispatch,
+  useAppSelector,
+  useSteps,
+  useUser,
+  useApiKey
+} from '@redux/hooks'
+import { setCurrentStep, setApiKey } from '@redux/user'
 import {
   type Step,
   type MemberPreIntegrated,
@@ -27,6 +33,7 @@ import LoadingPage from '@pages/Loader/LoadingPage'
 
 const InitialIntegrationPage = (): JSX.Element => {
   const steps: Step[] = useSteps()
+  const apiKey = useApiKey()
   const currentStep: number = useAppSelector((state) => state.user.currentStep)
   const currentUser: User = useAppSelector((state) => state.user.user)
   const dispatch = useAppDispatch()
@@ -48,6 +55,7 @@ const InitialIntegrationPage = (): JSX.Element => {
     }
     if (currentStep > 0) {
       dispatch(setCurrentStep(currentStep - 1))
+      dispatch(setApiKey(apiKey))
     }
   }
   const handleNextButton = (): void => {
@@ -56,7 +64,7 @@ const InitialIntegrationPage = (): JSX.Element => {
     }
   }
 
-  const [providerKey, setProviderKey] = useState<null | string>(null)
+  const [providerKey, setProviderKey] = useState(apiKey.value || null)
   const [provider, setProvider] = useState<null | string>(null)
   const [selectedProject, setSelectedProject] =
     useState<ProjectPreIntegrated | null>(null)
