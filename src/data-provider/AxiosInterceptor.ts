@@ -19,8 +19,9 @@ export const setUpAxiosInterceptors = (
 const onRequest = (
   req: InternalAxiosRequestConfig
 ): InternalAxiosRequestConfig => {
-  const accessToken: string = getAccessToken()
-  req.headers = { Authorization: accessToken } as AxiosRequestHeaders
+  req.headers = {
+    Authorization: 'Bearer ' + getAccessToken()
+  } as AxiosRequestHeaders
 
   return req
 }
