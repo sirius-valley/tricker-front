@@ -1,5 +1,4 @@
 import axios from 'axios'
-// import { setUpAxiosInterceptors } from './AxiosInterceptor'
 import type {
   User,
   CognitoResponse,
@@ -13,13 +12,15 @@ import type {
   IssueChronologyEventDTO,
   IssueChronologyEvent
 } from '@utils/types'
-import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
+import { getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
 import { mockedTicketDetail } from '@components/TicketDisplay/MockedTicketDetail'
+import { setUpAxiosInterceptors } from './AxiosInterceptor'
 
 const url: string = config.apiUrl || 'http://localhost:8080/api'
 
-// setUpAxiosInterceptors(axios)
+const withInterceptors = axios.create()
+setUpAxiosInterceptors(withInterceptors)
 
 export const me = async (): Promise<User | null> => {
   const res = await axios.get(`${url}/user/me`, {
@@ -34,11 +35,7 @@ export const me = async (): Promise<User | null> => {
 }
 
 export const getUserProjects = async (): Promise<User | null> => {
-  const res = await axios.get(`${url}/user/me`, {
-    headers: {
-      Authorization: 'Bearer ' + getAccessToken()
-    }
-  })
+  const res = await withInterceptors.get(`${url}/user/me`)
   if (res.status === 200) {
     return res.data
   }
@@ -46,17 +43,9 @@ export const getUserProjects = async (): Promise<User | null> => {
 }
 
 export const getOrCreateUser = async (): Promise<User | null> => {
-  const res = await axios.post(
-    `${url}/user/getOrCreate`,
-    {
-      idToken: getIdToken()
-    },
-    {
-      headers: {
-        Authorization: 'Bearer ' + getAccessToken()
-      }
-    }
-  )
+  const res = await withInterceptors.post(`${url}/user/getOrCreate`, {
+    idToken: getIdToken()
+  })
   if (res.status === 200 || res.status === 201) {
     return res.data
   }
@@ -89,16 +78,11 @@ export const getPreIntegratedProjects = async (
   key: string,
   provider: string
 ): Promise<ProjectPreIntegrated[] | null> => {
-  const res = await axios.post(
+  const res = await withInterceptors.post(
     `${url}/integration/linear/projects`,
     {
       key,
       provider
-    },
-    {
-      headers: {
-        Authorization: 'Bearer ' + getAccessToken()
-      }
     }
   )
   if (res.status === 200) {
@@ -111,15 +95,10 @@ export const getPreIntegratedMembers = async (
   projectId: string,
   apiToken: string
 ): Promise<MemberPreIntegrated[] | null> => {
-  const res = await axios.post(
+  const res = await withInterceptors.post(
     `${url}/integration/linear/project/${projectId}/members`,
     {
       apiToken
-    },
-    {
-      headers: {
-        Authorization: 'Bearer ' + getAccessToken()
-      }
     }
   )
   if (res.status === 200) {
@@ -133,14 +112,9 @@ export const postModifyTime = async (
   data: ModifyTimeData,
   variant: 'add' | 'remove'
 ): Promise<any> => {
-  const res = await axios.post(
+  const res = await withInterceptors.post(
     `${url}/issue/${ticketId}/${variant}-time`,
-    data,
-    {
-      headers: {
-        Authorization: 'Bearer ' + getAccessToken()
-      }
-    }
+    data
   )
   if (res.status === 200) {
     return res.data
@@ -152,7 +126,7 @@ export const postProjectIntegrationRequest = async (
   provider: string,
   authorizationRequest: AuthorizationRequest
 ): Promise<null> => {
-  const res = await axios.post(
+  const res = await withInterceptors.post(
     `${url}/integration/${provider.toLowerCase()}/authorization`,
     {
       apiToken: authorizationRequest.apiToken,
@@ -161,11 +135,6 @@ export const postProjectIntegrationRequest = async (
       members: authorizationRequest.members,
       organizationName: authorizationRequest.organizationName,
       issueProviderName: authorizationRequest.issueProviderName
-    },
-    {
-      headers: {
-        Authorization: 'Bearer ' + getAccessToken()
-      }
     }
   )
   if (res.status === 200) {
@@ -179,14 +148,9 @@ export const getIssuesFilteredAndPaginated = async (
   projectId: string,
   filters?: OptionalIssueFilters
 ): Promise<IssueView[]> => {
-  const res = await axios.post(
+  const res = await withInterceptors.post(
     `${url}/issue/dev/${userId}/project/${projectId}`,
-    filters,
-    {
-      headers: {
-        Authorization: 'Bearer ' + getAccessToken()
-      }
-    }
+    filters
   )
   if (res.status === 200) {
     return res.data
@@ -205,15 +169,10 @@ export const postTimerAction = async (
   date: Date,
   action: 'resume' | 'pause'
 ): Promise<any> => {
-  const res = await axios.post(
+  const res = await withInterceptors.post(
     `${url}/issue/${ticketId}/${action}`,
     {
       date
-    },
-    {
-      headers: {
-        Authorization: 'Bearer ' + getAccessToken()
-      }
     }
   )
   if (res.status === 200) {
@@ -227,18 +186,10 @@ export const postBlock = async (
   reason: string,
   comment: string | null
 ): Promise<any> => {
-  const res = await axios.post(
-    `${url}/issue/${ticketId}/flag/add`,
-    {
-      reason,
-      comment
-    },
-    {
-      headers: {
-        Authorization: 'Bearer ' + getAccessToken()
-      }
-    }
-  )
+  const res = await withInterceptors.post(`${url}/issue/${ticketId}/flag/add`, {
+    reason,
+    comment
+  })
   if (res.status === 200) {
     return res.data
   }
@@ -246,14 +197,9 @@ export const postBlock = async (
 }
 
 export const postUnblock = async (ticketId: string): Promise<any> => {
-  const res = await axios.post(
+  const res = await withInterceptors.post(
     `${url}/issue/${ticketId}/flag/remove`,
-    {},
-    {
-      headers: {
-        Authorization: 'Bearer ' + getAccessToken()
-      }
-    }
+    {}
   )
   if (res.status === 200) {
     return res.data
@@ -264,11 +210,7 @@ export const postUnblock = async (ticketId: string): Promise<any> => {
 export const getTicketElapsedTime = async (
   ticketId: string
 ): Promise<{ workedTime: number } | null> => {
-  const res = await axios.get(`${url}/issue/${ticketId}/worked-time`, {
-    headers: {
-      Authorization: 'Bearer ' + getAccessToken()
-    }
-  })
+  const res = await withInterceptors.get(`${url}/issue/${ticketId}/worked-time`)
   if (res.status === 200) {
     return res.data
   }
@@ -278,11 +220,7 @@ export const getTicketElapsedTime = async (
 export const getChronology = async (
   issueId: string
 ): Promise<IssueChronologyEvent[]> => {
-  const res = await axios.get(`${url}/issue/${issueId}/chronology`, {
-    headers: {
-      Authorization: 'Bearer ' + getAccessToken()
-    }
-  })
+  const res = await withInterceptors.get(`${url}/issue/${issueId}/chronology`)
   if (res.status === 200) {
     ;(res.data as IssueChronologyEventDTO[]).forEach((element) => {
       element.date = new Date(element.date)
