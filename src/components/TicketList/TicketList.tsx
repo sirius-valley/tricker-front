@@ -43,6 +43,7 @@ const TicketList: React.FC<TicketListProps> = ({
   const dispatch = useAppDispatch()
 
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
+    isProjectManager,
     user.id,
     currentProjectId,
     filtersParams
