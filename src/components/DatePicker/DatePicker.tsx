@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Body2 from '@utils/typography/body2/body2'
 import { DayPicker } from 'react-day-picker'
 import Input from '@components/Input/Input'
