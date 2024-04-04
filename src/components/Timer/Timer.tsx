@@ -55,7 +55,6 @@ const Timer: React.FC<TimerProps> = ({
 
   useEffect(() => {
     if (currentTicket.id) {
-      console.log(currentTicket.isTracking)
       setPaused(!currentTicket.isTracking)
     }
   }, [currentTicket.id])

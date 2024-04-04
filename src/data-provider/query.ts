@@ -121,6 +121,7 @@ export const useGetUserProjects = (): {
 }
 
 export const useGetIssuesFilteredAndPaginated = (
+  isProjectManager: boolean,
   userId: string,
   projectId: string,
   filters?: OptionalIssueFilters
@@ -130,10 +131,17 @@ export const useGetIssuesFilteredAndPaginated = (
   isLoading: boolean
 } => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ['getIssuesFilteredAndPaginated', userId, projectId, filters],
+    queryKey: [
+      'getIssuesFilteredAndPaginated',
+      isProjectManager,
+      userId,
+      projectId,
+      filters
+    ],
 
     queryFn: async () =>
       await ApiService.getIssuesFilteredAndPaginated(
+        isProjectManager,
         userId,
         projectId,
         filters
