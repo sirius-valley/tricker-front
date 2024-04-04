@@ -6,12 +6,12 @@ import { GridList } from '@components/GridList/GridList'
 import { SearchBar } from '@components/SearchBar/SearchBar'
 import SquaredIconButton from '@components/SquaredIconButton/SquaredIconButton'
 import { FilterIcon } from '@components/Icon'
-import { priorityOptions } from './mockedFilterOptions'
+import type * as icons from '@components/Icon/index.ts'
 import Tag from '@components/Tag/Tag'
 import useDebounce from '@hooks/useDebounce'
 import { useCurrentProjectId } from '@redux/hooks'
 import { useGetFilters } from '@data-provider/query'
-import { type StageExtended, StageType } from '@utils/types'
+import { type StageExtended, StageType, Priority } from '@utils/types'
 import config from '../../../tailwind.config'
 
 export interface FilterSectionProps {
@@ -35,7 +35,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const [searchedValue, setSearchedValue] = useState<string>('')
   const [selectedOptions, setSelectedOptions] = useState<OptionAttr[]>([])
   const [statusOptions, setStatusOptions] = useState<OptionAttr[]>([])
-  // const [priorityOptions, setPriorityOptions] = useState<OptionAttr[]>([])
+  const [priorityOptions, setPriorityOptions] = useState<OptionAttr[]>([])
   const [outOfEstimation, setOutOfEstimation] = useState<boolean>(false)
   const screen = useScreenSize()
   const projectId = useCurrentProjectId()
@@ -67,9 +67,36 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     }
   }
 
+  const priorityIcon = (priority: Priority): keyof typeof icons => {
+    const priorityEnumKey = priority as unknown as keyof typeof Priority
+    const priorityEnum = Priority[priorityEnumKey]
+
+    switch (priorityEnum) {
+      case Priority.NO_PRIORITY:
+        return 'NoPriorityIcon'
+      case Priority.LOW_PRIORITY:
+        return 'LowPriorityIcon'
+      case Priority.MEDIUM_PRIORITY:
+        return 'MediumPriorityIcon'
+      case Priority.HIGH_PRIORITY:
+        return 'HighPriorityIcon'
+      case Priority.URGENT:
+        return 'UrgentIcon'
+      default:
+        return 'NoPriorityIcon'
+    }
+  }
+
+  const parsePriority = (priority: string): string => {
+    return priority
+      .split('_')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ')
+  }
+
   useEffect(() => {
     if (data) {
-      const formatStages: OptionAttr[] = data.stages.map(
+      const formattedStages: OptionAttr[] = data.stages.map(
         (stage: StageExtended) => ({
           option: stage.name,
           color: stageColor(stage.type),
@@ -77,7 +104,16 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           id: stage.id
         })
       )
-      setStatusOptions(formatStages)
+      const formattedPriorities: OptionAttr[] = data.priorities.map(
+        (priority: Priority) => ({
+          option: parsePriority(priority as unknown as string),
+          selected: false,
+          icon: priorityIcon(priority)
+        })
+      )
+
+      setStatusOptions(formattedStages)
+      setPriorityOptions(formattedPriorities)
     }
   }, [data])
 
