@@ -281,11 +281,14 @@ export const getFilters = async (
   projectId: string,
   userRole: 'pm' | 'dev'
 ): Promise<DevProjectFiltersDTO | PMProjectFiltersDTO | null> => {
-  const res = await axios.get(`${url}/projects/${projectId}/${userRole}`, {
-    headers: {
-      Authorization: 'Bearer ' + getAccessToken()
+  const res = await axios.get(
+    `${url}/projects/${projectId}/filters/${userRole}`,
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
     }
-  })
+  )
   if (res.status === 200) {
     return res.data
   }
