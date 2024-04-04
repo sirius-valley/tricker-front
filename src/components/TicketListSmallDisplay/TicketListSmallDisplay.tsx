@@ -18,6 +18,7 @@ import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 const colors = config.theme.extend.colors
 
 const TicketListSmallDisplay: React.FC<TicketListProps> = ({
+  isProjectManager,
   searchedTicket,
   currentTicket
 }: TicketListProps): JSX.Element => {
@@ -37,6 +38,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
   const dispatch = useAppDispatch()
   const user = useUser()
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
+    isProjectManager,
     user.id,
     selectedProjectId,
     filtersParams
