@@ -30,6 +30,7 @@ import { usePostProjectIntegrationRequest } from '@data-provider/query'
 import { ProjectMail } from '@components/ProjectMail/ProjectMail'
 import NotificationBadge from '@components/NotificationBadge/NotificationBadge'
 import LoadingPage from '@pages/Loader/LoadingPage'
+import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 
 const InitialIntegrationPage = (): JSX.Element => {
   const steps: Step[] = useSteps()
@@ -39,6 +40,7 @@ const InitialIntegrationPage = (): JSX.Element => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const user = useUser()
+  const { showSnackBar } = useSnackBar()
 
   let stepType: StepType
   if (currentStep === 0) {
@@ -97,7 +99,19 @@ const InitialIntegrationPage = (): JSX.Element => {
     usePostProjectIntegrationRequest()
 
   const handleSubmit = (): void => {
-    if (!providerKey || !provider || !selectedProject || !teamMembers) return
+    if (
+      !providerKey ||
+      !provider ||
+      !selectedProject ||
+      !teamMembers ||
+      !actualMemberProviderId
+    ) {
+      showSnackBar(
+        'It seems that we are missing some information. Please try again.',
+        'error'
+      )
+      return
+    }
     const request: AuthorizationRequest = {
       apiToken: providerKey,
       projectId: selectedProject.providerProjectId,
@@ -170,6 +184,7 @@ const InitialIntegrationPage = (): JSX.Element => {
                 variant="filled"
                 className="w-[329px] h-fit md:w-[273px] text-black"
                 onClick={handleSubmit}
+                disabled={teamMembers === null || teamMembers.length === 0}
               >
                 Continue To Project
               </Button>

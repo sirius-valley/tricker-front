@@ -126,8 +126,8 @@ export interface IssueView {
   priority: Priority
   storyPoints: number | null
   labels: Label[]
-  blocked?: boolean
-  tracking?: boolean
+  isBlocked: boolean
+  isTracking: boolean
 }
 
 export interface IssueChronologyEventDTO {

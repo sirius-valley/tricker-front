@@ -17,7 +17,27 @@ const PrivateRoute = (): JSX.Element => {
 
   useEffect(() => {
     if (error) {
+      navigate('/login')
+      setIsAuthorized(false)
       showSnackBar('You are not authorized to access this page', 'error')
+      console.error(error)
+    }
+  }, [error, navigate, showSnackBar])
+
+  useEffect(() => {
+    try {
+      if (data) {
+        if (data?.id !== '') {
+          dispatch(setUser(data))
+          if (data.projectsRoleAssigned?.length === 0) {
+            navigate('/login/role')
+          } else {
+            setIsAuthorized(true)
+          }
+        }
+      }
+    } catch (e) {
+      console.error(e, error)
       setIsAuthorized(false)
       navigate('/login')
     }

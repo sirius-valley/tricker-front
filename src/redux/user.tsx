@@ -48,7 +48,9 @@ export const initialState: InitialStateType = {
     description: '',
     priority: Priority.NO_PRIORITY,
     storyPoints: 0,
-    labels: []
+    labels: [],
+    isBlocked: false,
+    isTracking: false
   },
   currentProjectId: '',
   currentStep: 0,

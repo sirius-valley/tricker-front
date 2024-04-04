@@ -18,6 +18,7 @@ import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 const colors = config.theme.extend.colors
 
 const TicketListSmallDisplay: React.FC<TicketListProps> = ({
+  isProjectManager,
   searchedTicket,
   currentTicket
 }: TicketListProps): JSX.Element => {
@@ -37,6 +38,7 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
   const dispatch = useAppDispatch()
   const user = useUser()
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
+    isProjectManager,
     user.id,
     selectedProjectId,
     filtersParams
@@ -165,10 +167,8 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
                 <Body1 className="w-[20vw] truncate text-ellipsis ">
                   {issue.title}
                 </Body1>
-                {issue.blocked === true && (
-                  <Pill variant="blocked">Blocked</Pill>
-                )}
-                {issue.tracking === true && (
+                {issue.isBlocked && <Pill variant="blocked">Blocked</Pill>}
+                {issue.isTracking && (
                   <Pill variant="tracking">Tracking time</Pill>
                 )}
               </div>
