@@ -98,7 +98,6 @@ const TicketList: React.FC<TicketListProps> = ({
       if (selectedTicked && !currentTicket.isTracking) {
         dispatch(setCurrentTicket(selectedTicked))
       } else {
-        console.log('esta trackeando')
         setOpenModal(true)
       }
     }
