@@ -11,7 +11,9 @@ import type {
   IssueDetail,
   ModifyTimeData,
   IssueChronologyEventDTO,
-  IssueChronologyEvent
+  IssueChronologyEvent,
+  DevProjectFiltersDTO,
+  PMProjectFiltersDTO
 } from '@utils/types'
 import { getAccessToken, getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -265,6 +267,21 @@ export const getTicketElapsedTime = async (
   ticketId: string
 ): Promise<{ workedTime: number } | null> => {
   const res = await axios.get(`${url}/issue/${ticketId}/worked-time`, {
+    headers: {
+      Authorization: 'Bearer ' + getAccessToken()
+    }
+  })
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const getFilters = async (
+  projectId: string,
+  userRole: 'pm' | 'dev'
+): Promise<DevProjectFiltersDTO | PMProjectFiltersDTO | null> => {
+  const res = await axios.get(`${url}/projects/${projectId}/${userRole}`, {
     headers: {
       Authorization: 'Bearer ' + getAccessToken()
     }

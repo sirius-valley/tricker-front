@@ -401,3 +401,12 @@ export interface ModifyTimeData {
   reason: string
   date: string
 }
+
+export interface DevProjectFiltersDTO {
+  stages: StageExtended[]
+  priorities: Priority[]
+}
+
+export interface PMProjectFiltersDTO extends DevProjectFiltersDTO {
+  assignees: UserIssue[]
+}
