@@ -9,6 +9,8 @@ import { FilterIcon } from '@components/Icon'
 import { priorityOptions, statusOptions } from './mockedFilterOptions'
 import Tag from '@components/Tag/Tag'
 import useDebounce from '@hooks/useDebounce'
+import { useCurrentProjectId } from '@redux/hooks'
+import { useGetFilters } from '@data-provider/query'
 
 export interface FilterSectionProps {
   handleSelect: (options: OptionAttr[]) => void
@@ -32,7 +34,15 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const [selectedOptions, setSelectedOptions] = useState<OptionAttr[]>([])
   const [outOfEstimation, setOutOfEstimation] = useState<boolean>(false)
   const screen = useScreenSize()
+  const projectId = useCurrentProjectId()
   const filterRef = useRef<HTMLDivElement | null>(null)
+
+  const { data, error, isLoading } = useGetFilters(
+    projectId,
+    userRole === 'Project Manager' ? 'pm' : 'dev'
+  )
+
+  console.log(data, error, isLoading)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
