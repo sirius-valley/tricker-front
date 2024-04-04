@@ -6,11 +6,13 @@ import { GridList } from '@components/GridList/GridList'
 import { SearchBar } from '@components/SearchBar/SearchBar'
 import SquaredIconButton from '@components/SquaredIconButton/SquaredIconButton'
 import { FilterIcon } from '@components/Icon'
-import { priorityOptions, statusOptions } from './mockedFilterOptions'
+import { priorityOptions } from './mockedFilterOptions'
 import Tag from '@components/Tag/Tag'
 import useDebounce from '@hooks/useDebounce'
 import { useCurrentProjectId } from '@redux/hooks'
 import { useGetFilters } from '@data-provider/query'
+import { type StageExtended, StageType } from '@utils/types'
+import config from '../../../tailwind.config'
 
 export interface FilterSectionProps {
   handleSelect: (options: OptionAttr[]) => void
@@ -32,17 +34,52 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
   const [searchedValue, setSearchedValue] = useState<string>('')
   const [selectedOptions, setSelectedOptions] = useState<OptionAttr[]>([])
+  const [statusOptions, setStatusOptions] = useState<OptionAttr[]>([])
+  // const [priorityOptions, setPriorityOptions] = useState<OptionAttr[]>([])
   const [outOfEstimation, setOutOfEstimation] = useState<boolean>(false)
   const screen = useScreenSize()
   const projectId = useCurrentProjectId()
+  const colors = config.theme.extend.colors
   const filterRef = useRef<HTMLDivElement | null>(null)
 
-  const { data, error, isLoading } = useGetFilters(
+  const { data } = useGetFilters(
     projectId,
     userRole === 'Project Manager' ? 'pm' : 'dev'
   )
 
-  console.log(data, error, isLoading)
+  const stageColor = (stageType: StageType): string => {
+    const stageTypeEnumKey = stageType as unknown as keyof typeof StageType
+    const stageTypeEnum = StageType[stageTypeEnumKey]
+
+    switch (stageTypeEnum) {
+      case StageType.BACKLOG:
+        return colors.gray['300']
+      case StageType.UNSTARTED:
+        return colors.white
+      case StageType.STARTED:
+        return colors.secondary['400']
+      case StageType.COMPLETED:
+        return colors.primary['400']
+      case StageType.CANCELED:
+        return colors.error['500']
+      default:
+        return colors.gray['400']
+    }
+  }
+
+  useEffect(() => {
+    if (data) {
+      const formatStages: OptionAttr[] = data.stages.map(
+        (stage: StageExtended) => ({
+          option: stage.name,
+          color: stageColor(stage.type),
+          selected: false,
+          id: stage.id
+        })
+      )
+      setStatusOptions(formatStages)
+    }
+  }, [data])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
@@ -97,6 +134,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const handleRemoveTag = (index: number): void => {
     setSelectedOptions(selectedOptions.filter((_, i) => i !== index))
   }
+
   return screen.width >= 768 ? (
     <div className="flex flex-col justify-center">
       <div className="max-w-[467px] h-fit rounded-tl-xl bg-gray-500 border-b border-white/10 flex flex-wrap items-center justify-center gap-8 p-[22px] pl-6">
