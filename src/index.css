@@ -4,8 +4,24 @@
 @tailwind components;
 @tailwind utilities;
 
+ol {
+  list-style: decimal;
+  padding-left: 2rem;
+}
+
+ul {
+  list-style: disc;
+  padding-left: 2rem;
+}
+
 #tab-bar::-webkit-scrollbar {
     display: none;
+}
+
+p img{ /* Images in Markdown */
+    max-width: 500px;
+    height: auto;
+    padding: 1rem 0;
 }
 
 ::-webkit-scrollbar {

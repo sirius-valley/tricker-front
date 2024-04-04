@@ -24,7 +24,7 @@ const Chronology: React.FC = () => {
   data?.sort((a, b) => a.date.getTime() - b.date.getTime())
 
   return (
-    <div className="flex flex-col gap-3 h-full text-white w-full">
+    <div className="flex flex-col gap-3 h-full text-white w-full max-h-full">
       <H2 className="font-bold text-lg flex">Chronology</H2>
       {isLoading &&
         Array.from({ length: 6 }).map((_, index) => (
@@ -44,11 +44,11 @@ const Chronology: React.FC = () => {
         </NotificationBadge>
       )}
       {data && (
-        <div className="flex flex-col pr-6 min-h-full">
+        <div className="flex flex-col pr-6 h-full">
           {data?.map((event, index) => (
             <div
               key={index}
-              className={`flex min-h-fit z-20 ${data.length === index + 1 ? 'h-full overflow-hidden' : ''}`}
+              className={`flex min-h-fit z-20 ${data.length === index + 1 ? 'h-full overflow-hidden' : ''} ${index === data.length - 1 ? 'min-h-[60px]' : ''}`}
             >
               <div
                 className={`flex w-[1px] h-full rounded-full ${event.isBlocker ? 'bg-error-500' : 'bg-primary-400'} relative left-[73px] top-4 z-10`}
