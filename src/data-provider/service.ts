@@ -180,9 +180,9 @@ export const getIssuesFilteredAndPaginated = async (
   projectId: string,
   filters?: OptionalIssueFilters
 ): Promise<IssueView[]> => {
-  const variant = isProjectManager ? 'pm' : 'dev'
+  const role = isProjectManager ? 'pm' : 'dev'
   const res = await axios.post(
-    `${url}/issue/${variant}/${userId}/project/${projectId}`,
+    `${url}/issue/${role}/${userId}/project/${projectId}`,
     filters,
     {
       headers: {
