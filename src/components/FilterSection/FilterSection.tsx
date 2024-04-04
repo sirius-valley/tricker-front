@@ -11,7 +11,12 @@ import Tag from '@components/Tag/Tag'
 import useDebounce from '@hooks/useDebounce'
 import { useCurrentProjectId } from '@redux/hooks'
 import { useGetFilters } from '@data-provider/query'
-import { type StageExtended, StageType, Priority } from '@utils/types'
+import {
+  type StageExtended,
+  StageType,
+  Priority,
+  type UserIssue
+} from '@utils/types'
 import config from '../../../tailwind.config'
 
 export interface FilterSectionProps {
@@ -36,6 +41,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const [selectedOptions, setSelectedOptions] = useState<OptionAttr[]>([])
   const [statusOptions, setStatusOptions] = useState<OptionAttr[]>([])
   const [priorityOptions, setPriorityOptions] = useState<OptionAttr[]>([])
+  const [asigneeOptions, setAsigneeOptions] = useState<OptionAttr[]>([])
   const [outOfEstimation, setOutOfEstimation] = useState<boolean>(false)
   const screen = useScreenSize()
   const projectId = useCurrentProjectId()
@@ -104,13 +110,30 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           id: stage.id
         })
       )
-      const formattedPriorities: OptionAttr[] = data.priorities.map(
+      const sortedPriorities = data.priorities.sort(
+        (a, b) =>
+          Number(Priority[a as unknown as Priority]) -
+          Number(Priority[b as unknown as Priority])
+      )
+
+      const formattedPriorities: OptionAttr[] = sortedPriorities.map(
         (priority: Priority) => ({
           option: parsePriority(priority as unknown as string),
           selected: false,
           icon: priorityIcon(priority)
         })
       )
+
+      if ('assignees' in data) {
+        const formattedAssignees: OptionAttr[] = data.assignees.map(
+          (assignee: UserIssue) => ({
+            option: assignee.name,
+            selected: false,
+            id: assignee.id
+          })
+        )
+        setAsigneeOptions(formattedAssignees)
+      }
 
       setStatusOptions(formattedStages)
       setPriorityOptions(formattedPriorities)
@@ -200,6 +223,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
                   statusOptions={statusOptions}
                   priorityOptions={priorityOptions}
                   selectedItems={selectedOptions}
+                  asigneeOptions={asigneeOptions}
                   handleSelect={setSelectedOptions}
                   show={showFilter}
                   handleOutOfEstimation={setOutOfEstimation}
@@ -247,6 +271,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
                 statusOptions={statusOptions}
                 priorityOptions={priorityOptions}
                 selectedItems={selectedOptions}
+                asigneeOptions={asigneeOptions}
                 handleSelect={setSelectedOptions}
                 show={showFilter}
                 handleOutOfEstimation={setOutOfEstimation}

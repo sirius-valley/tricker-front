@@ -59,7 +59,7 @@ export interface Role {
 
 export interface UserIssue {
   id: string
-  name: string | null
+  name: string
   profileUrl: string | null
 }
 
