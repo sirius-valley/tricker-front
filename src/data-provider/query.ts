@@ -11,7 +11,9 @@ import type {
   IssueView,
   IssueDetail,
   ModifyTimeData,
-  IssueChronologyEvent
+  IssueChronologyEvent,
+  DevProjectFiltersDTO,
+  PMProjectFiltersDTO
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -261,6 +263,21 @@ export const useGetTicketElapsedTime = (
   const { data, error, isLoading } = useQuery({
     queryKey: ['getTicketElapsedTime', issueId],
     queryFn: async () => await ApiService.getTicketElapsedTime(issueId)
+  })
+  return { data, error, isLoading }
+}
+
+export const useGetFilters = (
+  projectId: string,
+  userRole: 'pm' | 'dev'
+): {
+  data: DevProjectFiltersDTO | PMProjectFiltersDTO | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getFilters', projectId, userRole],
+    queryFn: async () => await ApiService.getFilters(projectId, userRole)
   })
   return { data, error, isLoading }
 }
