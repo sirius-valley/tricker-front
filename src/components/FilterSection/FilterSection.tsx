@@ -37,13 +37,12 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const [filterPosition, setFilterPosition] = useState({ top: 0, left: 0 })
 
   const [searchedValue, setSearchedValue] = useState<string>('')
-  const [selectedOptions, setSelectedOptions] = useState<OptionAttr[]>([])
   const [selectedFilters, setSelectedFilters] = useState<OptionalIssueFilters>(
     {}
   )
   const [statusOptions, setStatusOptions] = useState<OptionAttr[]>([])
   const [priorityOptions, setPriorityOptions] = useState<OptionAttr[]>([])
-  const [asigneeOptions, setAsigneeOptions] = useState<OptionAttr[]>([])
+  const [assigneeOptions, setAssigneeOptions] = useState<OptionAttr[]>([])
   const [outOfEstimation, setOutOfEstimation] = useState<boolean>(false)
   const screen = useScreenSize()
   const projectId = useCurrentProjectId()
@@ -82,7 +81,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
             id: assignee.id
           })
         )
-        setAsigneeOptions(formattedAssignees)
+        setAssigneeOptions(formattedAssignees)
       }
 
       setStatusOptions(formattedStages)
@@ -140,8 +139,34 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       setFilterPosition({ top: filterTop, left: filterLeft - 281 })
     }
   }
-  const handleRemoveTag = (index: number): void => {
-    setSelectedOptions(selectedOptions.filter((_, i) => i !== index))
+  const handleRemoveTag = (
+    value: string,
+    type: 'stage' | 'priority' | 'assignee'
+  ): void => {
+    switch (type) {
+      case 'stage':
+        setSelectedFilters({
+          ...selectedFilters,
+          stageIds: selectedFilters.stageIds?.filter((stage) => stage !== value)
+        })
+        break
+      case 'priority':
+        setSelectedFilters({
+          ...selectedFilters,
+          priorities: selectedFilters.priorities?.filter(
+            (priority) => priority !== value
+          )
+        })
+        break
+      case 'assignee':
+        setSelectedFilters({
+          ...selectedFilters,
+          assigneeIds: selectedFilters.assigneeIds?.filter(
+            (assignee) => assignee !== value
+          )
+        })
+        break
+    }
   }
 
   return screen.width >= 768 ? (
@@ -173,10 +198,8 @@ const FilterSection: React.FC<FilterSectionProps> = ({
                   statusOptions={statusOptions}
                   priorityOptions={priorityOptions}
                   preselectedFilters={selectedFilters}
-                  selectedItems={selectedOptions}
-                  asigneeOptions={asigneeOptions}
+                  assigneeOptions={assigneeOptions}
                   outOfEstimation={outOfEstimation}
-                  handleSelect={setSelectedOptions}
                   handleFilters={setSelectedFilters}
                   show={showFilter}
                   handleOutOfEstimation={setOutOfEstimation}
@@ -187,17 +210,49 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           </div>
         </div>
       </div>
-      {selectedOptions.length !== 0 && (
+      {((selectedFilters.assigneeIds &&
+        selectedFilters.assigneeIds.length !== 0) ||
+        (selectedFilters.priorities &&
+          selectedFilters.priorities.length !== 0) ||
+        (selectedFilters.stageIds &&
+          selectedFilters.stageIds.length !== 0)) && (
         <div className="max-w-[467px] h-fit border border-white-10 bg-gray-500 flex flex-wrap items-center gap-2 py-4 px-6">
-          {selectedOptions.map((option: OptionAttr, index: number) => (
-            <Tag
-              handleRemove={() => {
-                handleRemoveTag(index)
-              }}
-              name={option.option}
-              key={index}
-            />
-          ))}
+          {statusOptions.map((option: OptionAttr, index: number) =>
+            selectedFilters.stageIds &&
+            selectedFilters.stageIds.includes(option.id) ? (
+              <Tag
+                handleRemove={() => {
+                  handleRemoveTag(option.id, 'stage')
+                }}
+                name={option.option}
+                key={index}
+              />
+            ) : null
+          )}
+          {priorityOptions.map((option: OptionAttr, index: number) =>
+            selectedFilters.priorities &&
+            selectedFilters.priorities.includes(option.id) ? (
+              <Tag
+                handleRemove={() => {
+                  handleRemoveTag(option.id, 'priority')
+                }}
+                name={option.option}
+                key={index}
+              />
+            ) : null
+          )}
+          {assigneeOptions.map((option: OptionAttr, index: number) =>
+            selectedFilters.assigneeIds &&
+            selectedFilters.assigneeIds.includes(option.id) ? (
+              <Tag
+                handleRemove={() => {
+                  handleRemoveTag(option.id, 'assignee')
+                }}
+                name={option.option}
+                key={index}
+              />
+            ) : null
+          )}
         </div>
       )}
     </div>
@@ -223,11 +278,9 @@ const FilterSection: React.FC<FilterSectionProps> = ({
               <Filter
                 statusOptions={statusOptions}
                 priorityOptions={priorityOptions}
-                selectedItems={selectedOptions}
                 preselectedFilters={selectedFilters}
-                asigneeOptions={asigneeOptions}
+                assigneeOptions={assigneeOptions}
                 outOfEstimation={outOfEstimation}
-                handleSelect={setSelectedOptions}
                 handleFilters={setSelectedFilters}
                 show={showFilter}
                 handleOutOfEstimation={setOutOfEstimation}

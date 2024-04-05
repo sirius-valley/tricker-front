@@ -11,18 +11,16 @@ export interface OptionAttr {
   color?: string
   selected: boolean
   icon?: keyof typeof icons
-  id?: string
+  id: string
 }
 
 export interface SearchButtonProps {
   statusOptions: OptionAttr[]
   priorityOptions: OptionAttr[]
-  asigneeOptions?: OptionAttr[]
+  assigneeOptions?: OptionAttr[]
   preselectedFilters?: OptionalIssueFilters
-  selectedItems?: OptionAttr[]
   outOfEstimation: boolean
   handleFilters: (options: OptionalIssueFilters) => void
-  handleSelect: (options: OptionAttr[]) => void
   handleOutOfEstimation: (value: boolean) => void
   show: boolean
   userRole?: 'Project Manager' | 'Developer'
@@ -31,11 +29,9 @@ export interface SearchButtonProps {
 const Filter: React.FC<SearchButtonProps> = ({
   statusOptions,
   priorityOptions,
-  asigneeOptions,
+  assigneeOptions,
   preselectedFilters = {},
   handleFilters,
-  selectedItems = [],
-  handleSelect,
   outOfEstimation,
   handleOutOfEstimation,
   show,
@@ -44,8 +40,6 @@ const Filter: React.FC<SearchButtonProps> = ({
   const [showStatusOptions, setShowStatusOptions] = useState<boolean>(false)
   const [showAsigneeOptions, setShowAsigneeOptions] = useState<boolean>(false)
   const [showPriorityOptions, setShowPriorityOptions] = useState<boolean>(false)
-  const [selectedOptions, setSelectedOptions] =
-    useState<OptionAttr[]>(selectedItems)
   const [selectedFilters, setSelectedFilters] =
     useState<OptionalIssueFilters>(preselectedFilters)
 
@@ -57,7 +51,6 @@ const Filter: React.FC<SearchButtonProps> = ({
   }, [preselectedFilters])
 
   useEffect(() => {
-    handleSelect(selectedOptions)
     handleFilters(selectedFilters)
 
     const handleClickOutside = (event: MouseEvent): void => {
@@ -76,107 +69,51 @@ const Filter: React.FC<SearchButtonProps> = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [handleSelect, handleFilters, selectedFilters, selectedOptions])
+  }, [handleFilters, selectedFilters])
 
-  const handleOptionSelect = (option: OptionAttr): void => {
-    const updatedOptions = selectedOptions.map((opt) =>
-      opt.option === option.option ? { ...opt, selected: !opt.selected } : opt
-    )
+  type FilterType = 'priority' | 'assignee' | 'stage'
 
-    if (!selectedOptions.some((opt) => opt.option === option.option)) {
-      updatedOptions.push(option)
-      setSelectedOptions(updatedOptions)
-    } else {
-      setSelectedOptions((prevOptions: OptionAttr[]) =>
-        prevOptions.filter((opt) => opt !== option)
-      )
-    }
-  }
-
-  const handleSelectPriority = (option: OptionAttr): void => {
+  const handleSelectFilter = (
+    option: OptionAttr,
+    filterType: FilterType
+  ): void => {
     const updatedFilters = { ...selectedFilters }
-    const isSelected = selectedOptions.some(
-      (opt) => opt.option === option.option
-    )
+    let filterKey: keyof OptionalIssueFilters
 
-    if (isSelected) {
-      setSelectedOptions((prevOptions: OptionAttr[]) =>
-        prevOptions.filter((opt) => opt.option !== option.option)
-      )
-      updatedFilters.priorities = updatedFilters.priorities?.filter(
-        (priority) => priority !== option.id
-      )
-    } else {
-      setSelectedOptions([...selectedOptions, option])
-      if (
-        option.id &&
-        (!updatedFilters.priorities ||
-          !updatedFilters.priorities.includes(option.id))
-      ) {
-        updatedFilters.priorities = [
-          ...(updatedFilters.priorities || []),
-          option.id
-        ]
-      }
+    switch (filterType) {
+      case 'priority':
+        filterKey = 'priorities'
+        break
+      case 'assignee':
+        filterKey = 'assigneeIds'
+        break
+      case 'stage':
+        filterKey = 'stageIds'
+        break
+      default:
+        return
     }
 
-    setSelectedFilters(updatedFilters)
-  }
+    const currentFilterValues = selectedFilters[filterKey]
+    const isSelected =
+      currentFilterValues && currentFilterValues.includes(option.id)
 
-  const handleSelectAssignee = (option: OptionAttr): void => {
-    const updatedFilters = { ...selectedFilters }
-    const isSelected = selectedOptions.some(
-      (opt) => opt.option === option.option
-    )
-
-    if (isSelected) {
-      setSelectedOptions((prevOptions: OptionAttr[]) =>
-        prevOptions.filter((opt) => opt.option !== option.option)
-      )
-      updatedFilters.assigneeIds = updatedFilters.assigneeIds?.filter(
-        (assignee) => assignee !== option.id
+    if (isSelected !== undefined && isSelected) {
+      updatedFilters[filterKey] = (selectedFilters[filterKey] || []).filter(
+        (filter) => filter !== option.id
       )
     } else {
-      setSelectedOptions([...selectedOptions, option])
-      if (
-        option.id &&
-        (!updatedFilters.assigneeIds ||
-          !updatedFilters.assigneeIds.includes(option.id))
-      ) {
-        updatedFilters.assigneeIds = [
-          ...(updatedFilters.assigneeIds || []),
-          option.id
-        ]
-      }
-    }
-
-    setSelectedFilters(updatedFilters)
-  }
-
-  const handleSelectStage = (option: OptionAttr): void => {
-    const updatedFilters = { ...selectedFilters }
-    const isSelected = selectedOptions.some(
-      (opt) => opt.option === option.option
-    )
-
-    if (isSelected) {
-      setSelectedOptions((prevOptions: OptionAttr[]) =>
-        prevOptions.filter((opt) => opt.option !== option.option)
-      )
-      updatedFilters.stageIds = updatedFilters.stageIds?.filter(
-        (stage) => stage !== option.id
-      )
-    } else {
-      setSelectedOptions([...selectedOptions, option])
-      if (
-        option.id &&
-        (!updatedFilters.stageIds ||
-          !updatedFilters.stageIds.includes(option.id))
-      ) {
-        updatedFilters.stageIds = [
-          ...(updatedFilters.stageIds || []),
-          option.id
-        ]
+      if (option.id) {
+        if (!updatedFilters[filterKey]) {
+          updatedFilters[filterKey] = [option.id]
+        } else if (
+          !(updatedFilters[filterKey] ?? []).includes(option.id ?? null)
+        ) {
+          updatedFilters[filterKey] = [
+            ...(updatedFilters[filterKey] ?? []),
+            option.id
+          ]
+        }
       }
     }
 
@@ -209,7 +146,11 @@ const Filter: React.FC<SearchButtonProps> = ({
           <p className="font-bold text-xl text-white">Filter by:</p>
           <button
             onClick={() => {
-              setSelectedOptions([])
+              setSelectedFilters({
+                assigneeIds: [],
+                priorities: [],
+                stageIds: []
+              })
             }}
             className="h-fit"
           >
@@ -259,9 +200,9 @@ const Filter: React.FC<SearchButtonProps> = ({
               </button>
             </>
           )}
-          {asigneeOptions && showAsigneeOptions && (
+          {assigneeOptions && showAsigneeOptions && (
             <div className="flex flex-col w-full gap-[1px] text-white bg-gray-400 border-gray-400">
-              {asigneeOptions.map((option, index) => (
+              {assigneeOptions.map((option, index) => (
                 <label key={index} className="w-full h-11">
                   <div className="px-5 h-full py-2 bg-gray-500 hover:bg-gray-400  flex justify-between items-center cursor-pointer">
                     <div className="flex items-center gap-2">
@@ -272,10 +213,13 @@ const Filter: React.FC<SearchButtonProps> = ({
                       <span>{option.option}</span>
                     </div>
                     <Checkbox
-                      defaultChecked={selectedOptions.includes(option)}
+                      defaultChecked={
+                        (selectedFilters.assigneeIds &&
+                          selectedFilters.assigneeIds.includes(option.id)) ||
+                        false
+                      }
                       onChecked={() => {
-                        handleOptionSelect(option)
-                        handleSelectAssignee(option)
+                        handleSelectFilter(option, 'assignee')
                       }}
                     />
                   </div>
@@ -314,10 +258,13 @@ const Filter: React.FC<SearchButtonProps> = ({
                       <span>{option.option}</span>
                     </div>
                     <Checkbox
-                      defaultChecked={selectedOptions.includes(option)}
+                      defaultChecked={
+                        (selectedFilters.stageIds &&
+                          selectedFilters.stageIds.includes(option.id)) ||
+                        false
+                      }
                       onChecked={() => {
-                        handleOptionSelect(option)
-                        handleSelectStage(option)
+                        handleSelectFilter(option, 'stage')
                       }}
                     />
                   </div>
@@ -367,10 +314,13 @@ const Filter: React.FC<SearchButtonProps> = ({
                     <span>{option.option}</span>
                   </div>
                   <Checkbox
-                    defaultChecked={selectedOptions.includes(option)}
+                    defaultChecked={
+                      (selectedFilters.priorities &&
+                        selectedFilters.priorities.includes(option.id)) ||
+                      false
+                    }
                     onChecked={() => {
-                      handleOptionSelect(option)
-                      handleSelectPriority(option)
+                      handleSelectFilter(option, 'priority')
                     }}
                   />
                 </div>
