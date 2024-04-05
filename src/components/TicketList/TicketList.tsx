@@ -2,8 +2,8 @@ import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
 import { useAppDispatch, useCurrentProjectId, useUser } from '@redux/hooks'
 import {
   type IssueView,
-  StageType,
-  type OptionalIssueFilters
+  type OptionalIssueFilters,
+  Priority
 } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
 import Body2 from '@utils/typography/body2/body2'
@@ -54,37 +54,21 @@ const TicketList: React.FC<TicketListProps> = ({
   let groupedByStageName: GroupedIssues = {}
 
   if (filteredIssues && !error) {
-    filteredIssues.sort(
-      (a, b) =>
-        Number(StageType[a.stage.type as unknown as keyof typeof StageType]) -
-        Number(StageType[b.stage.type as unknown as keyof typeof StageType])
-    )
-
     groupedByStageName = filteredIssues.reduce((acc: GroupedIssues, issue) => {
       if (acc[issue.stage.name] === undefined) {
         acc[issue.stage.name] = []
       }
       acc[issue.stage.name].push(issue)
+      acc[issue.stage.name].sort((a, b) => {
+        return (
+          Number(Priority[b.priority as unknown as keyof typeof Priority]) -
+          Number(Priority[a.priority as unknown as keyof typeof Priority])
+        )
+      })
       return acc
     }, {})
   }
 
-  const stageColor = (stageType: StageType): string => {
-    switch (stageType) {
-      case StageType.BACKLOG:
-        return 'bg-gray-300/60'
-      case StageType.UNSTARTED:
-        return 'bg-white'
-      case StageType.STARTED:
-        return 'bg-secondary-400'
-      case StageType.COMPLETED:
-        return 'bg-primary-400'
-      case StageType.CANCELED:
-        return 'bg-red-400'
-      default:
-        return 'bg-gray-300'
-    }
-  }
   const handleSelectedTicketId = (ticketId: string): void => {
     if (filteredIssues) {
       const selectedTicked = filteredIssues.find(
@@ -129,11 +113,10 @@ const TicketList: React.FC<TicketListProps> = ({
           <div key={key} className="text-white">
             <div className="w-full h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
               <div
-                className={`w-3 h-3 rounded-full ${stageColor(StageType[issues[0].stage.type as unknown as keyof typeof StageType])}`}
+                className={`w-3 h-3 rounded-full`}
+                style={{ backgroundColor: issues[0].stage.color }}
               />
-              <Body2>
-                {key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()}
-              </Body2>
+              <Body2>{issues[0].stage.name}</Body2>
               <Body1>{issues?.length}</Body1>
             </div>
             <div className="flex flex-col items-center gap-4 py-4 px-6 md:py-6 w-full">
