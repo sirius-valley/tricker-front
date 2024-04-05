@@ -152,6 +152,8 @@ export interface Stage {
 }
 export interface StageExtended extends Stage {
   type: StageType
+  position: number
+  color: string
 }
 
 export interface IssueLabel {
@@ -404,7 +406,7 @@ export interface ModifyTimeData {
 
 export interface DevProjectFiltersDTO {
   stages: StageExtended[]
-  priorities: Priority[]
+  priorities: string[]
 }
 
 export interface PMProjectFiltersDTO extends DevProjectFiltersDTO {

@@ -1,6 +1,10 @@
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
 import { useAppDispatch, useCurrentProjectId, useUser } from '@redux/hooks'
-import { type IssueView, StageType } from '@utils/types'
+import {
+  type IssueView,
+  StageType,
+  type OptionalIssueFilters
+} from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
 import Body2 from '@utils/typography/body2/body2'
 import { useEffect, useState } from 'react'
@@ -23,22 +27,37 @@ export interface TicketListProps {
 const TicketList: React.FC<TicketListProps> = ({
   isProjectManager,
   searchedTicket,
-  currentTicket
+  currentTicket,
+  filters
+  // isOutOfEstimation
 }: TicketListProps): JSX.Element => {
   const [openModal, setOpenModal] = useState(false)
   const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
-  const filtersParams = {}
-  // if (filters.length !== 0) {
-  //   filtersParams = {}
-  // filtersParams = {
-
-  //   stageIds: filters.stageIds,
-  //   priorities: filters.priorities,
-  //   isOutOfEstimation: filters?.isOutOfEstimation,
-  //   cursor
+  const filtersParams: OptionalIssueFilters = {}
+  if (filters.length !== 0) {
+    // const stageIds = []
+    // const priorities = []
+    // filters.forEach((filter) => {
+    // Verificar si el filtro es de prioridad y está seleccionado
+    // if (filter.id && filter.selected) {
+    //   priorities.push(filter.id)
+    // }
+    // })
+    // filtersParams = {
+    // stageIds: filters.stageIds,
+    // priorities: filters.priorities,
+    // isOutOfEstimation: isOutOfEstimation
+    // cursor: add last ticket
+    // }
+  }
+  // export interface OptionalIssueFilters {
+  //   stageIds?: string[]
+  //   priorities?: Priority[]
+  //   assigneeIds?: string[]
+  //   isOutOfEstimation?: boolean
+  //   cursor?: string
   // }
-  // } // Replace with filter props and parse it to OptionalIssueFilters
   const user = useUser()
   const dispatch = useAppDispatch()
 

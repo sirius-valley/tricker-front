@@ -11,13 +11,7 @@ import Tag from '@components/Tag/Tag'
 import useDebounce from '@hooks/useDebounce'
 import { useCurrentProjectId } from '@redux/hooks'
 import { useGetFilters } from '@data-provider/query'
-import {
-  type StageExtended,
-  StageType,
-  Priority,
-  type UserIssue
-} from '@utils/types'
-import config from '../../../tailwind.config'
+import { type StageExtended, Priority, type UserIssue } from '@utils/types'
 
 export interface FilterSectionProps {
   handleSelect: (options: OptionAttr[]) => void
@@ -45,7 +39,6 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const [outOfEstimation, setOutOfEstimation] = useState<boolean>(false)
   const screen = useScreenSize()
   const projectId = useCurrentProjectId()
-  const colors = config.theme.extend.colors
   const filterRef = useRef<HTMLDivElement | null>(null)
 
   const { data } = useGetFilters(
@@ -53,51 +46,21 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     userRole === 'Project Manager' ? 'pm' : 'dev'
   )
 
-  const stageColor = (stageType: StageType): string => {
-    const stageTypeEnumKey = stageType as unknown as keyof typeof StageType
-    const stageTypeEnum = StageType[stageTypeEnumKey]
-
-    switch (stageTypeEnum) {
-      case StageType.BACKLOG:
-        return colors.gray['300']
-      case StageType.UNSTARTED:
-        return colors.white
-      case StageType.STARTED:
-        return colors.secondary['400']
-      case StageType.COMPLETED:
-        return colors.primary['400']
-      case StageType.CANCELED:
-        return colors.error['500']
-      default:
-        return colors.gray['400']
-    }
-  }
-
-  const priorityIcon = (priority: Priority): keyof typeof icons => {
-    const priorityEnumKey = priority as unknown as keyof typeof Priority
-    const priorityEnum = Priority[priorityEnumKey]
-
-    switch (priorityEnum) {
-      case Priority.NO_PRIORITY:
+  const priorityIcon = (index: number): keyof typeof icons => {
+    switch (index) {
+      case Number(Priority.NO_PRIORITY):
         return 'NoPriorityIcon'
-      case Priority.LOW_PRIORITY:
+      case Number(Priority.LOW_PRIORITY):
         return 'LowPriorityIcon'
-      case Priority.MEDIUM_PRIORITY:
+      case Number(Priority.MEDIUM_PRIORITY):
         return 'MediumPriorityIcon'
-      case Priority.HIGH_PRIORITY:
+      case Number(Priority.HIGH_PRIORITY):
         return 'HighPriorityIcon'
-      case Priority.URGENT:
+      case Number(Priority.URGENT):
         return 'UrgentIcon'
       default:
         return 'NoPriorityIcon'
     }
-  }
-
-  const parsePriority = (priority: string): string => {
-    return priority
-      .split('_')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(' ')
   }
 
   useEffect(() => {
@@ -105,22 +68,18 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       const formattedStages: OptionAttr[] = data.stages.map(
         (stage: StageExtended) => ({
           option: stage.name,
-          color: stageColor(stage.type),
+          color: stage.color,
           selected: false,
           id: stage.id
         })
       )
-      const sortedPriorities = data.priorities.sort(
-        (a, b) =>
-          Number(Priority[a as unknown as Priority]) -
-          Number(Priority[b as unknown as Priority])
-      )
 
-      const formattedPriorities: OptionAttr[] = sortedPriorities.map(
-        (priority: Priority) => ({
-          option: parsePriority(priority as unknown as string),
+      const formattedPriorities: OptionAttr[] = data.priorities.map(
+        (priority: string, index) => ({
+          option: priority,
           selected: false,
-          icon: priorityIcon(priority)
+          icon: priorityIcon(index),
+          id: priority as unknown as string
         })
       )
 

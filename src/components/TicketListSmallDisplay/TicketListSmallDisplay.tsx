@@ -20,7 +20,9 @@ const colors = config.theme.extend.colors
 const TicketListSmallDisplay: React.FC<TicketListProps> = ({
   isProjectManager,
   searchedTicket,
-  currentTicket
+  currentTicket,
+  filters,
+  isOutOfEstimation
 }: TicketListProps): JSX.Element => {
   const { showSnackBar } = useSnackBar()
   const selectedProjectId = useCurrentProjectId()
