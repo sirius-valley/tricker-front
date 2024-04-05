@@ -13,11 +13,10 @@ import TicketCard from '@components/TicketCard/TicketCard'
 import { setCurrentTicket } from '@redux/user'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
-import { type OptionAttr } from '@components/Filter/Filter'
 import ModalStop from '@components/ModalStopTracking/ModalStopTracking'
 
 export interface TicketListProps {
-  filters: OptionAttr[]
+  filters: OptionalIssueFilters
   searchedTicket: string
   isOutOfEstimation: boolean
   isProjectManager: boolean
@@ -28,36 +27,13 @@ const TicketList: React.FC<TicketListProps> = ({
   isProjectManager,
   searchedTicket,
   currentTicket,
-  filters
-  // isOutOfEstimation
+  filters,
+  isOutOfEstimation
 }: TicketListProps): JSX.Element => {
   const [openModal, setOpenModal] = useState(false)
   const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
-  const filtersParams: OptionalIssueFilters = {}
-  if (filters.length !== 0) {
-    // const stageIds = []
-    // const priorities = []
-    // filters.forEach((filter) => {
-    // Verificar si el filtro es de prioridad y está seleccionado
-    // if (filter.id && filter.selected) {
-    //   priorities.push(filter.id)
-    // }
-    // })
-    // filtersParams = {
-    // stageIds: filters.stageIds,
-    // priorities: filters.priorities,
-    // isOutOfEstimation: isOutOfEstimation
-    // cursor: add last ticket
-    // }
-  }
-  // export interface OptionalIssueFilters {
-  //   stageIds?: string[]
-  //   priorities?: Priority[]
-  //   assigneeIds?: string[]
-  //   isOutOfEstimation?: boolean
-  //   cursor?: string
-  // }
+  console.log(filters)
   const user = useUser()
   const dispatch = useAppDispatch()
 
@@ -65,7 +41,7 @@ const TicketList: React.FC<TicketListProps> = ({
     isProjectManager,
     user.id,
     currentProjectId,
-    filtersParams
+    { ...filters, isOutOfEstimation }
   )
 
   const filteredIssues: IssueView[] | undefined = data?.filter(

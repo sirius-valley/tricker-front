@@ -18,7 +18,9 @@ export interface SearchButtonProps {
   statusOptions: OptionAttr[]
   priorityOptions: OptionAttr[]
   asigneeOptions?: OptionAttr[]
+  preselectedFilters?: OptionalIssueFilters
   selectedItems?: OptionAttr[]
+  handleFilters: (options: OptionalIssueFilters) => void
   handleSelect: (options: OptionAttr[]) => void
   handleOutOfEstimation: (value: boolean) => void
   show: boolean
@@ -29,6 +31,8 @@ const Filter: React.FC<SearchButtonProps> = ({
   statusOptions,
   priorityOptions,
   asigneeOptions,
+  preselectedFilters = {},
+  handleFilters,
   selectedItems = [],
   handleSelect,
   handleOutOfEstimation,
@@ -40,19 +44,15 @@ const Filter: React.FC<SearchButtonProps> = ({
   const [showPriorityOptions, setShowPriorityOptions] = useState<boolean>(false)
   const [selectedOptions, setSelectedOptions] =
     useState<OptionAttr[]>(selectedItems)
-  const [selectedFilters, setSelectedFilters] = useState<OptionalIssueFilters>({
-    assigneeIds: [],
-    stageIds: [],
-    priorities: [],
-    isOutOfEstimation: undefined,
-    cursor: undefined
-  })
+  const [selectedFilters, setSelectedFilters] =
+    useState<OptionalIssueFilters>(preselectedFilters)
   console.log(selectedFilters)
   const filterRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     handleSelect(selectedOptions)
+    handleFilters(selectedFilters)
 
     const handleClickOutside = (event: MouseEvent): void => {
       const target = event.target as HTMLElement
@@ -70,7 +70,7 @@ const Filter: React.FC<SearchButtonProps> = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [handleSelect, selectedOptions])
+  }, [handleSelect, handleFilters, selectedFilters, selectedOptions])
 
   const handleOptionSelect = (option: OptionAttr): void => {
     const updatedOptions = selectedOptions.map((opt) =>

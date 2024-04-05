@@ -26,24 +26,14 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
 }: TicketListProps): JSX.Element => {
   const { showSnackBar } = useSnackBar()
   const selectedProjectId = useCurrentProjectId()
-  const filtersParams = {}
-  // if (filters.length !== 0) {
-  //   filtersParams = {}
-  // filtersParams = {
 
-  //   stageIds: filters.stageIds,
-  //   priorities: filters.priorities,
-  //   isOutOfEstimation: filters?.isOutOfEstimation,
-  //   cursor
-  // }
-  // } // Replace with filter props and parse it to OptionalIssueFilters
   const dispatch = useAppDispatch()
   const user = useUser()
   const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
     isProjectManager,
     user.id,
     selectedProjectId,
-    filtersParams
+    { ...filters, isOutOfEstimation }
   )
 
   const filteredIssues: IssueView[] | undefined = data?.filter(
