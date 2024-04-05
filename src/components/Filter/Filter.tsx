@@ -4,6 +4,7 @@ import type * as icons from '@components/Icon/index.ts'
 import Checkbox from '@components/Checkbox/Checkbox'
 import Body1 from '@utils/typography/body1/body1'
 import { Switch } from '@components/Switch/Switch'
+import { type OptionalIssueFilters } from '@utils/types'
 
 export interface OptionAttr {
   option: string
@@ -39,6 +40,14 @@ const Filter: React.FC<SearchButtonProps> = ({
   const [showPriorityOptions, setShowPriorityOptions] = useState<boolean>(false)
   const [selectedOptions, setSelectedOptions] =
     useState<OptionAttr[]>(selectedItems)
+  const [selectedFilters, setSelectedFilters] = useState<OptionalIssueFilters>({
+    assigneeIds: [],
+    stageIds: [],
+    priorities: [],
+    isOutOfEstimation: undefined,
+    cursor: undefined
+  })
+  console.log(selectedFilters)
   const filterRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -76,6 +85,96 @@ const Filter: React.FC<SearchButtonProps> = ({
         prevOptions.filter((opt) => opt !== option)
       )
     }
+  }
+
+  const handleSelectPriority = (option: OptionAttr): void => {
+    const updatedFilters = { ...selectedFilters }
+    const isSelected = selectedOptions.some(
+      (opt) => opt.option === option.option
+    )
+
+    if (isSelected) {
+      setSelectedOptions((prevOptions: OptionAttr[]) =>
+        prevOptions.filter((opt) => opt.option !== option.option)
+      )
+      updatedFilters.priorities = updatedFilters.priorities?.filter(
+        (priority) => priority !== option.id
+      )
+    } else {
+      setSelectedOptions([...selectedOptions, option])
+      if (
+        option.id &&
+        (!updatedFilters.priorities ||
+          !updatedFilters.priorities.includes(option.id))
+      ) {
+        updatedFilters.priorities = [
+          ...(updatedFilters.priorities || []),
+          option.id
+        ]
+      }
+    }
+
+    setSelectedFilters(updatedFilters)
+  }
+
+  const handleSelectAssignee = (option: OptionAttr): void => {
+    const updatedFilters = { ...selectedFilters }
+    const isSelected = selectedOptions.some(
+      (opt) => opt.option === option.option
+    )
+
+    if (isSelected) {
+      setSelectedOptions((prevOptions: OptionAttr[]) =>
+        prevOptions.filter((opt) => opt.option !== option.option)
+      )
+      updatedFilters.assigneeIds = updatedFilters.assigneeIds?.filter(
+        (assignee) => assignee !== option.id
+      )
+    } else {
+      setSelectedOptions([...selectedOptions, option])
+      if (
+        option.id &&
+        (!updatedFilters.assigneeIds ||
+          !updatedFilters.assigneeIds.includes(option.id))
+      ) {
+        updatedFilters.assigneeIds = [
+          ...(updatedFilters.assigneeIds || []),
+          option.id
+        ]
+      }
+    }
+
+    setSelectedFilters(updatedFilters)
+  }
+
+  const handleSelectStage = (option: OptionAttr): void => {
+    const updatedFilters = { ...selectedFilters }
+    const isSelected = selectedOptions.some(
+      (opt) => opt.option === option.option
+    )
+
+    if (isSelected) {
+      setSelectedOptions((prevOptions: OptionAttr[]) =>
+        prevOptions.filter((opt) => opt.option !== option.option)
+      )
+      updatedFilters.stageIds = updatedFilters.stageIds?.filter(
+        (stage) => stage !== option.id
+      )
+    } else {
+      setSelectedOptions([...selectedOptions, option])
+      if (
+        option.id &&
+        (!updatedFilters.stageIds ||
+          !updatedFilters.stageIds.includes(option.id))
+      ) {
+        updatedFilters.stageIds = [
+          ...(updatedFilters.stageIds || []),
+          option.id
+        ]
+      }
+    }
+
+    setSelectedFilters(updatedFilters)
   }
 
   const handleOutOfEstimationClick = (value: boolean): void => {
@@ -169,6 +268,7 @@ const Filter: React.FC<SearchButtonProps> = ({
                       defaultChecked={selectedOptions.includes(option)}
                       onChecked={() => {
                         handleOptionSelect(option)
+                        handleSelectAssignee(option)
                       }}
                     />
                   </div>
@@ -210,6 +310,7 @@ const Filter: React.FC<SearchButtonProps> = ({
                       defaultChecked={selectedOptions.includes(option)}
                       onChecked={() => {
                         handleOptionSelect(option)
+                        handleSelectStage(option)
                       }}
                     />
                   </div>
@@ -262,6 +363,7 @@ const Filter: React.FC<SearchButtonProps> = ({
                     defaultChecked={selectedOptions.includes(option)}
                     onChecked={() => {
                       handleOptionSelect(option)
+                      handleSelectPriority(option)
                     }}
                   />
                 </div>

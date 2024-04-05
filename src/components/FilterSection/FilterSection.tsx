@@ -6,12 +6,12 @@ import { GridList } from '@components/GridList/GridList'
 import { SearchBar } from '@components/SearchBar/SearchBar'
 import SquaredIconButton from '@components/SquaredIconButton/SquaredIconButton'
 import { FilterIcon } from '@components/Icon'
-import type * as icons from '@components/Icon/index.ts'
 import Tag from '@components/Tag/Tag'
 import useDebounce from '@hooks/useDebounce'
 import { useCurrentProjectId } from '@redux/hooks'
 import { useGetFilters } from '@data-provider/query'
 import { type StageExtended, Priority, type UserIssue } from '@utils/types'
+import { priorityEnumMap, setPriorityIcon } from './constants'
 
 export interface FilterSectionProps {
   handleSelect: (options: OptionAttr[]) => void
@@ -46,23 +46,6 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     userRole === 'Project Manager' ? 'pm' : 'dev'
   )
 
-  const priorityIcon = (index: number): keyof typeof icons => {
-    switch (index) {
-      case Number(Priority.NO_PRIORITY):
-        return 'NoPriorityIcon'
-      case Number(Priority.LOW_PRIORITY):
-        return 'LowPriorityIcon'
-      case Number(Priority.MEDIUM_PRIORITY):
-        return 'MediumPriorityIcon'
-      case Number(Priority.HIGH_PRIORITY):
-        return 'HighPriorityIcon'
-      case Number(Priority.URGENT):
-        return 'UrgentIcon'
-      default:
-        return 'NoPriorityIcon'
-    }
-  }
-
   useEffect(() => {
     if (data) {
       const formattedStages: OptionAttr[] = data.stages.map(
@@ -75,11 +58,11 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       )
 
       const formattedPriorities: OptionAttr[] = data.priorities.map(
-        (priority: string, index) => ({
+        (priority: string) => ({
           option: priority,
           selected: false,
-          icon: priorityIcon(index),
-          id: priority as unknown as string
+          icon: setPriorityIcon(priority),
+          id: Priority[priorityEnumMap[priority]]
         })
       )
 

@@ -392,7 +392,7 @@ export interface MemberEmail {
 
 export interface OptionalIssueFilters {
   stageIds?: string[]
-  priorities?: Priority[]
+  priorities?: string[]
   assigneeIds?: string[]
   isOutOfEstimation?: boolean
   cursor?: string
