@@ -20,6 +20,7 @@ export interface SearchButtonProps {
   asigneeOptions?: OptionAttr[]
   preselectedFilters?: OptionalIssueFilters
   selectedItems?: OptionAttr[]
+  outOfEstimation: boolean
   handleFilters: (options: OptionalIssueFilters) => void
   handleSelect: (options: OptionAttr[]) => void
   handleOutOfEstimation: (value: boolean) => void
@@ -35,6 +36,7 @@ const Filter: React.FC<SearchButtonProps> = ({
   handleFilters,
   selectedItems = [],
   handleSelect,
+  outOfEstimation,
   handleOutOfEstimation,
   show,
   userRole = 'Developer'
@@ -228,6 +230,7 @@ const Filter: React.FC<SearchButtonProps> = ({
                     Out of estimation
                   </Body1>
                   <Switch
+                    defaultChecked={outOfEstimation}
                     onChecked={(checked) => {
                       handleOutOfEstimationClick(checked)
                     }}
