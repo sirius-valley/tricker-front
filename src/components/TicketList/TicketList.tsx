@@ -33,7 +33,7 @@ const TicketList: React.FC<TicketListProps> = ({
   const [openModal, setOpenModal] = useState(false)
   const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
-  console.log(filters)
+
   const user = useUser()
   const dispatch = useAppDispatch()
 

@@ -46,7 +46,7 @@ const Filter: React.FC<SearchButtonProps> = ({
     useState<OptionAttr[]>(selectedItems)
   const [selectedFilters, setSelectedFilters] =
     useState<OptionalIssueFilters>(preselectedFilters)
-  console.log(selectedFilters)
+
   const filterRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
 
