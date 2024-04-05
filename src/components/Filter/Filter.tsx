@@ -51,6 +51,10 @@ const Filter: React.FC<SearchButtonProps> = ({
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
+    setSelectedFilters(preselectedFilters)
+  }, [preselectedFilters])
+
+  useEffect(() => {
     handleSelect(selectedOptions)
     handleFilters(selectedFilters)
 
