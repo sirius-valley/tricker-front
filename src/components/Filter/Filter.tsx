@@ -151,6 +151,7 @@ const Filter: React.FC<SearchButtonProps> = ({
                 priorities: [],
                 stageIds: []
               })
+              handleOutOfEstimationClick(false)
             }}
             className="h-fit"
           >
