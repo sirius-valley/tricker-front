@@ -183,6 +183,8 @@ const Filter: React.FC<SearchButtonProps> = ({
                 className={`px-4 py-3 gap-2 h-[52px] text-white flex items-center bg-gray-600 hover:bg-gray-400 cursor-pointer`}
                 onClick={() => {
                   setShowAsigneeOptions(!showAsigneeOptions)
+                  setShowPriorityOptions(false)
+                  setShowStatusOptions(false)
                 }}
               >
                 <div className="w-fit">
@@ -228,6 +230,8 @@ const Filter: React.FC<SearchButtonProps> = ({
             className={`px-4 py-3 gap-3 h-[52px] text-white flex items-center bg-gray-600 hover:bg-gray-400 cursor-pointer`}
             onClick={() => {
               setShowStatusOptions(!showStatusOptions)
+              setShowAsigneeOptions(false)
+              setShowPriorityOptions(false)
             }}
           >
             <div className="w-fit">
@@ -276,6 +280,8 @@ const Filter: React.FC<SearchButtonProps> = ({
             className={`px-4 py-3 gap-2 h-[52px] text-white bg-gray-600 hover:bg-gray-400 flex items-center`}
             onClick={() => {
               setShowPriorityOptions(!showPriorityOptions)
+              setShowAsigneeOptions(false)
+              setShowStatusOptions(false)
             }}
           >
             <div className="w-5 h-5">
