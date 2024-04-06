@@ -162,7 +162,7 @@ const Filter: React.FC<SearchButtonProps> = ({
           {userRole === 'Project Manager' && (
             <>
               <div
-                className={`px-4 py-3 gap-3 h-[52px] text-white flex items-center bg-gray-600`}
+                className={`px-4 py-3 gap-2 h-[52px] text-white flex items-center bg-gray-600`}
               >
                 <div className="w-fit">
                   <Icon name="AlarmIcon" width="20" height="20" />
@@ -180,7 +180,7 @@ const Filter: React.FC<SearchButtonProps> = ({
                 </div>
               </div>
               <button
-                className={`px-4 py-3 gap-3 h-[52px] text-white flex items-center bg-gray-600 hover:bg-gray-400 cursor-pointer`}
+                className={`px-4 py-3 gap-2 h-[52px] text-white flex items-center bg-gray-600 hover:bg-gray-400 cursor-pointer`}
                 onClick={() => {
                   setShowAsigneeOptions(!showAsigneeOptions)
                 }}
@@ -207,10 +207,6 @@ const Filter: React.FC<SearchButtonProps> = ({
                 <label key={index} className="w-full h-11">
                   <div className="px-5 h-full py-2 bg-gray-500 hover:bg-gray-400  flex justify-between items-center cursor-pointer">
                     <div className="flex items-center gap-2">
-                      <div
-                        className="w-[10px] h-[10px] rounded-full"
-                        style={{ backgroundColor: option.color }}
-                      />
                       <span>{option.option}</span>
                     </div>
                     <Checkbox
