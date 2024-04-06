@@ -194,11 +194,11 @@ const Filter: React.FC<SearchButtonProps> = ({
                   <Body1 className="font-medium leading-[19.36px]">
                     Asignee
                   </Body1>
-                  <Icon
-                    width="20"
-                    height="20"
-                    name={showAsigneeOptions ? 'CaretUpIcon' : 'CaretDownIcon'}
-                  />
+                  <div
+                    className={`${showAsigneeOptions && 'rotate-180'} transition-all duration-300`}
+                  >
+                    <Icon width="20" height="20" name={'CaretDownIcon'} />
+                  </div>
                 </div>
               </button>
             </>
@@ -239,11 +239,11 @@ const Filter: React.FC<SearchButtonProps> = ({
             </div>
             <div className="flex justify-between w-full">
               <Body1 className="font-medium leading-[19.36px]">Status</Body1>
-              <Icon
-                width="20"
-                height="20"
-                name={showStatusOptions ? 'CaretUpIcon' : 'CaretDownIcon'}
-              />
+              <div
+                className={`${showStatusOptions && 'rotate-180'} transition-all duration-300`}
+              >
+                <Icon width="20" height="20" name={'CaretDownIcon'} />
+              </div>
             </div>
           </button>
           {showStatusOptions && (
@@ -289,11 +289,11 @@ const Filter: React.FC<SearchButtonProps> = ({
             </div>
             <div className="flex justify-between w-full">
               <Body1 className="font-medium leading-[19.36px]">Priority</Body1>
-              <Icon
-                width="20"
-                height="20"
-                name={showPriorityOptions ? 'CaretUpIcon' : 'CaretDownIcon'}
-              />
+              <div
+                className={`${showPriorityOptions && 'rotate-180'} transition-all duration-300`}
+              >
+                <Icon width="20" height="20" name={'CaretDownIcon'} />
+              </div>
             </div>
           </button>
         </div>
