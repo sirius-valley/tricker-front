@@ -1,10 +1,21 @@
 import { type Meta, type StoryObj } from '@storybook/react'
 import FilterSection from './FilterSection'
 import { type OptionalIssueFilters } from '@utils/types'
+import { Provider } from 'react-redux'
+import { store } from '@redux/store'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 const meta: Meta<typeof FilterSection> = {
   title: 'Components/FilterSection',
   component: FilterSection,
+  decorators: [
+    (Story) => <Provider store={store}>{Story()}</Provider>,
+    (Story) => (
+      <QueryClientProvider client={queryClient}>{Story()}</QueryClientProvider>
+    )
+  ],
   tags: ['autodocs'],
   argTypes: {
     handleFilters: {
