@@ -1,17 +1,17 @@
 import { type Meta, type StoryObj } from '@storybook/react'
 import FilterSection from './FilterSection'
-import { type OptionAttr } from '@components/Filter/Filter'
+import { type OptionalIssueFilters } from '@utils/types'
 
 const meta: Meta<typeof FilterSection> = {
   title: 'Components/FilterSection',
   component: FilterSection,
   tags: ['autodocs'],
   argTypes: {
-    handleSelect: {
+    handleFilters: {
       control: {
         type: 'function'
       },
-      description: 'Callback to manage selected options.'
+      description: 'Callback to manage selected filters.'
     },
     handleSearch: {
       control: {
@@ -41,8 +41,8 @@ type Story = StoryObj<typeof FilterSection>
 export const DefaultFilterSection: Story = {
   tags: ['autodocs'],
   args: {
-    handleSelect: function (options: OptionAttr[]): void {
-      console.log(options)
+    handleFilters: function (filters: OptionalIssueFilters): void {
+      console.log(filters)
     },
     handleSearch: function (searchedValue: string): void {
       console.log(searchedValue)
