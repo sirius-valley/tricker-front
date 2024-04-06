@@ -124,7 +124,7 @@ export const useGetIssuesFilteredAndPaginated = (
   isProjectManager: boolean,
   userId: string,
   projectId: string,
-  filters?: OptionalIssueFilters
+  filters: OptionalIssueFilters
 ): {
   data: IssueView[] | null | undefined
   error: Error | null
