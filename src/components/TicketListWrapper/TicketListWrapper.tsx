@@ -2,7 +2,6 @@ import FilterSection from '@components/FilterSection/FilterSection'
 import { type OptionAttr } from '@components/Filter/Filter'
 import TicketList from '@components/TicketList/TicketList'
 import { useState } from 'react'
-import TicketListSmallDisplay from '@components/TicketListSmallDisplay/TicketListSmallDisplay'
 import { type IssueView } from '@utils/types'
 import Timer from '@components/Timer/Timer'
 import useScreenSize from '@hooks/useScreenSize'
@@ -33,24 +32,14 @@ const TicketListWrapper: React.FC<TicketListWrapperProps> = ({
         handleOutOfEstimation={setOutOfEstimation}
         userRole={userRole}
       />
-      {view === 'grid' && (
-        <TicketList
-          filters={selectedFilters}
-          searchedTicket={searchedTicket}
-          isOutOfEstimation={outOfEstimation}
-          isProjectManager={userRole === 'Project Manager'}
-          currentTicket={currentTicket}
-        />
-      )}
-      {view === 'list' && (
-        <TicketListSmallDisplay
-          filters={selectedFilters}
-          searchedTicket={searchedTicket}
-          isOutOfEstimation={outOfEstimation}
-          isProjectManager={userRole === 'Project Manager'}
-          currentTicket={currentTicket}
-        />
-      )}
+      <TicketList
+        variant={view}
+        filters={selectedFilters}
+        searchedTicket={searchedTicket}
+        isOutOfEstimation={outOfEstimation}
+        isProjectManager={userRole === 'Project Manager'}
+        currentTicket={currentTicket}
+      />
       {screen.width < 768 && (
         <Timer ticketId={currentTicket.id} ticketName={currentTicket.name} />
       )}
