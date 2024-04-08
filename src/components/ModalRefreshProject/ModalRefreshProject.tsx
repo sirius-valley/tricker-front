@@ -79,6 +79,7 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
                   className="w-full h-fit text-black"
                   onClick={handleRefresh}
                   icon="RefreshIcon"
+                  left
                 >
                   Refresh
                 </Button>
