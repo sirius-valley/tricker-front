@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import Body2 from '@utils/typography/body2/body2'
 import HelperText from '@utils/typography/helpertext/helpertext'
@@ -28,6 +28,7 @@ const inputVariants = cva(
 export interface InputProps
   extends VariantProps<typeof inputVariants>,
     React.HTMLAttributes<HTMLInputElement> {
+  value?: string
   type?: 'text' | 'password'
   helpertext?: string
   icon?: string
@@ -39,6 +40,7 @@ export interface InputProps
 }
 
 const Input = ({
+  value = '',
   className,
   variant,
   type = 'text',
@@ -49,7 +51,12 @@ const Input = ({
   placeholder = '',
   tooltip = ''
 }: InputProps): JSX.Element => {
-  const [value, setValue] = useState<string>('')
+  const [inputValue, setInputValue] = useState<string>(value)
+
+  useEffect(() => {
+    setInputValue(value)
+  }, [value])
+
   const textColor: string =
     variant === 'error'
       ? 'text-error-500'
@@ -58,7 +65,7 @@ const Input = ({
         : 'text-white'
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setValue(e.target.value)
+    setInputValue(e.target.value)
     handleValue(e.target.value)
   }
   return (
@@ -83,7 +90,7 @@ const Input = ({
       )}
       <input
         className={className + inputVariants({ variant, className })}
-        value={value}
+        value={inputValue}
         type={type}
         required={required}
         placeholder={placeholder}

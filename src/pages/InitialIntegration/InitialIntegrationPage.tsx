@@ -40,6 +40,8 @@ const InitialIntegrationPage = (): JSX.Element => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const user = useUser()
+  const [providerKey, setProviderKey] = useState<string>(apiKey.value || '')
+  const [provider, setProvider] = useState<string>(apiKey.provider || '')
   const { showSnackBar } = useSnackBar()
 
   let stepType: StepType
@@ -50,14 +52,14 @@ const InitialIntegrationPage = (): JSX.Element => {
   } else {
     stepType = StepType.MID
   }
-
+  console.log(apiKey)
   const handleBackButton = (): void => {
     if (currentStep === 0) {
       navigate('/login/role')
     }
     if (currentStep > 0) {
       dispatch(setCurrentStep(currentStep - 1))
-      dispatch(setApiKey(apiKey))
+      dispatch(setApiKey({ provider, value: providerKey }))
     }
   }
   const handleNextButton = (): void => {
@@ -66,8 +68,6 @@ const InitialIntegrationPage = (): JSX.Element => {
     }
   }
 
-  const [providerKey, setProviderKey] = useState(apiKey.value || null)
-  const [provider, setProvider] = useState<null | string>(null)
   const [selectedProject, setSelectedProject] =
     useState<ProjectPreIntegrated | null>(null)
   const [teamMembers, setTeamMembers] = useState<null | MemberPreIntegrated[]>(
@@ -77,6 +77,11 @@ const InitialIntegrationPage = (): JSX.Element => {
     useState<string>('')
 
   const screenWidth = useScreenSize().width
+
+  useEffect(() => {
+    setProvider(apiKey.provider)
+    setProviderKey(apiKey.value)
+  }, [apiKey])
 
   useEffect(() => {
     if (user.id === '') {
@@ -142,10 +147,12 @@ const InitialIntegrationPage = (): JSX.Element => {
           <Stepper currentStep={currentStep} label={steps} />
           {currentStep === 0 && (
             <ProjectAddition
+              token={providerKey}
               providers={['Linear']}
               handleToken={(key) => {
                 setProviderKey(key)
               }}
+              preselectedProvider={provider}
               handleSelectedProvider={(provider) => {
                 setProvider(provider)
               }}
