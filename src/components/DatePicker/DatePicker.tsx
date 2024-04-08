@@ -17,6 +17,7 @@ const DatePicker = ({
   label = '',
   required = false,
   handleSelectedDate,
+  helperText,
   toDate
 }: DatePickerProps): JSX.Element => {
   const today = new Date()
@@ -90,6 +91,7 @@ const DatePicker = ({
           className="min-w-[300px]"
           readonly
           required
+          helpertext={helperText}
           defaultValue={selected.toLocaleDateString(undefined, {
             year: 'numeric',
             month: '2-digit',
