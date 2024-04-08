@@ -21,7 +21,7 @@ const RoleSelectPage = (): JSX.Element => {
   }, [data, error, navigate])
 
   const user = useUser()
-  // const screenWidth = useScreenSize().width
+
   dispatch(setCurrentStep(0))
 
   useEffect(() => {
