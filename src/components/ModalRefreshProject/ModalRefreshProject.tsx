@@ -20,7 +20,7 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
 }: ModalRefreshProjectProps) => {
   const [inputValue, setInputValue] = useState<string>('')
   const [provider, setProvider] = useState<string>('')
-  console.log(inputValue, provider)
+
   return (
     <>
       <Modal
@@ -80,6 +80,7 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
                   onClick={handleRefresh}
                   icon="RefreshIcon"
                   left
+                  disabled={inputValue === '' || provider === ''}
                 >
                   Refresh
                 </Button>
