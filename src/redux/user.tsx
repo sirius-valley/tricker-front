@@ -27,12 +27,10 @@ export const initialState: InitialStateType = {
     createdAt: new Date().toString(),
     projectsRoleAssigned: [],
     emittedUserProjectRole: [],
-    // emittedBlockerStatusModification: [],
     authoredIssues: [],
     asignedIssues: [],
     emittedIssueChangeLogs: [],
     emittedManualTimeModification: []
-    // OrganizationAdministrator: []
   },
   userRole: '',
   currentTicket: {
@@ -41,10 +39,8 @@ export const initialState: InitialStateType = {
     stage: { id: '', name: '', type: StageType.BACKLOG },
     name: '',
     title: '',
-    description: '',
     priority: Priority.NO_PRIORITY,
     storyPoints: 0,
-    labels: [],
     isBlocked: false,
     isTracking: false
   },
