@@ -9,11 +9,20 @@ import LoginPage from '@pages/Login/LoginPage'
 import RoleValidation from './RoleValidation/RoleValidation'
 import TicketsSection from '@components/TicketsSection/TicketsSection'
 import LoginFlowValidation from './LoginFlowValidation/LoginFlowValidation'
+import ConfirmationPage from '@pages/EmailConfirmation/ConfirmationPage'
 
 export const ROUTER = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />
+  },
+  {
+    path: '/accept',
+    element: <ConfirmationPage />
+  },
+  {
+    path: '/decline',
+    element: <ConfirmationPage decline />
   },
   {
     element: <LoginFlowValidation />,
