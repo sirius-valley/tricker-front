@@ -38,10 +38,8 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
         stage: { id: '', name: '', type: StageType.BACKLOG },
         name: '',
         title: '',
-        description: '',
         priority: Priority.NO_PRIORITY,
         storyPoints: 0,
-        labels: [],
         isBlocked: false,
         isTracking: false
       })
