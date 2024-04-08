@@ -158,7 +158,7 @@ export const useGetIssueById = (
 } => {
   const { data, error, isLoading } = useQuery({
     queryKey: ['getIssueById', issueId],
-    queryFn: async () => await ApiService.getIssueById(/* issueId */)
+    queryFn: async () => await ApiService.getIssueById(issueId)
   })
   return { data, error, isLoading }
 }

@@ -14,7 +14,6 @@ import type {
 } from '@utils/types'
 import { getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
-import { mockedTicketDetail } from '@components/TicketDisplay/MockedTicketDetail'
 import { setUpAxiosInterceptors } from './AxiosInterceptor'
 
 const url: string = config.apiUrl || 'http://localhost:8080/api'
@@ -160,10 +159,14 @@ export const getIssuesFilteredAndPaginated = async (
   return []
 }
 
-export const getIssueById = async () // ticketId: string
-: Promise<IssueDetail | null> => {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  return mockedTicketDetail
+export const getIssueById = async (
+  issueId: string
+): Promise<IssueDetail | null> => {
+  const res = await withInterceptors.get(`${url}/issue/${issueId}`)
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
 }
 
 export const postTimerAction = async (
