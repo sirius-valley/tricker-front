@@ -27,6 +27,7 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
   const { data, isLoading, error } = useGetIssueById(issue.id)
 
   useEffect(() => {
+    setShowFullText(false)
     if (textRef.current) {
       const isOverflowing =
         textRef.current.offsetHeight < textRef.current.scrollHeight + 10 ||
@@ -34,10 +35,6 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
       setHasOverflow(isOverflowing)
     }
   }, [data])
-
-  useEffect(() => {
-    setShowFullText(false)
-  }, [])
 
   const toggleTextVisibility = (): void => {
     setShowFullText(!showFullText)
