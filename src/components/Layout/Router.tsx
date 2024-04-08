@@ -48,12 +48,12 @@ export const ROUTER = createBrowserRouter([
               {
                 path: '/my-team',
                 element: <TicketsSection myTeam />
-              },
-              {
-                path: '/stats',
-                element: <></>
               }
             ]
+          },
+          {
+            path: '/stats',
+            element: <></>
           },
           {
             path: '/',
