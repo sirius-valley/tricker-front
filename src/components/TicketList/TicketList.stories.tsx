@@ -19,7 +19,14 @@ const meta: Meta<typeof TicketList> = {
     ),
     (Story) => <SnackBarProvider>{Story()}</SnackBarProvider>
   ],
-  argTypes: {}
+  argTypes: {
+    variant: {
+      control: {
+        type: 'select',
+        options: ['grid', 'list']
+      }
+    }
+  }
 }
 
 export default meta
@@ -27,24 +34,26 @@ export default meta
 type Story = StoryObj<typeof TicketList>
 
 export const DevView: Story = {
-  render: () => (
-    <TicketList
-      filters={[]}
-      searchedTicket={''}
-      isOutOfEstimation={false}
-      isProjectManager={false}
-      currentTicket={mockedTicket}
-    />
-  )
+  tags: ['autodocs'],
+  args: {
+    variant: 'grid',
+    currentTicket: mockedTicket,
+    filters: [],
+    searchedTicket: '',
+    isOutOfEstimation: false,
+    isProjectManager: false
+  },
+  render: (args) => <TicketList {...args} />
 }
 export const PMView: Story = {
-  render: () => (
-    <TicketList
-      filters={[]}
-      searchedTicket={''}
-      isOutOfEstimation={false}
-      isProjectManager={true}
-      currentTicket={mockedTicket}
-    />
-  )
+  tags: ['autodocs'],
+  args: {
+    variant: 'grid',
+    currentTicket: mockedTicket,
+    filters: [],
+    searchedTicket: '',
+    isOutOfEstimation: false,
+    isProjectManager: true
+  },
+  render: (args) => <TicketList {...args} />
 }
