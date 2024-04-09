@@ -1,8 +1,12 @@
 import Icon from '@components/Icon/Icon'
+import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import WrapperPage from '@components/Wrapper/WrapperPage'
+import { useGetEmailInformation } from '@data-provider/query'
+import LoadingPage from '@pages/Loader/LoadingPage'
 import Body1 from '@utils/typography/body1/body1'
 import H2 from '@utils/typography/h2/h2'
-// import { useSearchParams } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Navigate, useSearchParams } from 'react-router-dom'
 
 interface ConfirmationPageProps {
   decline?: boolean
@@ -11,17 +15,26 @@ interface ConfirmationPageProps {
 const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
   decline = false
 }: ConfirmationPageProps): JSX.Element => {
-  // const [searchParams] = useSearchParams()
+  const { showSnackBar } = useSnackBar()
+  const [searchParams] = useSearchParams()
 
-  // const projectId = searchParams.get('projectId')
+  const projectId = searchParams.get('projectId')
   // const token = searchParams.get('token')
 
-  const username = 'Victoria Capurro'
-  // const userImage = null
-  const project = 'We Can'
-  // const projectImage = null
+  const { data, isLoading, error } = useGetEmailInformation(projectId || '')
 
-  return (
+  useEffect(() => {
+    if (error) {
+      showSnackBar(error.message, 'error')
+      window.location.replace('/login')
+    }
+  }, [error, showSnackBar])
+
+  return isLoading ? (
+    <LoadingPage />
+  ) : error || !data ? (
+    <Navigate to="/login" replace />
+  ) : (
     <WrapperPage>
       <div className="flex flex-col md:mb-36">
         <div className="border flex flex-col lg:w-[1000px] md:w-[750px] w-[329px] h-fit bg-gray-600 border-primary-400 p-6 lg:px-[136px] gap-4 rounded-xl shadow-2 items-center justify-center">
@@ -30,13 +43,11 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
               className={`w-20 h-20 rounded-[40px] bg-primary-200 flex items-center justify-center text-primary-700 p-2`}
             >
               <Body1 className="text-[36px] font-medium leading-[43.57px]">
-                {
-                  // userImage ||
-                  username
+                {data.pmImage ||
+                  data.pmName
                     .split(' ')
                     .map((name) => name.charAt(0).toUpperCase())
-                    .join('')
-                }
+                    .join('')}
               </Body1>
             </div>
             <Icon name={decline ? 'DeclineIcon' : 'AcceptIcon'} />
@@ -44,19 +55,17 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
               className={`w-20 h-20 rounded-[40px] bg-primary-200 flex items-center justify-center text-primary-700 p-2`}
             >
               <Body1 className="text-[36px] font-medium leading-[43.57px]">
-                {
-                  // projectImage ||
-                  project
+                {data.projectImage ||
+                  data.pmName
                     .split(' ')
                     .map((name) => name.charAt(0).toUpperCase())
-                    .join('')
-                }
+                    .join('')}
               </Body1>
             </div>
           </div>
           <H2 className="md:text-[34px] md:leading-[41.15px] w-fit text-xl leading-[24.2px] text-center text-white font-medium">
-            You&apos;ve {decline ? 'declined' : 'accepted'} {username}&apos;s
-            request to add WeCan to Tricker
+            You&apos;ve {decline ? 'declined' : 'accepted'} {data.pmName}
+            &apos;s request to add {data.projectName} to Tricker
           </H2>
           <Body1 className="md:text-[22px] leading-[26.63px] text-center text-gray-300 font-medium">
             We&apos;ll notify her {!decline && 'the next steps'} via email
