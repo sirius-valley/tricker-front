@@ -86,7 +86,7 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
                   variant="filled"
                   size={'large'}
                   className="w-full h-[56px] text-black"
-                  onClick={handleRefresh}
+                  onClick={!isPending ? handleRefresh : () => {}}
                   icon="RefreshIcon"
                   left={!isPending}
                   disabled={providerToken === ''}
