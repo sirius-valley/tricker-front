@@ -15,6 +15,10 @@ interface InitialStateType {
   currentStep: number
   steps: Step[]
   projectName: string
+  apiKey: {
+    provider: string
+    value: string
+  }
 }
 
 export const initialState: InitialStateType = {
@@ -55,7 +59,11 @@ export const initialState: InitialStateType = {
     { label: 'Project Selection' },
     { label: 'Team Members' }
   ],
-  projectName: ''
+  projectName: '',
+  apiKey: {
+    provider: '',
+    value: ''
+  }
 }
 
 const userSlice = createSlice({
@@ -79,6 +87,12 @@ const userSlice = createSlice({
     },
     setProjectName: (state, action: PayloadAction<string>) => {
       state.projectName = action.payload
+    },
+    setApiKey: (
+      state,
+      action: PayloadAction<{ provider: string; value: string }>
+    ) => {
+      state.apiKey = action.payload
     }
   }
 })
@@ -89,6 +103,7 @@ export const {
   setCurrentTicket,
   setCurrentProjectId,
   setCurrentStep,
-  setProjectName
+  setProjectName,
+  setApiKey
 } = userSlice.actions
 export default userSlice.reducer

@@ -7,18 +7,22 @@ import Subtitle from '@utils/typography/subtitle/subtitle'
 import React from 'react'
 
 interface ProjectAdditionProps extends React.HTMLAttributes<HTMLDivElement> {
-  handleToken: (token: string | null) => void
+  token: string
+  handleToken: (token: string) => void
   handleSelectedProvider: (provider: string) => void
+  preselectedProvider: string
   providers: string[]
 }
 
 export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
+  token,
   handleToken,
   handleSelectedProvider,
+  preselectedProvider,
   providers
 }): JSX.Element => {
   const screen: Screen = useScreenSize()
-  const handleInputValue = (token: string | null): void => {
+  const handleInputValue = (token: string): void => {
     handleToken(token)
   }
   return (
@@ -33,6 +37,10 @@ export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
           </Subtitle>
           <div className="flex flex-col w-full gap-2">
             <SelectInput
+              preselectedOption={{
+                value: preselectedProvider,
+                label: preselectedProvider
+              }}
               handleSelectedOption={handleSelectedProvider}
               options={providers.map((provider: string) => ({
                 value: provider,
@@ -48,6 +56,7 @@ export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
             Second, add the user token to connect to the API
           </Subtitle>
           <Input
+            value={token}
             handleValue={handleInputValue}
             label="User Token"
             required

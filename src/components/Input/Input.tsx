@@ -6,7 +6,7 @@ import { Tooltip } from '@components/Tooltip/Tooltip'
 
 const inputVariants = cva(
   [
-    'placeholder:italic outline-none placeholder-gray-300 bg-transparent border rounded-lg py-3 px-4 w-full h-[43px] text-gray-300'
+    'placeholder:italic outline-none placeholder-gray-400 bg-transparent border rounded-lg py-3 px-4 w-full h-[43px] text-gray-300'
   ],
   {
     variants: {
@@ -28,6 +28,7 @@ const inputVariants = cva(
 export interface InputProps
   extends VariantProps<typeof inputVariants>,
     React.HTMLAttributes<HTMLInputElement> {
+  value?: string
   type?: 'text' | 'password'
   helpertext?: string
   icon?: string
@@ -41,6 +42,7 @@ export interface InputProps
 }
 
 const Input = ({
+  value = '',
   className,
   variant,
   type = 'text',
@@ -53,7 +55,12 @@ const Input = ({
   tooltip = '',
   defaultValue = ''
 }: InputProps): JSX.Element => {
-  const [value, setValue] = useState<string>(defaultValue)
+  const [inputValue, setInputValue] = useState<string>(value)
+
+  useEffect(() => {
+    setInputValue(value)
+  }, [value])
+
   const textColor: string =
     variant === 'error'
       ? 'text-error-500'
@@ -62,12 +69,12 @@ const Input = ({
         : 'text-white'
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setValue(e.target.value)
+    setInputValue(e.target.value)
     handleValue(e.target.value)
   }
 
   useEffect(() => {
-    setValue(defaultValue)
+    setInputValue(defaultValue)
   }, [defaultValue])
 
   return (
@@ -92,7 +99,7 @@ const Input = ({
       )}
       <input
         className={className + inputVariants({ variant, className })}
-        value={value}
+        value={inputValue}
         type={type}
         required={required}
         readOnly={readonly}
