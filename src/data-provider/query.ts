@@ -292,8 +292,9 @@ export const useRefreshProject = (): {
   error: Error | null
   isPending: boolean
   isSuccess: boolean
+  data: Date | null | undefined
 } => {
-  const { mutate, error, isPending, isSuccess } = useMutation({
+  const { mutate, error, isPending, isSuccess, data } = useMutation({
     mutationFn: async ({
       projectId,
       apiToken
@@ -304,5 +305,6 @@ export const useRefreshProject = (): {
       return await ApiService.refreshProject(projectId, apiToken)
     }
   })
-  return { mutate, error, isPending, isSuccess }
+
+  return { mutate, error, isPending, isSuccess, data }
 }

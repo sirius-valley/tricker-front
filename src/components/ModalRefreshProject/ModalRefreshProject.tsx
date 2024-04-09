@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal } from '@components/Modal/Modal'
 import Button from '@components/Button/Button'
 import Icon from '@components/Icon/Icon'
@@ -7,9 +7,9 @@ import Input from '@components/Input/Input'
 import H2 from '@utils/typography/h2/h2'
 import Spinner from '@components/Spinner/Spinner'
 import { useRefreshProject } from '@data-provider/query'
+import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 
 export interface ModalRefreshProjectProps {
-  handleRefresh: () => void
   onClose: () => void
   show: boolean
 }
@@ -19,15 +19,24 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
   show
 }: ModalRefreshProjectProps) => {
   const [providerToken, setProviderToken] = useState<string>('')
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
-
+  const { showSnackBar } = useSnackBar()
   const { mutate, isPending, error, isSuccess } = useRefreshProject()
-  console.log(isPending, error, isSuccess)
+
+  useEffect(() => {
+    if (error) {
+      showSnackBar(error.message, 'error')
+    }
+  }, [error])
+
+  useEffect(() => {
+    if (isSuccess) {
+      showSnackBar('The project has been refreshed successfully', 'success')
+    }
+  }, [isSuccess])
+
   const handleRefresh = (): void => {
-    if (!isRefreshing) {
-      setIsRefreshing(true)
+    if (!isPending) {
       mutate({ projectId: '', apiToken: providerToken })
-      setIsRefreshing(false)
     }
   }
 
@@ -75,10 +84,10 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
                   className="w-full h-[56px] text-black"
                   onClick={handleRefresh}
                   icon="RefreshIcon"
-                  left={!isRefreshing}
+                  left={!isPending}
                   disabled={providerToken === ''}
                 >
-                  {isRefreshing ? (
+                  {isPending ? (
                     <Spinner variant={'black'} size={22} />
                   ) : (
                     'Refresh'
