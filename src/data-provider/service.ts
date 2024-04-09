@@ -10,7 +10,8 @@ import type {
   IssueDetail,
   ModifyTimeData,
   IssueChronologyEventDTO,
-  IssueChronologyEvent
+  IssueChronologyEvent,
+  PendingProjectInfoDTO
 } from '@utils/types'
 import { getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -276,4 +277,16 @@ export const getChronology = async (
   //     date: new Date()
   //   }
   // ]
+}
+
+export const getEmailInformation = async (
+  projectId: string
+): Promise<PendingProjectInfoDTO | null> => {
+  const res = await withInterceptors.get(
+    `${url}/integration/linear/${projectId}/information`
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
 }

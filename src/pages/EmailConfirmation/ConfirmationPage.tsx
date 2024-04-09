@@ -2,6 +2,7 @@ import Icon from '@components/Icon/Icon'
 import WrapperPage from '@components/Wrapper/WrapperPage'
 import Body1 from '@utils/typography/body1/body1'
 import H2 from '@utils/typography/h2/h2'
+// import { useSearchParams } from 'react-router-dom'
 
 interface ConfirmationPageProps {
   decline?: boolean
@@ -10,6 +11,11 @@ interface ConfirmationPageProps {
 const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
   decline = false
 }: ConfirmationPageProps): JSX.Element => {
+  // const [searchParams] = useSearchParams()
+
+  // const projectId = searchParams.get('projectId')
+  // const token = searchParams.get('token')
+
   const username = 'Victoria Capurro'
   // const userImage = null
   const project = 'We Can'
