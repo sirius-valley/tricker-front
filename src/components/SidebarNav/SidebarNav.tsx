@@ -34,7 +34,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   const [isHovered, setIsHovered] = useState(false)
   const screen = useScreenSize()
   return (
-    <div className="flex flex-col items-center flex-1 w-fit max-w-[224px] h-screen pt-10 gap-20 bg-gray-500">
+    <div className="flex flex-col items-center w-fit max-w-[224px] h-screen pt-10 gap-20 bg-gray-500">
       <NavLink to="/">
         <div className="w-full flex items-center lg:pr-4 h-[30px] gap-2 cursor-pointer">
           <TrickerLogo height="30" width="30" />
@@ -42,7 +42,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         </div>
       </NavLink>
       <div className="flex flex-col justify-between items-center h-full pb-6">
-        <div className="flex flex-col gap-6 w-full items-center lg:items-start justify-center h-[256px]">
+        <div className="flex flex-col gap-6 w-fit items-center lg:items-start justify-center h-[256px]">
           {variant === 'Project Manager' && (
             <div className="lg:px-6">
               <NavLink to="/projects">
@@ -67,7 +67,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
             }}
             showText={screen.width > 1024}
           />
-          <div className="w-fit flex flex-col  justify-center gap-2 lg:px-6">
+          <div className="w-fit flex flex-col justify-center gap-2 lg:px-6">
             <NavLink to="/">
               {({ isActive }) => (
                 <NavbarItem
@@ -120,14 +120,16 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
             }}
           >
             <Popover userId={user?.id} show={isHovered} />
-            <div className="flex items-center p-2 px-4 gap-3 max-w-[224px] overflow-hidden">
+            <div className="flex items-center justify-center p-2 lg:px-4 gap-2 max-w-[224px] overflow-hidden">
               <ProfilePicture
                 className="min-w-10 min-h-10"
                 img={user?.profileImage || ''}
                 userName={user.name || ''}
               />
               {screen.width > 1024 && (
-                <Body1 className="text-white text-wrap">{user?.name}</Body1>
+                <Body1 className="text-white text-wrap max-w-20">
+                  {user?.name}
+                </Body1>
               )}
             </div>
           </div>

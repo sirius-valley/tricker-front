@@ -54,10 +54,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   }, [])
 
   return (
-    <div
-      className="flex items-center justify-center w-full lg:w-full h-[48px]"
-      ref={dropdownRef}
-    >
+    <div className="flex items-center justify-center w-full lg:w-full h-[48px]">
       <div
         className={`${screen.width < 768 && 'flex items-center justify-center'} relative w-full`}
       >
@@ -66,7 +63,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
           onClick={() => {
             setIsOpen(!isOpen)
           }}
-          className="md:relative cursor-pointer py-2 lg:px-8 flex items-center justify-between focus:outline-none gap-1"
+          className="md:relative cursor-pointer py-2 md:ml-[2px] lg:ml-0 lg:px-8 flex items-center justify-between focus:outline-none gap-1"
         >
           <span className="flex items-center gap-2 w-fit">
             {selectedProject?.image ? (
@@ -90,47 +87,52 @@ export const Dropdown: React.FC<DropdownProps> = ({
           )}
         </button>
         {isOpen && screen.width >= 768 ? (
-          <ul className="absolute z-10 w-[297px] ml-6 rounded-lg p-0 py-2 border border-gray-300 bg-gray-500 list-none">
-            {options.map((option: DropdownOption, index: number) => (
-              <li
-                key={index}
-                onClick={() => {
-                  handleDropdownSelect(option)
-                  setIsOpen(false)
-                }}
-                className="relative cursor-pointer select-none p-4 hover:bg-gray-400 transition-colors duration-300"
-              >
-                <div className="flex items-center gap-2">
-                  <Icon
-                    name="CheckIcon"
-                    width="20"
-                    height="20"
-                    fillColor={
-                      selectedProject?.id === option.id
-                        ? colors.primary[400]
-                        : 'transparent'
-                    }
-                  />
-                  {option.image ? (
-                    <img
-                      src={option.image}
-                      alt=""
-                      className="h-5 w-5 rounded-sm"
+          <div className="absolute z-10 w-[297px]  ml-6" ref={dropdownRef}>
+            <ul className="  rounded-lg p-0 py-2 border border-gray-300 bg-gray-500 list-none">
+              {options.map((option: DropdownOption, index: number) => (
+                <li
+                  key={index}
+                  onClick={() => {
+                    handleDropdownSelect(option)
+                    setIsOpen(false)
+                  }}
+                  className="relative cursor-pointer select-none p-4 hover:bg-gray-400 transition-colors duration-300"
+                >
+                  <div className="flex items-center gap-2">
+                    <Icon
+                      name="CheckIcon"
+                      width="20"
+                      height="20"
+                      fillColor={
+                        selectedProject?.id === option.id
+                          ? colors.primary[400]
+                          : 'transparent'
+                      }
                     />
-                  ) : (
-                    <NoAvatarProject text={option.title} />
-                  )}
+                    {option.image ? (
+                      <img
+                        src={option.image}
+                        alt=""
+                        className="h-5 w-5 rounded-sm"
+                      />
+                    ) : (
+                      <NoAvatarProject text={option.title} />
+                    )}
 
-                  <Body1 className="text-white overflow-hidden overflow-ellipsis whitespace-nowrap">
-                    {option.title}
-                  </Body1>
-                </div>
-              </li>
-            ))}
-          </ul>
+                    <Body1 className="text-white overflow-hidden overflow-ellipsis whitespace-nowrap">
+                      {option.title}
+                    </Body1>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         ) : (
           isOpen && (
-            <div className="flex justify-center flex-col absolute z-10 w-[297px] top-0 rounded-lg p-2 bg-gray-500">
+            <div
+              className="flex justify-center flex-col absolute z-10 w-[297px] top-0 rounded-lg p-2 bg-gray-500"
+              ref={dropdownRef}
+            >
               <div className="w-full flex gap-2 p-4 pt-2 border-b border-white/10">
                 <Body1 className="text-white">My projects</Body1>
               </div>
