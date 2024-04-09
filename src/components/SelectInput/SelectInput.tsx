@@ -108,7 +108,7 @@ const SelectInput = ({
   return (
     <div className="gap-2 flex flex-col w-full">
       {label !== '' && (
-        <div className="flex">
+        <div className="flex w-fit">
           <Body2
             className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex text-sm leading-[16.94px] font-normal`}
           >

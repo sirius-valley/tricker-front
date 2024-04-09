@@ -60,9 +60,12 @@ const SelectProject: React.FC<SelectProjectProps> = ({
               </Body1>
             )}
             {isLoading && (
-              <div className="border overflow-y-scroll max-h-[233px] border-gray-300 py-2 rounded-[8px] max-w-[752px] w-full">
+              <div className="border overflow-y-scroll max-h-[233px] border-gray-300 py-2 rounded-[8px] max-w-[752px]">
                 {Array.from({ length: 4 }).map((_, index) => (
-                  <div key={index} className="flex gap-4 p-4 items-center">
+                  <div
+                    key={index}
+                    className="flex gap-4 p-4 items-center lg:w-[742px] min-w-full"
+                  >
                     <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
                       <Skeleton
                         width={14}
@@ -71,11 +74,14 @@ const SelectProject: React.FC<SelectProjectProps> = ({
                         containerClassName="h-[14px]"
                       />
                       <Skeleton
-                        width={
-                          Math.random() * 130 +
-                          (screenSize.width > 500 ? 200 : 50)
-                        }
                         height={20}
+                        width={
+                          screenSize.width > 1024
+                            ? 600
+                            : screenSize.width > 500
+                              ? 350
+                              : 200
+                        }
                         containerClassName="h-[20px]"
                       />
                     </SkeletonTheme>
@@ -83,7 +89,7 @@ const SelectProject: React.FC<SelectProjectProps> = ({
                 ))}
               </div>
             )}
-            {data?.length !== 0 && (
+            {!isLoading && data?.length !== 0 && (
               <>
                 <div className="flex gap-1 items-center lg:w-[752px] w-full">
                   <Body2 className="text-white font-semibold self-start flex">

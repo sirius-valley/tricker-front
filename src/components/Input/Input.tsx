@@ -34,9 +34,11 @@ export interface InputProps
   icon?: string
   label?: string
   required?: boolean
+  readonly?: boolean
   placeholder?: string
   tooltip?: string
   handleValue: (value: string) => void
+  defaultValue?: string
 }
 
 const Input = ({
@@ -47,9 +49,11 @@ const Input = ({
   helpertext = '',
   label = '',
   required = false,
+  readonly = false,
   handleValue,
   placeholder = '',
-  tooltip = ''
+  tooltip = '',
+  defaultValue = ''
 }: InputProps): JSX.Element => {
   const [inputValue, setInputValue] = useState<string>(value)
 
@@ -68,6 +72,11 @@ const Input = ({
     setInputValue(e.target.value)
     handleValue(e.target.value)
   }
+
+  useEffect(() => {
+    setInputValue(defaultValue)
+  }, [defaultValue])
+
   return (
     <div className="gap-2 flex flex-col">
       {label !== '' && (
@@ -93,6 +102,7 @@ const Input = ({
         value={inputValue}
         type={type}
         required={required}
+        readOnly={readonly}
         placeholder={placeholder}
         onChange={handleChange}
         disabled={variant === 'disabled'}
