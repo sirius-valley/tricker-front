@@ -14,12 +14,14 @@ export interface ModalRefreshProjectProps {
   onClose: () => void
   show: boolean
   provider: string
+  projectId: string
 }
 
 const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
   onClose,
   show,
-  provider
+  provider,
+  projectId
 }: ModalRefreshProjectProps) => {
   const [providerToken, setProviderToken] = useState<string>('')
   const { showSnackBar } = useSnackBar()
@@ -39,7 +41,7 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
 
   const handleRefresh = (): void => {
     if (!isPending) {
-      mutate({ projectId: '', apiToken: providerToken })
+      mutate({ projectId, apiToken: providerToken })
     }
   }
 
