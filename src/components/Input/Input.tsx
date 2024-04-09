@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import Body2 from '@utils/typography/body2/body2'
 import HelperText from '@utils/typography/helpertext/helpertext'
@@ -33,9 +33,11 @@ export interface InputProps
   icon?: string
   label?: string
   required?: boolean
+  readonly?: boolean
   placeholder?: string
   tooltip?: string
   handleValue: (value: string) => void
+  defaultValue?: string
 }
 
 const Input = ({
@@ -45,11 +47,13 @@ const Input = ({
   helpertext = '',
   label = '',
   required = false,
+  readonly = false,
   handleValue,
   placeholder = '',
-  tooltip = ''
+  tooltip = '',
+  defaultValue = ''
 }: InputProps): JSX.Element => {
-  const [value, setValue] = useState<string>('')
+  const [value, setValue] = useState<string>(defaultValue)
   const textColor: string =
     variant === 'error'
       ? 'text-error-500'
@@ -61,6 +65,11 @@ const Input = ({
     setValue(e.target.value)
     handleValue(e.target.value)
   }
+
+  useEffect(() => {
+    setValue(defaultValue)
+  }, [defaultValue])
+
   return (
     <div className="gap-2 flex flex-col">
       {label !== '' && (
@@ -86,6 +95,7 @@ const Input = ({
         value={value}
         type={type}
         required={required}
+        readOnly={readonly}
         placeholder={placeholder}
         onChange={handleChange}
         disabled={variant === 'disabled'}
