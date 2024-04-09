@@ -4,9 +4,9 @@ import Button from '@components/Button/Button'
 import Icon from '@components/Icon/Icon'
 import Body2 from '@utils/typography/body2/body2'
 import Input from '@components/Input/Input'
-import SelectInput from '@components/SelectInput/SelectInput'
 import H2 from '@utils/typography/h2/h2'
 import Spinner from '@components/Spinner/Spinner'
+import { useRefreshProject } from '@data-provider/query'
 
 export interface ModalRefreshProjectProps {
   handleRefresh: () => void
@@ -18,17 +18,16 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
   onClose,
   show
 }: ModalRefreshProjectProps) => {
-  const [inputValue, setInputValue] = useState<string>('')
-  const [provider, setProvider] = useState<string>('')
+  const [providerToken, setProviderToken] = useState<string>('')
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
 
+  const { mutate, isPending, error, isSuccess } = useRefreshProject()
+  console.log(isPending, error, isSuccess)
   const handleRefresh = (): void => {
     if (!isRefreshing) {
       setIsRefreshing(true)
-      setTimeout(() => {
-        // Aquí iría tu lógica de actualización con React Query
-        setIsRefreshing(false)
-      }, 2000)
+      mutate({ projectId: '', apiToken: providerToken })
+      setIsRefreshing(false)
     }
   }
 
@@ -61,23 +60,9 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
               </Body2>
             </div>
             <div className="flex flex-col w-full gap-4">
-              <div className="flex flex-col w-full gap-2">
-                <SelectInput
-                  handleSelectedOption={(provider) => {
-                    setProvider(provider)
-                  }}
-                  options={[
-                    {
-                      value: 'Linear',
-                      label: 'Linear'
-                    }
-                  ]}
-                  label="Project Management Tool"
-                />
-              </div>
               <div className="flex flex-col w-full gap-4">
                 <Input
-                  handleValue={setInputValue}
+                  handleValue={setProviderToken}
                   label="User Token"
                   className="h-10 md:h-[69px]"
                   placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
@@ -91,7 +76,7 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
                   onClick={handleRefresh}
                   icon="RefreshIcon"
                   left={!isRefreshing}
-                  disabled={inputValue === '' || provider === ''}
+                  disabled={providerToken === ''}
                 >
                   {isRefreshing ? (
                     <Spinner variant={'black'} size={22} />

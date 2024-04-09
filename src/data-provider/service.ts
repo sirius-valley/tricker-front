@@ -277,3 +277,21 @@ export const getChronology = async (
   //   }
   // ]
 }
+
+export const refreshProject = async (
+  projectId: string,
+  apiToken: string
+): Promise<Date | null> => {
+  // const res = await withInterceptors.post(
+  //   `${url}/project/${projectId}/synchronize`,
+  //   { apiToken }
+  // )
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  // return null
+  setTimeout(() => {
+    console.log(projectId, apiToken)
+  }, 2000)
+  return await Promise.resolve(new Date())
+}

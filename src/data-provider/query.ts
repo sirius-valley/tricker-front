@@ -286,3 +286,23 @@ export const useGetChronology = (
   })
   return { data, error, isLoading }
 }
+
+export const useRefreshProject = (): {
+  mutate: (args: { projectId: string; apiToken: string }) => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, error, isPending, isSuccess } = useMutation({
+    mutationFn: async ({
+      projectId,
+      apiToken
+    }: {
+      projectId: string
+      apiToken: string
+    }) => {
+      return await ApiService.refreshProject(projectId, apiToken)
+    }
+  })
+  return { mutate, error, isPending, isSuccess }
+}
