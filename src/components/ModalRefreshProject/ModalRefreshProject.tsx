@@ -8,15 +8,18 @@ import H2 from '@utils/typography/h2/h2'
 import Spinner from '@components/Spinner/Spinner'
 import { useRefreshProject } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import { instructions } from '@utils/providers'
 
 export interface ModalRefreshProjectProps {
   onClose: () => void
   show: boolean
+  provider: string
 }
 
 const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
   onClose,
-  show
+  show,
+  provider
 }: ModalRefreshProjectProps) => {
   const [providerToken, setProviderToken] = useState<string>('')
   const { showSnackBar } = useSnackBar()
@@ -63,9 +66,7 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
                 </button>
               </div>
               <Body2 className="text-sm font-normal">
-                Please add the User Token here so we can refresh the project.
-                You can find the User Token under Team Settings &gt; My Account
-                &gt; API &gt; Personal Api Keys
+                {instructions[provider]}
               </Body2>
             </div>
             <div className="flex flex-col w-full gap-4">
