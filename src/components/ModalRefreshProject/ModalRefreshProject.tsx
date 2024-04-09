@@ -6,6 +6,7 @@ import Body2 from '@utils/typography/body2/body2'
 import Input from '@components/Input/Input'
 import SelectInput from '@components/SelectInput/SelectInput'
 import H2 from '@utils/typography/h2/h2'
+import Spinner from '@components/Spinner/Spinner'
 
 export interface ModalRefreshProjectProps {
   handleRefresh: () => void
@@ -14,12 +15,22 @@ export interface ModalRefreshProjectProps {
 }
 
 const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
-  handleRefresh,
   onClose,
   show
 }: ModalRefreshProjectProps) => {
   const [inputValue, setInputValue] = useState<string>('')
   const [provider, setProvider] = useState<string>('')
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
+
+  const handleRefresh = (): void => {
+    if (!isRefreshing) {
+      setIsRefreshing(true)
+      setTimeout(() => {
+        // Aquí iría tu lógica de actualización con React Query
+        setIsRefreshing(false)
+      }, 2000)
+    }
+  }
 
   return (
     <>
@@ -76,13 +87,17 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
                 <Button
                   variant="filled"
                   size={'large'}
-                  className="w-full h-fit text-black"
+                  className="w-full h-[56px] text-black"
                   onClick={handleRefresh}
                   icon="RefreshIcon"
-                  left
+                  left={!isRefreshing}
                   disabled={inputValue === '' || provider === ''}
                 >
-                  Refresh
+                  {isRefreshing ? (
+                    <Spinner variant={'black'} size={22} />
+                  ) : (
+                    'Refresh'
+                  )}
                 </Button>
               </div>
             </div>
