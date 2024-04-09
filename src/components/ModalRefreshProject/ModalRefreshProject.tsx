@@ -44,7 +44,7 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
       mutate({ projectId, apiToken: providerToken })
     }
   }
-
+  console.log(instructions[provider])
   return (
     <>
       <Modal
@@ -68,7 +68,8 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
                 </button>
               </div>
               <Body2 className="text-sm font-normal">
-                {instructions[provider]}
+                {instructions[provider] ??
+                  'Please add the User Token here so we can refresh the project.'}
               </Body2>
             </div>
             <div className="flex flex-col w-full gap-4">
