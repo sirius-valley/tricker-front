@@ -1,0 +1,52 @@
+.rdp {
+    opacity: 1;
+    margin: 0 0 10px 0;
+    width: fit-content;
+    border-radius: 2%;
+    padding: 10px;
+    font-family: Inter, sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #FEFEFE;
+    background-color: #2A2A2A;
+    --rdp-cell-size: 36px; /* Size of the day cells. */
+    --rdp-accent-color: #2AE5C450; /* Accent color for the background of selected days. */
+    --rdp-background-color: #21806F80; /* Background color for the hovered/focused elements. */
+    --rdp-outline-selected: 3px solid var(--rdp-accent-color); /* Outline border for focused _and_ selected elements */
+    --rdp-selected-color: #2AE5C4; /* Color of selected day text */
+  }
+  .rdp-head_cell {
+    color: #C1C1C160;
+    font-weight: 500;
+    font-size: 12px;
+    height: 20px;
+  }
+  .rdp-day_today {
+    color: #2AE5C4;
+  }
+  .rdp-day_today:not(.rdp-day_outside){
+    font-weight: 400;
+  }
+  .rdp-weeknumber, .rdp-day{
+    margin: 2px;
+  }
+  .rdp-caption_label {
+    font-weight: 500;
+  }
+  .rdp-nav_button {
+    color: #43FFDD;
+  }
+  .rdp-day_selected {
+    font-weight: 500;
+    color: #2AE5C4;
+  }
+  .rdp-day_outside {
+    opacity: 1;
+    color: #C1C1C190;
+  }
+  .rdp-day_disabled {
+    cursor: not-allowed;
+  }
+  .rdp-months {
+    width: fit-content;
+  }
