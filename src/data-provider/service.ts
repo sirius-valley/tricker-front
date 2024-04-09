@@ -280,11 +280,13 @@ export const getChronology = async (
 }
 
 export const getEmailInformation = async (
-  projectId: string
+  projectId: string,
+  token: string
 ): Promise<PendingProjectInfoDTO | null> => {
-  const res = await withInterceptors.get(
-    `${url}/integration/linear/${projectId}/information`
+  const res = await axios.get(
+    `${url}/integration/linear/${projectId}/information?token=${token}`
   )
+  console.log(res.data)
   if (res.status === 200) {
     return res.data
   }

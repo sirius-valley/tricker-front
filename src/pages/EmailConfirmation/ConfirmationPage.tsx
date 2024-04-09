@@ -19,19 +19,23 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
   const [searchParams] = useSearchParams()
 
   const projectId = searchParams.get('projectId')
-  // const token = searchParams.get('token')
+  const token = searchParams.get('token')
 
-  const { data, isLoading, error } = useGetEmailInformation(projectId || '')
+  const { data, isLoading, error } = useGetEmailInformation(
+    projectId || '',
+    token || ''
+  )
 
   useEffect(() => {
     if (error) {
       showSnackBar(error.message, 'error')
-      window.location.replace('/login')
     }
   }, [error, showSnackBar])
 
   return isLoading ? (
-    <LoadingPage />
+    <div className="bg-gray-800">
+      <LoadingPage />
+    </div>
   ) : error || !data ? (
     <Navigate to="/login" replace />
   ) : (
@@ -39,29 +43,43 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
       <div className="flex flex-col md:mb-36">
         <div className="border flex flex-col lg:w-[1000px] md:w-[750px] w-[329px] h-fit bg-gray-600 border-primary-400 p-6 lg:px-[136px] gap-4 rounded-xl shadow-2 items-center justify-center">
           <div className="flex gap-4 items-center justify-center">
-            <div
-              className={`w-20 h-20 rounded-[40px] bg-primary-200 flex items-center justify-center text-primary-700 p-2`}
-            >
-              <Body1 className="text-[36px] font-medium leading-[43.57px]">
-                {data.pmImage ||
-                  data.pmName
+            {data.pmImage && data.pmImage !== '' ? (
+              <img
+                src={data.pmImage}
+                alt={data.pmImage}
+                className="w-[20px] h-[20px] rounded-sm"
+              />
+            ) : (
+              <div
+                className={`w-20 h-20 rounded-[40px] bg-primary-200 flex items-center justify-center text-primary-700 p-2`}
+              >
+                <Body1 className="text-[36px] font-medium leading-[43.57px]">
+                  {data.pmName
                     .split(' ')
                     .map((name) => name.charAt(0).toUpperCase())
                     .join('')}
-              </Body1>
-            </div>
+                </Body1>
+              </div>
+            )}
             <Icon name={decline ? 'DeclineIcon' : 'AcceptIcon'} />
-            <div
-              className={`w-20 h-20 rounded-[40px] bg-primary-200 flex items-center justify-center text-primary-700 p-2`}
-            >
-              <Body1 className="text-[36px] font-medium leading-[43.57px]">
-                {data.projectImage ||
-                  data.pmName
+            {data.projectImage && data.projectImage !== '' ? (
+              <img
+                src={data.projectImage}
+                alt={data.projectImage}
+                className="w-20 h-20 rounded-[40px]"
+              />
+            ) : (
+              <div
+                className={`w-20 h-20 rounded-[40px] bg-primary-200 flex items-center justify-center text-primary-700 p-2`}
+              >
+                <Body1 className="text-[36px] font-medium leading-[43.57px]">
+                  {data.projectName
                     .split(' ')
                     .map((name) => name.charAt(0).toUpperCase())
                     .join('')}
-              </Body1>
-            </div>
+                </Body1>
+              </div>
+            )}
           </div>
           <H2 className="md:text-[34px] md:leading-[41.15px] w-fit text-xl leading-[24.2px] text-center text-white font-medium">
             You&apos;ve {decline ? 'declined' : 'accepted'} {data.pmName}

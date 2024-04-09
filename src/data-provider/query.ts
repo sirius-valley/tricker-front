@@ -289,15 +289,16 @@ export const useGetChronology = (
 }
 
 export const useGetEmailInformation = (
-  projectId: string
+  projectId: string,
+  token: string
 ): {
   data: PendingProjectInfoDTO | null | undefined
   error: Error | null
   isLoading: boolean
 } => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ['getEmailInformation', projectId],
-    queryFn: async () => await ApiService.getEmailInformation(projectId)
+    queryKey: ['getEmailInformation', projectId, token],
+    queryFn: async () => await ApiService.getEmailInformation(projectId, token)
   })
   return { data, error, isLoading }
 }
