@@ -290,7 +290,7 @@ export const refreshProject = async (
   //   return res.data
   // }
   // return null
-  return await new Promise((resolve, reject) => {
+  return await new Promise((resolve) => {
     setTimeout(() => {
       console.log(projectId, apiToken)
       resolve(new Date())
