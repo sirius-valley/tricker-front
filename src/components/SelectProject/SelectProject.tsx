@@ -55,7 +55,7 @@ const SelectProject: React.FC<SelectProjectProps> = ({
           <div className="flex flex-col gap-4 items-center">
             {data?.length === 0 && (
               <Body1 className="text-white text-[18px] leading-6 text-center">
-                We coulndn&apos;t find any projects to integrate with the
+                We couldn&apos;t find any projects to integrate with the
                 provided API key.
               </Body1>
             )}
