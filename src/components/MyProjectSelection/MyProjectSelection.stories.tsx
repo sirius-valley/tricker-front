@@ -77,6 +77,26 @@ export const Primary: Story = {
         id: '12',
         title: 'Tricker',
         image: 'https://via.placeholder.com/20'
+      },
+      {
+        id: '13',
+        title: 'Bonterms',
+        image: 'https://via.placeholder.com/20'
+      },
+      {
+        id: '14',
+        title: 'Tricker',
+        image: 'https://via.placeholder.com/20'
+      },
+      {
+        id: '15',
+        title: 'Hospital Patagonia',
+        image: 'https://via.placeholder.com/20'
+      },
+      {
+        id: '16',
+        title: 'Bonterms',
+        image: 'https://via.placeholder.com/20'
       }
     ],
     preselectedOption: {
