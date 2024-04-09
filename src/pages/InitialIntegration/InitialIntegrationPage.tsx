@@ -222,8 +222,19 @@ const InitialIntegrationPage = (): JSX.Element => {
           <Icon name="CaretUpIcon" width="32" height="32" />
         </button>
       )}
+
       {isSuccess && selectedProject && (
-        <ProjectMail projectName={selectedProject.name} />
+        <>
+          <div className="flex flex-col md:gap-6">
+            <ProjectMail projectName={selectedProject.name} />
+            <StepNavigation
+              currentStep={StepType.LAST}
+              onBack={handleBackButton}
+              showBackButton={screenWidth >= 768}
+              nextDisabled={true}
+            ></StepNavigation>
+          </div>
+        </>
       )}
     </WrapperPage>
   )
