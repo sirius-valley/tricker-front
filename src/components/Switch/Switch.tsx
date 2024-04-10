@@ -1,17 +1,26 @@
-import '../../index.css'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 export interface SwitchProps extends React.HTMLAttributes<HTMLInputElement> {
   onChecked?: (checked: boolean) => void
+  defaultChecked: boolean
 }
 
-export const Switch: React.FC<SwitchProps> = ({ onChecked }) => {
-  const handle = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    onChecked && onChecked(e.target.checked)
+export const Switch: React.FC<SwitchProps> = ({
+  onChecked,
+  defaultChecked
+}) => {
+  const [checked, setChecked] = useState<boolean>(defaultChecked)
+  const inputId: string = uuidv4()
+
+  const handleChange = (): void => {
+    setChecked(!checked)
+    onChecked && onChecked(!checked)
   }
 
-  const inputId: string = uuidv4()
+  useEffect(() => {
+    setChecked(defaultChecked)
+  }, [defaultChecked])
 
   return (
     <div className="inline-flex items-center">
@@ -19,7 +28,8 @@ export const Switch: React.FC<SwitchProps> = ({ onChecked }) => {
         <input
           id={inputId}
           type="checkbox"
-          onChange={handle}
+          onChange={handleChange}
+          checked={checked}
           className="absolute left-0 w-[50px] h-[27px] transition-colors duration-300 rounded-full appearance-none cursor-pointer peer bg-gray-200 checked:bg-primary-500"
         />
         <label

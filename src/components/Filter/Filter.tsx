@@ -4,21 +4,23 @@ import type * as icons from '@components/Icon/index.ts'
 import Checkbox from '@components/Checkbox/Checkbox'
 import Body1 from '@utils/typography/body1/body1'
 import { Switch } from '@components/Switch/Switch'
+import { type OptionalIssueFilters } from '@utils/types'
 
 export interface OptionAttr {
   option: string
   color?: string
   selected: boolean
   icon?: keyof typeof icons
-  id?: string
+  id: string
 }
 
 export interface SearchButtonProps {
   statusOptions: OptionAttr[]
   priorityOptions: OptionAttr[]
-  asigneeOptions?: OptionAttr[]
-  selectedItems?: OptionAttr[]
-  handleSelect: (options: OptionAttr[]) => void
+  assigneeOptions?: OptionAttr[]
+  preselectedFilters?: OptionalIssueFilters
+  outOfEstimation: boolean
+  handleFilters: (options: OptionalIssueFilters) => void
   handleOutOfEstimation: (value: boolean) => void
   show: boolean
   userRole?: 'Project Manager' | 'Developer'
@@ -27,9 +29,10 @@ export interface SearchButtonProps {
 const Filter: React.FC<SearchButtonProps> = ({
   statusOptions,
   priorityOptions,
-  asigneeOptions,
-  selectedItems = [],
-  handleSelect,
+  assigneeOptions,
+  preselectedFilters = {},
+  handleFilters,
+  outOfEstimation,
   handleOutOfEstimation,
   show,
   userRole = 'Developer'
@@ -37,13 +40,18 @@ const Filter: React.FC<SearchButtonProps> = ({
   const [showStatusOptions, setShowStatusOptions] = useState<boolean>(false)
   const [showAsigneeOptions, setShowAsigneeOptions] = useState<boolean>(false)
   const [showPriorityOptions, setShowPriorityOptions] = useState<boolean>(false)
-  const [selectedOptions, setSelectedOptions] =
-    useState<OptionAttr[]>(selectedItems)
+  const [selectedFilters, setSelectedFilters] =
+    useState<OptionalIssueFilters>(preselectedFilters)
+
   const filterRef = useRef<HTMLDivElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
-    handleSelect(selectedOptions)
+    setSelectedFilters(preselectedFilters)
+  }, [preselectedFilters])
+
+  useEffect(() => {
+    handleFilters(selectedFilters)
 
     const handleClickOutside = (event: MouseEvent): void => {
       const target = event.target as HTMLElement
@@ -61,21 +69,55 @@ const Filter: React.FC<SearchButtonProps> = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [handleSelect, selectedOptions])
+  }, [handleFilters, selectedFilters])
 
-  const handleOptionSelect = (option: OptionAttr): void => {
-    const updatedOptions = selectedOptions.map((opt) =>
-      opt.option === option.option ? { ...opt, selected: !opt.selected } : opt
-    )
+  type FilterType = 'priority' | 'assignee' | 'stage'
 
-    if (!selectedOptions.some((opt) => opt.option === option.option)) {
-      updatedOptions.push(option)
-      setSelectedOptions(updatedOptions)
-    } else {
-      setSelectedOptions((prevOptions: OptionAttr[]) =>
-        prevOptions.filter((opt) => opt !== option)
-      )
+  const handleSelectFilter = (
+    option: OptionAttr,
+    filterType: FilterType
+  ): void => {
+    const updatedFilters = { ...selectedFilters }
+    let filterKey: keyof OptionalIssueFilters
+
+    switch (filterType) {
+      case 'priority':
+        filterKey = 'priorities'
+        break
+      case 'assignee':
+        filterKey = 'assigneeIds'
+        break
+      case 'stage':
+        filterKey = 'stageIds'
+        break
+      default:
+        return
     }
+
+    const currentFilterValues = selectedFilters[filterKey]
+    const isSelected =
+      currentFilterValues && currentFilterValues.includes(option.id)
+
+    if (isSelected !== undefined && isSelected) {
+      updatedFilters[filterKey] = (selectedFilters[filterKey] || []).filter(
+        (filter) => filter !== option.id
+      )
+    } else {
+      if (option.id) {
+        if (!updatedFilters[filterKey]) {
+          updatedFilters[filterKey] = [option.id]
+        } else if (
+          !(updatedFilters[filterKey] ?? []).includes(option.id ?? null)
+        ) {
+          updatedFilters[filterKey] = [
+            ...(updatedFilters[filterKey] ?? []),
+            option.id
+          ]
+        }
+      }
+    }
+
+    setSelectedFilters(updatedFilters)
   }
 
   const handleOutOfEstimationClick = (value: boolean): void => {
@@ -87,7 +129,7 @@ const Filter: React.FC<SearchButtonProps> = ({
   }
 
   return (
-    <div className="flex flex-col w-fit">
+    <div className="absolute z-50 flex flex-col w-fit">
       <div className="flex justify-end pr-8">
         <div className="relative top-[8px] w-4 h-4 bg-gray-600 border border-gray-400 rotate-45" />
       </div>
@@ -104,7 +146,12 @@ const Filter: React.FC<SearchButtonProps> = ({
           <p className="font-bold text-xl text-white">Filter by:</p>
           <button
             onClick={() => {
-              setSelectedOptions([])
+              setSelectedFilters({
+                assigneeIds: [],
+                priorities: [],
+                stageIds: []
+              })
+              handleOutOfEstimationClick(false)
             }}
             className="h-fit"
           >
@@ -115,7 +162,7 @@ const Filter: React.FC<SearchButtonProps> = ({
           {userRole === 'Project Manager' && (
             <>
               <div
-                className={`px-4 py-3 gap-3 h-[52px] text-white flex items-center bg-gray-600`}
+                className={`px-4 py-3 gap-2 h-[52px] text-white flex items-center bg-gray-600`}
               >
                 <div className="w-fit">
                   <Icon name="AlarmIcon" width="20" height="20" />
@@ -125,6 +172,7 @@ const Filter: React.FC<SearchButtonProps> = ({
                     Out of estimation
                   </Body1>
                   <Switch
+                    defaultChecked={outOfEstimation}
                     onChecked={(checked) => {
                       handleOutOfEstimationClick(checked)
                     }}
@@ -132,9 +180,11 @@ const Filter: React.FC<SearchButtonProps> = ({
                 </div>
               </div>
               <button
-                className={`px-4 py-3 gap-3 h-[52px] text-white flex items-center bg-gray-600 hover:bg-gray-400 cursor-pointer`}
+                className={`px-4 py-3 gap-2 h-[52px] text-white flex items-center bg-gray-600 hover:bg-gray-400 cursor-pointer`}
                 onClick={() => {
                   setShowAsigneeOptions(!showAsigneeOptions)
+                  setShowPriorityOptions(false)
+                  setShowStatusOptions(false)
                 }}
               >
                 <div className="w-fit">
@@ -144,31 +194,31 @@ const Filter: React.FC<SearchButtonProps> = ({
                   <Body1 className="font-medium leading-[19.36px]">
                     Asignee
                   </Body1>
-                  <Icon
-                    width="20"
-                    height="20"
-                    name={showAsigneeOptions ? 'CaretUpIcon' : 'CaretDownIcon'}
-                  />
+                  <div
+                    className={`${showAsigneeOptions && 'rotate-180'} transition-all duration-300`}
+                  >
+                    <Icon width="20" height="20" name={'CaretDownIcon'} />
+                  </div>
                 </div>
               </button>
             </>
           )}
-          {asigneeOptions && showAsigneeOptions && (
+          {assigneeOptions && showAsigneeOptions && (
             <div className="flex flex-col w-full gap-[1px] text-white bg-gray-400 border-gray-400">
-              {asigneeOptions.map((option, index) => (
+              {assigneeOptions.map((option, index) => (
                 <label key={index} className="w-full h-11">
                   <div className="px-5 h-full py-2 bg-gray-500 hover:bg-gray-400  flex justify-between items-center cursor-pointer">
                     <div className="flex items-center gap-2">
-                      <div
-                        className="w-[10px] h-[10px] rounded-full"
-                        style={{ backgroundColor: option.color }}
-                      />
                       <span>{option.option}</span>
                     </div>
                     <Checkbox
-                      defaultChecked={selectedOptions.includes(option)}
+                      defaultChecked={
+                        (selectedFilters.assigneeIds &&
+                          selectedFilters.assigneeIds.includes(option.id)) ||
+                        false
+                      }
                       onChecked={() => {
-                        handleOptionSelect(option)
+                        handleSelectFilter(option, 'assignee')
                       }}
                     />
                   </div>
@@ -180,6 +230,8 @@ const Filter: React.FC<SearchButtonProps> = ({
             className={`px-4 py-3 gap-3 h-[52px] text-white flex items-center bg-gray-600 hover:bg-gray-400 cursor-pointer`}
             onClick={() => {
               setShowStatusOptions(!showStatusOptions)
+              setShowAsigneeOptions(false)
+              setShowPriorityOptions(false)
             }}
           >
             <div className="w-fit">
@@ -187,11 +239,11 @@ const Filter: React.FC<SearchButtonProps> = ({
             </div>
             <div className="flex justify-between w-full">
               <Body1 className="font-medium leading-[19.36px]">Status</Body1>
-              <Icon
-                width="20"
-                height="20"
-                name={showStatusOptions ? 'CaretUpIcon' : 'CaretDownIcon'}
-              />
+              <div
+                className={`${showStatusOptions && 'rotate-180'} transition-all duration-300`}
+              >
+                <Icon width="20" height="20" name={'CaretDownIcon'} />
+              </div>
             </div>
           </button>
           {showStatusOptions && (
@@ -207,9 +259,13 @@ const Filter: React.FC<SearchButtonProps> = ({
                       <span>{option.option}</span>
                     </div>
                     <Checkbox
-                      defaultChecked={selectedOptions.includes(option)}
+                      defaultChecked={
+                        (selectedFilters.stageIds &&
+                          selectedFilters.stageIds.includes(option.id)) ||
+                        false
+                      }
                       onChecked={() => {
-                        handleOptionSelect(option)
+                        handleSelectFilter(option, 'stage')
                       }}
                     />
                   </div>
@@ -224,6 +280,8 @@ const Filter: React.FC<SearchButtonProps> = ({
             className={`px-4 py-3 gap-2 h-[52px] text-white bg-gray-600 hover:bg-gray-400 flex items-center`}
             onClick={() => {
               setShowPriorityOptions(!showPriorityOptions)
+              setShowAsigneeOptions(false)
+              setShowStatusOptions(false)
             }}
           >
             <div className="w-5 h-5">
@@ -231,11 +289,11 @@ const Filter: React.FC<SearchButtonProps> = ({
             </div>
             <div className="flex justify-between w-full">
               <Body1 className="font-medium leading-[19.36px]">Priority</Body1>
-              <Icon
-                width="20"
-                height="20"
-                name={showPriorityOptions ? 'CaretUpIcon' : 'CaretDownIcon'}
-              />
+              <div
+                className={`${showPriorityOptions && 'rotate-180'} transition-all duration-300`}
+              >
+                <Icon width="20" height="20" name={'CaretDownIcon'} />
+              </div>
             </div>
           </button>
         </div>
@@ -259,9 +317,13 @@ const Filter: React.FC<SearchButtonProps> = ({
                     <span>{option.option}</span>
                   </div>
                   <Checkbox
-                    defaultChecked={selectedOptions.includes(option)}
+                    defaultChecked={
+                      (selectedFilters.priorities &&
+                        selectedFilters.priorities.includes(option.id)) ||
+                      false
+                    }
                     onChecked={() => {
-                      handleOptionSelect(option)
+                      handleSelectFilter(option, 'priority')
                     }}
                   />
                 </div>
