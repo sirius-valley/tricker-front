@@ -1,10 +1,6 @@
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
 import { useAppDispatch, useCurrentProjectId, useUser } from '@redux/hooks'
-import {
-  type IssueView,
-  type OptionalIssueFilters,
-  Priority
-} from '@utils/types'
+import { type IssueView, type OptionalIssueFilters } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
 import Body2 from '@utils/typography/body2/body2'
 import { useEffect, useState } from 'react'
@@ -59,12 +55,6 @@ const TicketList: React.FC<TicketListProps> = ({
         acc[issue.stage.name] = []
       }
       acc[issue.stage.name].push(issue)
-      acc[issue.stage.name].sort((a, b) => {
-        return (
-          Number(Priority[b.priority as unknown as keyof typeof Priority]) -
-          Number(Priority[a.priority as unknown as keyof typeof Priority])
-        )
-      })
       return acc
     }, {})
   }

@@ -51,12 +51,6 @@ const TicketListSmallDisplay: React.FC<TicketListProps> = ({
         acc[issue.stage.name] = []
       }
       acc[issue.stage.name].push(issue)
-      acc[issue.stage.name].sort((a, b) => {
-        return (
-          Number(Priority[b.priority as unknown as keyof typeof Priority]) -
-          Number(Priority[a.priority as unknown as keyof typeof Priority])
-        )
-      })
       return acc
     }, {})
   }
