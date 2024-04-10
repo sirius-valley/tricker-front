@@ -7,6 +7,7 @@ import H2 from '@utils/typography/h2/h2'
 import Input from '@components/Input/Input'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import { useDeleteProject } from '@data-provider/query'
+import Spinner from '@components/Spinner/Spinner'
 
 export interface ModalDeleteProjectProps {
   projectName: string
@@ -42,6 +43,11 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({
       mutate({ projectId })
     }
   }
+
+  useEffect(() => {
+    if (!isPending) onClose()
+  }, [isPending])
+
   return (
     <>
       <Modal
@@ -84,7 +90,7 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({
               <Button
                 variant="outline"
                 size={'large'}
-                className="w-[225px] h-fit"
+                className="w-[225px] h-[50px]"
                 onClick={() => {
                   onClose()
                 }}
@@ -95,10 +101,14 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({
                 disabled={inputValue !== projectName}
                 variant="error"
                 size={'large'}
-                className="w-[225px] h-fit"
-                onClick={handleDeleteProject}
+                className="w-[225px] h-[50px]"
+                onClick={isPending ? () => {} : handleDeleteProject}
               >
-                Delete Project
+                {isPending ? (
+                  <Spinner variant={'white'} size={22} />
+                ) : (
+                  'Refresh'
+                )}
               </Button>
             </div>
           </div>
