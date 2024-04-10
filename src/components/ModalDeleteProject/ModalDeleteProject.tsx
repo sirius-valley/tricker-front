@@ -45,7 +45,10 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({
   }
 
   useEffect(() => {
-    if (!isPending) onClose()
+    if (!isPending) {
+      onClose()
+      setInputValue('')
+    }
   }, [isPending])
 
   return (
@@ -54,6 +57,7 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({
         show={show}
         onClose={() => {
           onClose()
+          setInputValue('')
         }}
       >
         <div className="max-w-[539px] w-full min-w-[310px] min-h-[199px] bg-gray-500 border border-gray-300 px-8 py-6 rounded-xl shadow-lg text-white">
@@ -67,6 +71,7 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({
                   className="h-fit hidden sm:block"
                   onClick={() => {
                     onClose()
+                    setInputValue('')
                   }}
                 >
                   <Icon name="DismissIcon" />
@@ -93,6 +98,7 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({
                 className="w-[225px] h-[50px]"
                 onClick={() => {
                   onClose()
+                  setInputValue('')
                 }}
               >
                 Cancel
