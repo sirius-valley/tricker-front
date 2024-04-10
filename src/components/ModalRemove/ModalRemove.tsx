@@ -3,6 +3,7 @@ import { Modal } from '@components/Modal/Modal'
 import Button from '@components/Button/Button'
 import Icon from '@components/Icon/Icon'
 import Body2 from '@utils/typography/body2/body2'
+import Spinner from '@components/Spinner/Spinner'
 
 export interface ModalRemoveProps {
   memberName: string
@@ -10,6 +11,7 @@ export interface ModalRemoveProps {
   onRemove: () => void
   onClose: () => void
   show: boolean
+  isLoading?: boolean
 }
 
 const ModalRemove: React.FC<ModalRemoveProps> = ({
@@ -17,7 +19,8 @@ const ModalRemove: React.FC<ModalRemoveProps> = ({
   projectName,
   onRemove,
   onClose,
-  show
+  show,
+  isLoading = false
 }) => {
   return (
     <>
@@ -49,7 +52,7 @@ const ModalRemove: React.FC<ModalRemoveProps> = ({
             <Button
               variant="outline"
               size={'large'}
-              className="w-[225px] h-fit"
+              className="w-[225px] h-[50px]"
               onClick={() => {
                 onClose()
               }}
@@ -59,12 +62,12 @@ const ModalRemove: React.FC<ModalRemoveProps> = ({
             <Button
               variant="error"
               size={'large'}
-              className="w-[225px] h-fit"
+              className="w-[225px] h-[50px]"
               onClick={() => {
                 onRemove()
               }}
             >
-              Remove
+              {isLoading ? <Spinner variant={'white'} size={22} /> : 'Remove'}
             </Button>
           </div>
         </div>
