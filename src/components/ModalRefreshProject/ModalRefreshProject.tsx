@@ -45,6 +45,10 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
     }
   }
 
+  useEffect(() => {
+    if (!isPending) onClose()
+  }, [isPending])
+
   return (
     <>
       <Modal
