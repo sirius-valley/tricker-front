@@ -1,22 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import Input from '@components/Input/Input'
-import SelectInput from '@components/SelectInput/SelectInput'
-import Icon from '@components/Icon/Icon'
-import Body2 from '@utils/typography/body2/body2'
+import React, { useEffect, useState } from 'react'
 import { Modal } from '@components/Modal/Modal'
-import Button from '@components/Button/Button'
-import { usePostProjectIntegrationRequest } from '@data-provider/query'
 import SelectProvider from './SelectProvider'
-import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
-import Spinner from '@components/Spinner/Spinner'
 import SelectProject from './SelectProject'
-import { type ProjectPreIntegrated } from '@utils/types'
-import { setApiKey } from '@redux/user'
+import SelectMembers from './SelectMembers'
+import {
+  type AuthorizationRequest,
+  type MemberPreIntegrated,
+  type ProjectPreIntegrated
+} from '@utils/types'
+import { usePostProjectIntegrationRequest } from '@data-provider/query'
+import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import { useUser } from '@redux/hooks'
+import ModalWarning from '@components/ModalWarning/ModalWarning'
 
 interface ModalAddNewProjectProps {
   onClose: () => void
   show: boolean
-  variant: 'add' | 'remove'
 }
 
 const ModalAddNewProject: React.FC<ModalAddNewProjectProps> = ({
@@ -25,19 +24,85 @@ const ModalAddNewProject: React.FC<ModalAddNewProjectProps> = ({
 }) => {
   const [step, setStep] = useState(0)
   const [projects, setProjects] = useState<ProjectPreIntegrated[]>([])
+  const [projectMembers, setProjectMembers] = useState<MemberPreIntegrated[]>(
+    []
+  )
   const [apiKey, setApiKey] = useState<{ provider: string; value: string }>({
     provider: '',
     value: ''
   })
+  const [selectedProject, setSelectedProject] =
+    useState<ProjectPreIntegrated | null>(null)
+  const [selectedMembers, setSelectedMembers] = useState<MemberPreIntegrated[]>(
+    []
+  )
+  const [showModalWarning, setShowModalWarning] = useState<boolean>(false)
+
+  const { showSnackBar } = useSnackBar()
+  const currentUser = useUser()
+
+  const { mutate, isPending, error, isSuccess } =
+    usePostProjectIntegrationRequest()
+
+  useEffect(() => {
+    if (isSuccess) {
+      showSnackBar('We have send a request to integrate the project', 'success')
+      onClose()
+    }
+    if (error) {
+      showSnackBar('An error ocurred sending the integration request', 'error')
+    }
+  }, [isSuccess, error])
+
+  const handleSubmit = (): void => {
+    if (!apiKey.value || !apiKey.provider || !selectedProject) {
+      showSnackBar(
+        'It seems that we are missing some information. Please try again.',
+        'error'
+      )
+      return
+    }
+    const request: AuthorizationRequest = {
+      apiToken: apiKey.value,
+      projectId: selectedProject.providerProjectId,
+      integratorId: currentUser.id,
+      members: selectedMembers.map((member) => ({
+        id: member.providerId,
+        email: member.email
+      })),
+      organizationName:
+        (import.meta.env.VITE_ORGANIZATION_NAME as string) || 'SIRIUS',
+      issueProviderName: apiKey.provider
+    }
+    console.log({ provider: apiKey.provider, request })
+    mutate({ provider: apiKey.provider, request })
+  }
 
   return (
     <Modal
       show={show}
       onClose={() => {
-        onClose()
+        if (step === 0) {
+          onClose()
+        } else {
+          setShowModalWarning(true)
+        }
       }}
     >
-      {step === 1 && (
+      <ModalWarning
+        show={showModalWarning}
+        onClose={() => {
+          setShowModalWarning(false)
+        }}
+        onContinue={() => {
+          setShowModalWarning(false)
+          setStep(0)
+          onClose()
+        }}
+        title="Unsaved changes"
+        body="You haven’t finished integrating this project to tricker. Are you sure you want to leave without finishing?"
+      />
+      {step === 0 && (
         <SelectProvider
           handleContinue={(data, provider, key) => {
             setStep(1)
@@ -50,17 +115,38 @@ const ModalAddNewProject: React.FC<ModalAddNewProjectProps> = ({
           }}
         />
       )}
-      {step === 0 && (
+      {step === 1 && (
         <SelectProject
-          handleContinue={() => {
+          handleContinue={(project, members) => {
+            setSelectedProject(project)
+            setProjectMembers(members)
             setStep(2)
-            console.log('continue')
           }}
           apiKey={apiKey}
           projects={projects}
+          onClose={() => {
+            setShowModalWarning(true)
+          }}
           goBack={() => {
             setStep(0)
-            console.log('back')
+          }}
+        />
+      )}
+      {step === 2 && selectedProject && (
+        <SelectMembers
+          apiKey={apiKey}
+          project={selectedProject}
+          members={projectMembers}
+          isLoading={isPending}
+          onClose={() => {
+            setShowModalWarning(true)
+          }}
+          handleContinue={(members) => {
+            setSelectedMembers(members)
+            handleSubmit()
+          }}
+          goBack={() => {
+            setStep(1)
           }}
         />
       )}
