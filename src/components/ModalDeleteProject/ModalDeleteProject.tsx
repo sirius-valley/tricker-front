@@ -98,7 +98,9 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({
                 Cancel
               </Button>
               <Button
-                disabled={inputValue !== projectName}
+                disabled={
+                  inputValue.toLowerCase() !== projectName.toLowerCase()
+                }
                 variant="error"
                 size={'large'}
                 className="w-[225px] h-[50px]"
