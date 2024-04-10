@@ -10,7 +10,9 @@ import type {
   IssueDetail,
   ModifyTimeData,
   IssueChronologyEventDTO,
-  IssueChronologyEvent
+  IssueChronologyEvent,
+  DevProjectFiltersDTO,
+  PMProjectFiltersDTO
 } from '@utils/types'
 import { getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -147,12 +149,27 @@ export const getIssuesFilteredAndPaginated = async (
   isProjectManager: boolean,
   userId: string,
   projectId: string,
-  filters?: OptionalIssueFilters
+  filters: OptionalIssueFilters
 ): Promise<IssueView[]> => {
   const role = isProjectManager ? 'pm' : 'dev'
   const res = await withInterceptors.post(
     `${url}/issue/${role}/${userId}/project/${projectId}`,
-    filters
+    {
+      stageIds:
+        filters.stageIds && filters.stageIds.length > 0
+          ? filters.stageIds
+          : undefined,
+      priorities:
+        filters.priorities && filters.priorities.length > 0
+          ? filters.priorities
+          : undefined,
+      assigneeIds:
+        filters.assigneeIds && filters.assigneeIds.length > 0
+          ? filters.assigneeIds
+          : undefined,
+      isOutOfEstimation: filters.isOutOfEstimation === true ? true : undefined,
+      cursor: filters.cursor
+    }
   )
   if (res.status === 200) {
     return res.data
@@ -213,6 +230,19 @@ export const getTicketElapsedTime = async (
   ticketId: string
 ): Promise<{ workedTime: number } | null> => {
   const res = await withInterceptors.get(`${url}/issue/${ticketId}/worked-time`)
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const getFilters = async (
+  projectId: string,
+  userRole: 'pm' | 'dev'
+): Promise<DevProjectFiltersDTO | PMProjectFiltersDTO | null> => {
+  const res = await withInterceptors.get(
+    `${url}/projects/${projectId}/filters/${userRole}`
+  )
   if (res.status === 200) {
     return res.data
   }

@@ -42,7 +42,13 @@ export const initialState: InitialStateType = {
   currentTicket: {
     id: '',
     assignee: null,
-    stage: { id: '', name: '', type: StageType.BACKLOG },
+    stage: {
+      id: '',
+      name: '',
+      type: StageType.BACKLOG,
+      position: 0,
+      color: ''
+    },
     name: '',
     title: '',
     description: '',

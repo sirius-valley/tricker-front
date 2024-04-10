@@ -59,7 +59,7 @@ export interface Role {
 
 export interface UserIssue {
   id: string
-  name: string | null
+  name: string
   profileUrl: string | null
 }
 
@@ -152,6 +152,8 @@ export interface Stage {
 }
 export interface StageExtended extends Stage {
   type: StageType
+  position: number
+  color: string
 }
 
 export interface IssueLabel {
@@ -390,7 +392,7 @@ export interface MemberEmail {
 
 export interface OptionalIssueFilters {
   stageIds?: string[]
-  priorities?: Priority[]
+  priorities?: string[]
   assigneeIds?: string[]
   isOutOfEstimation?: boolean
   cursor?: string
@@ -400,4 +402,13 @@ export interface ModifyTimeData {
   timeAmount: number
   reason: string
   date: string
+}
+
+export interface DevProjectFiltersDTO {
+  stages: StageExtended[]
+  priorities: string[]
+}
+
+export interface PMProjectFiltersDTO extends DevProjectFiltersDTO {
+  assignees: UserIssue[]
 }
