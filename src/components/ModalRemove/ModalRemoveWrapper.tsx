@@ -1,51 +1,57 @@
-// import React, { useEffect } from 'react'
-// import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import { useEffect } from 'react'
+import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import ModalRemove from './ModalRemove'
+import { useRemoveTeamMember } from '@data-provider/query'
 
 export interface ModalRemoveWrapperProps {
   memberName: string
+  memberId: string
   projectName: string
-  onRemove: () => void
+  projectId: string
   onClose: () => void
   show: boolean
-  isLoading?: boolean
 }
 
 const ModalRemoveWrapper: React.FC<ModalRemoveWrapperProps> = ({
   memberName,
-  projectName
-  //   onRemove,
-  //   onClose,
-  //   show,
-  //   isLoading = false
+  memberId,
+  projectName,
+  projectId,
+  onClose,
+  show
 }: ModalRemoveWrapperProps): JSX.Element => {
-  // const { showSnackBar } = useSnackBar()
-  // const { mutate, isPending, error, isSuccess } = useRemoveTeamMember()
+  const { showSnackBar } = useSnackBar()
+  const { mutate, isPending, error, isSuccess } = useRemoveTeamMember()
 
-  // useEffect(() => {
-  //   if (error) {
-  //     showSnackBar(error.message, 'error')
-  //   }
-  // }, [error])
+  useEffect(() => {
+    if (error) {
+      showSnackBar(error.message, 'error')
+    }
+  }, [error])
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     showSnackBar(`${memberName} has been removed successfully from this project`, 'success')
-  //   }
-  // }, [isSuccess])
+  useEffect(() => {
+    if (isSuccess) {
+      showSnackBar(
+        `${memberName} has been removed successfully from this project`,
+        'success'
+      )
+    }
+  }, [isSuccess])
 
-  const handleRemoveTeamMember = (): void => {}
+  const handleRemoveTeamMember = (): void => {
+    if (!isPending) mutate({ projectId, userId: memberId })
+  }
 
-  // useEffect(() => {
-  //   if (!isPending) onClose()
-  // }, [isPending])
+  useEffect(() => {
+    if (!isPending) onClose()
+  }, [isPending])
   return (
     <ModalRemove
       memberName={memberName}
       projectName={projectName}
       onRemove={handleRemoveTeamMember}
       onClose={() => {}}
-      show={true}
+      show={show}
     />
   )
 }

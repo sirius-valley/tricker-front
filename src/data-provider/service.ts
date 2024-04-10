@@ -277,3 +277,20 @@ export const getChronology = async (
   //   }
   // ]
 }
+
+export const removeTeamMember = async (
+  projectId: string,
+  userId: string
+): Promise<void> => {
+  // const res = await withInterceptors.delete(`${url}/project/${projectId}/member/${userId}`)
+  // if (res.status === 204) {
+  //   return
+  // }
+
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(projectId, userId)
+      resolve(null)
+    }, 2000)
+  })
+}

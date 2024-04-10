@@ -286,3 +286,24 @@ export const useGetChronology = (
   })
   return { data, error, isLoading }
 }
+
+export const useRemoveTeamMember = (): {
+  mutate: (args: { projectId: string; userId: string }) => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, error, isPending, isSuccess } = useMutation({
+    mutationFn: async ({
+      projectId,
+      userId
+    }: {
+      projectId: string
+      userId: string
+    }) => {
+      await ApiService.removeTeamMember(projectId, userId)
+    }
+  })
+
+  return { mutate, error, isPending, isSuccess }
+}
