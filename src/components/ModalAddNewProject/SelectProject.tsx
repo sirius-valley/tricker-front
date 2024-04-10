@@ -1,23 +1,28 @@
 import '../../index.css'
 import React, { useEffect, useState } from 'react'
-import { Tooltip } from '@components/Tooltip/Tooltip'
 import NoAvatarProject from '@components/NoAvatar/NoAvatarProject'
 import Body2 from '@utils/typography/body2/body2'
 import Body1 from '@utils/typography/body1/body1'
-import H1 from '@utils/typography/h1/h1'
 import HelperText from '@utils/typography/helpertext/helpertext'
 import RadioButton from '@components/RadioButton/RadioButton'
 import { useGetPreIntegratedMembers } from '@data-provider/query'
-import { type ProjectPreIntegrated } from '@utils/types'
-import useScreenSize from '@hooks/useScreenSize'
+import {
+  type MemberPreIntegrated,
+  type ProjectPreIntegrated
+} from '@utils/types'
 import Spinner from '@components/Spinner/Spinner'
 import 'react-loading-skeleton/dist/skeleton.css'
 import Button from '@components/Button/Button'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import Icon from '@components/Icon/Icon'
 
 export interface SelectProjectProps {
-  handleContinue: () => void
+  handleContinue: (
+    selectedProject: ProjectPreIntegrated,
+    data: MemberPreIntegrated[]
+  ) => void
   projects: ProjectPreIntegrated[]
+  onClose: () => void
   goBack: () => void
   apiKey: { provider: string; value: string }
 }
@@ -25,6 +30,7 @@ export interface SelectProjectProps {
 const SelectProject: React.FC<SelectProjectProps> = ({
   projects,
   goBack,
+  onClose,
   handleContinue,
   apiKey
 }) => {
@@ -37,16 +43,13 @@ const SelectProject: React.FC<SelectProjectProps> = ({
 
   const { isLoading, refetch, data, error, isSuccess } =
     useGetPreIntegratedMembers(
+      selectedProject?.providerProjectId || '',
       apiKey.value,
-      selectedProject?.name || '',
       enabled
     )
 
-  const screenSize = useScreenSize()
-
   const handleSelection = (project: ProjectPreIntegrated): void => {
     setSelectedProject(project)
-    console.log(project)
   }
 
   const onContinue = (): void => {
@@ -57,56 +60,53 @@ const SelectProject: React.FC<SelectProjectProps> = ({
   }
 
   useEffect(() => {
-    if (isSuccess && data) {
+    if (isSuccess && selectedProject && data) {
       console.log(data)
-      showSnackBar('Projects fetched successfully', 'success')
-      handleContinue()
+      setEnabled(false)
+      handleContinue(selectedProject, data)
     }
     if (error && !isSuccess) {
       setEnabled(false)
-      showSnackBar("We couldn't fetch your projects", 'error')
+      showSnackBar("We couldn't fetch the team members", 'error')
     }
   }, [isSuccess, error, data, apiKey])
 
   return (
     <div className="max-w-[539px] w-[92%] min-w-[310px] h-fit bg-gray-500 border border-gray-300 px-8 py-6 rounded-xl shadow-lg text-white items-center">
       {isLoading ? (
-        <div className="flex w-full min-h-[473px] items-center justify-center">
+        <div className="flex w-full min-h-[350px] items-center justify-center">
           <Spinner variant="primary" size={50} />
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center w-fit shadow-2 md:shadow-none gap-8 rounded-xl">
-          <H1 className="text-white text-2xl md:text-[34px] font-semibold">
-            {projects?.length !== 0 ? 'Select Project' : 'Upss!'}
-          </H1>
-          <div className="flex flex-col gap-4 items-center">
-            {projects?.length === 0 && (
-              <Body1 className="text-white text-[18px] leading-6 text-center">
-                We couldn&apos;t find any projects to integrate with the
-                provided API key.
+        <>
+          <div className="flex justify-between w-[100%]">
+            <h5 className="font-normal mb-2" style={{ fontSize: '24px' }}>
+              Add New Project
+            </h5>
+            <button className="hidden sm:block" onClick={onClose}>
+              <Icon name="DismissIcon" />
+            </button>
+          </div>
+          {projects.length === 0 ? (
+            <div className="flex w-full min-h-[180px] items-center justify-center">
+              <Body1 className="text-white">
+                You don&apos;t have any projects to add!
               </Body1>
-            )}
-            {!isLoading && projects?.length !== 0 && (
-              <>
-                <div className="flex gap-1 items-center">
-                  <Body2 className="text-white font-semibold self-start flex">
-                    {/* Change this to not show it when there's no project found */}
-                    Now, select the project you would like to start with
-                  </Body2>
-                  {screenSize.width > 700 && (
-                    <Tooltip
-                      iconHeight="16"
-                      iconWidth="16"
-                      content="If you don't see your team, the token is probably from another workspace. Change your workspace and try again."
-                    />
-                  )}
-                </div>
-                <div className="border overflow-y-scroll max-h-[233px] border-gray-300 py-2 rounded-[8px]">
+            </div>
+          ) : (
+            <>
+              <Body2 className="text-sm font-normal mb-6">
+                Select the project you want to integrate with tricker
+              </Body2>
+              <div className="flex flex-col w-full gap-4">
+                <div className="border overflow-y-scroll max-h-[233px] border-gray-300 py-2 rounded-[8px] max-w-[752px] w-full">
                   {projects?.map((project: ProjectPreIntegrated) => (
                     <div
                       key={project.providerProjectId}
-                      className="flex items-center gap-4 p-4 hover:bg-gray-500 cursor-pointer"
+                      className={`flex items-center gap-4 p-4 hover:bg-gray-500 ${project.alreadyIntegrated === true ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                       onClick={() => {
+                        if (project.alreadyIntegrated === true) return
+                        console.log(project)
                         setSelectedProject(project)
                         handleSelection(project)
                       }}
@@ -123,47 +123,50 @@ const SelectProject: React.FC<SelectProjectProps> = ({
                           className="w-[20px] h-[20px] rounded-sm"
                         />
                       ) : (
-                        <NoAvatarProject
-                          text={project.name}
-                          width={20}
-                          height={20}
-                        />
+                        <div className="min-w-5 min-h-5">
+                          <NoAvatarProject
+                            text={project.name}
+                            width={20}
+                            height={20}
+                          />
+                        </div>
                       )}
-                      <Body1 className="text-white">{project.name}</Body1>
+                      <div className="flex w-full justify-between items-center">
+                        <Body1
+                          className={`${project.alreadyIntegrated === true ? 'text-gray-300/80 ' : 'text-white '}`}
+                        >
+                          {project.name}
+                        </Body1>
+                        <HelperText className="text-gray-300/80">
+                          {project.alreadyIntegrated === true ? 'Added' : ''}
+                        </HelperText>
+                      </div>
                     </div>
                   ))}
                 </div>
-              </>
-            )}
-            {screenSize.width < 700 && (
-              <HelperText className="text-white">
-                If you don&apos;t see your team, the token is probably from
-                another workspace. Change your workspace and try again.
-              </HelperText>
-            )}
-          </div>
+              </div>
+            </>
+          )}
           <div className="flex justify-center mt-5 gap-6">
             <Button
               variant="outline"
               size={'large'}
               className="h-[56px] w-[313px]"
-              onClick={() => {
-                goBack()
-              }}
+              onClick={goBack}
             >
-              Cancel
+              Back
             </Button>
             <Button
               variant="filled"
               size={'large'}
               className="h-[56px] w-[313px] text-black"
               onClick={onContinue}
-              disabled={!apiKey.value || !apiKey.provider}
+              disabled={selectedProject === null}
             >
               Next
             </Button>
           </div>
-        </div>
+        </>
       )}
     </div>
   )
