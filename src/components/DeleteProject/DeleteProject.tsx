@@ -1,11 +1,22 @@
 import Button from '@components/Button/Button'
 import Divider from '@components/Divider/Divider'
-import ModalRemove from '@components/ModalRemove/ModalRemove'
+// import ModalDeleteProject from '@components/ModalDeleteProject/ModalDeleteProject'
 import Body1 from '@utils/typography/body1/body1'
 import { useState } from 'react'
 
-const DeleteProject = (): JSX.Element => {
+interface DeleteProjectProps {
+  projectName: string
+  projectId: string
+}
+
+const DeleteProject: React.FC<DeleteProjectProps> = ({
+  projectName,
+  projectId
+}: DeleteProjectProps): JSX.Element => {
   const [showModal, setShowModal] = useState<boolean>(false)
+
+  // Delete the line below when ModalDeleteProject is merged. Also descomment other lines.
+  console.log(showModal, projectName, projectId)
   return (
     <div className="w-full flex flex-col gap-8">
       <Divider color="white/10" />
@@ -24,15 +35,14 @@ const DeleteProject = (): JSX.Element => {
       >
         Delete Project
       </Button>
-      <ModalRemove
-        memberName={'Federico'}
-        projectName={'Tricker'}
-        onRemove={() => {}}
+      {/* <ModalDeleteProject
+        projectId={projectId}
+        projectName={projectName}
         onClose={() => {
           setShowModal(false)
         }}
         show={showModal}
-      />
+      /> */}
     </div>
   )
 }
