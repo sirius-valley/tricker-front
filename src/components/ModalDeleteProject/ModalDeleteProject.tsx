@@ -109,7 +109,7 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({
                 {isPending ? (
                   <Spinner variant={'white'} size={22} />
                 ) : (
-                  'Refresh'
+                  'Delete Project'
                 )}
               </Button>
             </div>
