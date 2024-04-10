@@ -37,9 +37,8 @@ const SelectMembers: React.FC<SelectMembersProps> = ({
 }) => {
   const [openModal, setOpenModal] = React.useState<boolean>(false)
   const [userToRemove, setUserToRemove] = React.useState<string>('')
-  const [selectedMembers, setSelectedMembers] = React.useState<
-    MemberPreIntegrated[]
-  >([...members])
+  const [selectedMembers, setSelectedMembers] =
+    React.useState<MemberPreIntegrated[]>(members)
 
   const currentUser = useUser()
 
