@@ -28,12 +28,17 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
 
   useEffect(() => {
     if (error) {
-      showSnackBar(error.message, 'error')
+      showSnackBar(
+        error.message === 'Request failed with status code 401'
+          ? 'Your token to accept/decline the project has expired. Please contact support.'
+          : error.message,
+        'error'
+      )
     }
   }, [error, showSnackBar])
 
   return isLoading ? (
-    <div className="bg-gray-800">
+    <div className="bg-gray-700 w-screen h-screen">
       <LoadingPage />
     </div>
   ) : error || !data ? (
