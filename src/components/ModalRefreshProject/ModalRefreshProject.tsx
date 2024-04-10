@@ -46,7 +46,10 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
   }
 
   useEffect(() => {
-    if (!isPending) onClose()
+    if (!isPending) {
+      onClose()
+      setProviderToken('')
+    }
   }, [isPending])
 
   return (
@@ -55,6 +58,7 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
         show={show}
         onClose={() => {
           onClose()
+          setProviderToken('')
         }}
       >
         <div className="max-w-[539px] w-[92%] min-w-[310px] min-h-[199px] bg-gray-500 border border-gray-300 px-8 py-6 rounded-xl shadow-lg text-white">
@@ -66,6 +70,7 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
                   className="h-fit hidden sm:block"
                   onClick={() => {
                     onClose()
+                    setProviderToken('')
                   }}
                 >
                   <Icon name="DismissIcon" />
