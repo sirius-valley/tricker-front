@@ -45,13 +45,15 @@ const ModalRemoveWrapper: React.FC<ModalRemoveWrapperProps> = ({
   useEffect(() => {
     if (!isPending) onClose()
   }, [isPending])
+
   return (
     <ModalRemove
       memberName={memberName}
       projectName={projectName}
       onRemove={handleRemoveTeamMember}
-      onClose={() => {}}
+      onClose={onClose}
       show={show}
+      isLoading={isPending}
     />
   )
 }
