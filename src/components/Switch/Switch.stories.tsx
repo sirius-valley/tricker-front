@@ -17,6 +17,12 @@ const meta: Meta<typeof Switch> = {
         }
       },
       description: 'Callback when the switch is toggled, returns a Boolean'
+    },
+    defaultChecked: {
+      control: {
+        type: 'boolean'
+      },
+      defaultValue: 'false'
     }
   }
 }
@@ -27,5 +33,11 @@ type Story = StoryObj<typeof Switch>
 
 export const Primary: Story = {
   tags: ['autodocs'],
+  args: {
+    onChecked: (checked: boolean) => {
+      console.log(checked)
+    },
+    defaultChecked: false
+  },
   render: (args) => <Switch {...args} />
 }

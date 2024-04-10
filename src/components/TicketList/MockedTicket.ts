@@ -10,7 +10,9 @@ export const mockedTicket = {
   stage: {
     name: 'Backlog',
     id: '1',
-    type: StageType.BACKLOG
+    type: StageType.BACKLOG,
+    color: '#fff',
+    position: 1
   },
   name: 'Name of the ticket 1 long name',
   title: 'TIK-001',
