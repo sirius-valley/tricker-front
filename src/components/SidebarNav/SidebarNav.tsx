@@ -12,6 +12,7 @@ import { NavLink } from 'react-router-dom'
 import { type User, type DropdownOption, type TimeTracking } from '@utils/types'
 import Popover from '@components/Popover/Popover'
 import useScreenSize from '@hooks/useScreenSize'
+import ModalAddNewProject from '@components/ModalAddNewProject/ModalAddNewProject'
 
 export interface SidebarNavProps
   extends React.HTMLAttributes<HTMLInputElement> {
@@ -32,6 +33,8 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   handleDropdownSelect
 }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+
   const screen = useScreenSize()
   return (
     <div className="flex flex-col items-center flex-1 w-fit max-w-[224px] h-screen pt-10 gap-20 bg-gray-500">
@@ -59,6 +62,19 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
               </NavLink>
             </div>
           )}
+          <button
+            onClick={() => {
+              setShowModal(true)
+            }}
+          >
+            show modal
+          </button>
+          <ModalAddNewProject
+            show={showModal}
+            onClose={() => {
+              setShowModal(false)
+            }}
+          />
           <Dropdown
             preSelectedOption={preSelectedOption}
             options={dropdownOptions}
