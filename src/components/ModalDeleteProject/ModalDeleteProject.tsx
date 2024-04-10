@@ -1,25 +1,47 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal } from '@components/Modal/Modal'
 import Button from '@components/Button/Button'
 import Icon from '@components/Icon/Icon'
 import Body2 from '@utils/typography/body2/body2'
 import H2 from '@utils/typography/h2/h2'
 import Input from '@components/Input/Input'
+import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import { useDeleteProject } from '@data-provider/query'
 
 export interface ModalDeleteProjectProps {
   projectName: string
-  onRemove: () => void
+  projectId: string
   onClose: () => void
   show: boolean
 }
 
 const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({
   projectName,
-  onRemove,
+  projectId,
   onClose,
   show
 }) => {
   const [inputValue, setInputValue] = useState<string>('')
+  const { showSnackBar } = useSnackBar()
+  const { mutate, isPending, error, isSuccess } = useDeleteProject()
+
+  useEffect(() => {
+    if (error) {
+      showSnackBar(error.message, 'error')
+    }
+  }, [error])
+
+  useEffect(() => {
+    if (isSuccess) {
+      showSnackBar('The project has been deleted successfully', 'success')
+    }
+  }, [isSuccess])
+
+  const handleDeleteProject = (): void => {
+    if (!isPending) {
+      mutate({ projectId })
+    }
+  }
   return (
     <>
       <Modal
@@ -74,9 +96,7 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({
                 variant="error"
                 size={'large'}
                 className="w-[225px] h-fit"
-                onClick={() => {
-                  onRemove()
-                }}
+                onClick={handleDeleteProject}
               >
                 Delete Project
               </Button>
