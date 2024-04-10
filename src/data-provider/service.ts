@@ -12,7 +12,7 @@ import type {
   IssueChronologyEventDTO,
   IssueChronologyEvent
 } from '@utils/types'
-import { getIdToken, setLoginCookies } from './Cookies'
+import { getIdToken, setLoginCookies, getAccessToken } from './Cookies'
 import config from '@utils/config'
 import { mockedTicketDetail } from '@components/TicketDisplay/MockedTicketDetail'
 import { setUpAxiosInterceptors } from './AxiosInterceptor'
@@ -78,11 +78,17 @@ export const getPreIntegratedProjects = async (
   key: string,
   provider: string
 ): Promise<ProjectPreIntegrated[] | null> => {
-  const res = await withInterceptors.post(
+  const res = await axios.post(
+    // this petition is not intercepted because if the key is not valid, the interceptor will redirect to the login page
     `${url}/integration/linear/projects`,
     {
       key,
       provider
+    },
+    {
+      headers: {
+        Authorization: 'Bearer ' + getAccessToken()
+      }
     }
   )
   if (res.status === 200) {
