@@ -54,7 +54,6 @@ export interface User {
 export interface Role {
   id: string
   name: string
-  users: UserProjectRole[]
 }
 
 export interface UserIssue {
@@ -198,6 +197,13 @@ export interface MemberPreIntegrated {
   email: string
   name: string
   profileImage?: string
+}
+
+export interface TeamMember {
+  email: string
+  name: string
+  profileImage?: string
+  role: Role
 }
 
 export interface AuthorizationRequest {
