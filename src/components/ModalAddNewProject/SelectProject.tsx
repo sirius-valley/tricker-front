@@ -61,7 +61,6 @@ const SelectProject: React.FC<SelectProjectProps> = ({
 
   useEffect(() => {
     if (isSuccess && selectedProject && data) {
-      console.log(data)
       setEnabled(false)
       handleContinue(selectedProject, data)
     }
@@ -106,7 +105,6 @@ const SelectProject: React.FC<SelectProjectProps> = ({
                       className={`flex items-center gap-4 p-4 hover:bg-gray-500 ${project.alreadyIntegrated === true ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                       onClick={() => {
                         if (project.alreadyIntegrated === true) return
-                        console.log(project)
                         setSelectedProject(project)
                         handleSelection(project)
                       }}
