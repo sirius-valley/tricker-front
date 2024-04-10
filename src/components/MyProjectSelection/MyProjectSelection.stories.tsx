@@ -37,66 +37,6 @@ export const Primary: Story = {
         id: '4',
         title: 'Hospital Patagonia',
         image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '5',
-        title: 'Bonterms',
-        image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '6',
-        title: 'Tricker',
-        image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '7',
-        title: 'Hospital Patagonia',
-        image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '8',
-        title: 'Bonterms',
-        image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '9',
-        title: 'Tricker',
-        image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '10',
-        title: 'Hospital Patagonia',
-        image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '11',
-        title: 'Bonterms',
-        image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '12',
-        title: 'Tricker',
-        image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '13',
-        title: 'Bonterms',
-        image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '14',
-        title: 'Tricker',
-        image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '15',
-        title: 'Hospital Patagonia',
-        image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '16',
-        title: 'Bonterms',
-        image: 'https://via.placeholder.com/20'
       }
     ],
     preselectedOption: {
