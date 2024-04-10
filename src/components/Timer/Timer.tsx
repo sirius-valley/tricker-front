@@ -95,9 +95,9 @@ const Timer: React.FC<TimerProps> = ({
   }, [errorElapsedTime, memoizedShowSnackBar])
 
   useEffect(() => {
-    window.onbeforeunload = function (e) {
-      return e
-    }
+    // window.onbeforeunload = function (e) {
+    //   return e
+    // }
     let interval: NodeJS.Timeout | undefined
     if (!paused)
       interval = setInterval(() => {
