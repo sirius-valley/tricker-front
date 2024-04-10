@@ -33,9 +33,6 @@ const ModalAddNewProject: React.FC<ModalAddNewProjectProps> = ({
   })
   const [selectedProject, setSelectedProject] =
     useState<ProjectPreIntegrated | null>(null)
-  const [selectedMembers, setSelectedMembers] = useState<MemberPreIntegrated[]>(
-    []
-  )
   const [showModalWarning, setShowModalWarning] = useState<boolean>(false)
 
   const { showSnackBar } = useSnackBar()
@@ -54,8 +51,17 @@ const ModalAddNewProject: React.FC<ModalAddNewProjectProps> = ({
     }
   }, [isSuccess, error])
 
-  const handleSubmit = (): void => {
-    if (!apiKey.value || !apiKey.provider || !selectedProject) {
+  const handleSubmit = (members: MemberPreIntegrated[]): void => {
+    const actualUserProviderId = members.find(
+      (member) => member.email === currentUser.email
+    )?.providerId
+    if (
+      !apiKey.value ||
+      !apiKey.provider ||
+      !selectedProject ||
+      !actualUserProviderId ||
+      !members.length
+    ) {
       showSnackBar(
         'It seems that we are missing some information. Please try again.',
         'error'
@@ -65,8 +71,8 @@ const ModalAddNewProject: React.FC<ModalAddNewProjectProps> = ({
     const request: AuthorizationRequest = {
       apiToken: apiKey.value,
       projectId: selectedProject.providerProjectId,
-      integratorId: currentUser.id,
-      members: selectedMembers.map((member) => ({
+      integratorId: actualUserProviderId,
+      members: members.map((member) => ({
         id: member.providerId,
         email: member.email
       })),
@@ -74,7 +80,6 @@ const ModalAddNewProject: React.FC<ModalAddNewProjectProps> = ({
         (import.meta.env.VITE_ORGANIZATION_NAME as string) || 'SIRIUS',
       issueProviderName: apiKey.provider
     }
-    console.log({ provider: apiKey.provider, request })
     mutate({ provider: apiKey.provider, request })
   }
 
@@ -108,7 +113,6 @@ const ModalAddNewProject: React.FC<ModalAddNewProjectProps> = ({
             setStep(1)
             setProjects(data)
             setApiKey({ provider, value: key })
-            console.log(data, provider, key)
           }}
           onClose={() => {
             onClose()
@@ -142,8 +146,7 @@ const ModalAddNewProject: React.FC<ModalAddNewProjectProps> = ({
             setShowModalWarning(true)
           }}
           handleContinue={(members) => {
-            setSelectedMembers(members)
-            handleSubmit()
+            handleSubmit(members)
           }}
           goBack={() => {
             setStep(1)
