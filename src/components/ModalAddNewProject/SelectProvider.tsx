@@ -108,7 +108,7 @@ const SelectProvider: React.FC<SelectProviderProps> = ({
               label="API Key"
               required
               handleValue={handleApiKey}
-              placeholder=""
+              placeholder="myCI8cCofsEnGA7jBjEmfo4oKMmShEYpXRaINBnGA7jBjEm"
               variant={
                 provider ? (isApiValid ? 'default' : 'error') : 'default'
               }
