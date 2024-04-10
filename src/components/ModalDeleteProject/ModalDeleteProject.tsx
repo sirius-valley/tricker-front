@@ -7,7 +7,6 @@ import H2 from '@utils/typography/h2/h2'
 import Input from '@components/Input/Input'
 
 export interface ModalDeleteProjectProps {
-  memberName: string
   projectName: string
   onRemove: () => void
   onClose: () => void
@@ -15,7 +14,6 @@ export interface ModalDeleteProjectProps {
 }
 
 const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({
-  memberName,
   projectName,
   onRemove,
   onClose,
