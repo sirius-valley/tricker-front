@@ -55,20 +55,30 @@ const SelectProvider: React.FC<SelectProviderProps> = ({
 
   useEffect(() => {
     if (isSuccess && data) {
-      console.log(data)
-      showSnackBar('Projects fetched successfully', 'success')
+      data.sort((a, b) => {
+        if (a.alreadyIntegrated === true && b.alreadyIntegrated === false) {
+          return -1
+        }
+        if (a.alreadyIntegrated === false && b.alreadyIntegrated === true) {
+          return 1
+        }
+        return 0
+      })
       handleContinue(data, provider || '', apiKey || '')
     }
-    if (error && !isSuccess) {
+    if (error) {
       setEnabled(false)
-      showSnackBar("We couldn't fetch your projects", 'error')
+      showSnackBar(
+        "We couldn't fetch the projects with the provided API Key",
+        'error'
+      )
     }
   }, [isSuccess, error, data, provider, apiKey])
 
   return (
     <div className="max-w-[539px] w-[92%] min-w-[310px] h-fit bg-gray-500 border border-gray-300 px-8 py-6 rounded-xl shadow-lg text-white items-center">
       {isLoading ? (
-        <div className="flex w-full min-h-[473px] items-center justify-center">
+        <div className="flex w-full min-h-[350px] items-center justify-center">
           <Spinner variant="primary" size={50} />
         </div>
       ) : (
