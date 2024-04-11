@@ -45,7 +45,13 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
       setCurrentTicket({
         id: '',
         assignee: null,
-        stage: { id: '', name: '', type: StageType.BACKLOG },
+        stage: {
+          id: '',
+          name: '',
+          type: StageType.BACKLOG,
+          position: 0,
+          color: ''
+        },
         name: '',
         title: '',
         priority: Priority.NO_PRIORITY,

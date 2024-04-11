@@ -34,26 +34,26 @@ export default meta
 type Story = StoryObj<typeof TicketList>
 
 export const DevView: Story = {
-  tags: ['autodocs'],
-  args: {
-    variant: 'grid',
-    currentTicket: mockedTicket,
-    filters: [],
-    searchedTicket: '',
-    isOutOfEstimation: false,
-    isProjectManager: false
-  },
-  render: (args) => <TicketList {...args} />
+  render: () => (
+    <TicketList
+      variant="grid"
+      filters={{}}
+      searchedTicket={''}
+      isOutOfEstimation={false}
+      isProjectManager={false}
+      currentTicket={mockedTicket}
+    />
+  )
 }
 export const PMView: Story = {
-  tags: ['autodocs'],
-  args: {
-    variant: 'grid',
-    currentTicket: mockedTicket,
-    filters: [],
-    searchedTicket: '',
-    isOutOfEstimation: false,
-    isProjectManager: true
-  },
-  render: (args) => <TicketList {...args} />
+  render: () => (
+    <TicketList
+      variant="grid"
+      filters={{}}
+      searchedTicket={''}
+      isOutOfEstimation={false}
+      isProjectManager={true}
+      currentTicket={mockedTicket}
+    />
+  )
 }
