@@ -127,9 +127,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                 userName={user.name || ''}
               />
               {screen.width > 1024 && (
-                <Body1 className="text-white text-wrap max-w-20">
-                  {user?.name}
-                </Body1>
+                <Body1 className="text-white text-wrap">{user?.name}</Body1>
               )}
             </div>
           </div>
