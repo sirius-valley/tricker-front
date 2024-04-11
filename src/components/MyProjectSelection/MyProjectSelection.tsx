@@ -3,6 +3,7 @@ import NoAvatarProject from '@components/NoAvatar/NoAvatarProject'
 import { type MyProjectsOption } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
 import useScreenSize from '@hooks/useScreenSize'
+
 export interface MyProjectSelectProps {
   preselectedOption: MyProjectsOption
   options: MyProjectsOption[]
@@ -47,7 +48,7 @@ export const Select: React.FC<MyProjectSelectProps> = ({
               className={`relative cursor-pointer select-none p-4 hover:bg-primary-400 hover:bg-opacity-5 transition-colors duration-300 ${
                 selectedProject?.id === option.id && !isMobile
                   ? 'bg-primary-400 bg-opacity-5 border-l-2 border-primary-400'
-                  : ''
+                  : 'border-l-2 border-transparent'
               }`}
             >
               <div className="flex items-center gap-2">
