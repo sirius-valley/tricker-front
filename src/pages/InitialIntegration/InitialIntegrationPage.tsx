@@ -52,7 +52,7 @@ const InitialIntegrationPage = (): JSX.Element => {
   } else {
     stepType = StepType.MID
   }
-  console.log(apiKey)
+
   const handleBackButton = (): void => {
     if (currentStep === 0) {
       navigate('/login/role')
