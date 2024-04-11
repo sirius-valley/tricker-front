@@ -103,12 +103,6 @@ const InitialIntegrationPage = (): JSX.Element => {
   const { mutate, isPending, error, isSuccess, data } =
     usePostProjectIntegrationRequest()
 
-  useEffect(() => {
-    if (data === true) {
-      navigate(`/accept?projectId=`)
-    }
-  }, [data])
-
   const handleSubmit = (): void => {
     if (
       !providerKey ||

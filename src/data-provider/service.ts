@@ -139,7 +139,7 @@ export const postProjectIntegrationRequest = async (
       issueProviderName: authorizationRequest.issueProviderName
     }
   )
-  if (res.status === 200) {
+  if (res.status === 201) {
     return res.data
   }
   return null

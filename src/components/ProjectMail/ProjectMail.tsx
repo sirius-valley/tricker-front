@@ -17,7 +17,7 @@ export const ProjectMail = ({
           <H1 className="lg:text-[34px] leading-[41.15px] text-center text-white font-medium lg:whitespace-nowrap">
             We&apos;ve{' '}
             {isAdmin ? `started integrating ` : `sent your request to add `}
-            {projectName} to Tricker!
+            {projectName} into Tricker!
           </H1>
           <H2 className="text-lg lg:text-[22px] leading-[26.63px] text-center text-gray-300 font-medium">
             We&apos;ll notify you by email once the{' '}
