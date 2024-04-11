@@ -100,8 +100,14 @@ const InitialIntegrationPage = (): JSX.Element => {
     [setTeamMembers]
   )
 
-  const { mutate, isPending, error, isSuccess } =
+  const { mutate, isPending, error, isSuccess, data } =
     usePostProjectIntegrationRequest()
+
+  useEffect(() => {
+    if (data === true) {
+      navigate(`/accept?projectId=`)
+    }
+  }, [data])
 
   const handleSubmit = (): void => {
     if (
@@ -226,7 +232,10 @@ const InitialIntegrationPage = (): JSX.Element => {
       {isSuccess && selectedProject && (
         <>
           <div className="flex flex-col md:gap-6">
-            <ProjectMail projectName={selectedProject.name} />
+            <ProjectMail
+              isAdmin={data === true}
+              projectName={selectedProject.name}
+            />
             <StepNavigation
               currentStep={StepType.LAST}
               onBack={handleBackButton}
