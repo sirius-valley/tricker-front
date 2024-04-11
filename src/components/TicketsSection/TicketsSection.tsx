@@ -133,7 +133,7 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
               >
                 <Icon name="CaretUpIcon" width="32" height="32" />
               </button>
-              <div className="w-full h-full py-[72px] px-8 flex flex-col gap-10">
+              <div className="w-screen h-full py-[72px] px-8 flex flex-col gap-10">
                 <TicketDisplay
                   isLoading={isLoading}
                   issue={data || undefined}
