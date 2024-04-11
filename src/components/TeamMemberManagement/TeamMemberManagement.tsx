@@ -66,9 +66,7 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
             variant="error"
             className="md:text-[15px] text-[13px]"
           >
-            {
-              'Error fetching the members, please try again later or contact support'
-            }
+            {error.message}
           </NotificationBadge>
         </div>
       )}

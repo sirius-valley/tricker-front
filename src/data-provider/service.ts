@@ -127,7 +127,7 @@ export const postModifyTime = async (
 export const postProjectIntegrationRequest = async (
   provider: string,
   authorizationRequest: AuthorizationRequest
-): Promise<null> => {
+): Promise<boolean | null> => {
   const res = await withInterceptors.post(
     `${url}/integration/${provider.toLowerCase()}/authorization`,
     {
@@ -367,12 +367,24 @@ export const getEmailInformation = async (
   projectId: string,
   token: string
 ): Promise<PendingProjectInfoDTO | null> => {
-  const res = await axios.get(
-    `${url}/integration/linear/${projectId}/information?token=${token}`
-  )
-  console.log(res.data)
-  if (res.status === 200) {
-    return res.data
+  // const res = await axios.get(
+  //   `${url}/integration/linear/${projectId}/information?token=${token}`
+  // )
+  // console.log(res.data)
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  // return null
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(projectId, token)
+      resolve(null)
+    }, 2000)
+  })
+  return {
+    projectName: 'Fede',
+    projectImage: '',
+    pmName: 'Tricker',
+    pmImage: ''
   }
-  return null
 }

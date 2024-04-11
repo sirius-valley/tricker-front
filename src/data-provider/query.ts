@@ -94,8 +94,9 @@ export const usePostProjectIntegrationRequest = (): {
   error: Error | null
   isPending: boolean
   isSuccess: boolean
+  data: boolean | null | undefined
 } => {
-  const { mutate, error, isPending, isSuccess } = useMutation({
+  const { mutate, error, isPending, isSuccess, data } = useMutation({
     mutationFn: async ({
       provider,
       request
@@ -106,7 +107,7 @@ export const usePostProjectIntegrationRequest = (): {
       return await ApiService.postProjectIntegrationRequest(provider, request)
     }
   })
-  return { mutate, error, isPending, isSuccess }
+  return { mutate, error, isPending, isSuccess, data }
 }
 
 export const useGetUserProjects = (): {
