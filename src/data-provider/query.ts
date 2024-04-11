@@ -303,3 +303,18 @@ export const useGetChronology = (
   })
   return { data, error, isLoading }
 }
+
+export const useDeleteProject = (): {
+  mutate: (args: { projectId: string }) => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, error, isPending, isSuccess } = useMutation({
+    mutationFn: async ({ projectId }: { projectId: string }) => {
+      await ApiService.deleteProject(projectId)
+    }
+  })
+
+  return { mutate, error, isPending, isSuccess }
+}
