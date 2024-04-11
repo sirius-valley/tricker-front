@@ -3,28 +3,27 @@ import React, { useEffect, useRef, useState } from 'react'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import { Pill } from '@components/Pill/Pill'
-import { Priority, type IssueView } from '@utils/types'
+import { type IssueDetail, Priority } from '@utils/types'
 import Subtitle from '@utils/typography/subtitle/subtitle'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
-import { useGetIssueById } from '@data-provider/query'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 
 export interface TicketDisplayProps {
-  issue: IssueView
+  issue?: IssueDetail
+  isLoading: boolean
   variant: 'Developer' | 'Project Manager'
 }
 const TicketDisplay: React.FC<TicketDisplayProps> = ({
   issue,
+  isLoading = true,
   variant
 }): JSX.Element => {
   const [showFullText, setShowFullText] = useState(false)
   const [hasOverflow, setHasOverflow] = useState(false)
 
   const textRef = useRef<HTMLDivElement>(null)
-
-  const { data, isLoading, error } = useGetIssueById(issue.id)
 
   useEffect(() => {
     setShowFullText(false)
@@ -34,57 +33,51 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
         textRef.current.offsetWidth < textRef.current.scrollWidth + 10
       setHasOverflow(isOverflowing)
     }
-  }, [data])
+  }, [issue])
 
   const toggleTextVisibility = (): void => {
     setShowFullText(!showFullText)
   }
 
   return (
-    <div className="w-fit">
-      <div className="w-full flex flex-col gap-4">
-        {isLoading && !error && !data && (
+    <div className="w-full">
+      <div className="w-full flex flex-col gap-6">
+        {isLoading && !issue && (
           <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
-            <Skeleton
-              width={70}
-              height={20}
-              containerClassName="h-[20px] w-full"
-            />
-            <Skeleton height={40} containerClassName="h-[40px] w-full" />
-            <Skeleton
-              width={120}
-              height={30}
-              containerClassName="h-[30px] w-full"
-            />
-            <Skeleton height={70} containerClassName="h-[70px] w-full" />
+            <Skeleton height={18} containerClassName="h-[18px] w-[70px]" />
+            <Skeleton height={40} containerClassName="h-[40px] w-[430px]" />
+            <Skeleton height={26} containerClassName="h-[26px] w-[130px]" />
+            <Skeleton height={100} containerClassName="h-[100px] w-full" />
           </SkeletonTheme>
         )}
       </div>
-      <div className={`w-fit flex flex-col font-inter gap-10 text-white`}>
-        {data && (
+      <div className={`w-full flex flex-col font-inter gap-10 text-white`}>
+        {issue && (
           <>
             <div className="flex flex-col gap-4">
               <div className={`flex justify-start items-start`}>
-                <Subtitle className="font-normal">[{data.name}]</Subtitle>
+                <Subtitle className="font-normal">[{issue.name}]</Subtitle>
               </div>
 
               {variant === 'Project Manager' && (
                 <div className="flex gap-2 items-center">
                   <ProfilePicture
-                    userName={data.assignee?.name || ''}
+                    userName={issue.assignee?.name || ''}
                     img={
-                      data.assignee?.profileUrl ? data.assignee.profileUrl : ''
+                      issue.assignee?.profileUrl
+                        ? issue.assignee.profileUrl
+                        : ''
                     }
                     size={'sm'}
                   />
                   <Subtitle className="font-normal">
-                    {data.assignee?.name}
+                    {issue.assignee?.name}
                   </Subtitle>
                 </div>
               )}
 
               <span className="text-[30px] font-bold font-inter">
-                {data.title}
+                {issue.title}
               </span>
               <div className="flex justify-between items-center w-full">
                 <div className="flex w-fit gap-4">
@@ -99,13 +92,13 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
                           : Priority.NO_PRIORITY
                       }
                     />
-                    {data?.storyPoints && (
+                    {issue?.storyPoints && (
                       <StoryPointsIcon
                         className="w-[26px] h-[26px]"
-                        points={data.storyPoints}
+                        points={issue.storyPoints}
                       />
                     )}
-                    {data.labels.map((label) => (
+                    {issue.labels.map((label) => (
                       <Pill key={label.id} variant="label">
                         {label.name}
                       </Pill>
@@ -130,10 +123,10 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw]}
                 >
-                  {data.description}
+                  {issue.description}
                 </Markdown>
               </div>
-              {data.description && hasOverflow && !showFullText && (
+              {issue.description && hasOverflow && !showFullText && (
                 <button
                   className="underline text-gray-300/70 hover:text-gray-300 active:text"
                   onClick={toggleTextVisibility}
@@ -141,7 +134,7 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
                   See more
                 </button>
               )}
-              {data.description && showFullText && (
+              {issue.description && showFullText && (
                 <button
                   className="underline text-gray-300/70 hover:text-gray-300 active:text"
                   onClick={toggleTextVisibility}
