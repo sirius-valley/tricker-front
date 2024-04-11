@@ -18,7 +18,9 @@ const LoginPage = (): JSX.Element => {
 
   useEffect(() => {
     if (data) {
-      navigate('/')
+      const redirectPath = localStorage.getItem('redirectUrl') || '/'
+      localStorage.removeItem('redirectPath')
+      navigate(redirectPath)
     }
   }, [data, navigate])
 

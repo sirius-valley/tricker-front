@@ -17,14 +17,6 @@ export const ROUTER = createBrowserRouter([
     element: <LoginPage />
   },
   {
-    path: '/accept',
-    element: <ConfirmationPage />
-  },
-  {
-    path: '/decline',
-    element: <ConfirmationPage decline />
-  },
-  {
     element: <LoginFlowValidation />,
     children: [
       {
@@ -77,6 +69,14 @@ export const ROUTER = createBrowserRouter([
             element: <></>
           }
         ]
+      },
+      {
+        path: '/accept',
+        element: <ConfirmationPage />
+      },
+      {
+        path: '/decline',
+        element: <ConfirmationPage decline />
       }
     ]
   }

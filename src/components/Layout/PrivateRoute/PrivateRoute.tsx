@@ -17,6 +17,10 @@ const PrivateRoute = (): JSX.Element => {
 
   useEffect(() => {
     if (error) {
+      localStorage.setItem(
+        'redirectUrl',
+        window.location.pathname + window.location.search
+      )
       navigate('/login')
       setIsAuthorized(false)
       showSnackBar('You are not authorized to access this page', 'error')
@@ -39,6 +43,10 @@ const PrivateRoute = (): JSX.Element => {
     } catch (e) {
       console.error(e, error)
       setIsAuthorized(false)
+      localStorage.setItem(
+        'redirectUrl',
+        window.location.pathname + window.location.search
+      )
       navigate('/login')
     }
     if (data && data.id !== '' && data.projectsRoleAssigned.length !== 0) {
@@ -47,9 +55,9 @@ const PrivateRoute = (): JSX.Element => {
   }, [navigate, error, showSnackBar, data, dispatch])
 
   return data && data.id === '' ? (
-    <Navigate to="/login" replace />
+    <Navigate to="/login" />
   ) : data?.projectsRoleAssigned.length === 0 ? (
-    <Navigate to="/login/role" replace />
+    <Navigate to="/login/role" />
   ) : (
     <PageWrapper isLoading={isLoading} isAuthorized={isAuthorized} />
   )
