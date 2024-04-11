@@ -291,7 +291,7 @@ export const useGetChronology = (
 export const useGetMyProjects = (
   userId: string
 ): {
-  data: MyProjectsOption[] | undefined
+  data: MyProjectsOption[] | undefined | null
   error: Error | null
   isLoading: boolean
 } => {

@@ -1,18 +1,18 @@
 import { type Meta, type StoryObj } from '@storybook/react'
-import { Select } from './MyProjectSelection'
+import { MyProjectSelect } from './MyProjectSelection'
 import { Provider } from 'react-redux'
 import { store } from '@redux/store'
 
-const meta: Meta<typeof Select> = {
+const meta: Meta<typeof MyProjectSelect> = {
   title: 'Components/MyProjectSelection',
-  component: Select,
+  component: MyProjectSelect,
   tags: ['autodocs'],
   argTypes: {}
 }
 
 export default meta
 
-type Story = StoryObj<typeof Select>
+type Story = StoryObj<typeof MyProjectSelect>
 
 export const Primary: Story = {
   tags: ['autodocs'],
@@ -48,7 +48,7 @@ export const Primary: Story = {
   },
   render: (args) => (
     <Provider store={store}>
-      <Select {...args} />
+      <MyProjectSelect {...args} />
     </Provider>
   )
 }

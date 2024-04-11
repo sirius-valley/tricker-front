@@ -1,32 +1,30 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import NoAvatarProject from '@components/NoAvatar/NoAvatarProject'
 import { type MyProjectsOption } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
 import useScreenSize from '@hooks/useScreenSize'
+import { useGetMyProjects } from '@data-provider/query'
+import { useCurrentProjectId } from '@redux/hooks'
 
-export interface MyProjectSelectProps {
-  preselectedOption: MyProjectsOption
-  options: MyProjectsOption[]
-  handleSelect: (option: MyProjectsOption) => void
-}
+export const MyProjectSelect: React.FC = () => {
+  const currentProject = useCurrentProjectId()
 
-export const Select: React.FC<MyProjectSelectProps> = ({
-  preselectedOption,
-  options,
-  handleSelect
-}): JSX.Element => {
-  const screenSize = useScreenSize()
+  const { data: options } = useGetMyProjects(currentProject) // TODO add isLoading and Error
   const [selectedProject, setSelectedProject] =
-    useState<MyProjectsOption>(preselectedOption)
+    useState<MyProjectsOption | null>(null)
 
-  const handleMyProjectSelect = useCallback(
-    (selectedProject: MyProjectsOption): void => {
-      setSelectedProject(selectedProject)
-      handleSelect(selectedProject)
-    },
-    [handleSelect]
-  )
+  const screenSize = useScreenSize()
   const isMobile = screenSize.width <= 768
+
+  useEffect(() => {
+    if (options && options.length > 0) {
+      setSelectedProject(options[0])
+    }
+  }, [options])
+
+  const handleSelect = (selectedProject: MyProjectsOption): void => {
+    setSelectedProject(selectedProject)
+  }
 
   return (
     <div
@@ -38,14 +36,14 @@ export const Select: React.FC<MyProjectSelectProps> = ({
         ></div>
       )}
       <div
-        className={`list-none ${isMobile ? 'overflow-y-auto max-h-[210px] scrollbar-hidden' : options.length > 12 ? 'h-full overflow-y-auto' : ''}`}
+        className={`list-none ${isMobile ? 'overflow-y-auto max-h-[210px] scrollbar-hidden' : options?.length > 12 ? 'h-full overflow-y-auto' : ''}`}
       >
         <div className="h-auto">
-          {options.map((option: MyProjectsOption, index: number) => (
+          {options?.map((option: MyProjectsOption, index: number) => (
             <li
               key={index}
               onClick={() => {
-                handleMyProjectSelect(option)
+                handleSelect(option)
               }}
               className={`relative cursor-pointer select-none p-4 hover:bg-primary-400 hover:bg-opacity-5 transition-colors duration-300 ${
                 selectedProject?.id === option.id && !isMobile
