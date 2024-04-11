@@ -29,7 +29,7 @@ type Story = StoryObj<typeof TicketList>
 export const DevView: Story = {
   render: () => (
     <TicketList
-      filters={[]}
+      filters={{}}
       searchedTicket={''}
       isOutOfEstimation={false}
       isProjectManager={false}
@@ -40,7 +40,7 @@ export const DevView: Story = {
 export const PMView: Story = {
   render: () => (
     <TicketList
-      filters={[]}
+      filters={{}}
       searchedTicket={''}
       isOutOfEstimation={false}
       isProjectManager={true}

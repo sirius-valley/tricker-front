@@ -2,8 +2,14 @@ import StepNavigation, {
   StepType
 } from '@components/NextBackButtons/NextBackButtons'
 import { Stepper } from '@components/Stepper/Stepper'
-import { useAppDispatch, useAppSelector, useSteps, useUser } from '@redux/hooks'
-import { setCurrentStep } from '@redux/user'
+import {
+  useAppDispatch,
+  useAppSelector,
+  useSteps,
+  useUser,
+  useApiKey
+} from '@redux/hooks'
+import { setCurrentStep, setApiKey } from '@redux/user'
 import {
   type Step,
   type MemberPreIntegrated,
@@ -28,11 +34,14 @@ import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 
 const InitialIntegrationPage = (): JSX.Element => {
   const steps: Step[] = useSteps()
+  const apiKey = useApiKey()
   const currentStep: number = useAppSelector((state) => state.user.currentStep)
   const currentUser: User = useAppSelector((state) => state.user.user)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const user = useUser()
+  const [providerKey, setProviderKey] = useState<string>(apiKey.value || '')
+  const [provider, setProvider] = useState<string>(apiKey.provider || '')
   const { showSnackBar } = useSnackBar()
 
   let stepType: StepType
@@ -43,13 +52,14 @@ const InitialIntegrationPage = (): JSX.Element => {
   } else {
     stepType = StepType.MID
   }
-
+  console.log(apiKey)
   const handleBackButton = (): void => {
     if (currentStep === 0) {
       navigate('/login/role')
     }
     if (currentStep > 0) {
       dispatch(setCurrentStep(currentStep - 1))
+      dispatch(setApiKey({ provider, value: providerKey }))
     }
   }
   const handleNextButton = (): void => {
@@ -58,8 +68,6 @@ const InitialIntegrationPage = (): JSX.Element => {
     }
   }
 
-  const [providerKey, setProviderKey] = useState<null | string>(null)
-  const [provider, setProvider] = useState<null | string>(null)
   const [selectedProject, setSelectedProject] =
     useState<ProjectPreIntegrated | null>(null)
   const [teamMembers, setTeamMembers] = useState<null | MemberPreIntegrated[]>(
@@ -69,6 +77,11 @@ const InitialIntegrationPage = (): JSX.Element => {
     useState<string>('')
 
   const screenWidth = useScreenSize().width
+
+  useEffect(() => {
+    setProvider(apiKey.provider)
+    setProviderKey(apiKey.value)
+  }, [apiKey])
 
   useEffect(() => {
     if (user.id === '') {
@@ -134,10 +147,12 @@ const InitialIntegrationPage = (): JSX.Element => {
           <Stepper currentStep={currentStep} label={steps} />
           {currentStep === 0 && (
             <ProjectAddition
+              token={providerKey}
               providers={['Linear']}
               handleToken={(key) => {
                 setProviderKey(key)
               }}
+              preselectedProvider={provider}
               handleSelectedProvider={(provider) => {
                 setProvider(provider)
               }}
@@ -199,8 +214,27 @@ const InitialIntegrationPage = (): JSX.Element => {
           }
         </NotificationBadge>
       )}
+      {screenWidth < 768 && (
+        <button
+          className="-rotate-90 top-[32px] absolute left-6 hover:bg-gray-500 rounded-full"
+          onClick={handleBackButton}
+        >
+          <Icon name="CaretUpIcon" width="32" height="32" />
+        </button>
+      )}
+
       {isSuccess && selectedProject && (
-        <ProjectMail projectName={selectedProject.name} />
+        <>
+          <div className="flex flex-col md:gap-6">
+            <ProjectMail projectName={selectedProject.name} />
+            <StepNavigation
+              currentStep={StepType.LAST}
+              onBack={handleBackButton}
+              showBackButton={screenWidth >= 768}
+              nextDisabled={true}
+            ></StepNavigation>
+          </div>
+        </>
       )}
     </WrapperPage>
   )

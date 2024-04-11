@@ -1,7 +1,7 @@
 import React from 'react'
 
 export interface SpinnerProps {
-  variant: 'primary' | 'secondary' | 'black'
+  variant: 'primary' | 'secondary' | 'black' | 'white'
   size: number
 }
 
@@ -16,6 +16,9 @@ const Spinner: React.FC<SpinnerProps> = ({ variant, size = 100 }) => {
       break
     case 'black':
       variantStyle = 'border-black'
+      break
+    case 'white':
+      variantStyle = 'border-white'
       break
   }
   return (

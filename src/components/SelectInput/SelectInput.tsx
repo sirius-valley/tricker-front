@@ -36,6 +36,7 @@ export interface SelectInputProps
   required?: boolean
   helperText?: string
   options: Array<{ value: string; label: string }>
+  preselectedOption?: { value: string; label: string }
   handleSelectedOption: (value: string) => void
 }
 
@@ -47,10 +48,14 @@ const SelectInput = ({
   required = false,
   helperText = '',
   options,
+  preselectedOption,
   handleSelectedOption
 }: SelectInputProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [selectedOption, setSelectedOption] = useState<null | string>(null)
+  const [selectedOption, setSelectedOption] = useState<{
+    value: string
+    label: string
+  } | null>(preselectedOption || null)
   const [rotateIcon, setRotateIcon] = useState<boolean>(false)
   const textColor: string =
     variant === 'error'
@@ -94,7 +99,7 @@ const SelectInput = ({
     value: string
     label: string
   }): void => {
-    setSelectedOption(option.label)
+    setSelectedOption(option)
     handleSelectedOption(option.value)
     setIsOpen(false)
     setRotateIcon(false)
@@ -103,7 +108,7 @@ const SelectInput = ({
   return (
     <div className="gap-2 flex flex-col w-full">
       {label !== '' && (
-        <div className="flex">
+        <div className="flex w-fit">
           <Body2
             className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex text-sm leading-[16.94px] font-normal`}
           >
@@ -127,7 +132,7 @@ const SelectInput = ({
           onClick={toggleOptions}
           disabled={variant === 'disabled'}
         >
-          <Body1>{selectedOption || 'Select'}</Body1>
+          <Body1>{selectedOption?.label || 'Select'}</Body1>
           {icon && (
             <div
               className={`absolute right-4 top-0 bottom-0 flex items-center transition-transform duration-300 ease-in-out ${rotateIcon ? 'transform rotate-180' : ''}`}
