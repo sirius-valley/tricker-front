@@ -1,4 +1,4 @@
-import { type Meta, type Story } from '@storybook/react'
+import { type Meta, type StoryObj } from '@storybook/react'
 import Chronology from './Chronology'
 import { MockedEvents } from './MockedEvents'
 
@@ -12,15 +12,25 @@ const meta: Meta<typeof Chronology> = {
       control: {
         type: 'object'
       }
+    },
+    isLoading: {
+      description: 'If the component should show a loading skeleton',
+      control: {
+        type: 'boolean'
+      }
     }
   }
 }
 
 export default meta
 
-const Template: Story = (args) => <Chronology {...args} />
+type Story = StoryObj<typeof Chronology>
 
-export const Primary: Story = Template.bind({})
-Primary.args = {
-  events: MockedEvents
+export const Default: Story = {
+  tags: ['autodocs'],
+  args: {
+    events: MockedEvents,
+    isLoading: false
+  },
+  render: (args) => <Chronology {...args} />
 }

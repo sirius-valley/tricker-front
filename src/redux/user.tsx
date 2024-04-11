@@ -15,6 +15,10 @@ interface InitialStateType {
   currentStep: number
   steps: Step[]
   projectName: string
+  apiKey: {
+    provider: string
+    value: string
+  }
 }
 
 export const initialState: InitialStateType = {
@@ -27,24 +31,26 @@ export const initialState: InitialStateType = {
     createdAt: new Date().toString(),
     projectsRoleAssigned: [],
     emittedUserProjectRole: [],
-    // emittedBlockerStatusModification: [],
     authoredIssues: [],
     asignedIssues: [],
     emittedIssueChangeLogs: [],
     emittedManualTimeModification: []
-    // OrganizationAdministrator: []
   },
   userRole: '',
   currentTicket: {
     id: '',
     assignee: null,
-    stage: { id: '', name: '', type: StageType.BACKLOG },
+    stage: {
+      id: '',
+      name: '',
+      type: StageType.BACKLOG,
+      position: 0,
+      color: ''
+    },
     name: '',
     title: '',
-    description: '',
     priority: Priority.NO_PRIORITY,
     storyPoints: 0,
-    labels: [],
     isBlocked: false,
     isTracking: false
   },
@@ -55,7 +61,11 @@ export const initialState: InitialStateType = {
     { label: 'Project Selection' },
     { label: 'Team Members' }
   ],
-  projectName: ''
+  projectName: '',
+  apiKey: {
+    provider: '',
+    value: ''
+  }
 }
 
 const userSlice = createSlice({
@@ -79,6 +89,12 @@ const userSlice = createSlice({
     },
     setProjectName: (state, action: PayloadAction<string>) => {
       state.projectName = action.payload
+    },
+    setApiKey: (
+      state,
+      action: PayloadAction<{ provider: string; value: string }>
+    ) => {
+      state.apiKey = action.payload
     }
   }
 })
@@ -89,6 +105,7 @@ export const {
   setCurrentTicket,
   setCurrentProjectId,
   setCurrentStep,
-  setProjectName
+  setProjectName,
+  setApiKey
 } = userSlice.actions
 export default userSlice.reducer

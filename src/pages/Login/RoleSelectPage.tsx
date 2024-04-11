@@ -21,6 +21,7 @@ const RoleSelectPage = (): JSX.Element => {
   }, [data, error, navigate])
 
   const user = useUser()
+
   dispatch(setCurrentStep(0))
 
   useEffect(() => {
@@ -49,7 +50,7 @@ const RoleSelectPage = (): JSX.Element => {
     <WrapperPage>
       {useScreenSize().width < 768 && (
         <button onClick={handleLogoutClick} className="text-white">
-          <div className="-rotate-90 top-[2px] absolute left-6 hover:bg-gray-500 rounded-full">
+          <div className="-rotate-90 top-[32px] absolute left-6 hover:bg-gray-500 rounded-full">
             <Icon name="CaretUpIcon" width="32" height="32" />
           </div>
         </button>

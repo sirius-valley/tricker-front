@@ -20,3 +20,5 @@ export const useCurrentProjectId = (): string =>
 export const useUserRole = (): string =>
   useAppSelector((state) => state.user.userRole)
 export const useUser = (): User => useAppSelector((state) => state.user.user)
+export const useApiKey = (): { provider: string; value: string } =>
+  useAppSelector((state) => state.user.apiKey)

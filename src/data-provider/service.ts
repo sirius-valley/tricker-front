@@ -11,11 +11,12 @@ import type {
   ModifyTimeData,
   IssueChronologyEventDTO,
   IssueChronologyEvent,
+  DevProjectFiltersDTO,
+  PMProjectFiltersDTO,
   PendingProjectInfoDTO
 } from '@utils/types'
 import { getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
-import { mockedTicketDetail } from '@components/TicketDisplay/MockedTicketDetail'
 import { setUpAxiosInterceptors } from './AxiosInterceptor'
 
 const url: string = config.apiUrl || 'http://localhost:8080/api'
@@ -148,12 +149,27 @@ export const getIssuesFilteredAndPaginated = async (
   isProjectManager: boolean,
   userId: string,
   projectId: string,
-  filters?: OptionalIssueFilters
+  filters: OptionalIssueFilters
 ): Promise<IssueView[]> => {
   const role = isProjectManager ? 'pm' : 'dev'
   const res = await withInterceptors.post(
     `${url}/issue/${role}/${userId}/project/${projectId}`,
-    filters
+    {
+      stageIds:
+        filters.stageIds && filters.stageIds.length > 0
+          ? filters.stageIds
+          : undefined,
+      priorities:
+        filters.priorities && filters.priorities.length > 0
+          ? filters.priorities
+          : undefined,
+      assigneeIds:
+        filters.assigneeIds && filters.assigneeIds.length > 0
+          ? filters.assigneeIds
+          : undefined,
+      isOutOfEstimation: filters.isOutOfEstimation === true ? true : undefined,
+      cursor: filters.cursor
+    }
   )
   if (res.status === 200) {
     return res.data
@@ -161,10 +177,14 @@ export const getIssuesFilteredAndPaginated = async (
   return []
 }
 
-export const getIssueById = async () // ticketId: string
-: Promise<IssueDetail | null> => {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  return mockedTicketDetail
+export const getIssueById = async (
+  issueId: string
+): Promise<IssueDetail | null> => {
+  const res = await withInterceptors.get(`${url}/issue/${issueId}`)
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
 }
 
 export const postTimerAction = async (
@@ -214,6 +234,19 @@ export const getTicketElapsedTime = async (
   ticketId: string
 ): Promise<{ workedTime: number } | null> => {
   const res = await withInterceptors.get(`${url}/issue/${ticketId}/worked-time`)
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const getFilters = async (
+  projectId: string,
+  userRole: 'pm' | 'dev'
+): Promise<DevProjectFiltersDTO | PMProjectFiltersDTO | null> => {
+  const res = await withInterceptors.get(
+    `${url}/projects/${projectId}/filters/${userRole}`
+  )
   if (res.status === 200) {
     return res.data
   }
@@ -277,6 +310,57 @@ export const getChronology = async (
   //     date: new Date()
   //   }
   // ]
+}
+
+export const refreshProject = async (
+  projectId: string,
+  apiToken: string
+): Promise<Date | null> => {
+  // const res = await withInterceptors.post(
+  //   `${url}/project/${projectId}/synchronize`,
+  //   { apiToken }
+  // )
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  // return null
+  return await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(projectId, apiToken)
+      resolve(new Date())
+    }, 2000)
+  })
+}
+
+export const deleteProject = async (projectId: string): Promise<void> => {
+  // const res = await withInterceptors.delete(`${url}/project/${projectId}`)
+  // if (res.status === 204) {
+  //   return
+  // }
+
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(projectId)
+      resolve(null)
+    }, 2000)
+  })
+}
+
+export const removeTeamMember = async (
+  projectId: string,
+  userId: string
+): Promise<void> => {
+  // const res = await withInterceptors.delete(`${url}/project/${projectId}/member/${userId}`)
+  // if (res.status === 204) {
+  //   return
+  // }
+
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(projectId, userId)
+      resolve(null)
+    }, 2000)
+  })
 }
 
 export const getEmailInformation = async (

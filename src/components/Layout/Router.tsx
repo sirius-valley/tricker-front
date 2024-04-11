@@ -55,10 +55,6 @@ export const ROUTER = createBrowserRouter([
             element: <RoleValidation />,
             children: [
               {
-                path: '/projects',
-                element: <></>
-              },
-              {
                 path: '/my-team',
                 element: <TicketsSection myTeam />
               }
@@ -74,6 +70,10 @@ export const ROUTER = createBrowserRouter([
           },
           {
             path: '/profile',
+            element: <></>
+          },
+          {
+            path: '/projects',
             element: <></>
           }
         ]
