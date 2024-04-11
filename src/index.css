@@ -20,6 +20,7 @@ ul {
 
 p img{ /* Images in Markdown */
     max-width: 500px;
+    width: 100%;
     height: auto;
     padding: 1rem 0;
 }
