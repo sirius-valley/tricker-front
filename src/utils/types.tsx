@@ -119,6 +119,7 @@ export interface IssueView {
 export interface IssueDetail extends IssueView {
   description: string
   labels: Label[]
+  chronology: IssueChronologyEventDTO[]
 }
 
 export interface IssueChronologyEvent {
