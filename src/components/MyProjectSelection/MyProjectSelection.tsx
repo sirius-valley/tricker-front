@@ -33,7 +33,7 @@ export const Select: React.FC<MyProjectSelectProps> = ({
       className={`relative bg-gray-500 rounded-bl-lg ${isMobile ? 'md:w-[345px] md:h-[172px] rounded-lg' : 'w-[466px] h-[768px]'}`}
     >
       <div
-        className={`absolute z-0 bottom-0 left-0 w-full h-[131px] bg-gradient-to-b from-gray-500 via-gray-600 to-gray-600 ${isMobile ? 'z-0 bg-gray-500 rounded-lg' : 'rounded-bl-lg'}`}
+        className={`absolute z-0 bottom-0 left-0 w-[calc(100% - (<scrollbar width>))] h-[131px] bg-gradient-to-b from-gray-500 via-gray-600/50 to-gray-700/50 ${isMobile ? 'z-0 rounded-lg' : 'rounded-bl-lg'}`}
       ></div>
       <div
         className={`list-none ${isMobile ? 'overflow-y-auto max-h-[210px] scrollbar-hidden' : options.length > 12 ? 'h-[calc(100%-131px)] overflow-y-auto' : ''}`}
