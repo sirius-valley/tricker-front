@@ -5,23 +5,19 @@ import Body2 from '@utils/typography/body2/body2'
 import Body1 from '@utils/typography/body1/body1'
 import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import useScreenSize from '@hooks/useScreenSize'
-import { useGetChronology } from '@data-provider/query'
 import { useCurrentTicket } from '@redux/hooks'
-import NotificationBadge from '@components/NotificationBadge/NotificationBadge'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import { type IssueChronologyEvent } from '@utils/types'
 
-const Chronology: React.FC = () => {
+interface ChronologyProps {
+  isLoading: boolean
+  events: IssueChronologyEvent[]
+}
+
+const Chronology: React.FC<ChronologyProps> = ({ events, isLoading }) => {
   const screen = useScreenSize()
   const currentTicket = useCurrentTicket()
-
-  const { data, isLoading, error } = useGetChronology(currentTicket?.id)
-
-  data?.forEach((event) => {
-    event.date = new Date(event.date)
-  })
-
-  data?.sort((a, b) => a.date.getTime() - b.date.getTime())
 
   return (
     <div className="flex flex-col gap-3 h-full text-white w-full max-h-full">
@@ -38,17 +34,12 @@ const Chronology: React.FC = () => {
             </SkeletonTheme>
           </div>
         ))}
-      {error && (
-        <NotificationBadge variant="error" className="w-fit items-center">
-          We had a problem loading the chronology, please try again later.
-        </NotificationBadge>
-      )}
-      {data && (
+      {events?.length !== 0 && !isLoading && (
         <div className="flex flex-col pr-6 h-full">
-          {data?.map((event, index) => (
+          {events?.map((event, index) => (
             <div
               key={index}
-              className={`flex min-h-fit z-20 ${data.length === index + 1 ? 'h-full overflow-hidden' : ''} ${index === data.length - 1 ? 'min-h-[60px]' : ''}`}
+              className={`flex min-h-fit z-20 ${events.length === index + 1 ? 'h-full overflow-hidden' : ''} ${index === events.length - 1 ? 'min-h-[60px]' : ''}`}
             >
               <div
                 className={`flex w-[1px] h-full rounded-full ${event.isBlocker ? 'bg-error-500' : 'bg-primary-400'} relative left-[73px] top-4 z-10`}
@@ -57,7 +48,7 @@ const Chronology: React.FC = () => {
                 <div className="flex flex-col items-end">
                   <HelperText className="min-w-14 pt-[2px] flex flex-col items-end">
                     {new Date(event.date).getDate() !==
-                      new Date(data[index - 1]?.date).getDate() &&
+                      new Date(events[index - 1]?.date).getDate() &&
                       event.date.getDate().toLocaleString('en-US', {
                         minimumIntegerDigits: 2
                       }) +
