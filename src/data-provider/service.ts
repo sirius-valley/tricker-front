@@ -367,24 +367,23 @@ export const getEmailInformation = async (
   projectId: string,
   token: string
 ): Promise<PendingProjectInfoDTO | null> => {
-  // const res = await axios.get(
-  //   `${url}/integration/linear/${projectId}/information?token=${token}`
-  // )
-  // console.log(res.data)
-  // if (res.status === 200) {
-  //   return res.data
-  // }
-  // return null
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      console.log(projectId, token)
-      resolve(null)
-    }, 2000)
-  })
-  return {
-    projectName: 'Fede',
-    projectImage: '',
-    pmName: 'Tricker',
-    pmImage: ''
+  const res = await withInterceptors.get(
+    `${url}/integration/linear/${projectId}/information?token=${token}`
+  )
+  if (res.status === 200) {
+    return res.data
   }
+  return null
+  // await new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     console.log(projectId, token)
+  //     resolve(null)
+  //   }, 2000)
+  // })
+  // return {
+  //   projectName: 'Fede',
+  //   projectImage: '',
+  //   pmName: 'Tricker',
+  //   pmImage: ''
+  // }
 }

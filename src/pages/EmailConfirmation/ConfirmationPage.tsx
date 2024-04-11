@@ -58,7 +58,7 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
               <div
                 className={`w-20 h-20 rounded-[40px] bg-primary-200 flex items-center justify-center text-primary-700 p-2`}
               >
-                <Body1 className="text-[36px] font-medium leading-[43.57px]">
+                <Body1 className="text-4xl font-medium leading-[43.57px]">
                   {data.pmName
                     .split(' ')
                     .map((name) => name.charAt(0).toUpperCase())
@@ -77,7 +77,7 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
               <div
                 className={`w-20 h-20 rounded-[40px] bg-primary-200 flex items-center justify-center text-primary-700 p-2`}
               >
-                <Body1 className="text-[36px] font-medium leading-[43.57px]">
+                <Body1 className="text-4xl font-medium leading-[43.57px]">
                   {data.projectName
                     .split(' ')
                     .map((name) => name.charAt(0).toUpperCase())
@@ -91,7 +91,7 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
             &apos;s request to add {data.projectName} to Tricker
           </H2>
           <Body1 className="md:text-[22px] leading-[26.63px] text-center text-gray-300 font-medium">
-            We&apos;ll notify her {!decline && 'the next steps'} via email
+            We&apos;ll notify them {!decline && 'the next steps'} via email
           </Body1>
         </div>
       </div>
