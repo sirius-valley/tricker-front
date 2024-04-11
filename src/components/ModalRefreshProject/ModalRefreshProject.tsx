@@ -31,26 +31,20 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
     if (error) {
       showSnackBar(error.message, 'error')
     }
-  }, [error])
-
-  useEffect(() => {
+    if (!isPending) {
+      onClose()
+      setProviderToken('')
+    }
     if (isSuccess) {
       showSnackBar('The project has been refreshed successfully', 'success')
     }
-  }, [isSuccess])
+  }, [error, isPending, isSuccess])
 
   const handleRefresh = (): void => {
     if (!isPending) {
       mutate({ projectId, apiToken: providerToken })
     }
   }
-
-  useEffect(() => {
-    if (!isPending) {
-      onClose()
-      setProviderToken('')
-    }
-  }, [isPending])
 
   return (
     <>
