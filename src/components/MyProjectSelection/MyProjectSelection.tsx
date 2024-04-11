@@ -32,11 +32,13 @@ export const Select: React.FC<MyProjectSelectProps> = ({
     <div
       className={`relative bg-gray-500 rounded-bl-lg ${isMobile ? 'md:w-[345px] md:h-[172px] rounded-lg' : 'w-[466px] h-[768px]'}`}
     >
+      {!isMobile && (
+        <div
+          className={`absolute bottom-0 left-0 w-[calc(100% - (<scrollbar width>))] h-[131px] bg-gradient-to-b from-gray-500 via-gray-600/50 to-gray-700/50 rounded-bl-lg`}
+        ></div>
+      )}
       <div
-        className={`absolute z-0 bottom-0 left-0 w-[calc(100% - (<scrollbar width>))] h-[131px] bg-gradient-to-b from-gray-500 via-gray-600/50 to-gray-700/50 ${isMobile ? 'z-0 rounded-lg' : 'rounded-bl-lg'}`}
-      ></div>
-      <div
-        className={`list-none ${isMobile ? 'overflow-y-auto max-h-[210px] scrollbar-hidden' : options.length > 12 ? 'h-[calc(100%-131px)] overflow-y-auto' : ''}`}
+        className={`list-none ${isMobile ? 'overflow-y-auto max-h-[210px] scrollbar-hidden' : options.length > 12 ? 'h-full overflow-y-auto' : ''}`}
       >
         <div className="h-auto">
           {options.map((option: MyProjectsOption, index: number) => (
@@ -48,7 +50,7 @@ export const Select: React.FC<MyProjectSelectProps> = ({
               className={`relative cursor-pointer select-none p-4 hover:bg-primary-400 hover:bg-opacity-5 transition-colors duration-300 ${
                 selectedProject?.id === option.id && !isMobile
                   ? 'bg-primary-400 bg-opacity-5 border-l-2 border-primary-400'
-                  : 'border-l-2 border-transparent'
+                  : ''
               }`}
             >
               <div className="flex items-center gap-2">
