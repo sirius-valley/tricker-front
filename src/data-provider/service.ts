@@ -387,3 +387,28 @@ export const getEmailInformation = async (
   //   pmImage: ''
   // }
 }
+export const acceptOrDeclineEmail = async (
+  projectId: string,
+  token: string,
+  decline: boolean
+): Promise<PendingProjectInfoDTO | null> => {
+  const res = await withInterceptors.get(
+    `${url}/integration/linear/${projectId}/${decline ? 'decline' : 'accept'}?token=${token}`
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+  // await new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     console.log(projectId, token)
+  //     resolve(null)
+  //   }, 2000)
+  // })
+  // return {
+  //   projectName: 'Fede',
+  //   projectImage: '',
+  //   pmName: 'Tricker',
+  //   pmImage: ''
+  // }
+}

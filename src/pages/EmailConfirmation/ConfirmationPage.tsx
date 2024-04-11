@@ -1,11 +1,15 @@
 import Icon from '@components/Icon/Icon'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import WrapperPage from '@components/Wrapper/WrapperPage'
-import { useGetEmailInformation } from '@data-provider/query'
+import { handleErrorMessage } from '@data-provider/AxiosError'
+import {
+  useAcceptOrDeclineEmail,
+  useGetEmailInformation
+} from '@data-provider/query'
 import LoadingPage from '@pages/Loader/LoadingPage'
 import Body1 from '@utils/typography/body1/body1'
 import H2 from '@utils/typography/h2/h2'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { Navigate, useSearchParams } from 'react-router-dom'
 
 interface ConfirmationPageProps {
@@ -16,6 +20,7 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
   decline = false
 }: ConfirmationPageProps): JSX.Element => {
   const { showSnackBar } = useSnackBar()
+  const memoizedShowSnackBar = useCallback(showSnackBar, [])
   const [searchParams] = useSearchParams()
 
   const projectId = searchParams.get('projectId')
@@ -25,17 +30,22 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
     projectId || '',
     token || ''
   )
+  const {
+    data: confirmation,
+    isLoading: isConfirmationLoading,
+    error: confirmationError
+  } = useAcceptOrDeclineEmail(projectId || '', token || '', decline)
+
+  console.log(confirmation, isConfirmationLoading)
 
   useEffect(() => {
     if (error) {
-      showSnackBar(
-        error.message === 'Request failed with status code 401'
-          ? 'Your token to accept/decline the project has expired. Please contact support.'
-          : error.message,
-        'error'
-      )
+      memoizedShowSnackBar(handleErrorMessage(error), 'error')
     }
-  }, [error, showSnackBar])
+    if (confirmationError) {
+      memoizedShowSnackBar(handleErrorMessage(confirmationError), 'error')
+    }
+  }, [error, confirmationError, memoizedShowSnackBar])
 
   return isLoading ? (
     <div className="bg-gray-700 w-screen h-screen">

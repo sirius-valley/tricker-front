@@ -379,3 +379,21 @@ export const useGetEmailInformation = (
   })
   return { data, error, isLoading }
 }
+
+export const useAcceptOrDeclineEmail = (
+  projectId: string,
+  token: string,
+  decline: boolean
+): {
+  data: PendingProjectInfoDTO | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['acceptOrDeclineEmail', projectId, token, decline],
+    queryFn: async () =>
+      await ApiService.acceptOrDeclineEmail(projectId, token, decline),
+    retry: false
+  })
+  return { data, error, isLoading }
+}
