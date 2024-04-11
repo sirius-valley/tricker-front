@@ -114,12 +114,14 @@ export const TeamMemberManagement: React.FC<TeamMemberManagementProps> = ({
                               userName={member.name}
                             />
                           ) : (
-                            <NoAvatarProject
-                              text={member.name}
-                              width={32}
-                              height={32}
-                              className="rounded-full"
-                            />
+                            <div className="min-w-5 min-h-5">
+                              <NoAvatarProject
+                                text={member.name}
+                                width={32}
+                                height={32}
+                                className="rounded-full"
+                              />
+                            </div>
                           )}
                           <div className="flex flex-col w-full gap-1">
                             <Subtitle className="text-sm">
