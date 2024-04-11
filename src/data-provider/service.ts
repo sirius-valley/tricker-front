@@ -10,7 +10,8 @@ import type {
   IssueDetail,
   ModifyTimeData,
   IssueChronologyEventDTO,
-  IssueChronologyEvent
+  IssueChronologyEvent,
+  MyProjectsOption
 } from '@utils/types'
 import { getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -217,6 +218,16 @@ export const getTicketElapsedTime = async (
     return res.data
   }
   return null
+}
+
+export const getMyProjects = async (
+  userId: string
+): Promise<MyProjectsOption[]> => {
+  const res = await withInterceptors.get(`${url}/projects/${userId}/projects`)
+  if (res.status === 200) {
+    return res.data
+  }
+  return []
 }
 
 export const getChronology = async (
