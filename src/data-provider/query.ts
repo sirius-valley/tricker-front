@@ -374,7 +374,8 @@ export const useGetEmailInformation = (
 } => {
   const { data, error, isLoading } = useQuery({
     queryKey: ['getEmailInformation', projectId, token],
-    queryFn: async () => await ApiService.getEmailInformation(projectId, token)
+    queryFn: async () => await ApiService.getEmailInformation(projectId, token),
+    retry: false
   })
   return { data, error, isLoading }
 }
