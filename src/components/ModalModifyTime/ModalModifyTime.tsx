@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import Input from '@components/Input/Input'
 import SelectInput from '@components/SelectInput/SelectInput'
 import Icon from '@components/Icon/Icon'
 import Body2 from '@utils/typography/body2/body2'
@@ -10,6 +9,7 @@ import { usePostModifyTime } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Spinner from '@components/Spinner/Spinner'
 import { useCurrentTicket } from '@redux/hooks'
+import DatePicker from '@components/DatePicker/DatePicker'
 
 interface ModalModifyTimeProps {
   onClose: () => void
@@ -24,8 +24,7 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
 }) => {
   const [selectedTime, setSelectedTime] = useState<number>(0)
   const [selectedReason, setSelectedReason] = useState<string>('')
-  const [inputDate, setInputDate] = useState<string>('')
-  const [isDateValid, setIsDateValid] = useState<boolean>(true)
+  const [inputDate, setInputDate] = useState<Date>(new Date())
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
 
   const currentTicket = useCurrentTicket()
@@ -75,54 +74,23 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
     setSelectedReason(reason)
   }
 
-  const handleInputDate = (value: string): void => {
-    const currentDate = new Date()
-    const currentYear = currentDate.getFullYear()
-
-    const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/ // DD/MM/YYYY
-    if (regex.test(value)) {
-      const [, , yearString] = value.split('/')
-      const year = parseInt(yearString, 10)
-
-      if (year === currentYear) {
-        const [day, month] = value.split('/')
-        let formattedDate = value
-
-        if (day.length === 2 && !value.includes('/')) {
-          formattedDate = `${day}/`
-        } else if (month.length === 2 && value.indexOf('/') === 2) {
-          formattedDate = `${value}`
-        }
-
-        setInputDate(formattedDate)
-
-        const inputDate = new Date(
-          year,
-          parseInt(month, 10) - 1,
-          parseInt(day, 10)
-        )
-        const maxDaysInMonth = new Date(year, parseInt(month, 10), 0).getDate()
-
-        if (inputDate <= currentDate && parseInt(day, 10) <= maxDaysInMonth) {
-          setIsDateValid(true)
-          return
-        }
-      }
-    }
-    setIsDateValid(false)
+  const handleSelectedDate = (date: Date): void => {
+    setInputDate(date)
   }
 
   const memoizedShowSnackBar = useCallback(showSnackBar, [showSnackBar])
 
   const setToInitialValues = (): void => {
-    setInputDate('')
     setSelectedTime(0)
     setSelectedReason('')
-    setIsDateValid(true)
   }
 
   useEffect(() => {
-    if (selectedTime === 0 || selectedReason === '' || inputDate === '') {
+    setToInitialValues()
+  }, [show])
+
+  useEffect(() => {
+    if (selectedTime === 0 || selectedReason === '' || inputDate === null) {
       setButtonDisabled(true)
     } else {
       setButtonDisabled(false)
@@ -152,17 +120,12 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
     inputDate
   ])
 
-  const parseDateToISOString = (date: string): string => {
-    const [day, month, year] = date.split('/')
-    return `${year}-${month}-${day}T12:00:00Z`
-  }
-
   const handleSubmitTime = (): void => {
-    if (selectedTime && isDateValid) {
+    if (selectedTime && selectedReason) {
       const data: ModifyTimeData = {
         timeAmount: selectedTime,
         reason: selectedReason,
-        date: parseDateToISOString(inputDate)
+        date: inputDate.toISOString()
       }
 
       mutate({ ticketId: currentTicket.id, data, variant })
@@ -215,17 +178,11 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
                   required
                 />
               </div>
-              <Input
+              <DatePicker
                 label="Date"
                 required
-                handleValue={handleInputDate}
-                placeholder="DD/MM/YYYY"
-                variant={isDateValid ? 'default' : 'error'}
-                helpertext={
-                  isDateValid
-                    ? ''
-                    : 'Please enter a valid date from the current year'
-                }
+                handleSelectedDate={handleSelectedDate}
+                toDate={new Date()}
               />
               <SelectInput
                 handleSelectedOption={handleSelectedReason}

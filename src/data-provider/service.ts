@@ -10,7 +10,9 @@ import type {
   IssueDetail,
   ModifyTimeData,
   IssueChronologyEventDTO,
-  IssueChronologyEvent
+  IssueChronologyEvent,
+  DevProjectFiltersDTO,
+  PMProjectFiltersDTO
 } from '@utils/types'
 import { getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -147,12 +149,27 @@ export const getIssuesFilteredAndPaginated = async (
   isProjectManager: boolean,
   userId: string,
   projectId: string,
-  filters?: OptionalIssueFilters
+  filters: OptionalIssueFilters
 ): Promise<IssueView[]> => {
   const role = isProjectManager ? 'pm' : 'dev'
   const res = await withInterceptors.post(
     `${url}/issue/${role}/${userId}/project/${projectId}`,
-    filters
+    {
+      stageIds:
+        filters.stageIds && filters.stageIds.length > 0
+          ? filters.stageIds
+          : undefined,
+      priorities:
+        filters.priorities && filters.priorities.length > 0
+          ? filters.priorities
+          : undefined,
+      assigneeIds:
+        filters.assigneeIds && filters.assigneeIds.length > 0
+          ? filters.assigneeIds
+          : undefined,
+      isOutOfEstimation: filters.isOutOfEstimation === true ? true : undefined,
+      cursor: filters.cursor
+    }
   )
   if (res.status === 200) {
     return res.data
@@ -219,6 +236,19 @@ export const getTicketElapsedTime = async (
   return null
 }
 
+export const getFilters = async (
+  projectId: string,
+  userRole: 'pm' | 'dev'
+): Promise<DevProjectFiltersDTO | PMProjectFiltersDTO | null> => {
+  const res = await withInterceptors.get(
+    `${url}/projects/${projectId}/filters/${userRole}`
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
 export const getChronology = async (
   issueId: string
 ): Promise<IssueChronologyEvent[]> => {
@@ -276,4 +306,55 @@ export const getChronology = async (
   //     date: new Date()
   //   }
   // ]
+}
+
+export const refreshProject = async (
+  projectId: string,
+  apiToken: string
+): Promise<Date | null> => {
+  // const res = await withInterceptors.post(
+  //   `${url}/project/${projectId}/synchronize`,
+  //   { apiToken }
+  // )
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  // return null
+  return await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(projectId, apiToken)
+      resolve(new Date())
+    }, 2000)
+  })
+}
+
+export const deleteProject = async (projectId: string): Promise<void> => {
+  // const res = await withInterceptors.delete(`${url}/project/${projectId}`)
+  // if (res.status === 204) {
+  //   return
+  // }
+
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(projectId)
+      resolve(null)
+    }, 2000)
+  })
+}
+
+export const removeTeamMember = async (
+  projectId: string,
+  userId: string
+): Promise<void> => {
+  // const res = await withInterceptors.delete(`${url}/project/${projectId}/member/${userId}`)
+  // if (res.status === 204) {
+  //   return
+  // }
+
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(projectId, userId)
+      resolve(null)
+    }, 2000)
+  })
 }

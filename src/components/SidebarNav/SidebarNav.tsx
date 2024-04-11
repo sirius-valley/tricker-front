@@ -94,6 +94,20 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
                 )}
               </NavLink>
             )}
+
+            <NavLink to="/projects">
+              {({ isActive }) => (
+                <NavbarItem
+                  title="Projects"
+                  icon={<Icon name="FolderIcon" width="20" height="20" />}
+                  variant={isActive ? 'selected' : 'default'}
+                  showText={screen.width > 1024}
+                >
+                  {'My projects'}
+                </NavbarItem>
+              )}
+            </NavLink>
+
             <NavLink to="/stats">
               {({ isActive }) => (
                 <NavbarItem
