@@ -45,7 +45,7 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
         {isLoading && !issue && (
           <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
             <Skeleton height={18} containerClassName="h-[18px] w-[70px]" />
-            <Skeleton height={40} containerClassName="h-[40px] w-[430px]" />
+            <Skeleton height={40} containerClassName={`h-[40px] w-full`} />
             <Skeleton height={26} containerClassName="h-[26px] w-[130px]" />
             <Skeleton height={100} containerClassName="h-[100px] w-full" />
           </SkeletonTheme>
@@ -109,7 +109,7 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
             </div>
             <div className="flex flex-col gap-2 items-start">
               <div
-                className=" text-ellipsis overflow-hidden "
+                className="text-ellipsis overflow-hidden w-full"
                 ref={textRef}
                 style={{
                   display: '-webkit-box',
