@@ -185,7 +185,7 @@ const InitialIntegrationPage = (): JSX.Element => {
                 (currentStep === 0 && (!providerKey || !provider)) ||
                 (currentStep === 1 && !selectedProject)
               }
-            ></StepNavigation>
+            />
             {stepType === StepType.LAST && (
               <Button
                 variant="filled"
@@ -209,9 +209,8 @@ const InitialIntegrationPage = (): JSX.Element => {
           variant="error"
           className="md:text-[15px] text-[13px]"
         >
-          {
-            'Error while trying to make the request. Please try again later or contact support'
-          }
+          Error while trying to make the request. Please try again later or
+          contact support
         </NotificationBadge>
       )}
       {screenWidth < 768 && !isPending && !isSuccess && (
