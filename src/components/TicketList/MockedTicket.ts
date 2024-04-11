@@ -1,6 +1,7 @@
-import { Priority, StageType } from '@utils/types'
+import { MockedEvents } from '@components/Chronology/MockedEvents'
+import { type IssueDetail, Priority, StageType } from '@utils/types'
 
-export const mockedTicket = {
+export const mockedTicket: IssueDetail = {
   id: '1',
   assignee: {
     id: '1',
@@ -21,5 +22,6 @@ export const mockedTicket = {
   labels: [],
   isBlocked: true,
   isTracking: false,
-  description: 'Description 1'
+  description: 'Description 1',
+  chronology: MockedEvents
 }
