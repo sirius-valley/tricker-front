@@ -30,26 +30,20 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({
     if (error) {
       showSnackBar(error.message, 'error')
     }
-  }, [error])
-
-  useEffect(() => {
     if (isSuccess) {
       showSnackBar('The project has been deleted successfully', 'success')
     }
-  }, [isSuccess])
+    if (!isPending) {
+      onClose()
+      setInputValue('')
+    }
+  }, [error, isSuccess, isPending])
 
   const handleDeleteProject = (): void => {
     if (!isPending) {
       mutate({ projectId })
     }
   }
-
-  useEffect(() => {
-    if (!isPending) {
-      onClose()
-      setInputValue('')
-    }
-  }, [isPending])
 
   return (
     <>
