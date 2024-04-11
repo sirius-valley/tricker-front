@@ -214,7 +214,7 @@ const InitialIntegrationPage = (): JSX.Element => {
           }
         </NotificationBadge>
       )}
-      {screenWidth < 768 && (
+      {screenWidth < 768 && !isPending && !isSuccess && (
         <button
           className="-rotate-90 top-[32px] absolute left-6 hover:bg-gray-500 rounded-full"
           onClick={handleBackButton}
@@ -230,12 +230,24 @@ const InitialIntegrationPage = (): JSX.Element => {
               isAdmin={data === true}
               projectName={selectedProject.name}
             />
-            <StepNavigation
-              currentStep={StepType.LAST}
-              onBack={handleBackButton}
-              showBackButton={screenWidth >= 768}
-              nextDisabled={true}
-            ></StepNavigation>
+            {screenWidth < 768 ? (
+              <button
+                className="-rotate-90 top-[32px] absolute left-6 hover:bg-gray-500 rounded-full"
+                onClick={() => {
+                  navigate('/login/role')
+                }}
+              >
+                <Icon name="CaretUpIcon" width="32" height="32" />
+              </button>
+            ) : (
+              <StepNavigation
+                currentStep={StepType.LAST}
+                onBack={() => {
+                  navigate('/login/role')
+                }}
+                showBackButton={screenWidth >= 768}
+              />
+            )}
           </div>
         </>
       )}
