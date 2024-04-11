@@ -11,7 +11,8 @@ import type {
   IssueView,
   IssueDetail,
   ModifyTimeData,
-  IssueChronologyEvent
+  IssueChronologyEvent,
+  MyProjectsOption
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -283,6 +284,20 @@ export const useGetChronology = (
   const { data, error, isLoading } = useQuery({
     queryKey: ['getChronology', issueId],
     queryFn: async () => await ApiService.getChronology(issueId)
+  })
+  return { data, error, isLoading }
+}
+
+export const useGetMyProjects = (
+  userId: string
+): {
+  data: MyProjectsOption[] | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getMyProjects', userId],
+    queryFn: async () => await ApiService.getMyProjects(userId)
   })
   return { data, error, isLoading }
 }
