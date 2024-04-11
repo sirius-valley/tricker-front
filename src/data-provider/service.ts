@@ -308,6 +308,26 @@ export const getChronology = async (
   // ]
 }
 
+export const refreshProject = async (
+  projectId: string,
+  apiToken: string
+): Promise<Date | null> => {
+  // const res = await withInterceptors.post(
+  //   `${url}/project/${projectId}/synchronize`,
+  //   { apiToken }
+  // )
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  // return null
+  return await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(projectId, apiToken)
+      resolve(new Date())
+    }, 2000)
+  })
+}
+
 export const deleteProject = async (projectId: string): Promise<void> => {
   // const res = await withInterceptors.delete(`${url}/project/${projectId}`)
   // if (res.status === 204) {
