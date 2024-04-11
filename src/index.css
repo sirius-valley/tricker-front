@@ -25,6 +25,13 @@ p img{ /* Images in Markdown */
     padding: 1rem 0;
 }
 
+pre { /* Code in Markdown */
+    width: 100%;
+    text-wrap: wrap;
+    height: auto;
+    padding: 1rem 0;
+}
+
 ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
