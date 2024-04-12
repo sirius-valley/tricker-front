@@ -89,6 +89,7 @@ const ModalAddNewProject: React.FC<ModalAddNewProjectProps> = ({
       onClose={() => {
         if (step === 0) {
           onClose()
+          setApiKey({ provider: '', value: '' })
         } else {
           setShowModalWarning(true)
         }
@@ -103,12 +104,14 @@ const ModalAddNewProject: React.FC<ModalAddNewProjectProps> = ({
           setShowModalWarning(false)
           setStep(0)
           onClose()
+          setApiKey({ provider: '', value: '' })
         }}
         title="Unsaved changes"
         body="You haven’t finished integrating this project to tricker. Are you sure you want to leave without finishing?"
       />
       {step === 0 && (
         <SelectProvider
+          defaultApiKey={apiKey}
           handleContinue={(data, provider, key) => {
             setStep(1)
             setProjects(data)
@@ -116,6 +119,7 @@ const ModalAddNewProject: React.FC<ModalAddNewProjectProps> = ({
           }}
           onClose={() => {
             onClose()
+            setApiKey({ provider: '', value: '' })
           }}
         />
       )}
