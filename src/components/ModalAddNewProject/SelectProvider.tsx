@@ -10,6 +10,7 @@ import Spinner from '@components/Spinner/Spinner'
 import { type ProjectPreIntegrated } from '@utils/types'
 
 interface SelectProviderProps {
+  defaultApiKey: { provider: string; value: string }
   handleContinue: (
     data: ProjectPreIntegrated[],
     provider: string,
@@ -19,11 +20,14 @@ interface SelectProviderProps {
 }
 
 const SelectProvider: React.FC<SelectProviderProps> = ({
+  defaultApiKey,
   handleContinue,
   onClose
 }) => {
-  const [provider, setProvider] = useState<null | string>(null)
-  const [apiKey, setApiKey] = useState<null | string>(null)
+  const [provider, setProvider] = useState<null | string>(
+    defaultApiKey.provider
+  )
+  const [apiKey, setApiKey] = useState<null | string>(defaultApiKey.value)
   const [isApiValid, setIsApiValid] = useState<boolean>(true)
   const [enabled, setEnabled] = useState<boolean>(false)
 
@@ -54,7 +58,7 @@ const SelectProvider: React.FC<SelectProviderProps> = ({
   }
 
   useEffect(() => {
-    if (isSuccess && data) {
+    if (isSuccess && data && enabled) {
       data.sort((a, b) => {
         if (a.alreadyIntegrated === true && b.alreadyIntegrated === false) {
           return -1
@@ -73,7 +77,7 @@ const SelectProvider: React.FC<SelectProviderProps> = ({
         'error'
       )
     }
-  }, [isSuccess, error, data, provider, apiKey])
+  }, [isSuccess, error, data, provider, apiKey, enabled])
 
   return (
     <div className="max-w-[539px] w-[92%] min-w-[310px] h-fit bg-gray-500 border border-gray-300 px-8 py-6 rounded-xl shadow-lg text-white items-center">
@@ -102,9 +106,14 @@ const SelectProvider: React.FC<SelectProviderProps> = ({
                 options={[{ label: 'Linear', value: 'Linear' }]}
                 label="Project Management Tool"
                 required
+                preselectedOption={{
+                  label: provider || '',
+                  value: provider || ''
+                }}
               />
             </div>
             <Input
+              defaultValue={apiKey || ''}
               label="API Key"
               required
               handleValue={handleApiKey}
