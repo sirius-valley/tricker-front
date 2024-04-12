@@ -201,6 +201,7 @@ export interface ProjectView {
 }
 
 export interface ProjectPreIntegrated {
+  alreadyIntegrated?: boolean
   providerProjectId: string
   name: string
   image: string | null

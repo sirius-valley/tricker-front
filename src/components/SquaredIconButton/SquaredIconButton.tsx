@@ -5,6 +5,7 @@ export interface SquaredIconButtonProps {
   onClick: () => void
   isMobile?: boolean
   className?: string
+  style?: React.CSSProperties
 }
 
 const SquaredIconButton: React.FC<SquaredIconButtonProps> = ({
@@ -18,18 +19,18 @@ const SquaredIconButton: React.FC<SquaredIconButtonProps> = ({
     icon as React.ReactElement,
     isMobile
       ? {
-          width: '24px',
-          height: '24px'
-        }
-      : {
           width: '20px',
           height: '20px'
+        }
+      : {
+          width: '24px',
+          height: '24px'
         }
   )
 
   return (
     <button
-      className={`hover:bg-white/15 active:bg-white/10 bg-white/5 border-white/30 border ${isMobile ? 'p-2 rounded-lg' : 'p-1 rounded'} flex items-center justify-center cursor-pointer ${className}`}
+      className={`${className} hover:bg-white/15 active:bg-white/10 bg-white/5  border ${isMobile ? 'p-2 rounded-lg border-white' : 'p-1 rounded border-white/30'} flex items-center justify-center cursor-pointer`}
       onClick={onClick}
       {...props}
     >

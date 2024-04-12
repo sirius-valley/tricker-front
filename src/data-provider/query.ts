@@ -59,34 +59,43 @@ export const useVerifyToken = (
 
 export const useGetPreIntegratedProjects = (
   key: string,
-  provider: string
+  provider: string,
+  enabled?: boolean
 ): {
   data: ProjectPreIntegrated[] | null | undefined
+  refetch: () => void
   error: Error | null
   isLoading: boolean
+  isSuccess: boolean
 } => {
-  const { data, error, isLoading } = useQuery({
+  const { data, refetch, error, isLoading, isSuccess } = useQuery({
     queryKey: ['getPreIntegratedProjects', key, provider],
     queryFn: async () =>
-      await ApiService.getPreIntegratedProjects(key, provider)
+      await ApiService.getPreIntegratedProjects(key, provider),
+    retry: false,
+    enabled
   })
-  return { data, error, isLoading }
+  return { data, refetch, error, isLoading, isSuccess }
 }
 
 export const useGetPreIntegratedMembers = (
   projectName: string,
-  apiKey: string
+  apiKey: string,
+  enabled?: boolean
 ): {
   data: MemberPreIntegrated[] | null | undefined
+  refetch: () => void
   error: Error | null
   isLoading: boolean
+  isSuccess: boolean
 } => {
-  const { data, error, isLoading } = useQuery({
+  const { data, refetch, error, isLoading, isSuccess } = useQuery({
     queryKey: ['getPreIntegratedMembers', projectName, apiKey],
     queryFn: async () =>
-      await ApiService.getPreIntegratedMembers(projectName, apiKey)
+      await ApiService.getPreIntegratedMembers(projectName, apiKey),
+    enabled
   })
-  return { data, error, isLoading }
+  return { data, refetch, error, isLoading, isSuccess }
 }
 
 export const usePostProjectIntegrationRequest = (): {

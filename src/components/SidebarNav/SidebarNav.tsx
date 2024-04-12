@@ -32,6 +32,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   handleDropdownSelect
 }) => {
   const [isHovered, setIsHovered] = useState(false)
+
   const screen = useScreenSize()
   return (
     <div className="flex flex-col items-center w-fit max-w-[224px] h-screen pt-10 gap-20 bg-gray-500">

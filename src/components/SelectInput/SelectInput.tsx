@@ -108,6 +108,12 @@ const SelectInput = ({
     setRotateIcon(false)
   }
 
+  useEffect(() => {
+    if (selectedOption) {
+      handleOptionSelect(selectedOption)
+    }
+  }, [preselectedOption])
+
   return (
     <div className="gap-2 flex flex-col w-full">
       {label !== '' && (
