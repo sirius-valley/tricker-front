@@ -5,11 +5,13 @@ import Body1 from '@utils/typography/body1/body1'
 import useScreenSize from '@hooks/useScreenSize'
 import { useGetMyProjects } from '@data-provider/query'
 import { useCurrentProjectId } from '@redux/hooks'
+import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 
 export const MyProjectSelect: React.FC = () => {
   const currentProjectId = useCurrentProjectId()
-
-  const { data: options } = useGetMyProjects('') // TODO add isLoading and Error
+  const { showSnackBar } = useSnackBar()
+  const { data: options, isLoading, error } = useGetMyProjects('') // TODO add isLoading and Error
   const [selectedProject, setSelectedProject] = useState<
     MyProjectsOption | undefined
   >(options?.find((project) => project.id === currentProjectId))
@@ -21,13 +23,23 @@ export const MyProjectSelect: React.FC = () => {
     if (selectedProject === undefined && options) {
       setSelectedProject(options[0])
     }
-  }, [options])
+    if (error) {
+      showSnackBar(error.message, 'error')
+    }
+  }, [options, showSnackBar])
 
   const handleSelect = (selectedProject: MyProjectsOption): void => {
     setSelectedProject(selectedProject)
   }
-
-  return (
+  return isLoading ? (
+    <div className="pb-1 w-full">
+      <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
+        {Array.from({ length: 14 }, (_, index) => (
+          <Skeleton key={index} height={48} containerClassName="h-[14px]" />
+        ))}
+      </SkeletonTheme>
+    </div>
+  ) : (
     <div
       className={`relative bg-gray-500 rounded-bl-lg h-full ${isMobile ? 'md:w-[345px] rounded-lg' : 'w-[466px]'}`}
     >
