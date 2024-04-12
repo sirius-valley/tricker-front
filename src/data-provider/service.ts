@@ -350,19 +350,19 @@ export const getMyProjects = async (
       name: 'Tricker',
       image:
         'https://uploads.linear.app/38017044-c52a-4839-8602-87ced344f75c/a3768864-8de4-42a2-b919-8bafad1b7b8f/256x256/8355df5c-918d-40fb-99f1-f73274f5122f'
-    },
-    {
-      id: '45',
-      name: 'test 2',
-      image:
-        'https://uploads.linear.app/38017044-c52a-4839-8602-87ced344f75c/a3768864-8de4-42a2-b919-8bafad1b7b8f/256x256/8355df5c-918d-40fb-99f1-f73274f5122f'
-    },
-    {
-      id: '26',
-      name: 'Tricker',
-      image:
-        'https://uploads.linear.app/38017044-c52a-4839-8602-87ced344f75c/a3768864-8de4-42a2-b919-8bafad1b7b8f/256x256/8355df5c-918d-40fb-99f1-f73274f5122f'
     }
+    // {
+    //   id: '45',
+    //   name: 'test 2',
+    //   image:
+    //     'https://uploads.linear.app/38017044-c52a-4839-8602-87ced344f75c/a3768864-8de4-42a2-b919-8bafad1b7b8f/256x256/8355df5c-918d-40fb-99f1-f73274f5122f'
+    // },
+    // {
+    //   id: '26',
+    //   name: 'Tricker',
+    //   image:
+    //     'https://uploads.linear.app/38017044-c52a-4839-8602-87ced344f75c/a3768864-8de4-42a2-b919-8bafad1b7b8f/256x256/8355df5c-918d-40fb-99f1-f73274f5122f'
+    // }
   ]
 }
 

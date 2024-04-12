@@ -36,7 +36,7 @@ export const MyProjectSelect: React.FC = () => {
       className={`${isMobile && 'p-6'} relative w-full rounded-xl md:rounded-bl-xl h-full`}
     >
       <div
-        className={`${isMobile && 'bg-gray-500'} h-full w-full rounded-xl md:rounded-bl-xl overflow-y-auto`}
+        className={`${isMobile && 'bg-gray-500'} ${options && options?.length <= 12 ? 'h-fit' : 'h-full'} md:h-full w-full rounded-xl md:rounded-bl-xl overflow-y-auto`}
       >
         {isLoading ? (
           <div className="pb-1 w-full">
@@ -54,16 +54,16 @@ export const MyProjectSelect: React.FC = () => {
           <div
             className={`bg-gray-500 rounded-xl md:rounded-bl-xl w-full rounded-lg md:rounded-none`}
           >
-            <div
-              style={{
-                width: `calc(100% - 5px - ${isMobile ? '48px' : '0px'})`
-              }}
-              className={`absolute bottom-0 h-[131px] bg-gradient-to-b from-gray-500 via-gray-600 to-gray-700 rounded-b-xl md:rounded-bl-xl`}
-            />
-            <div
-              className={`list-none ${isMobile ? ' max-h-[210px] scrollbar-hidden' : options && options.length > 12 ? '' : ''}`}
-            >
-              <div className="h-auto">
+            {!isMobile && (
+              <div
+                style={{
+                  width: `calc(100% - 5px - ${isMobile ? '48px' : '0px'})`
+                }}
+                className={`absolute bottom-0 h-[131px] bg-gradient-to-b from-gray-500 via-gray-600 to-gray-700 rounded-b-xl md:rounded-bl-xl`}
+              />
+            )}
+            <div className={`list-none`}>
+              <div className="h-fit">
                 {options?.map((option: MyProjectsOption, index: number) => (
                   <li
                     key={index}
