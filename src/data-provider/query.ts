@@ -71,6 +71,7 @@ export const useGetPreIntegratedProjects = (
     queryKey: ['getPreIntegratedProjects', key, provider],
     queryFn: async () =>
       await ApiService.getPreIntegratedProjects(key, provider),
+    retry: false,
     enabled
   })
   return { data, refetch, error, isLoading, isSuccess }
