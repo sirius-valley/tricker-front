@@ -32,7 +32,7 @@ export interface DropdownOption {
 
 export interface MyProjectsOption {
   id: string
-  title: string
+  name: string
   image: string
 }
 

@@ -253,9 +253,9 @@ export const getFilters = async (
 }
 
 export const getMyProjects = async (
-  userId: string
+  projectName: string
 ): Promise<MyProjectsOption[]> => {
-  const res = await withInterceptors.get(`${url}/projects/${userId}/projects`)
+  const res = await withInterceptors.get(`${url}/projects/${projectName}`)
   if (res.status === 200) {
     return res.data
   }

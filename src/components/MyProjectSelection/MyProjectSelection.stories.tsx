@@ -2,12 +2,39 @@ import { type Meta, type StoryObj } from '@storybook/react'
 import { MyProjectSelect } from './MyProjectSelection'
 import { Provider } from 'react-redux'
 import { store } from '@redux/store'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 const meta: Meta<typeof MyProjectSelect> = {
   title: 'Components/MyProjectSelection',
   component: MyProjectSelect,
   tags: ['autodocs'],
-  argTypes: {}
+  decorators: [
+    (Story) => (
+      <QueryClientProvider client={queryClient}>{Story()}</QueryClientProvider>
+    )
+  ],
+  argTypes: {
+    options: {
+      control: {
+        type: 'array'
+      },
+      description: 'Projects that the user belongs.'
+    },
+    preselectedOption: {
+      control: {
+        type: 'object'
+      },
+      description: "Preselected project when you enter to 'My Projects'."
+    },
+    handleSelect: {
+      control: {
+        type: 'function'
+      },
+      description: 'Callback to select a project.'
+    }
+  }
 }
 
 export default meta

@@ -364,15 +364,15 @@ export const useRemoveTeamMember = (): {
 }
 
 export const useGetMyProjects = (
-  userId: string
+  projectName: string
 ): {
   data: MyProjectsOption[] | undefined | null
   error: Error | null
   isLoading: boolean
 } => {
   const { data, error, isLoading } = useQuery({
-    queryKey: ['getMyProjects', userId],
-    queryFn: async () => await ApiService.getMyProjects(userId)
+    queryKey: ['getMyProjects', projectName],
+    queryFn: async () => await ApiService.getMyProjects(projectName)
   })
   return { data, error, isLoading }
 }

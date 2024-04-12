@@ -7,17 +7,18 @@ import { useGetMyProjects } from '@data-provider/query'
 import { useCurrentProjectId } from '@redux/hooks'
 
 export const MyProjectSelect: React.FC = () => {
-  const currentProject = useCurrentProjectId()
+  const currentProjectId = useCurrentProjectId()
 
-  const { data: options } = useGetMyProjects(currentProject) // TODO add isLoading and Error
-  const [selectedProject, setSelectedProject] =
-    useState<MyProjectsOption | null>(null)
+  const { data: options } = useGetMyProjects('') // TODO add isLoading and Error
+  const [selectedProject, setSelectedProject] = useState<
+    MyProjectsOption | undefined
+  >(options?.find((project) => project.id === currentProjectId))
 
   const screenSize = useScreenSize()
   const isMobile = screenSize.width <= 768
 
   useEffect(() => {
-    if (options && options.length > 0) {
+    if (selectedProject === undefined && options) {
       setSelectedProject(options[0])
     }
   }, [options])
@@ -28,7 +29,7 @@ export const MyProjectSelect: React.FC = () => {
 
   return (
     <div
-      className={`relative bg-gray-500 rounded-bl-lg ${isMobile ? 'md:w-[345px] md:h-[172px] rounded-lg' : 'w-[466px] h-[768px]'}`}
+      className={`relative bg-gray-500 rounded-bl-lg h-full ${isMobile ? 'md:w-[345px] rounded-lg' : 'w-[466px]'}`}
     >
       {!isMobile && (
         <div
@@ -36,7 +37,7 @@ export const MyProjectSelect: React.FC = () => {
         ></div>
       )}
       <div
-        className={`list-none ${isMobile ? 'overflow-y-auto max-h-[210px] scrollbar-hidden' : options?.length > 12 ? 'h-full overflow-y-auto' : ''}`}
+        className={`list-none ${isMobile ? 'overflow-y-auto max-h-[210px] scrollbar-hidden' : options && options.length > 12 ? 'h-full overflow-y-auto' : ''}`}
       >
         <div className="h-auto">
           {options?.map((option: MyProjectsOption, index: number) => (
@@ -59,7 +60,10 @@ export const MyProjectSelect: React.FC = () => {
                     className="h-5 w-5 rounded-sm"
                   />
                 ) : (
-                  <NoAvatarProject text={option.title} />
+                  <NoAvatarProject
+                    className={'bg-gray-500'}
+                    text={option.name}
+                  />
                 )}
                 <Body1
                   className={`font-inter text-[16px] overflow-hidden overflow-ellipsis whitespace-nowrap ${
@@ -68,7 +72,7 @@ export const MyProjectSelect: React.FC = () => {
                       : 'text-white'
                   }`}
                 >
-                  {option.title}
+                  {option.name}
                 </Body1>
               </div>
             </li>
