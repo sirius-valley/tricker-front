@@ -58,7 +58,7 @@ const SelectMembers: React.FC<SelectMembersProps> = ({
   }
 
   return (
-    <div className="max-w-[539px] w-[92%] min-w-[310px] h-fit bg-gray-500 border border-gray-300 px-8 py-6 rounded-xl shadow-lg text-white items-center">
+    <div className="max-w-[539px] w-full min-w-[310px] h-fit bg-gray-500 border border-gray-300 px-8 py-6 rounded-xl shadow-lg text-white items-center">
       {isLoading ? (
         <div className="flex w-full min-h-[350px] items-center justify-center">
           <Spinner variant="primary" size={50} />
@@ -77,14 +77,14 @@ const SelectMembers: React.FC<SelectMembersProps> = ({
             Disallow access for those who shouldn&apos;t have it on Tricker.
           </Body2>
           <div className="flex flex-col w-full gap-4">
-            <div className="overflow-y-scroll max-h-[233px] py-2 rounded-[8px] max-w-[752px] w-full">
+            <div className="overflow-y-scroll max-h-[233px] py-2 rounded-[8px] w-full">
               {selectedMembers
                 ?.filter((member: MemberPreIntegrated) =>
                   member.email.endsWith('@sirius.com.ar')
                 )
                 .map((member: MemberPreIntegrated) => (
                   <div
-                    className="flex items-center w-full p-2 rounded-lg bg-gray-500"
+                    className="flex items-center p-2 w-full gap-2 rounded-lg bg-gray-500"
                     key={member.providerId}
                   >
                     <div className="flex w-full gap-4 items-center">
@@ -105,34 +105,36 @@ const SelectMembers: React.FC<SelectMembersProps> = ({
                           />
                         </div>
                       )}
-                      <div className="flex flex-col w-full gap-1">
-                        <Subtitle className="text-sm">{member.name}</Subtitle>
-                        <HelperText className="text-sm truncate max-w-40 md:max-w-none">
+                      <div className="flex flex-col w-full gap-1 overflow-auto">
+                        <Subtitle className="text-sm truncate">
+                          {member.name}
+                        </Subtitle>
+                        <HelperText className="text-sm truncate">
                           {member.email}
                         </HelperText>
                       </div>
+                      {member.email !== currentUser.email && (
+                        <button
+                          className="hover:bg-gray-400 rounded-full p-0.5"
+                          onClick={() => {
+                            handleOnClick(member.email)
+                          }}
+                        >
+                          <TrashIcon />
+                          <ModalRemove
+                            memberName={member.name}
+                            projectName={project.name}
+                            onRemove={() => {
+                              handleRemove(member.email)
+                            }}
+                            onClose={() => {
+                              setOpenModal(false)
+                            }}
+                            show={openModal && userToRemove === member.email}
+                          />
+                        </button>
+                      )}
                     </div>
-                    {member.email !== currentUser.email && (
-                      <button
-                        className="hover:bg-gray-400 rounded-full p-0.5"
-                        onClick={() => {
-                          handleOnClick(member.email)
-                        }}
-                      >
-                        <TrashIcon />
-                        <ModalRemove
-                          memberName={member.name}
-                          projectName={project.name}
-                          onRemove={() => {
-                            handleRemove(member.email)
-                          }}
-                          onClose={() => {
-                            setOpenModal(false)
-                          }}
-                          show={openModal && userToRemove === member.email}
-                        />
-                      </button>
-                    )}
                   </div>
                 ))}
             </div>
