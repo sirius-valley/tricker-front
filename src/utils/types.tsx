@@ -65,7 +65,7 @@ export interface Role {
 
 export interface UserIssue {
   id: string
-  name: string | null
+  name: string
   profileUrl: string | null
 }
 
@@ -110,38 +110,22 @@ export enum EventType {
   CUSTOM_FIELD
 }
 
-export interface IssueDetail {
-  id: string
-  asignee: UserIssue | null
-  name: string
-  title: string
-  description: string
-  priority: Priority
-  storyPoints: number | null
-  labels: Label[]
-  chronology: Event[]
-}
-
 export interface IssueView {
   id: string
   assignee: UserIssue | null
   stage: StageExtended
   name: string
   title: string
-  description: string | null
   priority: Priority
   storyPoints: number | null
-  labels: Label[]
   isBlocked: boolean
   isTracking: boolean
 }
 
-export interface IssueChronologyEventDTO {
-  id: string
-  message: string
-  comment: string | null
-  isBlocker: boolean
-  date: string | Date
+export interface IssueDetail extends IssueView {
+  description: string
+  labels: Label[]
+  chronology: IssueChronologyEventDTO[]
 }
 
 export interface IssueChronologyEvent {
@@ -152,12 +136,22 @@ export interface IssueChronologyEvent {
   date: Date
 }
 
+export interface IssueChronologyEventDTO {
+  id: string
+  message: string
+  comment: string | null
+  isBlocker: boolean
+  date: string | Date
+}
+
 export interface Stage {
   id: string
   name: string
 }
 export interface StageExtended extends Stage {
   type: StageType
+  position: number
+  color: string
 }
 
 export interface IssueLabel {
@@ -396,7 +390,7 @@ export interface MemberEmail {
 
 export interface OptionalIssueFilters {
   stageIds?: string[]
-  priorities?: Priority[]
+  priorities?: string[]
   assigneeIds?: string[]
   isOutOfEstimation?: boolean
   cursor?: string
@@ -406,4 +400,13 @@ export interface ModifyTimeData {
   timeAmount: number
   reason: string
   date: string
+}
+
+export interface DevProjectFiltersDTO {
+  stages: StageExtended[]
+  priorities: string[]
+}
+
+export interface PMProjectFiltersDTO extends DevProjectFiltersDTO {
+  assignees: UserIssue[]
 }

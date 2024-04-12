@@ -21,8 +21,16 @@ ul {
 p img{ /* Images in Markdown */
     width: 100%;
     max-width: 500px;
+    width: 100%;
     height: auto;
     padding: 1rem 0;
+}
+
+pre { /* Code in Markdown */
+    width: 100%;
+    text-wrap: wrap;
+    height: auto;
+    padding: 1rem 0;
 }
 
 ::-webkit-scrollbar {

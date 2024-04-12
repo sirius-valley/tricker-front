@@ -4,6 +4,7 @@ import { Modal } from '@components/Modal/Modal'
 import TicketDisplay from '@components/TicketDisplay/TicketDisplay'
 import TicketListWrapper from '@components/TicketListWrapper/TicketListWrapper'
 import useScreenSize from '@hooks/useScreenSize'
+import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import {
   useAppDispatch,
   useCurrentTicket,
@@ -11,9 +12,16 @@ import {
   useUserRole
 } from '@redux/hooks'
 import { setCurrentTicket } from '@redux/user'
-import { Priority, StageType } from '@utils/types'
+import {
+  type IssueChronologyEvent,
+  type IssueChronologyEventDTO,
+  Priority,
+  StageType
+} from '@utils/types'
 import { useNavigate } from 'react-router-dom'
 import Timer from '@components/Timer/Timer'
+import { useGetIssueById } from '@data-provider/query'
+import { useEffect, useState } from 'react'
 
 export interface TicketsSectionProps {
   myTeam?: boolean
@@ -29,24 +37,56 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   if (user.id === '') navigate('/login')
+  const [chronology, setChronology] = useState<IssueChronologyEvent[]>([])
+  const { showSnackBar } = useSnackBar()
 
   const deselectCurrentTicket = (): void => {
     dispatch(
       setCurrentTicket({
         id: '',
         assignee: null,
-        stage: { id: '', name: '', type: StageType.BACKLOG },
+        stage: {
+          id: '',
+          name: '',
+          type: StageType.BACKLOG,
+          position: 0,
+          color: ''
+        },
         name: '',
         title: '',
-        description: '',
         priority: Priority.NO_PRIORITY,
         storyPoints: 0,
-        labels: [],
         isBlocked: false,
         isTracking: false
       })
     )
   }
+
+  const { data, isLoading, error } = useGetIssueById(currentTicket.id)
+
+  useEffect(() => {
+    if (error) {
+      showSnackBar('Error loading the ticket', 'error')
+    }
+  }, [error])
+
+  useEffect(() => {
+    if (data) {
+      const dataEvents: IssueChronologyEventDTO[] = [...data.chronology]
+
+      setChronology(
+        dataEvents.map((event) => {
+          if (typeof event.date === 'string') {
+            event.date = new Date(event.date)
+          }
+          return event as IssueChronologyEvent
+        })
+      )
+      chronology.sort((a, b) => {
+        return a.date.getTime() - b.date.getTime()
+      })
+    }
+  }, [data])
 
   return screen.width >= 768 ? (
     <div className="h-full w-full flex items-center">
@@ -61,14 +101,15 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
           <div className="overflow-y-hidden hover:overflow-y-scroll h-full pr-[5px] hover:pr-0">
             <div className="w-full h-full pt-[72px] xl:px-10 px-5 flex flex-col gap-10">
               <TicketDisplay
-                issue={currentTicket}
+                isLoading={isLoading}
+                issue={data || undefined}
                 variant={
                   myTeam && userRole === 'Project Manager'
                     ? userRole
                     : 'Developer'
                 }
               />
-              <Chronology />
+              <Chronology isLoading={isLoading} events={chronology} />
             </div>
           </div>
           <Timer ticketId={currentTicket.id} ticketName={currentTicket.name} />
@@ -85,7 +126,7 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
       />
       {currentTicket.id !== '' && (
         <Modal onClose={deselectCurrentTicket} show={currentTicket.id !== ''}>
-          <div className="max-h-[70vh] flex flex-col bg-gray-700 items-center h-full w-full border-t ">
+          <div className="max-h-[70vh] flex flex-col bg-gray-700 items-center h-full max-w-screen border-t ">
             <div
               className="overflow-y-auto"
               style={{
@@ -98,16 +139,17 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
               >
                 <Icon name="CaretUpIcon" width="32" height="32" />
               </button>
-              <div className="w-full h-full py-[72px] px-8 flex flex-col gap-10">
+              <div className="w-screen h-full py-[72px] px-8 flex flex-col gap-10">
                 <TicketDisplay
-                  issue={currentTicket}
+                  isLoading={isLoading}
+                  issue={data || undefined}
                   variant={
                     myTeam && userRole === 'Project Manager'
                       ? userRole
                       : 'Developer'
                   }
                 />
-                <Chronology />
+                <Chronology isLoading={isLoading} events={chronology} />
               </div>
             </div>
           </div>

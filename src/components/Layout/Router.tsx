@@ -9,6 +9,7 @@ import LoginPage from '@pages/Login/LoginPage'
 import RoleValidation from './RoleValidation/RoleValidation'
 import TicketsSection from '@components/TicketsSection/TicketsSection'
 import LoginFlowValidation from './LoginFlowValidation/LoginFlowValidation'
+import ProjectsSection from '@components/ProjectsSection/ProjectsSection'
 
 export const ROUTER = createBrowserRouter([
   {
@@ -46,10 +47,6 @@ export const ROUTER = createBrowserRouter([
             element: <RoleValidation />,
             children: [
               {
-                path: '/projects',
-                element: <></>
-              },
-              {
                 path: '/my-team',
                 element: <TicketsSection myTeam />
               }
@@ -66,6 +63,10 @@ export const ROUTER = createBrowserRouter([
           {
             path: '/profile',
             element: <></>
+          },
+          {
+            path: '/projects',
+            element: <ProjectsSection />
           }
         ]
       }

@@ -1,6 +1,7 @@
-import { Priority, StageType } from '@utils/types'
+import { MockedEvents } from '@components/Chronology/MockedEvents'
+import { type IssueDetail, Priority, StageType } from '@utils/types'
 
-export const mockedTicket = {
+export const mockedTicket: IssueDetail = {
   id: '1',
   assignee: {
     id: '1',
@@ -10,7 +11,9 @@ export const mockedTicket = {
   stage: {
     name: 'Backlog',
     id: '1',
-    type: StageType.BACKLOG
+    type: StageType.BACKLOG,
+    color: '#fff',
+    position: 1
   },
   name: 'Name of the ticket 1 long name',
   title: 'TIK-001',
@@ -19,5 +22,6 @@ export const mockedTicket = {
   labels: [],
   isBlocked: true,
   isTracking: false,
-  description: 'Description 1'
+  description: 'Description 1',
+  chronology: MockedEvents
 }

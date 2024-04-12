@@ -1,9 +1,9 @@
-// SearchButton.stories.tsx
 import { type Meta, type StoryObj } from '@storybook/react'
-import Filter, { type OptionAttr } from './Filter'
+import Filter from './Filter'
 import config from '../../../tailwind.config'
 import { Provider } from 'react-redux'
 import { store } from '@redux/store'
+import { type OptionalIssueFilters } from '@utils/types'
 
 const colors = config.theme.extend.colors
 
@@ -27,8 +27,8 @@ const meta: Meta<typeof Filter> = {
         type: 'object'
       }
     },
-    handleSelect: {
-      action: 'handleSelect'
+    handleFilters: {
+      action: 'handleFilters'
     },
     handleOutOfEstimation: {
       action: 'handleOutOfEstimation'
@@ -43,40 +43,52 @@ type Story = StoryObj<typeof Filter>
 export const Default: Story = {
   args: {
     show: true,
-    handleSelect: (options: OptionAttr[]) => {
-      console.log(options)
+    handleFilters: (filters: OptionalIssueFilters) => {
+      console.log(filters)
     },
     handleOutOfEstimation: (value: boolean) => {
       console.log('out of estimation ' + value)
     },
     statusOptions: [
-      { option: 'Todo', color: colors.white, selected: false },
+      { id: '1', option: 'Todo', color: colors.white, selected: false },
       {
+        id: '2',
         option: 'In Progress',
-        color: colors.secondary['400'],
+        color: '#ccc',
         selected: false
       },
-      { option: 'In Review', color: colors.tertiary['400'], selected: false },
-      { option: 'Completed', color: colors.primary['400'], selected: false },
+      { id: '3', option: 'In Review', color: '#dedeff', selected: false },
+      { id: '4 ', option: 'Completed', color: '#cacaca', selected: false },
       {
+        id: '5',
         option: 'Merged to main',
-        color: colors.primary['700'],
+        color: '#193123',
         selected: false
       }
     ],
     priorityOptions: [
-      { option: 'No priority', icon: 'NoPriorityIcon', selected: false },
-      { option: 'Low', icon: 'LowPriorityIcon', selected: false },
-      { option: 'Medium', icon: 'MediumPriorityIcon', selected: false },
-      { option: 'High', icon: 'HighPriorityIcon', selected: false },
-      { option: 'Urgent', icon: 'UrgentIcon', selected: false }
+      {
+        id: '6',
+        option: 'No priority',
+        icon: 'NoPriorityIcon',
+        selected: false
+      },
+      { id: '7', option: 'Low', icon: 'LowPriorityIcon', selected: false },
+      {
+        id: '8',
+        option: 'Medium',
+        icon: 'MediumPriorityIcon',
+        selected: false
+      },
+      { id: '9', option: 'High', icon: 'HighPriorityIcon', selected: false },
+      { id: '10', option: 'Urgent', icon: 'UrgentIcon', selected: false }
     ],
-    asigneeOptions: [
-      { option: 'Federico Martucci', selected: false },
-      { option: 'Matias Pizzi', selected: false },
-      { option: 'Nicolas Flores', selected: false },
-      { option: 'Juan Bianchi', selected: false },
-      { option: 'Ignacio Ferrari', selected: false }
+    assigneeOptions: [
+      { id: '11', option: 'Federico Martucci', selected: false },
+      { id: '12', option: 'Matias Pizzi', selected: false },
+      { id: '13', option: 'Nicolas Flores', selected: false },
+      { id: '14', option: 'Juan Bianchi', selected: false },
+      { id: '15', option: 'Ignacio Ferrari', selected: false }
     ]
   },
   render: (args) => (

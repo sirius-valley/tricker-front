@@ -40,6 +40,8 @@ export interface ButtonProps extends VariantProps<typeof buttonVariants> {
   icon?: keyof typeof icons
   disabled?: boolean
   className?: string
+  left?: boolean
+  right?: boolean
   onClick: () => void
 }
 
@@ -49,6 +51,8 @@ const Button: React.FC<ButtonProps> = ({
   variant,
   icon,
   className = '',
+  left = false,
+  right = false,
   onClick,
   ...props
 }) => {
@@ -84,9 +88,9 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       onClick={onClick}
     >
-      {icon && <Icon name={icon} fillColor={iconColor} />}
+      {left && icon && <Icon name={icon} fillColor={iconColor} />}
       <Subtitle>{children}</Subtitle>
-      {icon && <Icon name={icon} fillColor={iconColor} />}
+      {right && icon && <Icon name={icon} fillColor={iconColor} />}
     </button>
   )
 }
