@@ -70,10 +70,10 @@ export const MyProjectSelect: React.FC = () => {
                     onClick={() => {
                       handleSelect(option)
                     }}
-                    className={`relative cursor-pointer select-none p-4 hover:bg-primary-400 hover:bg-opacity-5 transition-colors duration-300 ${
+                    className={`flex w-full border-l-[2px] gap-2 relative cursor-pointer select-none p-4 hover:bg-primary-400 hover:bg-opacity-5 transition-colors duration-300 ${
                       selectedProject?.id === option.id && !isMobile
-                        ? 'bg-primary-400 bg-opacity-5 border-l-2 border-primary-400'
-                        : ''
+                        ? 'bg-primary-400 bg-opacity-5 border-primary-400'
+                        : 'bg-transparent border-gray-500'
                     }`}
                   >
                     <div className="flex items-center gap-2">
