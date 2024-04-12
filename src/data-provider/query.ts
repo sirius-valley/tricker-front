@@ -169,7 +169,7 @@ export const useGetIssueById = (
 } => {
   const { data, error, isLoading } = useQuery({
     queryKey: ['getIssueById', issueId],
-    queryFn: async () => await ApiService.getIssueById(/* issueId */)
+    queryFn: async () => await ApiService.getIssueById(issueId)
   })
   return { data, error, isLoading }
 }
@@ -311,4 +311,62 @@ export const useGetChronology = (
     queryFn: async () => await ApiService.getChronology(issueId)
   })
   return { data, error, isLoading }
+}
+
+export const useRefreshProject = (): {
+  mutate: (args: { projectId: string; apiToken: string }) => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+  data: Date | null | undefined
+} => {
+  const { mutate, error, isPending, isSuccess, data } = useMutation({
+    mutationFn: async ({
+      projectId,
+      apiToken
+    }: {
+      projectId: string
+      apiToken: string
+    }) => {
+      return await ApiService.refreshProject(projectId, apiToken)
+    }
+  })
+
+  return { mutate, error, isPending, isSuccess, data }
+}
+
+export const useDeleteProject = (): {
+  mutate: (args: { projectId: string }) => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, error, isPending, isSuccess } = useMutation({
+    mutationFn: async ({ projectId }: { projectId: string }) => {
+      await ApiService.deleteProject(projectId)
+    }
+  })
+
+  return { mutate, error, isPending, isSuccess }
+}
+
+export const useRemoveTeamMember = (): {
+  mutate: (args: { projectId: string; userId: string }) => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, error, isPending, isSuccess } = useMutation({
+    mutationFn: async ({
+      projectId,
+      userId
+    }: {
+      projectId: string
+      userId: string
+    }) => {
+      await ApiService.removeTeamMember(projectId, userId)
+    }
+  })
+
+  return { mutate, error, isPending, isSuccess }
 }
