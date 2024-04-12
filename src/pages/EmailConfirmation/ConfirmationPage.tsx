@@ -69,7 +69,15 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
                 <Body1 className="text-4xl font-medium leading-[43.57px]">
                   {data.pmName
                     .split(' ')
-                    .map((name) => name.charAt(0).toUpperCase())
+                    .map((name, index, array) => {
+                      if (
+                        index === 0 ||
+                        (index === array.length - 1 && array.length > 1)
+                      ) {
+                        return name.charAt(0).toUpperCase()
+                      }
+                      return ''
+                    })
                     .join('')}
                 </Body1>
               </div>
@@ -88,7 +96,15 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
                 <Body1 className="text-4xl font-medium leading-[43.57px]">
                   {data.projectName
                     .split(' ')
-                    .map((name) => name.charAt(0).toUpperCase())
+                    .map((name, index, array) => {
+                      if (
+                        index === 0 ||
+                        (index === array.length - 1 && array.length > 1)
+                      ) {
+                        return name.charAt(0).toUpperCase()
+                      }
+                      return ''
+                    })
                     .join('')}
                 </Body1>
               </div>
