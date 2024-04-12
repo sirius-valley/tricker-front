@@ -40,55 +40,59 @@ export const MyProjectSelect: React.FC = () => {
       </SkeletonTheme>
     </div>
   ) : (
-    <div
-      className={`relative bg-gray-500 rounded-bl-lg h-full ${isMobile ? 'md:w-[345px] rounded-lg' : 'w-[466px]'}`}
-    >
-      {!isMobile && (
+    <div className="relative w-full md:rounded-bl-xl h-full">
+      <div className="h-full w-full md:rounded-bl-xl overflow-y-auto">
         <div
-          className={`absolute bottom-0 left-0 w-[calc(100% - (<scrollbar width>))] h-[131px] bg-gradient-to-b from-gray-500 via-gray-600/50 to-gray-700/50 rounded-bl-lg`}
-        ></div>
-      )}
-      <div
-        className={`list-none ${isMobile ? 'overflow-y-auto max-h-[210px] scrollbar-hidden' : options && options.length > 12 ? 'h-full overflow-y-auto' : ''}`}
-      >
-        <div className="h-auto">
-          {options?.map((option: MyProjectsOption, index: number) => (
-            <li
-              key={index}
-              onClick={() => {
-                handleSelect(option)
-              }}
-              className={`relative cursor-pointer select-none p-4 hover:bg-primary-400 hover:bg-opacity-5 transition-colors duration-300 ${
-                selectedProject?.id === option.id && !isMobile
-                  ? 'bg-primary-400 bg-opacity-5 border-l-2 border-primary-400'
-                  : ''
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                {option.image ? (
-                  <img
-                    src={option.image}
-                    alt=""
-                    className="h-5 w-5 rounded-sm"
-                  />
-                ) : (
-                  <NoAvatarProject
-                    className={'bg-gray-500'}
-                    text={option.name}
-                  />
-                )}
-                <Body1
-                  className={`font-inter text-[16px] overflow-hidden overflow-ellipsis whitespace-nowrap ${
-                    selectedProject?.id === option.id
-                      ? 'text-primary-400'
-                      : 'text-white'
+          className={` bg-gray-500 md:rounded-bl-xl w-full rounded-lg md:rounded-none`}
+        >
+          <div
+            style={{ width: 'calc(100% - 5px)' }}
+            className={`absolute bottom-0 h-[131px] bg-gradient-to-b from-gray-500 via-gray-600 to-gray-700 md:rounded-bl-xl`}
+          />
+
+          <div
+            className={`list-none ${isMobile ? ' max-h-[210px] scrollbar-hidden' : options && options.length > 12 ? 'h-full overflow-y-auto' : ''}`}
+          >
+            <div className="h-auto">
+              {options?.map((option: MyProjectsOption, index: number) => (
+                <li
+                  key={index}
+                  onClick={() => {
+                    handleSelect(option)
+                  }}
+                  className={`relative cursor-pointer select-none p-4 hover:bg-primary-400 hover:bg-opacity-5 transition-colors duration-300 ${
+                    selectedProject?.id === option.id && !isMobile
+                      ? 'bg-primary-400 bg-opacity-5 border-l-2 border-primary-400'
+                      : ''
                   }`}
                 >
-                  {option.name}
-                </Body1>
-              </div>
-            </li>
-          ))}
+                  <div className="flex items-center gap-2">
+                    {option.image ? (
+                      <img
+                        src={option.image}
+                        alt=""
+                        className="h-5 w-5 rounded-sm"
+                      />
+                    ) : (
+                      <NoAvatarProject
+                        className={'bg-gray-500'}
+                        text={option.name}
+                      />
+                    )}
+                    <Body1
+                      className={`font-inter text-[16px] overflow-hidden overflow-ellipsis whitespace-nowrap ${
+                        selectedProject?.id === option.id
+                          ? 'text-primary-400'
+                          : 'text-white'
+                      }`}
+                    >
+                      {option.name}
+                    </Body1>
+                  </div>
+                </li>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
