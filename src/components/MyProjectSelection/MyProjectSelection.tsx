@@ -4,11 +4,7 @@ import { type MyProjectsOption } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
 import useScreenSize from '@hooks/useScreenSize'
 import { useGetMyProjects } from '@data-provider/query'
-import {
-  useAppDispatch,
-  useCurrentProjectId,
-  useSelectedProjectInfo
-} from '@redux/hooks'
+import { useAppDispatch, useCurrentProjectId } from '@redux/hooks'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { setSelectedProjectInfo } from '@redux/user'
@@ -20,7 +16,11 @@ interface MyProjectSelectProps {
 export const MyProjectSelect: React.FC<MyProjectSelectProps> = ({
   searchedProject = ''
 }: MyProjectSelectProps): JSX.Element => {
-  const [selectedProject, setSelectedProject] = useState<MyProjectsOption>()
+  const [selectedProject, setSelectedProject] = useState<MyProjectsOption>({
+    id: '',
+    name: '',
+    image: ''
+  })
 
   const dispatch = useAppDispatch()
   const currentProjectId = useCurrentProjectId()
@@ -30,22 +30,24 @@ export const MyProjectSelect: React.FC<MyProjectSelectProps> = ({
 
   const isMobile = screenSize.width <= 768
 
-  if (selectedProject === undefined && options && !isMobile) {
+  dispatch(setSelectedProjectInfo(selectedProject))
+
+  if (selectedProject.id === '' && options && !isMobile) {
     setSelectedProject(
-      options?.find((project) => project.id === currentProjectId) || options[0]
+      options.find((project) => project.id === currentProjectId) || options[0]
     )
     dispatch(
       setSelectedProjectInfo(
-        options?.find((project) => project.id === currentProjectId) ||
-          options[0]
+        options.find((project) => project.id === currentProjectId) || options[0]
       )
     )
   }
+
   useEffect(() => {
     if (error) {
       showSnackBar(error.message, 'error')
     }
-  }, [error, showSnackBar])
+  }, [error, showSnackBar, options])
 
   const handleSelect = (selectedOption: MyProjectsOption): void => {
     if (options) {
@@ -58,7 +60,6 @@ export const MyProjectSelect: React.FC<MyProjectSelectProps> = ({
       }
     }
   }
-  console.log(useSelectedProjectInfo(), selectedProject)
 
   return (
     <div
