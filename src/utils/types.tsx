@@ -103,38 +103,22 @@ export enum EventType {
   CUSTOM_FIELD
 }
 
-export interface IssueDetail {
-  id: string
-  asignee: UserIssue | null
-  name: string
-  title: string
-  description: string
-  priority: Priority
-  storyPoints: number | null
-  labels: Label[]
-  chronology: Event[]
-}
-
 export interface IssueView {
   id: string
   assignee: UserIssue | null
   stage: StageExtended
   name: string
   title: string
-  description: string | null
   priority: Priority
   storyPoints: number | null
-  labels: Label[]
   isBlocked: boolean
   isTracking: boolean
 }
 
-export interface IssueChronologyEventDTO {
-  id: string
-  message: string
-  comment: string | null
-  isBlocker: boolean
-  date: string | Date
+export interface IssueDetail extends IssueView {
+  description: string
+  labels: Label[]
+  chronology: IssueChronologyEventDTO[]
 }
 
 export interface IssueChronologyEvent {
@@ -143,6 +127,14 @@ export interface IssueChronologyEvent {
   comment: string | null
   isBlocker: boolean
   date: Date
+}
+
+export interface IssueChronologyEventDTO {
+  id: string
+  message: string
+  comment: string | null
+  isBlocker: boolean
+  date: string | Date
 }
 
 export interface Stage {

@@ -19,7 +19,14 @@ const meta: Meta<typeof TicketList> = {
     ),
     (Story) => <SnackBarProvider>{Story()}</SnackBarProvider>
   ],
-  argTypes: {}
+  argTypes: {
+    variant: {
+      control: {
+        type: 'select',
+        options: ['grid', 'list']
+      }
+    }
+  }
 }
 
 export default meta
@@ -29,6 +36,7 @@ type Story = StoryObj<typeof TicketList>
 export const DevView: Story = {
   render: () => (
     <TicketList
+      variant="grid"
       filters={{}}
       searchedTicket={''}
       isOutOfEstimation={false}
@@ -40,6 +48,7 @@ export const DevView: Story = {
 export const PMView: Story = {
   render: () => (
     <TicketList
+      variant="grid"
       filters={{}}
       searchedTicket={''}
       isOutOfEstimation={false}

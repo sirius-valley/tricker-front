@@ -24,6 +24,18 @@ const meta: Meta<typeof Button> = {
       control: {
         type: 'select'
       }
+    },
+    left: {
+      control: {
+        type: 'boolean'
+      },
+      description: 'Displays icon to the left of the text.'
+    },
+    right: {
+      control: {
+        type: 'boolean'
+      },
+      description: 'Displays icon to the right of the text.'
     }
   }
 }

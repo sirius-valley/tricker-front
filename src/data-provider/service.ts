@@ -16,7 +16,6 @@ import type {
 } from '@utils/types'
 import { getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
-import { mockedTicketDetail } from '@components/TicketDisplay/MockedTicketDetail'
 import { setUpAxiosInterceptors } from './AxiosInterceptor'
 
 const url: string = config.apiUrl || 'http://localhost:8080/api'
@@ -81,10 +80,9 @@ export const getPreIntegratedProjects = async (
   provider: string
 ): Promise<ProjectPreIntegrated[] | null> => {
   const res = await withInterceptors.post(
-    `${url}/integration/linear/projects`,
+    `${url}/integration/${provider.toLocaleLowerCase()}/projects`,
     {
-      key,
-      provider
+      key
     }
   )
   if (res.status === 200) {
@@ -177,10 +175,14 @@ export const getIssuesFilteredAndPaginated = async (
   return []
 }
 
-export const getIssueById = async () // ticketId: string
-: Promise<IssueDetail | null> => {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  return mockedTicketDetail
+export const getIssueById = async (
+  issueId: string
+): Promise<IssueDetail | null> => {
+  const res = await withInterceptors.get(`${url}/issue/${issueId}`)
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
 }
 
 export const postTimerAction = async (
@@ -306,4 +308,55 @@ export const getChronology = async (
   //     date: new Date()
   //   }
   // ]
+}
+
+export const refreshProject = async (
+  projectId: string,
+  apiToken: string
+): Promise<Date | null> => {
+  // const res = await withInterceptors.post(
+  //   `${url}/project/${projectId}/synchronize`,
+  //   { apiToken }
+  // )
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  // return null
+  return await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(projectId, apiToken)
+      resolve(new Date())
+    }, 2000)
+  })
+}
+
+export const deleteProject = async (projectId: string): Promise<void> => {
+  // const res = await withInterceptors.delete(`${url}/project/${projectId}`)
+  // if (res.status === 204) {
+  //   return
+  // }
+
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(projectId)
+      resolve(null)
+    }, 2000)
+  })
+}
+
+export const removeTeamMember = async (
+  projectId: string,
+  userId: string
+): Promise<void> => {
+  // const res = await withInterceptors.delete(`${url}/project/${projectId}/member/${userId}`)
+  // if (res.status === 204) {
+  //   return
+  // }
+
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(projectId, userId)
+      resolve(null)
+    }, 2000)
+  })
 }
