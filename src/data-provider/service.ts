@@ -80,10 +80,9 @@ export const getPreIntegratedProjects = async (
   provider: string
 ): Promise<ProjectPreIntegrated[] | null> => {
   const res = await withInterceptors.post(
-    `${url}/integration/linear/projects`,
+    `${url}/integration/${provider.toLocaleLowerCase()}/projects`,
     {
-      key,
-      provider
+      key
     }
   )
   if (res.status === 200) {
