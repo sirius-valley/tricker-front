@@ -75,23 +75,26 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
         }
       >
         <H1 className="text-3xl leading-[36px]">{name}</H1>
-        {isProjectManager && (
-          <div className="flex items-center gap-4 w-fit">
-            <Body1 className="text-gray-300">
-              Last Project Sync: {formatDate(lastSync)}
-            </Body1>
+        <div className="flex items-center gap-4 w-fit">
+          <Body1 className="text-gray-300">
+            Last Project Sync: {formatDate(lastSync)}
+          </Body1>
+          {isProjectManager && (
             <Tooltip content="Sync project">
               <SquaredIconButton
                 onClick={() => {
                   setShowModal(true)
                 }}
-                style={{ borderColor: colors.primary[400] }}
+                style={{
+                  borderColor: colors.primary[400],
+                  borderRadius: '12px'
+                }}
                 className="w-10 h-10"
                 icon={<Icon name="RefreshIcon" />}
               />
             </Tooltip>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       <div className="flex w-full gap-6 justify-between items-end">
         <div className="w-full">
