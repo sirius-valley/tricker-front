@@ -6,7 +6,7 @@ export interface ProjectMailProps {
   isAdmin: boolean
 }
 
-export const ProjectMail = ({
+export const ProjectMail: React.FC<ProjectMailProps> = ({
   projectName,
   isAdmin
 }: ProjectMailProps): JSX.Element => {
