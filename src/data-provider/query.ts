@@ -13,7 +13,8 @@ import type {
   ModifyTimeData,
   IssueChronologyEvent,
   DevProjectFiltersDTO,
-  PMProjectFiltersDTO
+  PMProjectFiltersDTO,
+  ProjectView
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -319,7 +320,7 @@ export const useRefreshProject = (): {
       projectId: string
       apiToken: string
     }) => {
-      return await ApiService.refreshProject(projectId, apiToken)
+      return await ApiService.postRefreshProject(projectId, apiToken)
     }
   })
 
@@ -355,9 +356,23 @@ export const useRemoveTeamMember = (): {
       projectId: string
       userId: string
     }) => {
-      await ApiService.removeTeamMember(projectId, userId)
+      await ApiService.deleteTeamMember(projectId, userId)
     }
   })
 
   return { mutate, error, isPending, isSuccess }
+}
+
+export const useGetProject = (
+  projectId: string
+): {
+  data: ProjectView | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getProject', projectId],
+    queryFn: async () => await ApiService.getProject(projectId)
+  })
+  return { data, error, isLoading }
 }

@@ -12,7 +12,8 @@ import type {
   IssueChronologyEventDTO,
   IssueChronologyEvent,
   DevProjectFiltersDTO,
-  PMProjectFiltersDTO
+  PMProjectFiltersDTO,
+  ProjectView
 } from '@utils/types'
 import { getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -310,7 +311,7 @@ export const getChronology = async (
   // ]
 }
 
-export const refreshProject = async (
+export const postRefreshProject = async (
   projectId: string,
   apiToken: string
 ): Promise<Date | null> => {
@@ -344,7 +345,7 @@ export const deleteProject = async (projectId: string): Promise<void> => {
   })
 }
 
-export const removeTeamMember = async (
+export const deleteTeamMember = async (
   projectId: string,
   userId: string
 ): Promise<void> => {
@@ -359,4 +360,32 @@ export const removeTeamMember = async (
       resolve(null)
     }, 2000)
   })
+}
+
+export const postModifyMemberRole = async (
+  projectId: string,
+  userId: string,
+  roleId: string
+): Promise<void> => {
+  // const res = await withInterceptors.post(`${url}/${userId}/project/${projectId}/modification`, { roleId })
+  // if (res.status === 200) {
+  //   return
+  // }
+
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(projectId, userId, roleId)
+      resolve(null)
+    }, 2000)
+  })
+}
+
+export const getProject = async (
+  projectId: string
+): Promise<ProjectView | null> => {
+  const res = await withInterceptors.get(`${url}/projects/${projectId}`)
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
 }

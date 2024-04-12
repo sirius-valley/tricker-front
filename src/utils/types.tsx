@@ -178,6 +178,28 @@ export interface Project {
   labels: ProjectLabel[]
 }
 
+// Returned by the API when fetching the project detail
+export interface ProjectView {
+  providerId: string
+  image?: string
+  url: string
+  name: string
+  issueProviderName: string
+  organizationId: string
+  updatedAt: string
+  users: [
+    {
+      name: string
+      email: string
+      image?: string
+      role: {
+        id: string
+        name: string
+      }
+    }
+  ]
+}
+
 export interface ProjectPreIntegrated {
   providerProjectId: string
   name: string
