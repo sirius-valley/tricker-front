@@ -16,23 +16,12 @@ const meta: Meta<typeof MyProjectSelect> = {
     )
   ],
   argTypes: {
-    options: {
+    searchedProject: {
       control: {
-        type: 'array'
+        type: 'string'
       },
-      description: 'Projects that the user belongs.'
-    },
-    preselectedOption: {
-      control: {
-        type: 'object'
-      },
-      description: "Preselected project when you enter to 'My Projects'."
-    },
-    handleSelect: {
-      control: {
-        type: 'function'
-      },
-      description: 'Callback to select a project.'
+      description: 'Searched project to filter by.',
+      defaultValue: ''
     }
   }
 }
@@ -44,34 +33,7 @@ type Story = StoryObj<typeof MyProjectSelect>
 export const Primary: Story = {
   tags: ['autodocs'],
   args: {
-    options: [
-      {
-        id: '1',
-        title: 'WeCan',
-        image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '2',
-        title: 'Bonterms',
-        image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '3',
-        title: 'Tricker',
-        image: 'https://via.placeholder.com/20'
-      },
-      {
-        id: '4',
-        title: 'Hospital Patagonia',
-        image: 'https://via.placeholder.com/20'
-      }
-    ],
-    preselectedOption: {
-      id: '1',
-      title: 'WeCan',
-      image: 'https://via.placeholder.com/20'
-    },
-    handleSelect: () => {}
+    searchedProject: ''
   },
   render: (args) => (
     <Provider store={store}>

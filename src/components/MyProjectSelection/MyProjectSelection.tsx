@@ -4,33 +4,62 @@ import { type MyProjectsOption } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
 import useScreenSize from '@hooks/useScreenSize'
 import { useGetMyProjects } from '@data-provider/query'
-import { useCurrentProjectId } from '@redux/hooks'
+import {
+  useAppDispatch,
+  useCurrentProjectId,
+  useSelectedProjectInfo
+} from '@redux/hooks'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
+import { setSelectedProjectInfo } from '@redux/user'
 
-export const MyProjectSelect: React.FC = () => {
+interface MyProjectSelectProps {
+  searchedProject?: string
+}
+
+export const MyProjectSelect: React.FC<MyProjectSelectProps> = ({
+  searchedProject = ''
+}: MyProjectSelectProps): JSX.Element => {
+  const [selectedProject, setSelectedProject] = useState<MyProjectsOption>()
+
+  const dispatch = useAppDispatch()
   const currentProjectId = useCurrentProjectId()
   const { showSnackBar } = useSnackBar()
-  const { data: options, isLoading, error } = useGetMyProjects('') // TODO add isLoading and Error
-  const [selectedProject, setSelectedProject] = useState<
-    MyProjectsOption | undefined
-  >(options?.find((project) => project.id === currentProjectId))
-
+  const { data: options, isLoading, error } = useGetMyProjects(searchedProject)
   const screenSize = useScreenSize()
+
   const isMobile = screenSize.width <= 768
 
+  if (selectedProject === undefined && options && !isMobile) {
+    setSelectedProject(
+      options?.find((project) => project.id === currentProjectId) || options[0]
+    )
+    dispatch(
+      setSelectedProjectInfo(
+        options?.find((project) => project.id === currentProjectId) ||
+          options[0]
+      )
+    )
+  }
   useEffect(() => {
-    if (selectedProject === undefined && options) {
-      setSelectedProject(options[0])
-    }
     if (error) {
       showSnackBar(error.message, 'error')
     }
-  }, [options, showSnackBar])
+  }, [error, showSnackBar])
 
-  const handleSelect = (selectedProject: MyProjectsOption): void => {
-    setSelectedProject(selectedProject)
+  const handleSelect = (selectedOption: MyProjectsOption): void => {
+    if (options) {
+      const selectedProject = options.find(
+        (project: MyProjectsOption) => project.id === selectedOption.id
+      )
+      if (selectedProject) {
+        setSelectedProject(selectedProject)
+        dispatch(setSelectedProjectInfo(selectedProject))
+      }
+    }
   }
+  console.log(useSelectedProjectInfo(), selectedProject)
+
   return (
     <div
       className={`${isMobile && 'p-6'} relative w-full rounded-xl md:rounded-bl-xl h-full`}
