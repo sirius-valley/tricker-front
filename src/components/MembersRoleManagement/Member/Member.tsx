@@ -7,6 +7,7 @@ import { type TeamMember } from '@utils/types'
 import HelperText from '@utils/typography/helpertext/helpertext'
 import Subtitle from '@utils/typography/subtitle/subtitle'
 import { useState } from 'react'
+import SelectInput from '@components/SelectInput/SelectInput'
 
 interface MemberProps {
   member: TeamMember
@@ -27,7 +28,7 @@ const Member: React.FC<MemberProps> = ({
   }
 
   return (
-    <div className="flex items-center w-full p-2 rounded-lg bg-gray-500">
+    <div className="flex items-center w-full gap-4 p-2 rounded-lg bg-gray-500 text-white">
       <div className="flex w-full gap-4 items-center">
         {member.profileImage ? (
           <ProfilePicture img={member.profileImage} userName={member.name} />
@@ -47,25 +48,38 @@ const Member: React.FC<MemberProps> = ({
         </div>
       </div>
       {member.email !== actualUser.email && (
-        <button
-          className="hover:bg-gray-400 rounded-full p-0.5"
-          onClick={() => {
-            handleOnClick(member.email)
-          }}
-        >
-          <TrashIcon />
-          <ModalRemove
-            memberName={member.name}
-            projectName={'hola'}
-            onRemove={() => {
-              handleRemove(member.email)
+        <>
+          <div className="min-w-[210px] h-full flex items-center justify-center">
+            <SelectInput
+              handleSelectedOption={() => {}}
+              insideLabel="Role:"
+              variant="small"
+              options={[
+                { value: 'dev', label: 'Team Member' },
+                { value: 'pm', label: 'Project Manager' }
+              ]}
+            />
+          </div>
+          <button
+            className="hover:bg-gray-400 rounded-full p-0.5"
+            onClick={() => {
+              handleOnClick(member.email)
             }}
-            onClose={() => {
-              setOpenModal(false)
-            }}
-            show={openModal && userToRemove === member.email}
-          />
-        </button>
+          >
+            <TrashIcon />
+            <ModalRemove
+              memberName={member.name}
+              projectName={'hola'}
+              onRemove={() => {
+                handleRemove(member.email)
+              }}
+              onClose={() => {
+                setOpenModal(false)
+              }}
+              show={openModal && userToRemove === member.email}
+            />
+          </button>
+        </>
       )}
     </div>
   )
