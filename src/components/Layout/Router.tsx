@@ -34,6 +34,14 @@ export const ROUTER = createBrowserRouter([
       {
         path: '/setup/loader',
         element: <LoadingPage />
+      },
+      {
+        path: '/accept',
+        element: <ConfirmationPage />
+      },
+      {
+        path: '/decline',
+        element: <ConfirmationPage decline />
       }
     ]
   },
@@ -69,14 +77,6 @@ export const ROUTER = createBrowserRouter([
             element: <></>
           }
         ]
-      },
-      {
-        path: '/accept',
-        element: <ConfirmationPage />
-      },
-      {
-        path: '/decline',
-        element: <ConfirmationPage decline />
       }
     ]
   }
