@@ -27,16 +27,14 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
   const token = searchParams.get('token')
 
   const { data, isLoading, error } = useGetEmailInformation(
-    projectId || '',
-    token || ''
+    projectId || 'null',
+    token || 'null'
   )
-  const {
-    data: confirmation,
-    isLoading: isConfirmationLoading,
-    error: confirmationError
-  } = useAcceptOrDeclineEmail(projectId || '', token || '', decline)
-
-  console.log(confirmation, isConfirmationLoading)
+  const { error: confirmationError } = useAcceptOrDeclineEmail(
+    projectId || 'null',
+    token || 'null',
+    decline
+  )
 
   useEffect(() => {
     if (error) {
