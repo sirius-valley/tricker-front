@@ -32,7 +32,6 @@ const MembersRoleManagement: React.FC<MembersRoleManagementProps> = ({
       ).values()
     ]
     setRoles(uniqueRoles)
-    console.log('uniqueRoles', uniqueRoles)
   }, [members])
 
   const handleRemoveMember = (memberId: string): void => {
