@@ -30,6 +30,12 @@ export interface DropdownOption {
   image: string
 }
 
+export interface MyProjectsOption {
+  id: string
+  name: string
+  image: string
+}
+
 // Entities
 
 export interface User {

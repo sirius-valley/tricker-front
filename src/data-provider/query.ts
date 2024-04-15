@@ -13,7 +13,8 @@ import type {
   ModifyTimeData,
   IssueChronologyEvent,
   DevProjectFiltersDTO,
-  PMProjectFiltersDTO
+  PMProjectFiltersDTO,
+  MyProjectsOption
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -369,4 +370,18 @@ export const useRemoveTeamMember = (): {
   })
 
   return { mutate, error, isPending, isSuccess }
+}
+
+export const useGetMyProjects = (
+  projectName: string
+): {
+  data: MyProjectsOption[] | undefined | null
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getMyProjects', projectName],
+    queryFn: async () => await ApiService.getMyProjects(projectName)
+  })
+  return { data, error, isLoading }
 }
