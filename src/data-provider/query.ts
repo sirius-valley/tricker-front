@@ -14,7 +14,8 @@ import type {
   IssueChronologyEvent,
   DevProjectFiltersDTO,
   PMProjectFiltersDTO,
-  ProjectView
+  ProjectView,
+  MyProjectsOption
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -407,6 +408,20 @@ export const useGetProject = (
   const { data, error, isLoading } = useQuery({
     queryKey: ['getProject', projectId],
     queryFn: async () => await ApiService.getProject(projectId)
+  })
+  return { data, error, isLoading }
+}
+
+export const useGetMyProjects = (
+  projectName: string
+): {
+  data: MyProjectsOption[] | undefined | null
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getMyProjects', projectName],
+    queryFn: async () => await ApiService.getMyProjects(projectName)
   })
   return { data, error, isLoading }
 }

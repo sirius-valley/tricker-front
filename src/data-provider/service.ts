@@ -14,7 +14,8 @@ import type {
   DevProjectFiltersDTO,
   PMProjectFiltersDTO,
   ProjectView,
-  UpdateRoleReponse
+  UpdateRoleReponse,
+  MyProjectsOption
 } from '@utils/types'
 import { getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -251,6 +252,16 @@ export const getFilters = async (
     return res.data
   }
   return null
+}
+
+export const getMyProjects = async (
+  projectName: string
+): Promise<MyProjectsOption[]> => {
+  const res = await withInterceptors.get(`${url}/projects/${projectName}`)
+  if (res.status === 200) {
+    return res.data
+  }
+  return []
 }
 
 export const getChronology = async (

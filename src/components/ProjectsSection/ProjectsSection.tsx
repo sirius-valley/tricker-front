@@ -47,3 +47,4 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({
 }
 
 export default ProjectsSection
+

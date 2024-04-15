@@ -4,7 +4,12 @@ import {
   useSelector
 } from 'react-redux'
 import { type AppDispatch, type RootState } from './store'
-import { type User, type Step, type IssueView } from '@utils/types'
+import {
+  type User,
+  type Step,
+  type IssueView,
+  type MyProjectsOption
+} from '@utils/types'
 
 type DispatchFunc = () => AppDispatch
 export const useAppDispatch: DispatchFunc = useDispatch
@@ -22,3 +27,5 @@ export const useUserRole = (): string =>
 export const useUser = (): User => useAppSelector((state) => state.user.user)
 export const useApiKey = (): { provider: string; value: string } =>
   useAppSelector((state) => state.user.apiKey)
+export const useSelectedProjectInfo = (): MyProjectsOption =>
+  useAppSelector((state) => state.user.selectedProjectInfo)
