@@ -8,7 +8,7 @@ const searchBarVariants = cva(
     variants: {
       variant: {
         desktop: ['py-1 px-2 w-[147px] rounded gap-2 text-sm'],
-        mobile: ['py-2 px-4 w-[249px] rounded-lg gap-4']
+        mobile: ['py-2 px-4 w-full rounded-lg gap-4']
       }
     },
     defaultVariants: {
@@ -44,7 +44,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     }
   }
   return (
-    <div className={`${variant === 'mobile' && 'rounded-lg'} flex`}>
+    <div className={`${variant === 'mobile' && 'rounded-lg'} flex w-full`}>
       <div
         className={`${searchBarVariants({ variant, className })}`}
         onClick={handleClick}
@@ -57,7 +57,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           value={value}
           placeholder={placeholder}
           onChange={handleChange}
-          className={`flex bg-transparent focus:outline-none placeholder:text-gray-300 text-white w-full font-inter`}
+          className={`flex bg-transparent focus:outline-none placeholder:text-gray-300 text-white font-inter`}
         />
         {value && (
           <div>
