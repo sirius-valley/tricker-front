@@ -9,7 +9,7 @@ import LoginPage from '@pages/Login/LoginPage'
 import RoleValidation from './RoleValidation/RoleValidation'
 import TicketsSection from '@components/TicketsSection/TicketsSection'
 import LoginFlowValidation from './LoginFlowValidation/LoginFlowValidation'
-import AddProject from '@components/AddProject/AddProject'
+import ProjectWrapper from '@components/ProjectWrapper/ProjectWrapper'
 
 export const ROUTER = createBrowserRouter([
   {
@@ -66,7 +66,7 @@ export const ROUTER = createBrowserRouter([
           },
           {
             path: '/projects',
-            element: <AddProject handleSearch={() => {}} />
+            element: <ProjectWrapper />
           }
         ]
       }

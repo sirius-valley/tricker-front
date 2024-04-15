@@ -64,15 +64,15 @@ export const MyProjectSelect: React.FC<MyProjectSelectProps> = ({
 
   return (
     <div
-      className={`${isMobile && 'p-6'} relative w-full rounded-xl md:rounded-bl-xl h-full`}
+      className={`${isMobile && 'p-6'} relative w-full md:rounded-bl-xl h-full  rounded-xl max-h-full ${isLoading && 'overflow-y-hidden'}`}
     >
       <div
-        className={`${isMobile && 'bg-gray-500'} ${options && options?.length <= 12 ? 'h-fit' : 'h-full'} md:h-full w-full rounded-xl md:rounded-bl-xl overflow-y-auto`}
+        className={`${isMobile && 'bg-gray-500'} ${options && options?.length <= 12 ? 'h-fit' : 'h-full'} rounded-xl max-h-full md:rounded-none md:h-full w-full md:rounded-bl-xl ${isLoading ? 'overflow-y-hidden' : 'overflow-y-auto'}`}
       >
         {isLoading ? (
-          <div className="pb-1 w-full">
+          <div className="pb-1 w-full max-h-full">
             <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
-              {Array.from({ length: 14 }, (_, index) => (
+              {Array.from({ length: 20 }, (_, index) => (
                 <Skeleton
                   key={index}
                   height={48}
