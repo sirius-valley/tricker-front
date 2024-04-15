@@ -100,7 +100,7 @@ const Member: React.FC<MemberProps> = ({
   }, [isSuccessRole, errorRole])
 
   return (
-    <div className="flex items-center w-full gap-4 p-2 rounded-lg bg-gray-500 text-white">
+    <div className="flex items-center w-full gap-4 p-2 rounded-lg text-white">
       {isPendingRemove ? (
         <div className="h-[36px] flex w-full items-center justify-center">
           <Spinner variant="white" size={20} />
