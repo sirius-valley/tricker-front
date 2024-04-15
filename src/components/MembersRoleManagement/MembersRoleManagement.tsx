@@ -19,13 +19,13 @@ const MembersRoleManagement: React.FC<MembersRoleManagementProps> = ({
     []
   )
   const [thisMembers, setThisMembers] = useState<TeamMember[]>(
-    members.sort((a, b) => a.name.localeCompare(b.name))
+    members?.sort((a, b) => a.name.localeCompare(b.name))
   )
 
   useEffect(() => {
     const uniqueRoles = [
       ...new Map(
-        members.map((member) => [
+        members?.map((member) => [
           member.role.id,
           { value: member.role.id, label: member.role.name }
         ])
@@ -41,24 +41,26 @@ const MembersRoleManagement: React.FC<MembersRoleManagementProps> = ({
   }
 
   return (
-    <div className="w-full flex flex-col gap-6">
-      <div className="flex flex-col gap-1">
-        <Body1>Team members</Body1>
-        <HelperText>Who has access to this workspace.</HelperText>
+    members?.length > 0 && (
+      <div className="w-full flex flex-col gap-6 text-white">
+        <div className="flex flex-col gap-1">
+          <Body1>Team members</Body1>
+          <HelperText>Who has access to this workspace.</HelperText>
+        </div>
+        <div className="flex flex-col gap-2 mb-4">
+          {thisMembers.map((member) => (
+            <Member
+              handleRemove={handleRemoveMember}
+              projectName={projectName}
+              projectId={projectId}
+              roles={roles}
+              member={member}
+              key={member.email}
+            />
+          ))}
+        </div>
       </div>
-      <div className="flex flex-col gap-2 mb-4">
-        {thisMembers.map((member) => (
-          <Member
-            handleRemove={handleRemoveMember}
-            projectName={projectName}
-            projectId={projectId}
-            roles={roles}
-            member={member}
-            key={member.email}
-          />
-        ))}
-      </div>
-    </div>
+    )
   )
 }
 
