@@ -18,7 +18,9 @@ const MembersRoleManagement: React.FC<MembersRoleManagementProps> = ({
   const [roles, setRoles] = useState<Array<{ value: string; label: string }>>(
     []
   )
-  const [thisMembers, setThisMembers] = useState<TeamMember[]>(members)
+  const [thisMembers, setThisMembers] = useState<TeamMember[]>(
+    members.sort((a, b) => a.name.localeCompare(b.name))
+  )
 
   useEffect(() => {
     const uniqueRoles = [
@@ -45,7 +47,7 @@ const MembersRoleManagement: React.FC<MembersRoleManagementProps> = ({
         <Body1>Team members</Body1>
         <HelperText>Who has access to this workspace.</HelperText>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mb-4">
         {thisMembers.map((member) => (
           <Member
             handleRemove={handleRemoveMember}
