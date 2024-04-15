@@ -3,12 +3,12 @@ import { type VariantProps, cva } from 'class-variance-authority'
 import React from 'react'
 
 const searchBarVariants = cva(
-  ['flex items-center bg-white/5 h-fit border border-white/30'],
+  ['flex items-center bg-white/5 border border-white/30'],
   {
     variants: {
       variant: {
         desktop: ['py-1 px-2 w-[147px] rounded gap-2 text-sm'],
-        mobile: ['py-2 px-4 w-[289px] rounded-lg gap-4']
+        mobile: ['py-2 px-4 w-[249px] rounded-lg gap-4']
       }
     },
     defaultVariants: {
@@ -44,7 +44,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     }
   }
   return (
-    <div className={`${variant === 'mobile' && 'rounded-lg w-[289px]'} flex`}>
+    <div className={`${variant === 'mobile' && 'rounded-lg'} flex`}>
       <div
         className={`${searchBarVariants({ variant, className })}`}
         onClick={handleClick}
