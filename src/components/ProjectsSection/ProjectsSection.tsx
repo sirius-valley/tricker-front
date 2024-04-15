@@ -8,8 +8,8 @@ export interface ProjectsSectionProps {
 }
 
 const ProjectsSection: React.FC<ProjectsSectionProps> = ({
-  projectId = '993f3f0f-3a09-4bbd-a716-948e0aed5935'
-}): JSX.Element => {
+  projectId = '97cd2474-c742-4240-b0a0-f254729f7042'
+}: ProjectsSectionProps): JSX.Element => {
   const { data, isLoading, error } = useGetProject(projectId)
 
   const { showSnackBar } = useSnackBar()
