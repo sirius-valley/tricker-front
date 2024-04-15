@@ -8,6 +8,7 @@ import { useAppDispatch, useCurrentProjectId } from '@redux/hooks'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { setSelectedProjectInfo } from '@redux/user'
+import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 
 interface MyProjectSelectProps {
   searchedProject?: string
@@ -61,27 +62,24 @@ export const MyProjectSelect: React.FC<MyProjectSelectProps> = ({
       }
     }
   }
-
+  console.log(options)
   return (
     <div
-      className={`${isMobile && 'p-6'} relative w-full md:rounded-bl-xl h-full  rounded-xl max-h-full ${isLoading && 'overflow-y-hidden'}`}
+      className={`${isMobile && 'p-6'} relative w-full h-full md:rounded-bl-xl rounded-xl max-h-full ${isLoading && 'overflow-y-hidden'}`}
     >
+      {isLoading && (
+        <div className="pb-1 w-full max-h-full">
+          <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
+            {Array.from({ length: 20 }, (_, index) => (
+              <Skeleton key={index} height={48} containerClassName="h-[14px]" />
+            ))}
+          </SkeletonTheme>
+        </div>
+      )}
       <div
-        className={`${isMobile && 'bg-gray-500'} ${options && options?.length <= 12 ? 'h-fit' : 'h-full'} rounded-xl max-h-full md:rounded-none md:h-full w-full md:rounded-bl-xl ${isLoading ? 'overflow-y-hidden' : 'overflow-y-auto'}`}
+        className={`${isMobile && 'bg-gray-500'} ${options && options.length <= 12 && options.length !== 0 ? 'h-fit' : 'h-full'} rounded-xl max-h-full md:rounded-none md:h-full w-full md:rounded-bl-xl ${isLoading ? 'overflow-y-hidden' : 'overflow-y-auto'}`}
       >
-        {isLoading ? (
-          <div className="pb-1 w-full max-h-full">
-            <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
-              {Array.from({ length: 20 }, (_, index) => (
-                <Skeleton
-                  key={index}
-                  height={48}
-                  containerClassName="h-[14px]"
-                />
-              ))}
-            </SkeletonTheme>
-          </div>
-        ) : (
+        {options && options.length !== 0 && !error ? (
           <div
             className={`bg-gray-500 rounded-xl md:rounded-bl-xl w-full rounded-lg md:rounded-none`}
           >
@@ -134,6 +132,13 @@ export const MyProjectSelect: React.FC<MyProjectSelectProps> = ({
                 ))}
               </div>
             </div>
+          </div>
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <NoTicketMessage
+              title="No projects matches with your search"
+              subtitle=""
+            />
           </div>
         )}
       </div>
