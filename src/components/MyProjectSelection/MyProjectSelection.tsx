@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import NoAvatarProject from '@components/NoAvatar/NoAvatarProject'
 import { type MyProjectsOption } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
@@ -25,6 +25,7 @@ export const MyProjectSelect: React.FC<MyProjectSelectProps> = ({
   const dispatch = useAppDispatch()
   const currentProjectId = useCurrentProjectId()
   const { showSnackBar } = useSnackBar()
+  const memoizedShowSnackBar = useCallback(showSnackBar, [])
   const { data: options, isLoading, error } = useGetMyProjects(searchedProject)
   const screenSize = useScreenSize()
 
@@ -45,9 +46,9 @@ export const MyProjectSelect: React.FC<MyProjectSelectProps> = ({
 
   useEffect(() => {
     if (error) {
-      showSnackBar(error.message, 'error')
+      memoizedShowSnackBar(error.message, 'error')
     }
-  }, [error, showSnackBar, options])
+  }, [error, memoizedShowSnackBar])
 
   const handleSelect = (selectedOption: MyProjectsOption): void => {
     if (options) {
