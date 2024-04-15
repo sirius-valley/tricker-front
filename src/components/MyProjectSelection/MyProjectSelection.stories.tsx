@@ -3,6 +3,7 @@ import { MyProjectSelect } from './MyProjectSelection'
 import { Provider } from 'react-redux'
 import { store } from '@redux/store'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { SnackBarProvider } from '@components/SnackBarProvider/SnackBarProvider'
 
 const queryClient = new QueryClient()
 
@@ -10,11 +11,6 @@ const meta: Meta<typeof MyProjectSelect> = {
   title: 'Components/MyProjectSelection',
   component: MyProjectSelect,
   tags: ['autodocs'],
-  decorators: [
-    (Story) => (
-      <QueryClientProvider client={queryClient}>{Story()}</QueryClientProvider>
-    )
-  ],
   argTypes: {
     searchedProject: {
       control: {
@@ -36,8 +32,12 @@ export const Primary: Story = {
     searchedProject: ''
   },
   render: (args) => (
-    <Provider store={store}>
-      <MyProjectSelect {...args} />
-    </Provider>
+    <SnackBarProvider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <MyProjectSelect {...args} />
+        </Provider>
+      </QueryClientProvider>
+    </SnackBarProvider>
   )
 }
