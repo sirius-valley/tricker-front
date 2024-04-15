@@ -8,7 +8,7 @@ import type * as icons from '@components/Icon/index.ts'
 
 const selectInputVariants = cva(
   [
-    'outline-none placeholder-gray-300 bg-transparent border rounded-lg w-full text-gray-300'
+    'outline-none placeholder-gray-300 bg-transparent border rounded-lg text-gray-300'
   ],
   {
     variants: {
@@ -108,14 +108,8 @@ const SelectInput = ({
     setRotateIcon(false)
   }
 
-  useEffect(() => {
-    if (selectedOption) {
-      handleOptionSelect(selectedOption)
-    }
-  }, [preselectedOption])
-
   return (
-    <div className="gap-2 flex flex-col w-full">
+    <div className="gap-2 flex w-full">
       {label !== '' && (
         <div className="flex w-fit">
           <Body2
@@ -135,34 +129,34 @@ const SelectInput = ({
           )}
         </div>
       )}
-      <div className="relative w-full" ref={selectRef}>
+      <div className="relative min-w-full" ref={selectRef}>
         <button
-          className={`${selectInputVariants({ variant, className })} text-left flex justify-between items-center gap-3`}
+          className={`${selectInputVariants({ variant, className })} text-left flex w-full justify-between items-center gap-3`}
           onClick={toggleOptions}
           disabled={variant === 'disabled'}
         >
-          <div className="flex gap-2 w-fit">
+          <div className="flex gap-2 w-full">
             {insideLabel !== '' && (
               <Body1 className="text-sm  leading-[18px] left-4 top-0 bottom-0 flex items-center text-gray-300/60">
                 {insideLabel}
               </Body1>
             )}
             <Body1
-              className={`text-nowrap w-full ${variant === 'small' ? 'text-sm leading-[18px] text-white' : ''}`}
+              className={`truncate w-full ${variant === 'small' ? 'text-sm leading-[18px] text-white' : ''}`}
             >
               {selectedOption?.label || 'Select'}
             </Body1>
+            {icon && (
+              <div
+                className={`items-center transition-transform duration-300 ease-in-out ${variant === 'small' ? 'right-[6px]' : 'right-4'} ${rotateIcon ? 'transform rotate-180' : ''}`}
+              >
+                {<Icon name={icon} width="18" height="18" />}
+              </div>
+            )}
           </div>
-          {icon && (
-            <div
-              className={`items-center transition-transform duration-300 ease-in-out ${variant === 'small' ? 'right-[6px]' : 'right-4'} ${rotateIcon ? 'transform rotate-180' : ''}`}
-            >
-              {<Icon name={icon} width="18" height="18" />}
-            </div>
-          )}
         </button>
         {isOpen && (
-          <div className="absolute left-0 w-full bg-gray-500 rounded-lg">
+          <div className="absolute left-0 w-full bg-gray-500 rounded-lg z-10">
             <div className="text-white border shadow-lg max-h-[210px] overflow-y-auto rounded-lg">
               {options.map((option) => (
                 <div

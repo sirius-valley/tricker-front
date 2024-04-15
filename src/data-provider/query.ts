@@ -356,8 +356,9 @@ export const useRemoveTeamMember = (): {
   error: Error | null
   isPending: boolean
   isSuccess: boolean
+  reset: () => void
 } => {
-  const { mutate, error, isPending, isSuccess } = useMutation({
+  const { mutate, error, isPending, isSuccess, reset } = useMutation({
     mutationFn: async ({
       projectId,
       userId
@@ -369,7 +370,31 @@ export const useRemoveTeamMember = (): {
     }
   })
 
-  return { mutate, error, isPending, isSuccess }
+  return { mutate, error, isPending, isSuccess, reset }
+}
+
+export const usePostModifyMemberRole = (): {
+  mutate: (args: { projectId: string; userId: string; roleId: string }) => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+  reset: () => void
+} => {
+  const { mutate, error, isPending, isSuccess, reset } = useMutation({
+    mutationFn: async ({
+      projectId,
+      userId,
+      roleId
+    }: {
+      projectId: string
+      userId: string
+      roleId: string
+    }) => {
+      await ApiService.postModifyMemberRole(projectId, userId, roleId)
+    }
+  })
+
+  return { mutate, error, isPending, isSuccess, reset }
 }
 
 export const useGetProject = (

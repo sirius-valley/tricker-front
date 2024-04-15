@@ -13,7 +13,8 @@ import type {
   IssueChronologyEvent,
   DevProjectFiltersDTO,
   PMProjectFiltersDTO,
-  ProjectView
+  ProjectView,
+  UpdateRoleReponse
 } from '@utils/types'
 import { getIdToken, setLoginCookies } from './Cookies'
 import config from '@utils/config'
@@ -366,18 +367,15 @@ export const postModifyMemberRole = async (
   projectId: string,
   userId: string,
   roleId: string
-): Promise<void> => {
-  // const res = await withInterceptors.post(`${url}/${userId}/project/${projectId}/modification`, { roleId })
-  // if (res.status === 200) {
-  //   return
-  // }
-
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      console.log(projectId, userId, roleId)
-      resolve(null)
-    }, 2000)
-  })
+): Promise<UpdateRoleReponse | null> => {
+  const res = await withInterceptors.post(
+    `${url}/use/${userId}/project/${projectId}/modification`,
+    { roleId }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
 }
 
 export const getProject = async (

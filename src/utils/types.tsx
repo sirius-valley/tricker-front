@@ -56,6 +56,17 @@ export interface Role {
   name: string
 }
 
+export interface UpdateRoleReponse {
+  id: string
+  userId: string
+  projectId: string
+  roleId: string
+  userEmitterId: string
+  createdAt: string
+  updatedAt: string
+  deletedAt?: string | null
+}
+
 export interface UserIssue {
   id: string
   name: string
@@ -187,17 +198,7 @@ export interface ProjectView {
   issueProviderName: string
   organizationId: string
   updatedAt: string
-  users: [
-    {
-      name: string
-      email: string
-      image?: string
-      role: {
-        id: string
-        name: string
-      }
-    }
-  ]
+  users: TeamMember[]
 }
 
 export interface ProjectPreIntegrated {
@@ -215,9 +216,10 @@ export interface MemberPreIntegrated {
 }
 
 export interface TeamMember {
+  id: string
   email: string
   name: string
-  profileImage?: string
+  image?: string
   role: Role
 }
 
