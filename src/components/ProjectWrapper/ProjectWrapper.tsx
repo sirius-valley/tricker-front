@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 const ProjectWrapper: React.FC = (): JSX.Element => {
   const [searchedProject, setSearchedProject] = useState<string>('')
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center h-full">
       <AddProject handleSearch={setSearchedProject} />
       <MyProjectSelect searchedProject={searchedProject} />
     </div>

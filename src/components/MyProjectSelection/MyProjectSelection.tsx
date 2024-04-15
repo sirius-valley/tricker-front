@@ -62,20 +62,19 @@ export const MyProjectSelect: React.FC<MyProjectSelectProps> = ({
       }
     }
   }
-  console.log(options)
-  return (
+
+  return isLoading ? (
+    <div className="p-6 md:p-0 w-full h-full rounded-xl overflow-y-hidden">
+      <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
+        {Array.from({ length: 20 }, (_, index) => (
+          <Skeleton key={index} height={48} containerClassName="h-[14px]" />
+        ))}
+      </SkeletonTheme>
+    </div>
+  ) : (
     <div
       className={`${isMobile && 'p-6'} relative w-full h-full md:rounded-bl-xl rounded-xl max-h-full ${isLoading && 'overflow-y-hidden'}`}
     >
-      {isLoading && (
-        <div className="pb-1 w-full max-h-full">
-          <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
-            {Array.from({ length: 20 }, (_, index) => (
-              <Skeleton key={index} height={48} containerClassName="h-[14px]" />
-            ))}
-          </SkeletonTheme>
-        </div>
-      )}
       <div
         className={`${isMobile && 'bg-gray-500'} ${options && options.length <= 12 && options.length !== 0 ? 'h-fit' : 'h-full'} rounded-xl max-h-full md:rounded-none md:h-full w-full md:rounded-bl-xl ${isLoading ? 'overflow-y-hidden' : 'overflow-y-auto'}`}
       >
