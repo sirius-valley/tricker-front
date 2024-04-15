@@ -44,7 +44,9 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     }
   }
   return (
-    <div className={`${variant === 'mobile' && 'rounded-lg'} flex w-full`}>
+    <div
+      className={`${variant === 'mobile' && 'rounded-lg'} flex md:w-fit w-full`}
+    >
       <div
         className={`${searchBarVariants({ variant, className })}`}
         onClick={handleClick}
@@ -57,7 +59,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           value={value}
           placeholder={placeholder}
           onChange={handleChange}
-          className={`flex bg-transparent focus:outline-none placeholder:text-gray-300 text-white font-inter`}
+          className={`flex bg-transparent w-full focus:outline-none placeholder:text-gray-300 text-white font-inter`}
         />
         {value && (
           <div>
