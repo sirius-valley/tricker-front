@@ -4,7 +4,6 @@ import { useGetProject } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import { useEffect } from 'react'
 import useScreenSize from '@hooks/useScreenSize'
-import { MyProjectSelect } from '@components/MyProjectSelection/MyProjectSelection'
 import { useSelectedProjectInfo, useAppDispatch } from '@redux/hooks'
 import { Modal } from '@components/Modal/Modal'
 import Body1 from '@utils/typography/body1/body1'
@@ -96,4 +95,3 @@ const ProjectsSection: React.FC = (): JSX.Element => {
 }
 
 export default ProjectsSection
-
