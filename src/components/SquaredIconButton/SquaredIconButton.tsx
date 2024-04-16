@@ -15,18 +15,10 @@ const SquaredIconButton: React.FC<SquaredIconButtonProps> = ({
   isMobile = false,
   ...props
 }) => {
-  const IconComponent = React.cloneElement(
-    icon as React.ReactElement,
-    isMobile
-      ? {
-          width: '20px',
-          height: '20px'
-        }
-      : {
-          width: '20px',
-          height: '20px'
-        }
-  )
+  const IconComponent = React.cloneElement(icon as React.ReactElement, {
+    width: '20px',
+    height: '20px'
+  })
 
   return (
     <button
