@@ -95,7 +95,7 @@ const TicketList: React.FC<TicketListProps> = ({
 
   return variant === 'list' ? (
     <div
-      className={`w-full max-w-[467px] h-full bg-gray-500 ${filteredIssues ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-full max-w-[467px] h-full bg-gray-500 ${filteredIssues ? 'overflow-y-scroll scrollbar-hide' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-1">
@@ -172,7 +172,7 @@ const TicketList: React.FC<TicketListProps> = ({
     </div>
   ) : (
     <div
-      className={`w-full max-w-full md:max-w-[467px] h-[770px] bg-gray-500 ${filteredIssues ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-full max-w-full md:max-w-[467px] h-[770px] bg-gray-500 ${filteredIssues ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-6 w-full">
