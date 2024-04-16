@@ -13,6 +13,8 @@ import type {
   IssueChronologyEvent,
   DevProjectFiltersDTO,
   PMProjectFiltersDTO,
+  ProjectView,
+  UpdateRoleReponse,
   MyProjectsOption
 } from '@utils/types'
 import { getIdToken, setLoginCookies } from './Cookies'
@@ -323,7 +325,7 @@ export const getChronology = async (
   // ]
 }
 
-export const refreshProject = async (
+export const postRefreshProject = async (
   projectId: string,
   apiToken: string
 ): Promise<Date | null> => {
@@ -357,7 +359,7 @@ export const deleteProject = async (projectId: string): Promise<void> => {
   })
 }
 
-export const removeTeamMember = async (
+export const deleteTeamMember = async (
   projectId: string,
   userId: string
 ): Promise<void> => {
@@ -372,4 +374,29 @@ export const removeTeamMember = async (
       resolve(null)
     }, 2000)
   })
+}
+
+export const postModifyMemberRole = async (
+  projectId: string,
+  userId: string,
+  roleId: string
+): Promise<UpdateRoleReponse | null> => {
+  const res = await withInterceptors.post(
+    `${url}/user/${userId}/project/${projectId}/modification`,
+    { roleId }
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+}
+
+export const getProject = async (
+  projectId: string
+): Promise<ProjectView | null> => {
+  const res = await withInterceptors.get(`${url}/projects/${projectId}`)
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
 }
