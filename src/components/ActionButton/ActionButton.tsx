@@ -19,7 +19,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
 
   return (
     <div
-      className={`bg-${disabled ? 'gray-400' : 'gradient'} rounded-lg w-fit p-px`}
+      className={`bg-${disabled ? 'gray-400' : 'transparent border border-white/30'} rounded-lg`}
     >
       <div className="flex justify-center items-center bg-gray-600 rounded-lg">
         <button

@@ -9,6 +9,7 @@ import { useSelectedProjectInfo, useAppDispatch } from '@redux/hooks'
 import { Modal } from '@components/Modal/Modal'
 import Body1 from '@utils/typography/body1/body1'
 import { setSelectedProjectInfo } from '@redux/user'
+import ProjectWrapper from '@components/ProjectWrapper/ProjectWrapper'
 
 const ProjectsSection: React.FC = (): JSX.Element => {
   const project = useSelectedProjectInfo()
@@ -40,7 +41,7 @@ const ProjectsSection: React.FC = (): JSX.Element => {
 
   return screen.width >= 768 ? (
     <div className="h-full w-full flex text-white">
-      <MyProjectSelect />
+      <ProjectWrapper />
       {data && !isLoading && (
         <div className="flex flex-col w-full h-full pt-[60px] 2xl:px-16 px-8 self-end gap-10 overflow-y-auto overflow-x-hidden border-l border-gray-400">
           <ProjectDetails
@@ -61,7 +62,7 @@ const ProjectsSection: React.FC = (): JSX.Element => {
     </div>
   ) : (
     <div className="h-full w-full flex text-white">
-      <MyProjectSelect />
+      <ProjectWrapper />
       {data && !isLoading && (
         <Modal onClose={deselectCurrentProject} show={project.id !== ''}>
           <div className="flex flex-col w-full h-full bg-gray-700 overflow-y-auto">
@@ -95,3 +96,4 @@ const ProjectsSection: React.FC = (): JSX.Element => {
 }
 
 export default ProjectsSection
+
