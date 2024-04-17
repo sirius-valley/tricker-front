@@ -64,7 +64,7 @@ const ProjectsSection: React.FC = (): JSX.Element => {
         projectName={project.name}
         show={showDeleteModal}
       />
-      <div className="max-w-[467px] w-full">
+      <div className="max-w-[467px] w-[50%] xl:w-full">
         <ProjectWrapper />
       </div>
       {data?.name && !isLoading && (
