@@ -7,7 +7,12 @@ import { type DropdownOption } from '@utils/types'
 import NoAvatarProject from '@components/NoAvatar/NoAvatarProject'
 import useScreenSize from '@hooks/useScreenSize'
 import RadioButton from '@components/RadioButton/RadioButton'
-
+import { useDispatch } from 'react-redux'
+import {
+  setCurrentTicket,
+  initialState,
+  setCurrentProjectId
+} from '@redux/user'
 const colors = config.theme.extend.colors
 
 interface DropdownProps {
@@ -28,11 +33,15 @@ export const Dropdown: React.FC<DropdownProps> = ({
     useState<DropdownOption>(preSelectedOption)
   const [isOpen, setIsOpen] = useState(false)
 
+  const dispatch = useDispatch()
+
   const dropdownRef = useRef<HTMLDivElement | null>(null)
 
   const handleDropdownSelect = useCallback(
     (selectedProject: DropdownOption): void => {
       setSelectedProject(selectedProject)
+      dispatch(setCurrentTicket(initialState.currentTicket))
+      dispatch(setCurrentProjectId(selectedProject.id))
       handleSelect(selectedProject)
     },
     [handleSelect]
