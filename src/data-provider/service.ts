@@ -372,7 +372,7 @@ export const postModifyMemberRole = async (
   roleId: string
 ): Promise<UpdateRoleReponse | null> => {
   const res = await withInterceptors.post(
-    `${url}/user/${userId}/projects/${projectId}/modification`,
+    `${url}/user/${userId}/project/${projectId}/modification`,
     { roleId }
   )
   if (res.status === 200) {
