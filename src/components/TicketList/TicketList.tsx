@@ -41,16 +41,25 @@ const TicketList: React.FC<TicketListProps> = ({
   const [openModal, setOpenModal] = useState(false)
   const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
+  const [enabled, setEnabled] = useState(false)
 
   const user = useUser()
   const dispatch = useAppDispatch()
 
-  const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
+  const { data, error, isLoading, refetch } = useGetIssuesFilteredAndPaginated(
     isProjectManager,
     user.id,
     currentProjectId,
-    { ...filters, isOutOfEstimation }
+    { ...filters, isOutOfEstimation },
+    enabled
   )
+
+  useEffect(() => {
+    if (currentProjectId !== '') {
+      setEnabled(true)
+      refetch()
+    }
+  }, [currentProjectId])
 
   const filteredIssues: IssueView[] | undefined = data?.filter(
     (issue: IssueView) =>
