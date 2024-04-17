@@ -11,12 +11,10 @@ import {
   useUser,
   useUserRole
 } from '@redux/hooks'
-import { setCurrentTicket } from '@redux/user'
+import { setCurrentTicket, initialState } from '@redux/user'
 import {
   type IssueChronologyEvent,
-  type IssueChronologyEventDTO,
-  Priority,
-  StageType
+  type IssueChronologyEventDTO
 } from '@utils/types'
 import { useNavigate } from 'react-router-dom'
 import Timer from '@components/Timer/Timer'
@@ -38,31 +36,24 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
   const navigate = useNavigate()
   if (user.id === '') navigate('/login')
   const [chronology, setChronology] = useState<IssueChronologyEvent[]>([])
+  const [enabled, setEnabled] = useState<boolean>(false)
   const { showSnackBar } = useSnackBar()
 
   const deselectCurrentTicket = (): void => {
-    dispatch(
-      setCurrentTicket({
-        id: '',
-        assignee: null,
-        stage: {
-          id: '',
-          name: '',
-          type: StageType.BACKLOG,
-          position: 0,
-          color: ''
-        },
-        name: '',
-        title: '',
-        priority: Priority.NO_PRIORITY,
-        storyPoints: 0,
-        isBlocked: false,
-        isTracking: false
-      })
-    )
+    dispatch(setCurrentTicket(initialState.currentTicket))
   }
 
-  const { data, isLoading, error } = useGetIssueById(currentTicket.id)
+  const { data, isLoading, error, refetch } = useGetIssueById(
+    currentTicket.id,
+    enabled
+  )
+
+  useEffect(() => {
+    if (currentTicket.id !== '') {
+      setEnabled(true)
+      refetch()
+    }
+  }, [currentTicket.id])
 
   useEffect(() => {
     if (error) {
@@ -90,15 +81,17 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
 
   return screen.width >= 768 ? (
     <div className="h-full w-full flex items-center">
-      <TicketListWrapper
-        currentTicket={currentTicket}
-        userRole={
-          myTeam && userRole === 'Project Manager' ? userRole : 'Developer'
-        }
-      />
+      <div className="max-w-[467px] w-full h-full">
+        <TicketListWrapper
+          currentTicket={currentTicket}
+          userRole={
+            myTeam && userRole === 'Project Manager' ? userRole : 'Developer'
+          }
+        />
+      </div>
       {currentTicket.id !== '' && (
         <div className="flex flex-col justify-between h-full w-full rounded-r-xl">
-          <div className="overflow-y-hidden hover:overflow-y-scroll h-full pr-[5px] hover:pr-0">
+          <div className="overflow-y-hidden hover:overflow-y-scroll w-full h-full pr-[5px] hover:pr-0">
             <div className="w-full h-full pt-[72px] xl:px-10 px-5 flex flex-col gap-10">
               <TicketDisplay
                 isLoading={isLoading}
@@ -130,7 +123,7 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
             <div
               className="overflow-y-auto"
               style={{
-                boxShadow: 'inset 0px -104px 47px 0px rgba(0,0,0,1);'
+                boxShadow: 'inset 0px -104px 47px 0px rgba(0,0,0,1)'
               }}
             >
               <button
