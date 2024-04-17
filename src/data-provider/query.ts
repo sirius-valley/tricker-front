@@ -135,13 +135,15 @@ export const useGetIssuesFilteredAndPaginated = (
   isProjectManager: boolean,
   userId: string,
   projectId: string,
-  filters: OptionalIssueFilters
+  filters: OptionalIssueFilters,
+  enabled?: boolean
 ): {
   data: IssueView[] | null | undefined
   error: Error | null
   isLoading: boolean
+  refetch: () => void
 } => {
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, refetch } = useQuery({
     queryKey: [
       'getIssuesFilteredAndPaginated',
       isProjectManager,
@@ -149,7 +151,7 @@ export const useGetIssuesFilteredAndPaginated = (
       projectId,
       filters
     ],
-
+    enabled,
     queryFn: async () =>
       await ApiService.getIssuesFilteredAndPaginated(
         isProjectManager,
@@ -159,7 +161,7 @@ export const useGetIssuesFilteredAndPaginated = (
       ),
     retry: false
   })
-  return { data, error, isLoading }
+  return { data, error, isLoading, refetch }
 }
 
 export const useGetIssueById = (
@@ -294,17 +296,20 @@ export const useGetTicketElapsedTime = (
 
 export const useGetFilters = (
   projectId: string,
-  userRole: 'pm' | 'dev'
+  userRole: 'pm' | 'dev',
+  enabled: boolean
 ): {
   data: DevProjectFiltersDTO | PMProjectFiltersDTO | null | undefined
   error: Error | null
   isLoading: boolean
+  refetch: () => void
 } => {
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, refetch } = useQuery({
     queryKey: ['getFilters', projectId, userRole],
-    queryFn: async () => await ApiService.getFilters(projectId, userRole)
+    queryFn: async () => await ApiService.getFilters(projectId, userRole),
+    enabled
   })
-  return { data, error, isLoading }
+  return { data, refetch, error, isLoading }
 }
 
 export const useGetChronology = (
