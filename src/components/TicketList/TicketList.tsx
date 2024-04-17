@@ -95,7 +95,7 @@ const TicketList: React.FC<TicketListProps> = ({
 
   return variant === 'list' ? (
     <div
-      className={`w-full max-w-[467px] h-full bg-gray-500 ${filteredIssues ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-full max-w-full h-full bg-gray-500 ${filteredIssues ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-1">
@@ -108,7 +108,7 @@ const TicketList: React.FC<TicketListProps> = ({
       )}
       {filteredIssues && filteredIssues.length !== 0 && !error ? (
         Object.entries(groupedByStageName).map(([key, issues]) => (
-          <div key={key} className="text-white">
+          <div key={key} className="text-white w-full">
             <div className="h-[51px] w-full bg-white/5 items-center flex py-4 px-6 gap-2">
               <div
                 className={`w-3 h-3 rounded-full`}
@@ -150,9 +150,7 @@ const TicketList: React.FC<TicketListProps> = ({
                   )}
                 </div>
                 <Body1 className="font-semibold min-w-fit">{issue.name}</Body1>
-                <Body1 className="w-[20vw] truncate text-ellipsis ">
-                  {issue.title}
-                </Body1>
+                <Body1 className="truncate text-ellipsis ">{issue.title}</Body1>
                 {issue.isBlocked && <Pill variant="blocked">Blocked</Pill>}
                 {issue.isTracking && (
                   <Pill variant="tracking">Tracking time</Pill>
@@ -172,7 +170,7 @@ const TicketList: React.FC<TicketListProps> = ({
     </div>
   ) : (
     <div
-      className={`w-full max-w-full md:max-w-[467px] h-[770px] bg-gray-500 ${filteredIssues ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-full max-w-full h-full bg-gray-500 ${filteredIssues ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-6 w-full">
