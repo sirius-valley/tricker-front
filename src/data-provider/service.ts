@@ -330,7 +330,7 @@ export const postRefreshProject = async (
   apiToken: string
 ): Promise<Date | null> => {
   // const res = await withInterceptors.post(
-  //   `${url}/project/${projectId}/synchronize`,
+  //   `${url}/projects/${projectId}/synchronize`,
   //   { apiToken }
   // )
   // if (res.status === 200) {
@@ -345,35 +345,25 @@ export const postRefreshProject = async (
   })
 }
 
-export const deleteProject = async (projectId: string): Promise<void> => {
-  // const res = await withInterceptors.delete(`${url}/project/${projectId}`)
-  // if (res.status === 204) {
-  //   return
-  // }
-
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      console.log(projectId)
-      resolve(null)
-    }, 2000)
-  })
+export const deleteProject = async (projectId: string): Promise<boolean> => {
+  const res = await withInterceptors.delete(`${url}/projects/${projectId}`)
+  if (res.status === 204) {
+    return true
+  }
+  return false
 }
 
 export const deleteTeamMember = async (
   projectId: string,
   userId: string
-): Promise<void> => {
-  // const res = await withInterceptors.delete(`${url}/project/${projectId}/member/${userId}`)
-  // if (res.status === 204) {
-  //   return
-  // }
-
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      console.log(projectId, userId)
-      resolve(null)
-    }, 2000)
-  })
+): Promise<boolean> => {
+  const res = await withInterceptors.delete(
+    `${url}/projects/${projectId}/member/${userId}`
+  )
+  if (res.status === 204) {
+    return true
+  }
+  return false
 }
 
 export const postModifyMemberRole = async (
@@ -382,7 +372,7 @@ export const postModifyMemberRole = async (
   roleId: string
 ): Promise<UpdateRoleReponse | null> => {
   const res = await withInterceptors.post(
-    `${url}/user/${userId}/project/${projectId}/modification`,
+    `${url}/user/${userId}/projects/${projectId}/modification`,
     { roleId }
   )
   if (res.status === 200) {
