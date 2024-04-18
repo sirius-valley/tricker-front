@@ -132,7 +132,7 @@ const ProjectsSection: React.FC = (): JSX.Element => {
                 </Body1>
               </button>
             </div>
-            <div className="w-full h-full flex flex-col gap-6 px-8 pb-8">
+            <div className="w-full h-full flex flex-col gap-6 px-8">
               <ProjectDetails
                 id={project.id}
                 url={data.url}
@@ -153,7 +153,7 @@ const ProjectsSection: React.FC = (): JSX.Element => {
                   }}
                   className="items-end flex w-full justify-center h-full"
                 >
-                  <Body1 className="text-error-500 text-[16px] p-4">
+                  <Body1 className="text-error-500 text-[16px] p-4 pb-12">
                     Delete Project
                   </Body1>
                 </button>
