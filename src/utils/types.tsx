@@ -60,7 +60,17 @@ export interface User {
 export interface Role {
   id: string
   name: string
-  users: UserProjectRole[]
+}
+
+export interface UpdateRoleReponse {
+  id: string
+  userId: string
+  projectId: string
+  roleId: string
+  userEmitterId: string
+  createdAt: string
+  updatedAt: string
+  deletedAt?: string | null
 }
 
 export interface UserIssue {
@@ -185,6 +195,18 @@ export interface Project {
   labels: ProjectLabel[]
 }
 
+// Returned by the API when fetching the project detail
+export interface ProjectView {
+  providerId: string
+  image?: string
+  url: string
+  name: string
+  issueProviderName: string
+  organizationId: string
+  updatedAt: string
+  users: TeamMember[]
+}
+
 export interface ProjectPreIntegrated {
   alreadyIntegrated?: boolean
   providerProjectId: string
@@ -197,6 +219,14 @@ export interface MemberPreIntegrated {
   email: string
   name: string
   profileImage?: string
+}
+
+export interface TeamMember {
+  id: string
+  email: string
+  name: string
+  image?: string
+  role: Role
 }
 
 export interface AuthorizationRequest {
