@@ -14,8 +14,9 @@ import type {
   IssueChronologyEvent,
   DevProjectFiltersDTO,
   PMProjectFiltersDTO,
-  ProjectView,
-  MyProjectsOption
+  PendingProjectInfoDTO,
+  MyProjectsOption,
+  ProjectView
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -104,8 +105,9 @@ export const usePostProjectIntegrationRequest = (): {
   error: Error | null
   isPending: boolean
   isSuccess: boolean
+  data: boolean | null | undefined
 } => {
-  const { mutate, error, isPending, isSuccess } = useMutation({
+  const { mutate, error, isPending, isSuccess, data } = useMutation({
     mutationFn: async ({
       provider,
       request
@@ -116,7 +118,7 @@ export const usePostProjectIntegrationRequest = (): {
       return await ApiService.postProjectIntegrationRequest(provider, request)
     }
   })
-  return { mutate, error, isPending, isSuccess }
+  return { mutate, error, isPending, isSuccess, data }
 }
 
 export const useGetUserProjects = (): {
@@ -433,6 +435,40 @@ export const useGetMyProjects = (
   const { data, error, isLoading } = useQuery({
     queryKey: ['getMyProjects', projectName],
     queryFn: async () => await ApiService.getMyProjects(projectName)
+  })
+  return { data, error, isLoading }
+}
+
+export const useGetEmailInformation = (
+  projectId: string,
+  token: string
+): {
+  data: PendingProjectInfoDTO | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getEmailInformation', projectId, token],
+    queryFn: async () => await ApiService.getEmailInformation(projectId, token),
+    retry: false
+  })
+  return { data, error, isLoading }
+}
+
+export const useAcceptOrDeclineEmail = (
+  projectId: string,
+  token: string,
+  decline: boolean
+): {
+  data: PendingProjectInfoDTO | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['acceptOrDeclineEmail', projectId, token, decline],
+    queryFn: async () =>
+      await ApiService.acceptOrDeclineEmail(projectId, token, decline),
+    retry: false
   })
   return { data, error, isLoading }
 }

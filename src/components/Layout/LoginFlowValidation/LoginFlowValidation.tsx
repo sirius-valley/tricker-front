@@ -15,13 +15,16 @@ const LoginFlowValidation = (): JSX.Element => {
         'error'
       )
     }
-  }, [tokens, showSnackBar])
+  }, [showSnackBar])
 
-  return !tokens.access_token || !tokens.id_token || !tokens.refresh_token ? (
-    <Navigate to="/login" replace />
-  ) : (
-    <Outlet />
-  )
+  if (!tokens.access_token || !tokens.id_token || !tokens.refresh_token) {
+    localStorage.setItem(
+      'redirectUrl',
+      window.location.pathname + window.location.search
+    )
+    return <Navigate to="/login" replace />
+  }
+  return <Outlet />
 }
 
 export default LoginFlowValidation

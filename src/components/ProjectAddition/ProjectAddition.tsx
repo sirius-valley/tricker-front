@@ -56,7 +56,7 @@ export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
             Second, add the user token to connect to the API
           </Subtitle>
           <Input
-            value={token}
+            defaultValue={token}
             handleValue={handleInputValue}
             label="User Token"
             required

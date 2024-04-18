@@ -10,6 +10,7 @@ import RoleValidation from './RoleValidation/RoleValidation'
 import TicketsSection from '@components/TicketsSection/TicketsSection'
 import LoginFlowValidation from './LoginFlowValidation/LoginFlowValidation'
 import ProjectsSection from '@components/ProjectsSection/ProjectsSection'
+import ConfirmationPage from '@pages/EmailConfirmation/ConfirmationPage'
 
 export const ROUTER = createBrowserRouter([
   {
@@ -34,6 +35,14 @@ export const ROUTER = createBrowserRouter([
       {
         path: '/setup/loader',
         element: <LoadingPage />
+      },
+      {
+        path: '/accept',
+        element: <ConfirmationPage />
+      },
+      {
+        path: '/decline',
+        element: <ConfirmationPage decline />
       }
     ]
   },
