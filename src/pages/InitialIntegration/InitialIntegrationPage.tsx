@@ -100,7 +100,7 @@ const InitialIntegrationPage = (): JSX.Element => {
     [setTeamMembers]
   )
 
-  const { mutate, isPending, error, isSuccess } =
+  const { mutate, isPending, error, isSuccess, data } =
     usePostProjectIntegrationRequest()
 
   const handleSubmit = (): void => {
@@ -185,7 +185,7 @@ const InitialIntegrationPage = (): JSX.Element => {
                 (currentStep === 0 && (!providerKey || !provider)) ||
                 (currentStep === 1 && !selectedProject)
               }
-            ></StepNavigation>
+            />
             {stepType === StepType.LAST && (
               <Button
                 variant="filled"
@@ -209,12 +209,11 @@ const InitialIntegrationPage = (): JSX.Element => {
           variant="error"
           className="md:text-[15px] text-[13px]"
         >
-          {
-            'Error while trying to make the request. Please try again later or contact support'
-          }
+          Error while trying to make the request. Please try again later or
+          contact support
         </NotificationBadge>
       )}
-      {screenWidth < 768 && (
+      {screenWidth < 768 && !isPending && !isSuccess && (
         <button
           className="-rotate-90 top-[32px] absolute left-6 hover:bg-gray-500 rounded-full"
           onClick={handleBackButton}
@@ -226,13 +225,28 @@ const InitialIntegrationPage = (): JSX.Element => {
       {isSuccess && selectedProject && (
         <>
           <div className="flex flex-col md:gap-6">
-            <ProjectMail projectName={selectedProject.name} />
-            <StepNavigation
-              currentStep={StepType.LAST}
-              onBack={handleBackButton}
-              showBackButton={screenWidth >= 768}
-              nextDisabled={true}
-            ></StepNavigation>
+            <ProjectMail
+              isAdmin={data === true}
+              projectName={selectedProject.name}
+            />
+            {screenWidth < 768 ? (
+              <button
+                className="-rotate-90 top-[32px] absolute left-6 hover:bg-gray-500 rounded-full"
+                onClick={() => {
+                  navigate('/login/role')
+                }}
+              >
+                <Icon name="CaretUpIcon" width="32" height="32" />
+              </button>
+            ) : (
+              <StepNavigation
+                currentStep={StepType.LAST}
+                onBack={() => {
+                  navigate('/login/role')
+                }}
+                showBackButton={screenWidth >= 768}
+              />
+            )}
           </div>
         </>
       )}

@@ -433,6 +433,13 @@ export interface ModifyTimeData {
   date: string
 }
 
+export interface PendingProjectInfoDTO {
+  projectName: string
+  projectImage: string | null
+  pmName: string
+  pmImage: string | null
+}
+
 export interface DevProjectFiltersDTO {
   stages: StageExtended[]
   priorities: string[]

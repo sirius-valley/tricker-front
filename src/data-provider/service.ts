@@ -13,6 +13,7 @@ import type {
   IssueChronologyEvent,
   DevProjectFiltersDTO,
   PMProjectFiltersDTO,
+  PendingProjectInfoDTO,
   ProjectView,
   UpdateRoleReponse,
   MyProjectsOption
@@ -128,7 +129,7 @@ export const postModifyTime = async (
 export const postProjectIntegrationRequest = async (
   provider: string,
   authorizationRequest: AuthorizationRequest
-): Promise<null> => {
+): Promise<boolean | null> => {
   const res = await withInterceptors.post(
     `${url}/integration/${provider.toLowerCase()}/authorization`,
     {
@@ -140,7 +141,7 @@ export const postProjectIntegrationRequest = async (
       issueProviderName: authorizationRequest.issueProviderName
     }
   )
-  if (res.status === 200) {
+  if (res.status === 201) {
     return res.data
   }
   return null
@@ -399,4 +400,54 @@ export const getProject = async (
     return res.data
   }
   return null
+}
+
+export const getEmailInformation = async (
+  projectId: string,
+  token: string
+): Promise<PendingProjectInfoDTO | null> => {
+  const res = await withInterceptors.get(
+    `${url}/integration/linear/${projectId}/information?token=${token}`
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+  // await new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     console.log(projectId, token)
+  //     resolve(null)
+  //   }, 2000)
+  // })
+  // return {
+  //   projectName: 'Fede',
+  //   projectImage: '',
+  //   pmName: 'Tricker',
+  //   pmImage: ''
+  // }
+}
+export const acceptOrDeclineEmail = async (
+  projectId: string,
+  token: string,
+  decline: boolean
+): Promise<PendingProjectInfoDTO | null> => {
+  const res = await withInterceptors.get(
+    `${url}/integration/linear/${projectId}/${decline ? 'decline' : 'accept'}?token=${token}`
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+  // await new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     console.log(projectId, token)
+  //     resolve(null)
+  //   }, 2000)
+  // })
+  // return {
+  //   projectName: 'Fede',
+  //   projectImage: '',
+  //   pmName: 'Tricker',
+  //   pmImage: ''
+  // }
 }
