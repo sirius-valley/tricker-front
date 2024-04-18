@@ -121,7 +121,7 @@ const TicketList: React.FC<TicketListProps> = ({
       )}
       {filteredIssues && filteredIssues.length !== 0 && !error ? (
         Object.entries(groupedByStageName).map(([key, issues]) => (
-          <div key={key} className="text-white">
+          <div key={key} className="text-white items-center">
             <div className="h-[51px] w-full bg-white/5 items-center flex py-4 px-6 gap-2">
               <div
                 className={`w-3 h-3 rounded-full`}
@@ -138,7 +138,7 @@ const TicketList: React.FC<TicketListProps> = ({
                   handleSelectedTicketId(issue.id)
                 }}
               >
-                <div className="flex gap-1">
+                <div className="flex gap-1 min-h-[23px] items-center">
                   <PriorityIcon
                     variant={
                       Priority[
