@@ -150,7 +150,9 @@ export const getIssuesFilteredAndPaginated = async (
   isProjectManager: boolean,
   userId: string,
   projectId: string,
-  filters: OptionalIssueFilters
+  filters: OptionalIssueFilters,
+  limit: number,
+  after: string
 ): Promise<IssueView[]> => {
   const role = isProjectManager ? 'pm' : 'dev'
   const res = await withInterceptors.post(
@@ -170,6 +172,12 @@ export const getIssuesFilteredAndPaginated = async (
           : undefined,
       isOutOfEstimation: filters.isOutOfEstimation === true ? true : undefined,
       cursor: filters.cursor
+    },
+    {
+      params: {
+        limit,
+        after
+      }
     }
   )
   if (res.status === 200) {

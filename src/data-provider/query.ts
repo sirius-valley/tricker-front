@@ -135,7 +135,9 @@ export const useGetIssuesFilteredAndPaginated = (
   isProjectManager: boolean,
   userId: string,
   projectId: string,
-  filters: OptionalIssueFilters
+  filters: OptionalIssueFilters,
+  limit: number,
+  after: string
 ): {
   data: IssueView[] | null | undefined
   error: Error | null
@@ -147,7 +149,9 @@ export const useGetIssuesFilteredAndPaginated = (
       isProjectManager,
       userId,
       projectId,
-      filters
+      filters,
+      limit,
+      after
     ],
 
     queryFn: async () =>
@@ -155,7 +159,9 @@ export const useGetIssuesFilteredAndPaginated = (
         isProjectManager,
         userId,
         projectId,
-        filters
+        filters,
+        limit,
+        after
       ),
     retry: false
   })

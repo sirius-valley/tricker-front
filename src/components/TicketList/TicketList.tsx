@@ -49,7 +49,9 @@ const TicketList: React.FC<TicketListProps> = ({
     isProjectManager,
     user.id,
     currentProjectId,
-    { ...filters, isOutOfEstimation }
+    { ...filters, isOutOfEstimation },
+    10,
+    ''
   )
 
   const filteredIssues: IssueView[] | undefined = data?.filter(
