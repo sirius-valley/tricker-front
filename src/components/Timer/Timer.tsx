@@ -20,7 +20,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import useScreenSize from '@hooks/useScreenSize'
 import { useAppDispatch, useCurrentTicket } from '@redux/hooks'
-import { setCurrentTicket } from '@redux/user'
+import { setCurrentTicket, setHasToRefetch } from '@redux/user'
 
 export interface TimerProps {
   ticketId: string
@@ -121,6 +121,7 @@ const Timer: React.FC<TimerProps> = ({
         date: new Date(),
         action: paused ? 'resume' : 'pause'
       })
+      dispatch(setHasToRefetch(true))
     }
   }
 
@@ -131,11 +132,13 @@ const Timer: React.FC<TimerProps> = ({
       date: new Date(),
       action: 'resume'
     })
+    dispatch(setHasToRefetch(true))
     setShowModalTime(false)
   }
 
   const handleUnblock = (): void => {
     mutateUnblock({ ticketId })
+    dispatch(setHasToRefetch(true))
     setShowModalUnblock(false)
   }
 

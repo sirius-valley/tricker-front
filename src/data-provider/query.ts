@@ -142,8 +142,9 @@ export const useGetIssuesFilteredAndPaginated = (
   data: IssueView[] | null | undefined
   error: Error | null
   isLoading: boolean
+  refetch: () => void
 } => {
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, refetch } = useQuery({
     queryKey: [
       'getIssuesFilteredAndPaginated',
       isProjectManager,
@@ -161,7 +162,7 @@ export const useGetIssuesFilteredAndPaginated = (
       ),
     retry: false
   })
-  return { data, error, isLoading }
+  return { data, error, isLoading, refetch }
 }
 
 export const useGetIssueById = (

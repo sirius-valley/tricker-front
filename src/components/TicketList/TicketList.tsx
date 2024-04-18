@@ -1,5 +1,10 @@
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
-import { useAppDispatch, useCurrentProjectId, useUser } from '@redux/hooks'
+import {
+  useAppDispatch,
+  useCurrentProjectId,
+  useHasToRefetch,
+  useUser
+} from '@redux/hooks'
 import {
   type IssueView,
   type OptionalIssueFilters,
@@ -10,7 +15,7 @@ import Body2 from '@utils/typography/body2/body2'
 import { useEffect, useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
-import { setCurrentTicket } from '@redux/user'
+import { setCurrentTicket, setHasToRefetch } from '@redux/user'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 import ModalStop from '@components/ModalStopTracking/ModalStopTracking'
@@ -41,16 +46,24 @@ const TicketList: React.FC<TicketListProps> = ({
   const [openModal, setOpenModal] = useState(false)
   const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
+  const hasToRefetch: boolean = useHasToRefetch()
 
   const user = useUser()
   const dispatch = useAppDispatch()
 
-  const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
+  const { data, error, isLoading, refetch } = useGetIssuesFilteredAndPaginated(
     isProjectManager,
     user.id,
     currentProjectId,
     { ...filters, isOutOfEstimation }
   )
+
+  useEffect(() => {
+    if (hasToRefetch) {
+      refetch()
+      dispatch(setHasToRefetch(false))
+    }
+  }, [hasToRefetch])
 
   const filteredIssues: IssueView[] | undefined = data?.filter(
     (issue: IssueView) =>
