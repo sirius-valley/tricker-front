@@ -41,6 +41,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     {}
   )
   const [statusOptions, setStatusOptions] = useState<OptionAttr[]>([])
+  const [enabled, setEnabled] = useState<boolean>(false)
   const [priorityOptions, setPriorityOptions] = useState<OptionAttr[]>([])
   const [assigneeOptions, setAssigneeOptions] = useState<OptionAttr[]>([])
   const [outOfEstimation, setOutOfEstimation] = useState<boolean>(false)
@@ -48,10 +49,18 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const projectId = useCurrentProjectId()
   const filterRef = useRef<HTMLDivElement | null>(null)
 
-  const { data } = useGetFilters(
+  const { data, refetch } = useGetFilters(
     projectId,
-    userRole === 'Project Manager' ? 'pm' : 'dev'
+    userRole === 'Project Manager' ? 'pm' : 'dev',
+    enabled
   )
+
+  useEffect(() => {
+    if (projectId) {
+      setEnabled(true)
+      refetch()
+    }
+  }, [enabled])
 
   useEffect(() => {
     if (data) {
