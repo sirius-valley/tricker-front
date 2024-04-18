@@ -109,7 +109,7 @@ const SelectInput = ({
   }
 
   return (
-    <div className="gap-2 flex w-full">
+    <div className="gap-2 flex w-full flex-col">
       {label !== '' && (
         <div className="flex w-fit">
           <Body2
