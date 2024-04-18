@@ -38,10 +38,11 @@ const Timer: React.FC<TimerProps> = ({
   const {
     data: elapsedTime,
     isLoading,
-    error: errorElapsedTime
+    error: errorElapsedTime,
+    refetch: refetchElapsedTime
   } = useGetTicketElapsedTime(ticketId)
   const currentTicket = useCurrentTicket()
-
+  console.log(elapsedTime)
   const [paused, setPaused] = useState<boolean>(!currentTicket.isTracking)
   const [time, setTime] = useState<number>(0)
   const [isBlocked, setIsBlocked] = useState<boolean>(blocked)
@@ -60,7 +61,7 @@ const Timer: React.FC<TimerProps> = ({
   }, [currentTicket.id])
 
   useEffect(() => {
-    if (elapsedTime) {
+    if (elapsedTime && elapsedTime.workedTime !== time) {
       setTime(elapsedTime.workedTime)
     }
   }, [elapsedTime])
@@ -187,6 +188,7 @@ const Timer: React.FC<TimerProps> = ({
       <ModalModifyTime
         variant={modalVariant}
         show={showModalTime}
+        refetchTime={refetchElapsedTime}
         onClose={() => {
           setShowModalTime(false)
         }}

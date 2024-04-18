@@ -15,12 +15,14 @@ interface ModalModifyTimeProps {
   onClose: () => void
   show: boolean
   variant: 'add' | 'remove'
+  refetchTime: () => void
 }
 
 const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
   onClose,
   show,
-  variant
+  variant,
+  refetchTime
 }) => {
   const [selectedTime, setSelectedTime] = useState<number>(0)
   const [selectedReason, setSelectedReason] = useState<string>('')
@@ -98,6 +100,7 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
     if (isSuccess) {
       memoizedShowSnackBar('Time change submitted successfully', 'success')
       setToInitialValues()
+      refetchTime()
       reset()
       onClose()
     }
