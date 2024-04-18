@@ -7,7 +7,13 @@ import { type DropdownOption } from '@utils/types'
 import NoAvatarProject from '@components/NoAvatar/NoAvatarProject'
 import useScreenSize from '@hooks/useScreenSize'
 import RadioButton from '@components/RadioButton/RadioButton'
-
+import { useDispatch } from 'react-redux'
+import {
+  setCurrentTicket,
+  initialState,
+  setCurrentProjectId
+} from '@redux/user'
+import { Modal } from '@components/Modal/Modal'
 const colors = config.theme.extend.colors
 
 interface DropdownProps {
@@ -28,11 +34,15 @@ export const Dropdown: React.FC<DropdownProps> = ({
     useState<DropdownOption>(preSelectedOption)
   const [isOpen, setIsOpen] = useState(false)
 
+  const dispatch = useDispatch()
+
   const dropdownRef = useRef<HTMLDivElement | null>(null)
 
   const handleDropdownSelect = useCallback(
     (selectedProject: DropdownOption): void => {
       setSelectedProject(selectedProject)
+      dispatch(setCurrentTicket(initialState.currentTicket))
+      dispatch(setCurrentProjectId(selectedProject.id))
       handleSelect(selectedProject)
     },
     [handleSelect]
@@ -129,50 +139,57 @@ export const Dropdown: React.FC<DropdownProps> = ({
           </div>
         ) : (
           isOpen && (
-            <div
-              className="flex justify-center flex-col absolute z-10 w-[297px] top-0 rounded-lg p-2 bg-gray-500"
-              ref={dropdownRef}
+            <Modal
+              show={isOpen}
+              onClose={() => {
+                setIsOpen(false)
+              }}
             >
-              <div className="w-full flex gap-2 p-4 pt-2 border-b border-white/10">
-                <Body1 className="text-white">My projects</Body1>
-              </div>
-              <ul className="list-none w-full p-0">
-                {options.map((option: DropdownOption, index: number) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      handleDropdownSelect(option)
-                      setIsOpen(false)
-                    }}
-                    className="relative w-full cursor-pointer select-none p-4 hover:bg-gray-400 rounded transition-colors duration-300"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        {option.image ? (
-                          <img
-                            src={option.image}
-                            alt=""
-                            className="h-5 w-5 rounded-sm"
-                          />
-                        ) : (
-                          <NoAvatarProject text={option.title} />
-                        )}
-                        <Body1 className="text-white overflow-hidden overflow-ellipsis whitespace-nowrap">
-                          {option.title}
-                        </Body1>
+              <div
+                className="flex justify-center flex-col absolute z-10 w-[297px] top-10 rounded-lg p-2 bg-gray-500"
+                ref={dropdownRef}
+              >
+                <div className="w-full flex gap-2 p-4 pt-2 border-b border-white/10">
+                  <Body1 className="text-white">My projects</Body1>
+                </div>
+                <ul className="list-none w-full p-0">
+                  {options.map((option: DropdownOption, index: number) => (
+                    <li
+                      key={index}
+                      onClick={() => {
+                        handleDropdownSelect(option)
+                        setIsOpen(false)
+                      }}
+                      className="relative w-full cursor-pointer select-none p-4 hover:bg-gray-400 rounded transition-colors duration-300"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          {option.image ? (
+                            <img
+                              src={option.image}
+                              alt=""
+                              className="h-5 w-5 rounded-sm"
+                            />
+                          ) : (
+                            <NoAvatarProject text={option.title} />
+                          )}
+                          <Body1 className="text-white overflow-hidden overflow-ellipsis whitespace-nowrap">
+                            {option.title}
+                          </Body1>
+                        </div>
+                        <RadioButton
+                          id={option.id}
+                          selectedValue={selectedProject?.id}
+                          handleChecked={() => {
+                            handleDropdownSelect(option)
+                          }}
+                        />
                       </div>
-                      <RadioButton
-                        id={option.id}
-                        selectedValue={selectedProject?.id}
-                        handleChecked={() => {
-                          handleDropdownSelect(option)
-                        }}
-                      />
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Modal>
           )
         )}
       </div>
