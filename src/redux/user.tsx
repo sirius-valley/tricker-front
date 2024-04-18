@@ -4,7 +4,8 @@ import {
   type User,
   type IssueView,
   StageType,
-  Priority
+  Priority,
+  type MyProjectsOption
 } from '@utils/types'
 
 interface InitialStateType {
@@ -15,6 +16,7 @@ interface InitialStateType {
   currentStep: number
   steps: Step[]
   projectName: string
+  selectedProjectInfo: MyProjectsOption
   apiKey: {
     provider: string
     value: string
@@ -62,6 +64,11 @@ export const initialState: InitialStateType = {
     { label: 'Team Members' }
   ],
   projectName: '',
+  selectedProjectInfo: {
+    id: '',
+    name: '',
+    image: ''
+  },
   apiKey: {
     provider: '',
     value: ''
@@ -90,6 +97,12 @@ const userSlice = createSlice({
     setProjectName: (state, action: PayloadAction<string>) => {
       state.projectName = action.payload
     },
+    setSelectedProjectInfo: (
+      state,
+      action: PayloadAction<MyProjectsOption>
+    ) => {
+      state.selectedProjectInfo = action.payload
+    },
     setApiKey: (
       state,
       action: PayloadAction<{ provider: string; value: string }>
@@ -106,6 +119,7 @@ export const {
   setCurrentProjectId,
   setCurrentStep,
   setProjectName,
+  setSelectedProjectInfo,
   setApiKey
 } = userSlice.actions
 export default userSlice.reducer

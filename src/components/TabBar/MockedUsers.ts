@@ -31,8 +31,7 @@ export const mockedUsers: UserProjectRole[] = [
     },
     role: {
       id: 'managerRoleId',
-      name: 'Project Manager',
-      users: []
+      name: 'Project Manager'
     }
   },
 
@@ -66,8 +65,7 @@ export const mockedUsers: UserProjectRole[] = [
     },
     role: {
       id: 'managerRoleId',
-      name: 'Project Manager',
-      users: []
+      name: 'Project Manager'
     }
   },
 
@@ -101,8 +99,7 @@ export const mockedUsers: UserProjectRole[] = [
     },
     role: {
       id: 'managerRoleId',
-      name: 'Project Manager',
-      users: []
+      name: 'Project Manager'
     }
   },
 
@@ -136,8 +133,7 @@ export const mockedUsers: UserProjectRole[] = [
     },
     role: {
       id: 'managerRoleId',
-      name: 'Project Manager',
-      users: []
+      name: 'Project Manager'
     }
   },
   {
@@ -170,8 +166,7 @@ export const mockedUsers: UserProjectRole[] = [
     },
     role: {
       id: 'managerRoleId',
-      name: 'Project Manager',
-      users: []
+      name: 'Project Manager'
     }
   },
 
@@ -205,8 +200,7 @@ export const mockedUsers: UserProjectRole[] = [
     },
     role: {
       id: 'managerRoleId',
-      name: 'Project Manager',
-      users: []
+      name: 'Project Manager'
     }
   },
 
@@ -240,8 +234,7 @@ export const mockedUsers: UserProjectRole[] = [
     },
     role: {
       id: 'managerRoleId',
-      name: 'Project Manager',
-      users: []
+      name: 'Project Manager'
     }
   },
 
@@ -275,8 +268,7 @@ export const mockedUsers: UserProjectRole[] = [
     },
     role: {
       id: 'managerRoleId',
-      name: 'Project Manager',
-      users: []
+      name: 'Project Manager'
     }
   },
 
@@ -310,8 +302,7 @@ export const mockedUsers: UserProjectRole[] = [
     },
     role: {
       id: 'managerRoleId',
-      name: 'Project Manager',
-      users: []
+      name: 'Project Manager'
     }
   },
 
@@ -345,8 +336,7 @@ export const mockedUsers: UserProjectRole[] = [
     },
     role: {
       id: 'managerRoleId',
-      name: 'Project Manager',
-      users: []
+      name: 'Project Manager'
     }
   }
 ]

@@ -35,8 +35,7 @@ const mockUser: User = {
       },
       role: {
         id: 'managerRoleId',
-        name: 'Project Manager',
-        users: []
+        name: 'Project Manager'
       }
     },
     {
@@ -69,8 +68,7 @@ const mockUser: User = {
       },
       role: {
         id: 'managerRoleId',
-        name: 'Project Manager',
-        users: []
+        name: 'Project Manager'
       }
     },
     {
@@ -103,8 +101,7 @@ const mockUser: User = {
       },
       role: {
         id: 'developerRoleId',
-        name: 'Developer',
-        users: []
+        name: 'Developer'
       }
     }
   ]

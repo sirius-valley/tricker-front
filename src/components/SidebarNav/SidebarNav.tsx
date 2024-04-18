@@ -32,6 +32,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   handleDropdownSelect
 }) => {
   const [isHovered, setIsHovered] = useState(false)
+
   const screen = useScreenSize()
   return (
     <div className="flex flex-col items-center w-fit max-w-[224px] h-screen pt-10 gap-20 bg-gray-500">
@@ -43,22 +44,6 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
       </NavLink>
       <div className="flex flex-col justify-between items-center h-full pb-6">
         <div className="flex flex-col gap-6 w-fit items-center lg:items-start justify-center h-[256px]">
-          {variant === 'Project Manager' && (
-            <div className="lg:px-6">
-              <NavLink to="/projects">
-                {({ isActive }) => (
-                  <NavbarItem
-                    title="Projects"
-                    icon={<Icon name="FolderIcon" width="20" height="20" />}
-                    variant={isActive ? 'selected' : 'default'}
-                    showText={screen.width > 1024}
-                  >
-                    {'My projects'}
-                  </NavbarItem>
-                )}
-              </NavLink>
-            </div>
-          )}
           <Dropdown
             preSelectedOption={preSelectedOption}
             options={dropdownOptions}

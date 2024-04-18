@@ -71,7 +71,7 @@ const ModalRefreshProject: React.FC<ModalRefreshProjectProps> = ({
                 </button>
               </div>
               <Body2 className="text-sm font-normal">
-                {instructions[provider.toLowerCase()] ??
+                {instructions[provider?.toLowerCase()] ??
                   'Please add the User Token here so we can refresh the project.'}
               </Body2>
             </div>

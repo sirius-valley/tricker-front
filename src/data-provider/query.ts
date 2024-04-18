@@ -14,7 +14,9 @@ import type {
   IssueChronologyEvent,
   DevProjectFiltersDTO,
   PMProjectFiltersDTO,
-  PendingProjectInfoDTO
+  PendingProjectInfoDTO,
+  MyProjectsOption,
+  ProjectView
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -59,34 +61,43 @@ export const useVerifyToken = (
 
 export const useGetPreIntegratedProjects = (
   key: string,
-  provider: string
+  provider: string,
+  enabled?: boolean
 ): {
   data: ProjectPreIntegrated[] | null | undefined
+  refetch: () => void
   error: Error | null
   isLoading: boolean
+  isSuccess: boolean
 } => {
-  const { data, error, isLoading } = useQuery({
+  const { data, refetch, error, isLoading, isSuccess } = useQuery({
     queryKey: ['getPreIntegratedProjects', key, provider],
     queryFn: async () =>
-      await ApiService.getPreIntegratedProjects(key, provider)
+      await ApiService.getPreIntegratedProjects(key, provider),
+    retry: false,
+    enabled
   })
-  return { data, error, isLoading }
+  return { data, refetch, error, isLoading, isSuccess }
 }
 
 export const useGetPreIntegratedMembers = (
   projectName: string,
-  apiKey: string
+  apiKey: string,
+  enabled?: boolean
 ): {
   data: MemberPreIntegrated[] | null | undefined
+  refetch: () => void
   error: Error | null
   isLoading: boolean
+  isSuccess: boolean
 } => {
-  const { data, error, isLoading } = useQuery({
+  const { data, refetch, error, isLoading, isSuccess } = useQuery({
     queryKey: ['getPreIntegratedMembers', projectName, apiKey],
     queryFn: async () =>
-      await ApiService.getPreIntegratedMembers(projectName, apiKey)
+      await ApiService.getPreIntegratedMembers(projectName, apiKey),
+    enabled
   })
-  return { data, error, isLoading }
+  return { data, refetch, error, isLoading, isSuccess }
 }
 
 export const usePostProjectIntegrationRequest = (): {
@@ -321,7 +332,7 @@ export const useRefreshProject = (): {
       projectId: string
       apiToken: string
     }) => {
-      return await ApiService.refreshProject(projectId, apiToken)
+      return await ApiService.postRefreshProject(projectId, apiToken)
     }
   })
 
@@ -348,8 +359,9 @@ export const useRemoveTeamMember = (): {
   error: Error | null
   isPending: boolean
   isSuccess: boolean
+  reset: () => void
 } => {
-  const { mutate, error, isPending, isSuccess } = useMutation({
+  const { mutate, error, isPending, isSuccess, reset } = useMutation({
     mutationFn: async ({
       projectId,
       userId
@@ -357,11 +369,63 @@ export const useRemoveTeamMember = (): {
       projectId: string
       userId: string
     }) => {
-      await ApiService.removeTeamMember(projectId, userId)
+      await ApiService.deleteTeamMember(projectId, userId)
     }
   })
 
-  return { mutate, error, isPending, isSuccess }
+  return { mutate, error, isPending, isSuccess, reset }
+}
+
+export const usePostModifyMemberRole = (): {
+  mutate: (args: { projectId: string; userId: string; roleId: string }) => void
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+  reset: () => void
+} => {
+  const { mutate, error, isPending, isSuccess, reset } = useMutation({
+    mutationFn: async ({
+      projectId,
+      userId,
+      roleId
+    }: {
+      projectId: string
+      userId: string
+      roleId: string
+    }) => {
+      await ApiService.postModifyMemberRole(projectId, userId, roleId)
+    }
+  })
+
+  return { mutate, error, isPending, isSuccess, reset }
+}
+
+export const useGetProject = (
+  projectId: string
+): {
+  data: ProjectView | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getProject', projectId],
+    queryFn: async () => await ApiService.getProject(projectId)
+  })
+  return { data, error, isLoading }
+}
+
+export const useGetMyProjects = (
+  projectName: string
+): {
+  data: MyProjectsOption[] | undefined | null
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getMyProjects', projectName],
+    queryFn: async () => await ApiService.getMyProjects(projectName)
+  })
+  return { data, error, isLoading }
 }
 
 export const useGetEmailInformation = (

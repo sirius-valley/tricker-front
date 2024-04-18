@@ -8,18 +8,19 @@ import type * as icons from '@components/Icon/index.ts'
 
 const selectInputVariants = cva(
   [
-    'outline-none placeholder-gray-300 bg-transparent border rounded-lg py-2 px-4 w-full h-[43px] text-gray-300'
+    'outline-none placeholder-gray-300 bg-transparent border rounded-lg text-gray-300'
   ],
   {
     variants: {
       variant: {
         default: [
-          'text-white cursor-pointer',
+          'text-white cursor-pointer px-4 h-[43px]',
           'hover:border-2 border-gray-300',
           'focus:border-primary-400'
         ],
-        error: ['border-error-500', 'focus:border-primary-400'],
-        disabled: ['disabled:bg-gray-300/20', 'cursor-not-allowed']
+        error: ['border-error-500  px-4', 'focus:border-primary-400 h-[43px]'],
+        disabled: ['disabled:bg-gray-300/20  ', 'cursor-not-allowed h-[43px]'],
+        small: ['h-[29px] px-[6px] text-sm']
       }
     },
     defaultVariants: {
@@ -33,6 +34,7 @@ export interface SelectInputProps
     React.HTMLAttributes<HTMLDivElement> {
   icon?: keyof typeof icons
   label?: string
+  insideLabel?: string
   required?: boolean
   helperText?: string
   options: Array<{ value: string; label: string }>
@@ -45,6 +47,7 @@ const SelectInput = ({
   icon = 'CaretDownIcon',
   variant,
   label = '',
+  insideLabel = '',
   required = false,
   helperText = '',
   options,
@@ -106,7 +109,7 @@ const SelectInput = ({
   }
 
   return (
-    <div className="gap-2 flex flex-col w-full">
+    <div className="gap-2 flex w-full">
       {label !== '' && (
         <div className="flex w-fit">
           <Body2
@@ -126,23 +129,34 @@ const SelectInput = ({
           )}
         </div>
       )}
-      <div className="relative w-full" ref={selectRef}>
+      <div className="relative min-w-full" ref={selectRef}>
         <button
-          className={`${selectInputVariants({ variant, className })} text-left`}
+          className={`${selectInputVariants({ variant, className })} text-left flex w-full justify-between items-center gap-3`}
           onClick={toggleOptions}
           disabled={variant === 'disabled'}
         >
-          <Body1>{selectedOption?.label || 'Select'}</Body1>
-          {icon && (
-            <div
-              className={`absolute right-4 top-0 bottom-0 flex items-center transition-transform duration-300 ease-in-out ${rotateIcon ? 'transform rotate-180' : ''}`}
+          <div className="flex gap-2 w-full">
+            {insideLabel !== '' && (
+              <Body1 className="text-sm  leading-[18px] left-4 top-0 bottom-0 flex items-center text-gray-300/60">
+                {insideLabel}
+              </Body1>
+            )}
+            <Body1
+              className={`truncate w-full ${variant === 'small' ? 'text-sm leading-[18px] text-white' : ''}`}
             >
-              {<Icon name={icon} width="18" height="18" />}
-            </div>
-          )}
+              {selectedOption?.label || 'Select'}
+            </Body1>
+            {icon && (
+              <div
+                className={`items-center transition-transform duration-300 ease-in-out ${variant === 'small' ? 'right-[6px]' : 'right-4'} ${rotateIcon ? 'transform rotate-180' : ''}`}
+              >
+                {<Icon name={icon} width="18" height="18" />}
+              </div>
+            )}
+          </div>
         </button>
         {isOpen && (
-          <div className="absolute left-0 w-full bg-gray-500 rounded-lg">
+          <div className="absolute left-0 w-full bg-gray-500 rounded-lg z-10">
             <div className="text-white border shadow-lg max-h-[210px] overflow-y-auto rounded-lg">
               {options.map((option) => (
                 <div
@@ -152,7 +166,11 @@ const SelectInput = ({
                     handleOptionSelect(option)
                   }}
                 >
-                  <Body1>{option.label}</Body1>
+                  <Body1
+                    className={`${variant === 'small' ? 'text-sm leading-4' : ''}`}
+                  >
+                    {option.label}
+                  </Body1>
                 </div>
               ))}
             </div>
