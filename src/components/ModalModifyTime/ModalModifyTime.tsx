@@ -10,19 +10,23 @@ import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Spinner from '@components/Spinner/Spinner'
 import { useCurrentTicket } from '@redux/hooks'
 import DatePicker from '@components/DatePicker/DatePicker'
+import { addReasons, subtractReasons, timesInSeconds } from './Constants'
+import { handleErrorMessage } from '@data-provider/AxiosError'
 
 interface ModalModifyTimeProps {
   onClose: () => void
   show: boolean
   variant: 'add' | 'remove'
   refetchTime: () => void
+  elapsedTime: number
 }
 
 const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
   onClose,
   show,
   variant,
-  refetchTime
+  refetchTime,
+  elapsedTime
 }) => {
   const [selectedTime, setSelectedTime] = useState<number>(0)
   const [selectedReason, setSelectedReason] = useState<string>('')
@@ -30,40 +34,6 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
 
   const currentTicket = useCurrentTicket()
-
-  const timesInSeconds: Record<string, number> = {
-    '10 minutes': 600,
-    '30 minutes': 1800,
-    '45 minutes': 2700,
-    '1 hour': 3600,
-    '2 hours': 7200,
-    '3 hours': 10800,
-    '4 hours': 14400,
-    '5 hours': 18000,
-    '6 hours': 21600,
-    '7 hours': 25200,
-    '8 hours': 28800,
-    '10 hours': 36000,
-    '11 hours': 39600,
-    '12 hours': 43200
-  }
-
-  const addReasons: string[] = [
-    'I forgot to track time',
-    'Misestimated the task',
-    'Internet connection issues',
-    'Additional research required',
-    'Technical issues',
-    'Other unforeseen circumstances'
-  ]
-
-  const subtractReasons: string[] = [
-    'I forgot to stop tracking time',
-    'Misestimated the task',
-    'Internet connection issues',
-    'Technical issues',
-    'Other unforeseen circumstances'
-  ]
 
   const { mutate, reset, isPending, error, isSuccess } = usePostModifyTime()
   const { showSnackBar } = useSnackBar()
@@ -105,10 +75,7 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
       onClose()
     }
     if (error) {
-      memoizedShowSnackBar(
-        'An error occurred while submitting the time',
-        'error'
-      )
+      memoizedShowSnackBar(handleErrorMessage(error), 'error')
       setToInitialValues()
       reset()
     }
@@ -173,10 +140,19 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
               <div className="z-10">
                 <SelectInput
                   handleSelectedOption={handleSelectedTime}
-                  options={Object.keys(timesInSeconds).map((time: string) => ({
-                    value: time,
-                    label: time
-                  }))}
+                  options={
+                    variant === 'add'
+                      ? Object.keys(timesInSeconds).map((time: string) => ({
+                          value: time,
+                          label: time
+                        }))
+                      : Object.entries(timesInSeconds)
+                          .filter(([_, value]) => value <= elapsedTime)
+                          .map(([time, _]) => ({
+                            value: time,
+                            label: time
+                          }))
+                  }
                   label="Amount of time"
                   required
                 />

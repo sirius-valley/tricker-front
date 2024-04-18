@@ -164,7 +164,7 @@ const Timer: React.FC<TimerProps> = ({
       resetUnblock()
     }
   }, [successUnblock, successTimer, errorUnblock, errorTimer])
-
+  console.log('time: ', time)
   return (
     <div className="w-full h-fit self-end h-32 md:bg-gray-500 bg-gray-700 xl:px-10 py-4 px-5 items-center flex text-white md:rounded-br-xl border-t border-white/10">
       <ModalResume
@@ -188,6 +188,7 @@ const Timer: React.FC<TimerProps> = ({
       <ModalModifyTime
         variant={modalVariant}
         show={showModalTime}
+        elapsedTime={time}
         refetchTime={refetchElapsedTime}
         onClose={() => {
           setShowModalTime(false)
