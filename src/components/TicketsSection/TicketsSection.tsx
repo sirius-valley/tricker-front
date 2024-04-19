@@ -74,7 +74,7 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
           if (typeof event.date === 'string') {
             event.date = new Date(event.date)
           }
-          return event as IssueChronologyEventDTO
+          return event
         })
       )
       chronology.sort((a, b) => {

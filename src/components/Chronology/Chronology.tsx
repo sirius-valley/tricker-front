@@ -9,6 +9,7 @@ import { useCurrentTicket } from '@redux/hooks'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { type IssueChronologyEventDTO } from '@utils/types'
+import { handleAddOrSubstractTime } from './TimeAddRemoveHandler'
 
 interface ChronologyProps {
   isLoading: boolean
@@ -46,7 +47,7 @@ const Chronology: React.FC<ChronologyProps> = ({ events, isLoading }) => {
               >
                 <div
                   className={`flex w-[1px] h-full rounded-full ${event.isBlocker ? 'bg-error-500' : 'bg-primary-400'} relative left-[73px] top-4 z-10`}
-                ></div>
+                />
                 <div className="flex gap-3 items-start py-2 w-full">
                   <div className="flex flex-col items-end">
                     <HelperText className="min-w-14 pt-[2px] flex flex-col items-end">
@@ -72,7 +73,7 @@ const Chronology: React.FC<ChronologyProps> = ({ events, isLoading }) => {
                     </HelperText>
                   </div>
                   <span
-                    className={`flex min-w-[9px] h-[9px] rounded-full mt-1 ${event.isBlocker || event.modificationDate ? 'bg-error-500' : 'bg-primary-400'} `}
+                    className={`flex min-w-[9px] h-[9px] rounded-full mt-1 ${event.isBlocker ? 'bg-error-500' : 'bg-primary-400'} `}
                   />
                   <div className="flex flex-col gap-2  w-full">
                     <div className={`min-w-12 flex items-start gap-3`}>
@@ -91,7 +92,9 @@ const Chronology: React.FC<ChronologyProps> = ({ events, isLoading }) => {
                       </div>
                       <div className="flex flex-wrap">
                         <Body2 className="min-w-fit text-sm">
-                          {event.message}
+                          {event.message
+                            ? event.message
+                            : handleAddOrSubstractTime(event)}
                         </Body2>
                       </div>
                     </div>

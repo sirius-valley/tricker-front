@@ -270,8 +270,9 @@ export const getChronology = async (
   issueId: string
 ): Promise<IssueChronologyEventDTO[]> => {
   const res = await withInterceptors.get(`${url}/issue/${issueId}/chronology`)
+
   if (res.status === 200) {
-    res.data.forEach((element: { date: Date }) => {
+    ;(res.data as IssueChronologyEventDTO[]).forEach((element) => {
       element.date = new Date(element.date)
     })
     return res.data
