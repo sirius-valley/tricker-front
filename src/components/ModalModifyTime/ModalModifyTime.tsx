@@ -39,7 +39,11 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
   const { showSnackBar } = useSnackBar()
 
   const handleSelectedTime = (time: string): void => {
-    setSelectedTime(timesInSeconds[time])
+    if (time === 'All elapsed time') {
+      setSelectedTime(elapsedTime)
+    } else {
+      setSelectedTime(timesInSeconds[time])
+    }
   }
 
   const handleSelectedReason = (reason: string): void => {
@@ -146,12 +150,18 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
                           value: time,
                           label: time
                         }))
-                      : Object.entries(timesInSeconds)
-                          .filter(([_, value]) => value <= elapsedTime)
-                          .map(([time, _]) => ({
-                            value: time,
-                            label: time
-                          }))
+                      : [
+                          ...Object.entries(timesInSeconds)
+                            .filter(([_, value]) => value <= elapsedTime)
+                            .map(([time, _]) => ({
+                              value: time,
+                              label: time
+                            })),
+                          {
+                            value: 'All elapsed time',
+                            label: 'All elapsed time'
+                          }
+                        ]
                   }
                   label="Amount of time"
                   required
