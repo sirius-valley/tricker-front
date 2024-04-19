@@ -19,19 +19,14 @@ import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import useScreenSize from '@hooks/useScreenSize'
-import {
-  useAppDispatch,
-  useCurrentTicket,
-  useHasToRefetchDisplay,
-  useHasToRefetchList,
-  useStopTracking
-} from '@redux/hooks'
+import { useAppDispatch, useCurrentTicket, useStopTracking } from '@redux/hooks'
 import {
   setCurrentTrackingTicket,
   setHasToRefetchDisplay,
   setHasToRefetchList,
   setStopTracking
 } from '@redux/user'
+import { StageType } from '@utils/types'
 
 export interface TimerProps {
   ticketId: string
@@ -65,9 +60,7 @@ const Timer: React.FC<TimerProps> = ({
   const [showModalUnblock, setShowModalUnblock] = useState<boolean>(false)
 
   const dispatch = useAppDispatch()
-  const hasToRefetchList = useHasToRefetchList()
-  const hasToRefetchDisplay = useHasToRefetchDisplay()
-  console.log(hasToRefetchDisplay, hasToRefetchList)
+
   useEffect(() => {
     if (currentTicket.id) {
       setPaused(!currentTicket.isTracking)
@@ -143,6 +136,14 @@ const Timer: React.FC<TimerProps> = ({
   const handleTrackingButton = (): void => {
     if (paused && isBlocked) {
       setShowModalTime(true)
+    } else if (
+      (currentTicket.stage.type as unknown as string) !==
+      StageType[StageType.STARTED]
+    ) {
+      memoizedShowSnackBar(
+        "This issue needs to be 'In Progress' or 'In Review' in order to be able to track time",
+        'error'
+      )
     } else {
       mutateTimer({
         ticketId,
@@ -203,7 +204,7 @@ const Timer: React.FC<TimerProps> = ({
       resetUnblock()
     }
   }, [successUnblock, successTimer, errorUnblock, errorTimer])
-  console.log('time: ', time)
+
   return (
     <div className="w-full h-fit self-end h-32 md:bg-gray-500 bg-gray-700 xl:px-10 py-4 px-5 items-center flex text-white md:rounded-br-xl border-t border-white/10">
       <ModalResume

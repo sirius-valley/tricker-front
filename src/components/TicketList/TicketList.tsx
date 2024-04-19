@@ -18,6 +18,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
 import {
   setCurrentTicket,
+  setCurrentTrackingTicket,
   setHasToRefetchList,
   setStopTracking
 } from '@redux/user'
@@ -28,6 +29,7 @@ import { Pill } from '@components/Pill/Pill'
 import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 import config from '../../../tailwind.config'
+import useScreenSize from '@hooks/useScreenSize'
 
 export interface TicketListProps {
   filters: OptionalIssueFilters
@@ -50,6 +52,7 @@ const TicketList: React.FC<TicketListProps> = ({
 }: TicketListProps): JSX.Element => {
   const [openModal, setOpenModal] = useState(false)
   const { showSnackBar } = useSnackBar()
+  const screen = useScreenSize()
   const currentProjectId = useCurrentProjectId()
   const currentTrackingTicket = useCurrentTrackingTicket()
   const hasToRefetchList: boolean = useHasToRefetchList()
@@ -57,12 +60,33 @@ const TicketList: React.FC<TicketListProps> = ({
   const user = useUser()
   const dispatch = useAppDispatch()
 
+  const isMobile = screen.width < 768
+
   const { data, error, isLoading, refetch } = useGetIssuesFilteredAndPaginated(
     isProjectManager,
     user.id,
     currentProjectId,
     { ...filters, isOutOfEstimation }
   )
+
+  useEffect(() => {
+    if (data) {
+      const trackingTicket = data.find((ticket) => ticket.isTracking)
+      if (trackingTicket) {
+        if (!isMobile) dispatch(setCurrentTicket(trackingTicket))
+        dispatch(
+          setCurrentTrackingTicket({
+            id: trackingTicket.id,
+            name: trackingTicket.name
+          })
+        )
+      } else {
+        if (data.length > 0) {
+          if (!isMobile) dispatch(setCurrentTicket(data[0]))
+        }
+      }
+    }
+  }, [data])
 
   useEffect(() => {
     if (hasToRefetchList) {
@@ -95,7 +119,10 @@ const TicketList: React.FC<TicketListProps> = ({
       const selectedTicked = filteredIssues.find(
         (issue: IssueView) => issue.id === ticketId
       )
-      if (selectedTicked && currentTrackingTicket.id === '') {
+      if (
+        (selectedTicked && currentTrackingTicket.id === '') ||
+        currentTrackingTicket.id === selectedTicked?.id
+      ) {
         dispatch(setCurrentTicket(selectedTicked))
       } else {
         setOpenModal(true)
