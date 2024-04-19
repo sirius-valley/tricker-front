@@ -8,10 +8,11 @@ import { type ModifyTimeData } from '@utils/types'
 import { usePostModifyTime } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Spinner from '@components/Spinner/Spinner'
-import { useCurrentTicket } from '@redux/hooks'
+import { useAppDispatch, useCurrentTicket } from '@redux/hooks'
 import DatePicker from '@components/DatePicker/DatePicker'
 import { addReasons, subtractReasons, timesInSeconds } from './Constants'
 import { handleErrorMessage } from '@data-provider/AxiosError'
+import { setHasToRefetchDisplay } from '@redux/user'
 
 interface ModalModifyTimeProps {
   onClose: () => void
@@ -33,6 +34,7 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
   const [inputDate, setInputDate] = useState<Date>(new Date())
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
 
+  const dispatch = useAppDispatch()
   const currentTicket = useCurrentTicket()
 
   const { mutate, reset, isPending, error, isSuccess } = usePostModifyTime()
@@ -75,6 +77,7 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
       memoizedShowSnackBar('Time change submitted successfully', 'success')
       setToInitialValues()
       refetchTime()
+      dispatch(setHasToRefetchDisplay(true))
       reset()
       onClose()
     }
