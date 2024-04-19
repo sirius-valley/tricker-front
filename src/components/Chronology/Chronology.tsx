@@ -8,11 +8,11 @@ import useScreenSize from '@hooks/useScreenSize'
 import { useCurrentTicket } from '@redux/hooks'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { type IssueChronologyEvent } from '@utils/types'
+import { type IssueChronologyEventDTO } from '@utils/types'
 
 interface ChronologyProps {
   isLoading: boolean
-  events: IssueChronologyEvent[]
+  events: IssueChronologyEventDTO[]
 }
 
 const Chronology: React.FC<ChronologyProps> = ({ events, isLoading }) => {
@@ -72,8 +72,8 @@ const Chronology: React.FC<ChronologyProps> = ({ events, isLoading }) => {
                     </HelperText>
                   </div>
                   <span
-                    className={`flex min-w-[9px] h-[9px] rounded-full mt-1 ${event.isBlocker ? 'bg-error-500' : 'bg-primary-400'} `}
-                  ></span>
+                    className={`flex min-w-[9px] h-[9px] rounded-full mt-1 ${event.isBlocker || event.modificationDate ? 'bg-error-500' : 'bg-primary-400'} `}
+                  />
                   <div className="flex flex-col gap-2  w-full">
                     <div className={`min-w-12 flex items-start gap-3`}>
                       <div className="flex mt-[1px]">

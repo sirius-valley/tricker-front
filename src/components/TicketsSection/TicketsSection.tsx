@@ -12,12 +12,7 @@ import {
   useUserRole
 } from '@redux/hooks'
 import { setCurrentTicket } from '@redux/user'
-import {
-  type IssueChronologyEvent,
-  type IssueChronologyEventDTO,
-  Priority,
-  StageType
-} from '@utils/types'
+import { type IssueChronologyEventDTO, Priority, StageType } from '@utils/types'
 import { useNavigate } from 'react-router-dom'
 import Timer from '@components/Timer/Timer'
 import { useGetIssueById } from '@data-provider/query'
@@ -37,7 +32,7 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   if (user.id === '') navigate('/login')
-  const [chronology, setChronology] = useState<IssueChronologyEvent[]>([])
+  const [chronology, setChronology] = useState<IssueChronologyEventDTO[]>([])
   const { showSnackBar } = useSnackBar()
 
   const deselectCurrentTicket = (): void => {
@@ -79,7 +74,7 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
           if (typeof event.date === 'string') {
             event.date = new Date(event.date)
           }
-          return event as IssueChronologyEvent
+          return event as IssueChronologyEventDTO
         })
       )
       chronology.sort((a, b) => {

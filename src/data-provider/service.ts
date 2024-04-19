@@ -10,7 +10,6 @@ import type {
   IssueDetail,
   ModifyTimeData,
   IssueChronologyEventDTO,
-  IssueChronologyEvent,
   DevProjectFiltersDTO,
   PMProjectFiltersDTO,
   PendingProjectInfoDTO,
@@ -269,10 +268,10 @@ export const getMyProjects = async (
 
 export const getChronology = async (
   issueId: string
-): Promise<IssueChronologyEvent[]> => {
+): Promise<IssueChronologyEventDTO[]> => {
   const res = await withInterceptors.get(`${url}/issue/${issueId}/chronology`)
   if (res.status === 200) {
-    ;(res.data as IssueChronologyEventDTO[]).forEach((element) => {
+    res.data.forEach((element: { date: Date }) => {
       element.date = new Date(element.date)
     })
     return res.data

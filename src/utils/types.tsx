@@ -138,20 +138,15 @@ export interface IssueDetail extends IssueView {
   chronology: IssueChronologyEventDTO[]
 }
 
-export interface IssueChronologyEvent {
-  id: string
-  message: string
+export interface IssueChronologyEventDTO {
+  eventId: string
+  message?: string
   comment: string | null
   isBlocker: boolean
   date: Date
-}
-
-export interface IssueChronologyEventDTO {
-  id: string
-  message: string
-  comment: string | null
-  isBlocker: boolean
-  date: string | Date
+  modificationTimeAmount?: number
+  modificationReason?: string
+  modificationDate?: string
 }
 
 export interface Stage {

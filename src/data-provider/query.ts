@@ -11,7 +11,7 @@ import type {
   IssueView,
   IssueDetail,
   ModifyTimeData,
-  IssueChronologyEvent,
+  IssueChronologyEventDTO,
   DevProjectFiltersDTO,
   PMProjectFiltersDTO,
   PendingProjectInfoDTO,
@@ -308,7 +308,7 @@ export const useGetFilters = (
 export const useGetChronology = (
   issueId: string
 ): {
-  data: IssueChronologyEvent[] | null | undefined
+  data: IssueChronologyEventDTO[] | null | undefined
   error: Error | null
   isLoading: boolean
 } => {
