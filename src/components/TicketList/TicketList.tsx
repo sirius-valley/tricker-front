@@ -112,145 +112,8 @@ const TicketList: React.FC<TicketListProps> = ({
     }
   }, [error])
 
-  return variant === 'list' ? (
-    <div
-      className={`w-full max-w-[467px] h-full bg-gray-500 ${filteredIssues ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
-    >
-      {isLoading && (
-        <div className="p-1">
-          <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
-            {Array.from({ length: 15 }, (_, index) => (
-              <Skeleton key={index} height={48} containerClassName="h-[14px]" />
-            ))}
-          </SkeletonTheme>
-        </div>
-      )}
-      {filteredIssues && filteredIssues.length !== 0 && !error ? (
-        Object.entries(groupedByStageName).map(([key, issues]) => (
-          <div key={key} className="text-white items-center">
-            <div className="h-[51px] w-full bg-white/5 items-center flex py-4 px-6 gap-2">
-              <div
-                className={`w-3 h-3 rounded-full`}
-                style={{ backgroundColor: issues[0].stage.color }}
-              />
-              <Body2>{issues[0].stage.name}</Body2>
-              <Body1>{issues?.length}</Body1>
-            </div>
-            {issues?.map((issue) => (
-              <div
-                key={issue.id}
-                className={`h-[51px] border-l-[2px] w-full items-center flex py-4 px-6 gap-2 cursor-pointer ${currentTicket.id === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
-                onClick={() => {
-                  handleSelectedTicketId(issue.id)
-                }}
-              >
-                <div className="flex gap-1 min-h-[23px] items-center">
-                  <PriorityIcon
-                    variant={
-                      Priority[
-                        issue.priority as unknown as keyof typeof Priority
-                      ]
-                    }
-                    fillColor={
-                      currentTicket.id === issue.id
-                        ? colors.primary[400]
-                        : 'white'
-                    }
-                  />
-                  {issue.storyPoints && (
-                    <StoryPointsIcon
-                      points={issue.storyPoints}
-                      fillColor={
-                        currentTicket.id === issue.id
-                          ? colors.primary[400]
-                          : 'white'
-                      }
-                    />
-                  )}
-                </div>
-                <Body1 className="font-semibold min-w-fit">{issue.name}</Body1>
-                <Body1 className="w-[20vw] truncate text-ellipsis ">
-                  {issue.title}
-                </Body1>
-                {issue.isBlocked && <Pill variant="blocked">Blocked</Pill>}
-                {issue.isTracking && (
-                  <Pill variant="tracking">Tracking time</Pill>
-                )}
-              </div>
-            ))}
-          </div>
-        ))
-      ) : !data ? (
-        <NoTicketMessage />
-      ) : (
-        <NoTicketMessage
-          title="No tickets found"
-          subtitle="It seems there are no tickets that match your search"
-        />
-      )}
-    </div>
-  ) : (
-    <div
-      className={`w-full max-w-full md:max-w-[467px] h-[770px] bg-gray-500 ${filteredIssues ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
-    >
-      {isLoading && (
-        <div className="p-6 w-full">
-          <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
-            {Array.from({ length: 15 }, (_, index) => (
-              <Skeleton
-                key={index}
-                height={114}
-                containerClassName="flex p-2"
-              />
-            ))}
-          </SkeletonTheme>
-        </div>
-      )}
-      {filteredIssues && filteredIssues.length !== 0 && !error ? (
-        Object.entries(groupedByStageName).map(([key, issues]) => (
-          <div key={key} className="text-white">
-            <div className="w-full h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
-              <div
-                className={`w-3 h-3 rounded-full`}
-                style={{ backgroundColor: issues[0].stage.color }}
-              />
-              <Body2>{issues[0].stage.name}</Body2>
-              <Body1>{issues?.length}</Body1>
-            </div>
-            <div className="flex flex-col items-center gap-4 py-4 px-6 md:py-6 w-full">
-              {issues?.map((issue) => (
-                <TicketCard
-                  ticketId={issue.name}
-                  name={issue.title}
-                  priority={issue.priority}
-                  status={
-                    issue.isBlocked
-                      ? 'blocked'
-                      : issue.isTracking
-                        ? 'tracking'
-                        : null
-                  }
-                  isProjectManager={isProjectManager}
-                  associatedUserProfile={issue.assignee || null}
-                  selectedCard={currentTicket.id === issue.id}
-                  storyPoints={issue.storyPoints}
-                  handleClick={() => {
-                    handleSelectedTicketId(issue.id)
-                  }}
-                  key={issue.id}
-                />
-              ))}
-            </div>
-          </div>
-        ))
-      ) : !data ? (
-        <NoTicketMessage />
-      ) : (
-        <NoTicketMessage
-          title="No tickets found"
-          subtitle="It seems there are no tickets that match your search"
-        />
-      )}
+  return (
+    <>
       {openModal && (
         <ModalStop
           onStop={() => {
@@ -263,7 +126,154 @@ const TicketList: React.FC<TicketListProps> = ({
           show={openModal}
         />
       )}
-    </div>
+      {variant === 'list' ? (
+        <div
+          className={`w-full max-w-[467px] h-full bg-gray-500 ${filteredIssues ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+        >
+          {isLoading && (
+            <div className="p-1">
+              <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
+                {Array.from({ length: 15 }, (_, index) => (
+                  <Skeleton
+                    key={index}
+                    height={48}
+                    containerClassName="h-[14px]"
+                  />
+                ))}
+              </SkeletonTheme>
+            </div>
+          )}
+          {filteredIssues && filteredIssues.length !== 0 && !error ? (
+            Object.entries(groupedByStageName).map(([key, issues]) => (
+              <div key={key} className="text-white items-center">
+                <div className="h-[51px] w-full bg-white/5 items-center flex py-4 px-6 gap-2">
+                  <div
+                    className={`w-3 h-3 rounded-full`}
+                    style={{ backgroundColor: issues[0].stage.color }}
+                  />
+                  <Body2>{issues[0].stage.name}</Body2>
+                  <Body1>{issues?.length}</Body1>
+                </div>
+                {issues?.map((issue) => (
+                  <div
+                    key={issue.id}
+                    className={`h-[51px] border-l-[2px] w-full items-center flex py-4 px-6 gap-2 cursor-pointer ${currentTicket.id === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
+                    onClick={() => {
+                      handleSelectedTicketId(issue.id)
+                    }}
+                  >
+                    <div className="flex gap-1 min-h-[23px] items-center">
+                      <PriorityIcon
+                        variant={
+                          Priority[
+                            issue.priority as unknown as keyof typeof Priority
+                          ]
+                        }
+                        fillColor={
+                          currentTicket.id === issue.id
+                            ? colors.primary[400]
+                            : 'white'
+                        }
+                      />
+                      {issue.storyPoints && (
+                        <StoryPointsIcon
+                          points={issue.storyPoints}
+                          fillColor={
+                            currentTicket.id === issue.id
+                              ? colors.primary[400]
+                              : 'white'
+                          }
+                        />
+                      )}
+                    </div>
+                    <Body1 className="font-semibold min-w-fit">
+                      {issue.name}
+                    </Body1>
+                    <Body1 className="w-[20vw] truncate text-ellipsis ">
+                      {issue.title}
+                    </Body1>
+                    {issue.isBlocked && <Pill variant="blocked">Blocked</Pill>}
+                    {issue.isTracking && (
+                      <Pill variant="tracking">Tracking time</Pill>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ))
+          ) : !data ? (
+            <NoTicketMessage />
+          ) : (
+            <NoTicketMessage
+              title="No tickets found"
+              subtitle="It seems there are no tickets that match your search"
+            />
+          )}
+        </div>
+      ) : (
+        <div
+          className={`w-full max-w-full md:max-w-[467px] h-[770px] bg-gray-500 ${filteredIssues ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+        >
+          {isLoading && (
+            <div className="p-6 w-full">
+              <SkeletonTheme baseColor="#3A3A3A" highlightColor="#4F4F4F">
+                {Array.from({ length: 15 }, (_, index) => (
+                  <Skeleton
+                    key={index}
+                    height={114}
+                    containerClassName="flex p-2"
+                  />
+                ))}
+              </SkeletonTheme>
+            </div>
+          )}
+          {filteredIssues && filteredIssues.length !== 0 && !error ? (
+            Object.entries(groupedByStageName).map(([key, issues]) => (
+              <div key={key} className="text-white">
+                <div className="w-full h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">
+                  <div
+                    className={`w-3 h-3 rounded-full`}
+                    style={{ backgroundColor: issues[0].stage.color }}
+                  />
+                  <Body2>{issues[0].stage.name}</Body2>
+                  <Body1>{issues?.length}</Body1>
+                </div>
+                <div className="flex flex-col items-center gap-4 py-4 px-6 md:py-6 w-full">
+                  {issues?.map((issue) => (
+                    <TicketCard
+                      ticketId={issue.name}
+                      name={issue.title}
+                      priority={issue.priority}
+                      status={
+                        issue.isBlocked
+                          ? 'blocked'
+                          : issue.isTracking
+                            ? 'tracking'
+                            : null
+                      }
+                      isProjectManager={isProjectManager}
+                      associatedUserProfile={issue.assignee || null}
+                      selectedCard={currentTicket.id === issue.id}
+                      storyPoints={issue.storyPoints}
+                      handleClick={() => {
+                        handleSelectedTicketId(issue.id)
+                      }}
+                      key={issue.id}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))
+          ) : !data ? (
+            <NoTicketMessage />
+          ) : (
+            <NoTicketMessage
+              title="No tickets found"
+              subtitle="It seems there are no tickets that match your search"
+            />
+          )}
+        </div>
+      )}
+    </>
   )
 }
 
