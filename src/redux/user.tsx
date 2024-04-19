@@ -11,8 +11,8 @@ import {
 interface InitialStateType {
   user: User
   userRole: string
+  currentTrackingTicket: { id: string; name: string }
   currentTicket: IssueView
-  currentTrackingTicket: IssueView
   currentProjectId: string
   currentStep: number
   steps: Step[]
@@ -43,20 +43,7 @@ export const initialState: InitialStateType = {
   userRole: '',
   currentTrackingTicket: {
     id: '',
-    assignee: null,
-    stage: {
-      id: '',
-      name: '',
-      type: StageType.BACKLOG,
-      position: 0,
-      color: ''
-    },
-    name: '',
-    title: '',
-    priority: Priority.NO_PRIORITY,
-    storyPoints: 0,
-    isBlocked: false,
-    isTracking: false
+    name: ''
   },
   currentTicket: {
     id: '',
@@ -105,7 +92,10 @@ const userSlice = createSlice({
     setUserRole: (state, action: PayloadAction<string>) => {
       state.userRole = action.payload
     },
-    setCurrentTrackingTicket: (state, action: PayloadAction<IssueView>) => {
+    setCurrentTrackingTicket: (
+      state,
+      action: PayloadAction<{ id: string; name: string }>
+    ) => {
       state.currentTrackingTicket = action.payload
     },
     setCurrentTicket: (state, action: PayloadAction<IssueView>) => {

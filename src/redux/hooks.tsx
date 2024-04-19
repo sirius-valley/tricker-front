@@ -18,8 +18,10 @@ export const useSteps = (): Step[] =>
   useAppSelector((state) => state.user.steps)
 export const useProjectName = (): string =>
   useAppSelector((state) => state.user.projectName)
-export const useCurrentTrackingTicket = (): IssueView =>
-  useAppSelector((state) => state.user.currentTrackingTicket)
+export const useCurrentTrackingTicket = (): {
+  id: string
+  name: string
+} => useAppSelector((state) => state.user.currentTrackingTicket)
 export const useCurrentTicket = (): IssueView =>
   useAppSelector((state) => state.user.currentTicket)
 export const useCurrentProjectId = (): string =>

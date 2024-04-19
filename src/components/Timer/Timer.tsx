@@ -20,7 +20,11 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import useScreenSize from '@hooks/useScreenSize'
 import { useAppDispatch, useCurrentTicket } from '@redux/hooks'
-import { setCurrentTicket, setHasToRefetch } from '@redux/user'
+import {
+  setCurrentTicket,
+  setCurrentTrackingTicket,
+  setHasToRefetch
+} from '@redux/user'
 
 export interface TimerProps {
   ticketId: string
@@ -96,22 +100,22 @@ const Timer: React.FC<TimerProps> = ({
   }, [errorElapsedTime, memoizedShowSnackBar])
 
   useEffect(() => {
-    // window.onbeforeunload = function (e) {
-    //   return e
-    // }
     let interval: NodeJS.Timeout | undefined
-    if (!paused)
+
+    if (!paused) {
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime + 1)
+        setTime((prevTime) => {
+          const newTime = prevTime + 1
+          handleElapsedTime && handleElapsedTime(newTime)
+          return newTime
+        })
       }, 1000)
-    else {
-      clearInterval(interval)
-      handleElapsedTime && handleElapsedTime(time)
     }
+
     return () => {
-      clearInterval(interval)
+      if (interval) clearInterval(interval)
     }
-  })
+  }, [paused])
 
   const handleTrackingButton = (): void => {
     if (paused && isBlocked) {
@@ -123,6 +127,7 @@ const Timer: React.FC<TimerProps> = ({
         action: paused ? 'resume' : 'pause'
       })
       dispatch(setHasToRefetch(true))
+      dispatch(setCurrentTrackingTicket({ id: ticketId, name: ticketName }))
     }
   }
 
