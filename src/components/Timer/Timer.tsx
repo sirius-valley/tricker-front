@@ -139,6 +139,7 @@ const Timer: React.FC<TimerProps> = ({
       action: 'resume'
     })
     dispatch(setHasToRefetch(true))
+    dispatch(setCurrentTrackingTicket({ id: ticketId, name: ticketName }))
     setShowModalTime(false)
   }
 
@@ -226,72 +227,59 @@ const Timer: React.FC<TimerProps> = ({
           )}
         </div>
         <div className="flex w-fit gap-4 items-center justify-center">
-          {!paused ? (
-            <Tooltip content={'Stop the timer before substracting time'}>
-              <RoundedIconButton
-                className="w-11 h-11"
-                icon={<SubstractTimeIcon />}
-                size={screen.width > 1024 ? 'lg' : 'sm'}
-                variant={'disabled'}
-              />
-            </Tooltip>
-          ) : (
+          <Tooltip
+            content={!paused ? 'Stop the timer before substracting time' : ''}
+          >
             <RoundedIconButton
               className="w-11 h-11"
               icon={<SubstractTimeIcon />}
               size={screen.width > 1024 ? 'lg' : 'sm'}
-              variant={'default'}
-              onClick={() => {
-                setModalVariant('remove')
-                setShowModalTime(true)
-              }}
+              variant={'disabled'}
+              onClick={
+                !paused
+                  ? () => {}
+                  : () => {
+                      setModalVariant('remove')
+                      setShowModalTime(true)
+                    }
+              }
             />
-          )}
-          {!paused ? (
-            <Tooltip content={'Stop the timer before adding time'}>
-              <RoundedIconButton
-                className="w-11 h-11"
-                icon={<AddTimeIcon />}
-                size={screen.width > 1024 ? 'lg' : 'sm'}
-                variant={'disabled'}
-              />
-            </Tooltip>
-          ) : (
+          </Tooltip>
+          <Tooltip content={!paused ? 'Stop the timer before adding time' : ''}>
             <RoundedIconButton
               className="w-11 h-11"
               icon={<AddTimeIcon />}
               size={screen.width > 1024 ? 'lg' : 'sm'}
-              variant={'default'}
-              onClick={() => {
-                setModalVariant('add')
-                setShowModalTime(true)
-              }}
+              variant={'disabled'}
+              onClick={
+                !paused
+                  ? () => {}
+                  : () => {
+                      setModalVariant('add')
+                      setShowModalTime(true)
+                    }
+              }
             />
-          )}
-          {!paused ? (
-            <Tooltip content={'Stop the timer before setting a blocker'}>
-              <RoundedIconButton
-                className="w-11 h-11"
-                icon={<BlockedIcon />}
-                size={screen.width > 1024 ? 'lg' : 'sm'}
-                variant={'disabled'}
-              />
-            </Tooltip>
-          ) : (
+          </Tooltip>
+          <Tooltip
+            content={!paused ? 'Stop the timer before setting a blocker' : ''}
+          >
             <RoundedIconButton
               className="w-11 h-11"
               icon={<BlockedIcon />}
               size={screen.width > 1024 ? 'lg' : 'sm'}
-              variant={isBlocked ? 'blocked' : 'default'}
+              variant={'disabled'}
               onClick={
-                isBlocked
-                  ? handleUnblock
-                  : () => {
-                      setShowModalBlock(true)
-                    }
+                !paused
+                  ? () => {}
+                  : isBlocked
+                    ? handleUnblock
+                    : () => {
+                        setShowModalBlock(true)
+                      }
               }
             />
-          )}
+          </Tooltip>
           <GradientRoundedButton
             size={screen.width > 1024 ? 'lg' : 'md'}
             icon={

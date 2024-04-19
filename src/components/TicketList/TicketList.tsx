@@ -2,6 +2,7 @@ import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
 import {
   useAppDispatch,
   useCurrentProjectId,
+  useCurrentTrackingTicket,
   useHasToRefetch,
   useUser
 } from '@redux/hooks'
@@ -46,6 +47,7 @@ const TicketList: React.FC<TicketListProps> = ({
   const [openModal, setOpenModal] = useState(false)
   const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
+  const currentTrackingTicket = useCurrentTrackingTicket()
   const hasToRefetch: boolean = useHasToRefetch()
 
   const user = useUser()
@@ -89,7 +91,7 @@ const TicketList: React.FC<TicketListProps> = ({
       const selectedTicked = filteredIssues.find(
         (issue: IssueView) => issue.id === ticketId
       )
-      if (selectedTicked && !currentTicket.isTracking) {
+      if (selectedTicked && currentTrackingTicket.id === '') {
         dispatch(setCurrentTicket(selectedTicked))
       } else {
         setOpenModal(true)
