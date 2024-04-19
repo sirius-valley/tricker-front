@@ -234,7 +234,7 @@ const Timer: React.FC<TimerProps> = ({
               className="w-11 h-11"
               icon={<SubstractTimeIcon />}
               size={screen.width > 1024 ? 'lg' : 'sm'}
-              variant={'disabled'}
+              variant={!paused ? 'disabled' : 'default'}
               onClick={
                 !paused
                   ? () => {}
@@ -250,7 +250,7 @@ const Timer: React.FC<TimerProps> = ({
               className="w-11 h-11"
               icon={<AddTimeIcon />}
               size={screen.width > 1024 ? 'lg' : 'sm'}
-              variant={'disabled'}
+              variant={!paused ? 'disabled' : 'default'}
               onClick={
                 !paused
                   ? () => {}
@@ -268,7 +268,7 @@ const Timer: React.FC<TimerProps> = ({
               className="w-11 h-11"
               icon={<BlockedIcon />}
               size={screen.width > 1024 ? 'lg' : 'sm'}
-              variant={'disabled'}
+              variant={!paused ? 'disabled' : isBlocked ? 'blocked' : 'default'}
               onClick={
                 !paused
                   ? () => {}
