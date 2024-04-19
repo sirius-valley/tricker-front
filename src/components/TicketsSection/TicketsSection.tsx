@@ -121,31 +121,39 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
       />
       {currentTicket.id !== '' && (
         <Modal onClose={deselectCurrentTicket} show={currentTicket.id !== ''}>
-          <div className="max-h-[70vh] flex flex-col bg-gray-700 items-center h-full max-w-screen border-t ">
-            <div
-              className="overflow-y-auto"
-              style={{
-                boxShadow: 'inset 0px -104px 47px 0px rgba(0,0,0,1);'
-              }}
-            >
-              <button
-                onClick={deselectCurrentTicket}
-                className="-rotate-90 hover:bg-gray-500 absolute top-0 left-0 rounded-full m-4"
+          <div className="flex flex-col h-full justify-end">
+            <div className="max-h-[60vh] flex flex-col bg-gray-700 items-center h-full max-w-screen border-t ">
+              <div
+                className="overflow-y-auto"
+                style={{
+                  boxShadow: 'inset 0px -104px 47px 0px rgba(0,0,0,1);'
+                }}
               >
-                <Icon name="CaretUpIcon" width="32" height="32" />
-              </button>
-              <div className="w-screen h-full py-[72px] px-8 flex flex-col gap-10">
-                <TicketDisplay
-                  isLoading={isLoading}
-                  issue={data || undefined}
-                  variant={
-                    myTeam && userRole === 'Project Manager'
-                      ? userRole
-                      : 'Developer'
-                  }
-                />
-                <Chronology isLoading={isLoading} events={chronology} />
+                <button
+                  onClick={deselectCurrentTicket}
+                  className="-rotate-90 hover:bg-gray-500 absolute top-0 left-0 rounded-full m-4"
+                >
+                  <Icon name="CaretUpIcon" width="32" height="32" />
+                </button>
+                <div className="w-screen h-full py-[72px] px-8 flex flex-col gap-10">
+                  <TicketDisplay
+                    isLoading={isLoading}
+                    issue={data || undefined}
+                    variant={
+                      myTeam && userRole === 'Project Manager'
+                        ? userRole
+                        : 'Developer'
+                    }
+                  />
+                  <Chronology isLoading={isLoading} events={chronology} />
+                </div>
               </div>
+            </div>
+            <div className="mb-[70px]">
+              <Timer
+                ticketId={currentTicket.id}
+                ticketName={currentTicket.name}
+              />
             </div>
           </div>
         </Modal>

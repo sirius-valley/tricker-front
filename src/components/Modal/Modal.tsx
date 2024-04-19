@@ -27,7 +27,7 @@ export const Modal = ({
         {show && (
           <div
             onClick={handleClose}
-            className="w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-50 z-50 flex justify-center items-center"
+            className="w-screen h-screen fixed top-0 left-0 bg-black bg-opacity-70 backdrop-blur-[2px] z-50 flex justify-center items-center"
           >
             {children}
           </div>
