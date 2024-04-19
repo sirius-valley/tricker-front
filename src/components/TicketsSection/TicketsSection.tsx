@@ -8,10 +8,11 @@ import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import {
   useAppDispatch,
   useCurrentTicket,
+  useHasToRefetchDisplay,
   useUser,
   useUserRole
 } from '@redux/hooks'
-import { setCurrentTicket } from '@redux/user'
+import { setCurrentTicket, setHasToRefetchDisplay } from '@redux/user'
 import { type IssueChronologyEventDTO, Priority, StageType } from '@utils/types'
 import { useNavigate } from 'react-router-dom'
 import Timer from '@components/Timer/Timer'
@@ -25,6 +26,7 @@ export interface TicketsSectionProps {
 const TicketsSection: React.FC<TicketsSectionProps> = ({
   myTeam = false
 }: TicketsSectionProps): JSX.Element => {
+  const hasToRefetchDisplay: boolean = useHasToRefetchDisplay()
   const user = useUser()
   const userRole = useUserRole()
   const screen = useScreenSize()
@@ -57,7 +59,14 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
     )
   }
 
-  const { data, isLoading, error } = useGetIssueById(currentTicket.id)
+  const { data, isLoading, error, refetch } = useGetIssueById(currentTicket.id)
+
+  useEffect(() => {
+    if (hasToRefetchDisplay) {
+      refetch()
+      dispatch(setHasToRefetchDisplay(false))
+    }
+  }, [hasToRefetchDisplay])
 
   useEffect(() => {
     if (error) {

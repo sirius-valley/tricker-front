@@ -23,7 +23,8 @@ interface InitialStateType {
     provider: string
     value: string
   }
-  hasToRefetch: boolean
+  hasToRefetchList: boolean
+  hasToRefetchDisplay: boolean
 }
 
 export const initialState: InitialStateType = {
@@ -81,7 +82,8 @@ export const initialState: InitialStateType = {
     provider: '',
     value: ''
   },
-  hasToRefetch: false
+  hasToRefetchList: false,
+  hasToRefetchDisplay: false
 }
 
 const userSlice = createSlice({
@@ -127,8 +129,11 @@ const userSlice = createSlice({
     ) => {
       state.apiKey = action.payload
     },
-    setHasToRefetch: (state, action: PayloadAction<boolean>) => {
-      state.hasToRefetch = action.payload
+    setHasToRefetchList: (state, action: PayloadAction<boolean>) => {
+      state.hasToRefetchList = action.payload
+    },
+    setHasToRefetchDisplay: (state, action: PayloadAction<boolean>) => {
+      state.hasToRefetchDisplay = action.payload
     }
   }
 })
@@ -144,6 +149,7 @@ export const {
   setProjectName,
   setSelectedProjectInfo,
   setApiKey,
-  setHasToRefetch
+  setHasToRefetchList,
+  setHasToRefetchDisplay
 } = userSlice.actions
 export default userSlice.reducer

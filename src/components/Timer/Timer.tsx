@@ -19,10 +19,17 @@ import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import useScreenSize from '@hooks/useScreenSize'
-import { useAppDispatch, useCurrentTicket, useStopTracking } from '@redux/hooks'
+import {
+  useAppDispatch,
+  useCurrentTicket,
+  useHasToRefetchDisplay,
+  useHasToRefetchList,
+  useStopTracking
+} from '@redux/hooks'
 import {
   setCurrentTrackingTicket,
-  setHasToRefetch,
+  setHasToRefetchDisplay,
+  setHasToRefetchList,
   setStopTracking
 } from '@redux/user'
 
@@ -58,7 +65,9 @@ const Timer: React.FC<TimerProps> = ({
   const [showModalUnblock, setShowModalUnblock] = useState<boolean>(false)
 
   const dispatch = useAppDispatch()
-
+  const hasToRefetchList = useHasToRefetchList()
+  const hasToRefetchDisplay = useHasToRefetchDisplay()
+  console.log(hasToRefetchDisplay, hasToRefetchList)
   useEffect(() => {
     if (currentTicket.id) {
       setPaused(!currentTicket.isTracking)
@@ -78,7 +87,8 @@ const Timer: React.FC<TimerProps> = ({
         date: new Date(),
         action: 'pause'
       })
-      dispatch(setHasToRefetch(true))
+      dispatch(setHasToRefetchList(true))
+      dispatch(setHasToRefetchDisplay(true))
       dispatch(setStopTracking(false))
     }
   }, [stopTracking])
@@ -139,7 +149,8 @@ const Timer: React.FC<TimerProps> = ({
         date: new Date(),
         action: paused ? 'resume' : 'pause'
       })
-      dispatch(setHasToRefetch(true))
+      dispatch(setHasToRefetchList(true))
+      dispatch(setHasToRefetchDisplay(true))
     }
   }
 
@@ -150,19 +161,23 @@ const Timer: React.FC<TimerProps> = ({
       date: new Date(),
       action: 'resume'
     })
-    dispatch(setHasToRefetch(true))
     setShowModalTime(false)
+    dispatch(setHasToRefetchList(true))
+    dispatch(setHasToRefetchDisplay(true))
   }
 
   const handleUnblock = (): void => {
     mutateUnblock({ ticketId })
-    dispatch(setHasToRefetch(true))
+    dispatch(setHasToRefetchList(true))
+    dispatch(setHasToRefetchDisplay(true))
     setShowModalUnblock(false)
   }
 
   useEffect(() => {
     if (successUnblock) {
       showSnackBar('The ticket is now Unblocked', 'success')
+      dispatch(setHasToRefetchList(true))
+      dispatch(setHasToRefetchDisplay(true))
       setIsBlocked(false)
       resetUnblock()
     }
@@ -175,6 +190,8 @@ const Timer: React.FC<TimerProps> = ({
           paused ? { id: ticketId, name: ticketName } : { id: '', name: '' }
         )
       )
+      dispatch(setHasToRefetchList(true))
+      dispatch(setHasToRefetchDisplay(true))
     }
     if (errorUnblock) {
       showSnackBar('An error occurred while unblocking the ticket', 'error')

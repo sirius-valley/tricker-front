@@ -3,7 +3,7 @@ import {
   useAppDispatch,
   useCurrentProjectId,
   useCurrentTrackingTicket,
-  useHasToRefetch,
+  useHasToRefetchList,
   useUser
 } from '@redux/hooks'
 import {
@@ -16,7 +16,11 @@ import Body2 from '@utils/typography/body2/body2'
 import { useEffect, useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
-import { setCurrentTicket, setHasToRefetch, setStopTracking } from '@redux/user'
+import {
+  setCurrentTicket,
+  setHasToRefetchList,
+  setStopTracking
+} from '@redux/user'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 import ModalStop from '@components/ModalStopTracking/ModalStopTracking'
@@ -48,7 +52,7 @@ const TicketList: React.FC<TicketListProps> = ({
   const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
   const currentTrackingTicket = useCurrentTrackingTicket()
-  const hasToRefetch: boolean = useHasToRefetch()
+  const hasToRefetchList: boolean = useHasToRefetchList()
 
   const user = useUser()
   const dispatch = useAppDispatch()
@@ -61,11 +65,11 @@ const TicketList: React.FC<TicketListProps> = ({
   )
 
   useEffect(() => {
-    if (hasToRefetch) {
+    if (hasToRefetchList) {
       refetch()
-      dispatch(setHasToRefetch(false))
+      dispatch(setHasToRefetchList(false))
     }
-  }, [hasToRefetch])
+  }, [hasToRefetchList])
 
   const filteredIssues: IssueView[] | undefined = data?.filter(
     (issue: IssueView) =>

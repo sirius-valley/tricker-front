@@ -35,5 +35,7 @@ export const useApiKey = (): { provider: string; value: string } =>
   useAppSelector((state) => state.user.apiKey)
 export const useSelectedProjectInfo = (): MyProjectsOption =>
   useAppSelector((state) => state.user.selectedProjectInfo)
-export const useHasToRefetch = (): boolean =>
-  useAppSelector((state) => state.user.hasToRefetch)
+export const useHasToRefetchList = (): boolean =>
+  useAppSelector((state) => state.user.hasToRefetchList)
+export const useHasToRefetchDisplay = (): boolean =>
+  useAppSelector((state) => state.user.hasToRefetchDisplay)
