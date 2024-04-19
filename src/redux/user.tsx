@@ -11,6 +11,7 @@ import {
 interface InitialStateType {
   user: User
   userRole: string
+  stopTracking: boolean
   currentTrackingTicket: { id: string; name: string }
   currentTicket: IssueView
   currentProjectId: string
@@ -41,6 +42,7 @@ export const initialState: InitialStateType = {
     emittedManualTimeModification: []
   },
   userRole: '',
+  stopTracking: false,
   currentTrackingTicket: {
     id: '',
     name: ''
@@ -92,6 +94,9 @@ const userSlice = createSlice({
     setUserRole: (state, action: PayloadAction<string>) => {
       state.userRole = action.payload
     },
+    setStopTracking: (state, action: PayloadAction<boolean>) => {
+      state.stopTracking = action.payload
+    },
     setCurrentTrackingTicket: (
       state,
       action: PayloadAction<{ id: string; name: string }>
@@ -131,6 +136,7 @@ const userSlice = createSlice({
 export const {
   setUser,
   setUserRole,
+  setStopTracking,
   setCurrentTrackingTicket,
   setCurrentTicket,
   setCurrentProjectId,

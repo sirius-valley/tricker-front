@@ -16,7 +16,7 @@ import Body2 from '@utils/typography/body2/body2'
 import { useEffect, useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
-import { setCurrentTicket, setHasToRefetch } from '@redux/user'
+import { setCurrentTicket, setHasToRefetch, setStopTracking } from '@redux/user'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 import ModalStop from '@components/ModalStopTracking/ModalStopTracking'
@@ -249,7 +249,10 @@ const TicketList: React.FC<TicketListProps> = ({
       )}
       {openModal && (
         <ModalStop
-          onStop={() => {}}
+          onStop={() => {
+            dispatch(setStopTracking(true))
+            setOpenModal(false)
+          }}
           onClose={() => {
             setOpenModal(false)
           }}

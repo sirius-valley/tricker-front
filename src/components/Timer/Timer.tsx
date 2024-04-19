@@ -19,11 +19,11 @@ import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import useScreenSize from '@hooks/useScreenSize'
-import { useAppDispatch, useCurrentTicket } from '@redux/hooks'
+import { useAppDispatch, useCurrentTicket, useStopTracking } from '@redux/hooks'
 import {
-  setCurrentTicket,
   setCurrentTrackingTicket,
-  setHasToRefetch
+  setHasToRefetch,
+  setStopTracking
 } from '@redux/user'
 
 export interface TimerProps {
@@ -46,7 +46,8 @@ const Timer: React.FC<TimerProps> = ({
     refetch: refetchElapsedTime
   } = useGetTicketElapsedTime(ticketId)
   const currentTicket = useCurrentTicket()
-  console.log(elapsedTime)
+  const stopTracking: boolean = useStopTracking()
+
   const [paused, setPaused] = useState<boolean>(!currentTicket.isTracking)
   const [time, setTime] = useState<number>(0)
   const [isBlocked, setIsBlocked] = useState<boolean>(blocked)
@@ -69,6 +70,18 @@ const Timer: React.FC<TimerProps> = ({
       setTime(elapsedTime.workedTime)
     }
   }, [elapsedTime])
+
+  useEffect(() => {
+    if (stopTracking) {
+      mutateTimer({
+        ticketId,
+        date: new Date(),
+        action: 'pause'
+      })
+      dispatch(setHasToRefetch(true))
+      dispatch(setStopTracking(false))
+    }
+  }, [stopTracking])
 
   const { showSnackBar } = useSnackBar()
 
@@ -127,7 +140,6 @@ const Timer: React.FC<TimerProps> = ({
         action: paused ? 'resume' : 'pause'
       })
       dispatch(setHasToRefetch(true))
-      dispatch(setCurrentTrackingTicket({ id: ticketId, name: ticketName }))
     }
   }
 
@@ -139,7 +151,6 @@ const Timer: React.FC<TimerProps> = ({
       action: 'resume'
     })
     dispatch(setHasToRefetch(true))
-    dispatch(setCurrentTrackingTicket({ id: ticketId, name: ticketName }))
     setShowModalTime(false)
   }
 
@@ -158,7 +169,12 @@ const Timer: React.FC<TimerProps> = ({
     if (successTimer) {
       setPaused(!paused)
       resetTimer()
-      dispatch(setCurrentTicket({ ...currentTicket, isTracking: !paused }))
+      // dispatch(setCurrentTicket({ ...currentTicket, isTracking: !paused }))
+      dispatch(
+        setCurrentTrackingTicket(
+          paused ? { id: ticketId, name: ticketName } : { id: '', name: '' }
+        )
+      )
     }
     if (errorUnblock) {
       showSnackBar('An error occurred while unblocking the ticket', 'error')
