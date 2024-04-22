@@ -156,15 +156,26 @@ const Timer: React.FC<TimerProps> = ({
   }
 
   const handleModalResume = (): void => {
-    mutateUnblock({ ticketId })
-    mutateTimer({
-      ticketId,
-      date: new Date(),
-      action: 'resume'
-    })
-    setShowModalResume(false)
-    dispatch(setHasToRefetchList(true))
-    dispatch(setHasToRefetchDisplay(true))
+    if (
+      (currentTicket.stage.type as unknown as string) !==
+      StageType[StageType.STARTED]
+    ) {
+      memoizedShowSnackBar(
+        "This issue needs to be 'In Progress' or 'In Review' in order to be able to track time",
+        'error'
+      )
+      setShowModalResume(false)
+    } else if (!pendingTimer) {
+      mutateUnblock({ ticketId })
+      mutateTimer({
+        ticketId,
+        date: new Date(),
+        action: 'resume'
+      })
+      setShowModalResume(false)
+      dispatch(setHasToRefetchList(true))
+      dispatch(setHasToRefetchDisplay(true))
+    }
   }
 
   const handleUnblock = (): void => {
