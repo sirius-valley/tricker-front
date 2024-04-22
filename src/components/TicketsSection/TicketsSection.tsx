@@ -134,7 +134,7 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
       />
       {currentTicket.id !== '' && (
         <Modal onClose={deselectCurrentTicket} show={currentTicket.id !== ''}>
-          <div className="flex flex-col h-full justify-end">
+          <div className="flex flex-col justify-end mt-[140px]">
             <div className="max-h-[60vh] flex flex-col bg-gray-700 items-center h-full max-w-screen border-t ">
               <div
                 className="overflow-y-auto"
@@ -162,13 +162,11 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
                 </div>
               </div>
             </div>
-            <div className="mb-[70px]">
-              <Timer
-                ticketId={currentTicket.id}
-                ticketName={currentTicket.name}
-                myTeam={myTeam}
-              />
-            </div>
+            <Timer
+              ticketId={currentTicket.id}
+              ticketName={currentTicket.name}
+              myTeam={myTeam}
+            />
           </div>
         </Modal>
       )}
