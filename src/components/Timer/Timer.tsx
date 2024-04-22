@@ -167,9 +167,9 @@ const Timer: React.FC<TimerProps> = ({
 
   const handleUnblock = (): void => {
     mutateUnblock({ ticketId })
+    setShowModalUnblock(false)
     dispatch(setHasToRefetchList(true))
     dispatch(setHasToRefetchDisplay(true))
-    setShowModalUnblock(false)
   }
 
   useEffect(() => {
@@ -234,6 +234,7 @@ const Timer: React.FC<TimerProps> = ({
       <ModalBlock
         show={showModalBlock}
         onClose={() => {
+          setIsBlocked(true)
           setShowModalBlock(false)
         }}
       />
