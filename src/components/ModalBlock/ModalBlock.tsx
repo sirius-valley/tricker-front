@@ -12,11 +12,16 @@ import { useAppDispatch, useCurrentTicket } from '@redux/hooks'
 import { setHasToRefetchDisplay, setHasToRefetchList } from '@redux/user'
 
 interface ModalBlockProps {
+  setIsBlocked: (isBlocked: boolean) => void
   onClose: () => void
   show: boolean
 }
 
-const ModalBlock: React.FC<ModalBlockProps> = ({ onClose, show }) => {
+const ModalBlock: React.FC<ModalBlockProps> = ({
+  setIsBlocked,
+  onClose,
+  show
+}) => {
   const [selectedReason, setSelectedReason] = useState<string>('')
   const [selectedComment, setSelectedComment] = useState<string>('')
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
@@ -64,6 +69,7 @@ const ModalBlock: React.FC<ModalBlockProps> = ({ onClose, show }) => {
       memoizedShowSnackBar('Ticket blocked successfully', 'success')
       dispatch(setHasToRefetchDisplay(true))
       dispatch(setHasToRefetchList(true))
+      setIsBlocked(true)
       setToInitialValues()
       reset()
       onClose()

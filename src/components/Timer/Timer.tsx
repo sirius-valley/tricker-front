@@ -60,14 +60,14 @@ const Timer: React.FC<TimerProps> = ({
   const {
     mutate: mutateTimer,
     reset: resetTimer,
-    // isPending: pendingTimer,
+    isPending: pendingTimer,
     isSuccess: successTimer,
     error: errorTimer
   } = usePostTimerAction()
   const {
     mutate: mutateUnblock,
     reset: resetUnblock,
-    // isPending: pendingUnblock,
+    isPending: pendingUnblock,
     isSuccess: successUnblock,
     error: errorUnblock
   } = usePostUnblock()
@@ -133,7 +133,7 @@ const Timer: React.FC<TimerProps> = ({
 
   const handleTrackingButton = (): void => {
     if (paused && isBlocked) {
-      setShowModalTime(true)
+      setShowModalResume(true)
     } else if (
       (currentTicket.stage.type as unknown as string) !==
       StageType[StageType.STARTED]
@@ -143,13 +143,15 @@ const Timer: React.FC<TimerProps> = ({
         'error'
       )
     } else {
-      mutateTimer({
-        ticketId,
-        date: new Date(),
-        action: paused ? 'resume' : 'pause'
-      })
-      dispatch(setHasToRefetchList(true))
-      dispatch(setHasToRefetchDisplay(true))
+      if (!pendingTimer) {
+        mutateTimer({
+          ticketId,
+          date: new Date(),
+          action: paused ? 'resume' : 'pause'
+        })
+        dispatch(setHasToRefetchList(true))
+        dispatch(setHasToRefetchDisplay(true))
+      }
     }
   }
 
@@ -160,7 +162,7 @@ const Timer: React.FC<TimerProps> = ({
       date: new Date(),
       action: 'resume'
     })
-    setShowModalTime(false)
+    setShowModalResume(false)
     dispatch(setHasToRefetchList(true))
     dispatch(setHasToRefetchDisplay(true))
   }
@@ -232,9 +234,9 @@ const Timer: React.FC<TimerProps> = ({
         }}
       />
       <ModalBlock
+        setIsBlocked={setIsBlocked}
         show={showModalBlock}
         onClose={() => {
-          setIsBlocked(true)
           setShowModalBlock(false)
         }}
       />
@@ -307,7 +309,7 @@ const Timer: React.FC<TimerProps> = ({
                   !paused ? 'disabled' : isBlocked ? 'blocked' : 'default'
                 }
                 onClick={
-                  !paused
+                  !paused && pendingUnblock
                     ? () => {}
                     : isBlocked
                       ? handleUnblock
