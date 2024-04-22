@@ -4,7 +4,7 @@ import Icon from '@components/Icon/Icon'
 import Body2 from '@utils/typography/body2/body2'
 import { Modal } from '@components/Modal/Modal'
 import Button from '@components/Button/Button'
-import { type ModifyTimeData } from '@utils/types'
+import { StageType, type ModifyTimeData } from '@utils/types'
 import { usePostModifyTime } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Spinner from '@components/Spinner/Spinner'
@@ -90,7 +90,6 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
     isSuccess,
     error,
     reset,
-    memoizedShowSnackBar,
     onClose,
     selectedTime,
     selectedReason,
@@ -104,8 +103,16 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
         reason: selectedReason,
         date: inputDate.toISOString()
       }
-
-      mutate({ ticketId: currentTicket.id, data, variant })
+      if (
+        (currentTicket.stage.type as unknown as string) !==
+        StageType[StageType.STARTED]
+      ) {
+        memoizedShowSnackBar(
+          "This issue needs to be 'In Progress' or 'In Review' in order to be able to add or substract time",
+          'error'
+        )
+        onClose()
+      } else mutate({ ticketId: currentTicket.id, data, variant })
     }
   }
 
