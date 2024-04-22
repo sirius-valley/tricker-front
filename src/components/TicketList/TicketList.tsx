@@ -7,7 +7,7 @@ import {
 } from '@utils/types'
 import Body1 from '@utils/typography/body1/body1'
 import Body2 from '@utils/typography/body2/body2'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
 import { setCurrentTicket } from '@redux/user'
@@ -18,6 +18,7 @@ import { Pill } from '@components/Pill/Pill'
 import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 import config from '../../../tailwind.config'
+import Spinner from '@components/Spinner/Spinner'
 
 export interface TicketListProps {
   filters: OptionalIssueFilters
@@ -45,12 +46,41 @@ const TicketList: React.FC<TicketListProps> = ({
   const user = useUser()
   const dispatch = useAppDispatch()
 
-  const { data, error, isLoading } = useGetIssuesFilteredAndPaginated(
-    isProjectManager,
-    user.id,
-    currentProjectId,
-    { ...filters, isOutOfEstimation }
-  )
+  const { data, error, isLoading, fetchMore } =
+    useGetIssuesFilteredAndPaginated(
+      isProjectManager,
+      user.id,
+      currentProjectId,
+      { ...filters, isOutOfEstimation }
+    )
+
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
+  const lastViewedTicketId = useRef<string | null>(null)
+
+  const loaderRef = useRef(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !isLoading && data && !error) {
+        const lastTicketId = data[data.length - 1]?.id
+        if (lastTicketId) {
+          lastViewedTicketId.current = lastTicketId
+          fetchMore(lastTicketId)
+          setIsLoadingMore(true)
+        }
+      }
+    })
+
+    if (loaderRef.current !== null && loaderRef.current !== undefined) {
+      observer.observe(loaderRef.current)
+    }
+
+    return () => {
+      if (loaderRef.current !== null && loaderRef.current !== undefined) {
+        observer.unobserve(loaderRef.current)
+      }
+    }
+  }, [isLoading, data, error, fetchMore])
 
   const filteredIssues: IssueView[] | undefined = data?.filter(
     (issue: IssueView) =>
@@ -95,7 +125,7 @@ const TicketList: React.FC<TicketListProps> = ({
 
   return variant === 'list' ? (
     <div
-      className={`w-full max-w-[467px] h-full bg-gray-500 ${filteredIssues ? 'overflow-y-scroll scrollbar-hide' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-full max-w-[467px] h-full bg-gray-500 ${filteredIssues ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-1">
@@ -107,60 +137,69 @@ const TicketList: React.FC<TicketListProps> = ({
         </div>
       )}
       {filteredIssues && filteredIssues.length !== 0 && !error ? (
-        Object.entries(groupedByStageName).map(([key, issues]) => (
-          <div key={key} className="text-white">
-            <div className="h-[51px] w-full bg-white/5 items-center flex py-4 px-6 gap-2">
-              <div
-                className={`w-3 h-3 rounded-full`}
-                style={{ backgroundColor: issues[0].stage.color }}
-              />
-              <Body2>{issues[0].stage.name}</Body2>
-              <Body1>{issues?.length}</Body1>
-            </div>
-            {issues?.map((issue) => (
-              <div
-                key={issue.id}
-                className={`h-[51px] border-l-[2px] w-full items-center flex py-4 px-6 gap-2 cursor-pointer ${currentTicket.id === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
-                onClick={() => {
-                  handleSelectedTicketId(issue.id)
-                }}
-              >
-                <div className="flex gap-1">
-                  <PriorityIcon
-                    variant={
-                      Priority[
-                        issue.priority as unknown as keyof typeof Priority
-                      ]
-                    }
-                    fillColor={
-                      currentTicket.id === issue.id
-                        ? colors.primary[400]
-                        : 'white'
-                    }
-                  />
-                  {issue.storyPoints && (
-                    <StoryPointsIcon
-                      points={issue.storyPoints}
+        <>
+          {Object.entries(groupedByStageName).map(([key, issues]) => (
+            <div key={key} className="text-white">
+              <div className="h-[51px] w-full bg-white/5 items-center flex py-4 px-6 gap-2">
+                <div
+                  className={`w-3 h-3 rounded-full`}
+                  style={{ backgroundColor: issues[0].stage.color }}
+                />
+                <Body2>{issues[0].stage.name}</Body2>
+                <Body1>{issues?.length}</Body1>
+              </div>
+              {issues?.map((issue) => (
+                <div
+                  key={issue.id}
+                  className={`h-[51px] border-l-[2px] w-full items-center flex py-4 px-6 gap-2 cursor-pointer ${currentTicket.id === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
+                  onClick={() => {
+                    handleSelectedTicketId(issue.id)
+                  }}
+                >
+                  <div className="flex gap-1">
+                    <PriorityIcon
+                      variant={
+                        Priority[
+                          issue.priority as unknown as keyof typeof Priority
+                        ]
+                      }
                       fillColor={
                         currentTicket.id === issue.id
                           ? colors.primary[400]
                           : 'white'
                       }
                     />
+                    {issue.storyPoints && (
+                      <StoryPointsIcon
+                        points={issue.storyPoints}
+                        fillColor={
+                          currentTicket.id === issue.id
+                            ? colors.primary[400]
+                            : 'white'
+                        }
+                      />
+                    )}
+                  </div>
+                  <Body1 className="font-semibold min-w-fit">
+                    {issue.name}
+                  </Body1>
+                  <Body1 className="w-[20vw] truncate text-ellipsis ">
+                    {issue.title}
+                  </Body1>
+                  {issue.isBlocked && <Pill variant="blocked">Blocked</Pill>}
+                  {issue.isTracking && (
+                    <Pill variant="tracking">Tracking time</Pill>
                   )}
                 </div>
-                <Body1 className="font-semibold min-w-fit">{issue.name}</Body1>
-                <Body1 className="w-[20vw] truncate text-ellipsis ">
-                  {issue.title}
-                </Body1>
-                {issue.isBlocked && <Pill variant="blocked">Blocked</Pill>}
-                {issue.isTracking && (
-                  <Pill variant="tracking">Tracking time</Pill>
-                )}
-              </div>
-            ))}
-          </div>
-        ))
+              ))}
+            </div>
+          ))}
+          {isLoadingMore && (
+            <div className="text-center py-4">
+              <Spinner variant={'primary'} size={1} />
+            </div>
+          )}
+        </>
       ) : !data ? (
         <NoTicketMessage />
       ) : (
@@ -172,7 +211,7 @@ const TicketList: React.FC<TicketListProps> = ({
     </div>
   ) : (
     <div
-      className={`w-full max-w-full md:max-w-[467px] h-[770px] bg-gray-500 ${filteredIssues ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar rounded-bl-xl`}
+      className={`w-full max-w-full md:max-w-[467px] h-[770px] bg-gray-500 ${filteredIssues ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-6 w-full">
