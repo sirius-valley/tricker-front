@@ -116,7 +116,11 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
               <Chronology isLoading={isLoading} events={chronology} />
             </div>
           </div>
-          <Timer ticketId={currentTicket.id} ticketName={currentTicket.name} />
+          <Timer
+            ticketId={currentTicket.id}
+            ticketName={currentTicket.name}
+            myTeam={myTeam}
+          />
         </div>
       )}
     </div>
@@ -162,6 +166,7 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
               <Timer
                 ticketId={currentTicket.id}
                 ticketName={currentTicket.name}
+                myTeam={myTeam}
               />
             </div>
           </div>
