@@ -25,7 +25,7 @@ const TicketListWrapper: React.FC<TicketListWrapperProps> = ({
   const currentTrackingTicket = useCurrentTrackingTicket()
 
   return (
-    <div className="flex flex-col max-w-full md:max-w-[467px] items-center justify-center h-full w-full border-r border-white/10 md:my-0 my-[70px]">
+    <div className="flex flex-col w-full items-center justify-center h-full border-r border-white/10 md:my-0 my-[70px]">
       <FilterSection
         handleFilters={(options: OptionalIssueFilters) => {
           setSelectedFilters(options)

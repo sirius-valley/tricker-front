@@ -12,6 +12,11 @@ import {
   useUser,
   useUserRole
 } from '@redux/hooks'
+import { setCurrentTicket, initialState } from '@redux/user'
+import {
+  type IssueChronologyEvent,
+  type IssueChronologyEventDTO
+} from '@utils/types'
 import { setCurrentTicket, setHasToRefetchDisplay } from '@redux/user'
 import { type IssueChronologyEventDTO, Priority, StageType } from '@utils/types'
 import { useNavigate } from 'react-router-dom'
@@ -35,11 +40,26 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
   const navigate = useNavigate()
   if (user.id === '') navigate('/login')
   const [chronology, setChronology] = useState<IssueChronologyEventDTO[]>([])
+  const [enabled, setEnabled] = useState<boolean>(false)
   const { showSnackBar } = useSnackBar()
 
   const isMobile = screen.width < 768
 
   const deselectCurrentTicket = (): void => {
+    dispatch(setCurrentTicket(initialState.currentTicket))
+  }
+
+  const { data, isLoading, error, refetch } = useGetIssueById(
+    currentTicket.id,
+    enabled
+  )
+
+  useEffect(() => {
+    if (currentTicket.id !== '') {
+      setEnabled(true)
+      refetch()
+    }
+  }, [currentTicket.id])
     dispatch(
       setCurrentTicket({
         id: '',
@@ -96,15 +116,17 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
 
   return screen.width >= 768 ? (
     <div className="h-full w-full flex items-center">
-      <TicketListWrapper
-        currentTicket={currentTicket}
-        userRole={
-          myTeam && userRole === 'Project Manager' ? userRole : 'Developer'
-        }
-      />
+      <div className="max-w-[467px] w-full h-full">
+        <TicketListWrapper
+          currentTicket={currentTicket}
+          userRole={
+            myTeam && userRole === 'Project Manager' ? userRole : 'Developer'
+          }
+        />
+      </div>
       {currentTicket.id !== '' && (
         <div className="flex flex-col justify-between h-full w-full rounded-r-xl">
-          <div className="overflow-y-hidden hover:overflow-y-scroll h-full pr-[5px] hover:pr-0">
+          <div className="overflow-y-hidden hover:overflow-y-scroll w-full h-full pr-[5px] hover:pr-0">
             <div className="w-full h-full pt-[72px] xl:px-10 px-5 flex flex-col gap-10">
               <TicketDisplay
                 isLoading={isLoading}

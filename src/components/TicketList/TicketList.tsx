@@ -54,6 +54,7 @@ const TicketList: React.FC<TicketListProps> = ({
   const { showSnackBar } = useSnackBar()
   const screen = useScreenSize()
   const currentProjectId = useCurrentProjectId()
+  const [enabled, setEnabled] = useState(false)
   const currentTrackingTicket = useCurrentTrackingTicket()
   const hasToRefetchList: boolean = useHasToRefetchList()
 
@@ -66,7 +67,8 @@ const TicketList: React.FC<TicketListProps> = ({
     isProjectManager,
     user.id,
     currentProjectId,
-    { ...filters, isOutOfEstimation }
+    { ...filters, isOutOfEstimation },
+    enabled
   )
 
   useEffect(() => {
@@ -102,6 +104,13 @@ const TicketList: React.FC<TicketListProps> = ({
       dispatch(setHasToRefetchList(false))
     }
   }, [hasToRefetchList])
+
+  useEffect(() => {
+    if (currentProjectId !== '') {
+      setEnabled(true)
+      refetch()
+    }
+  }, [currentProjectId])
 
   const filteredIssues: IssueView[] | undefined = data?.filter(
     (issue: IssueView) =>
@@ -180,7 +189,7 @@ const TicketList: React.FC<TicketListProps> = ({
           )}
           {filteredIssues && filteredIssues.length !== 0 && !error ? (
             Object.entries(groupedByStageName).map(([key, issues]) => (
-              <div key={key} className="text-white items-center">
+              <div key={key} className="text-white items-center w-full">
                 <div className="h-[51px] w-full bg-white/5 items-center flex py-4 px-6 gap-2">
                   <div
                     className={`w-3 h-3 rounded-full`}
@@ -224,7 +233,7 @@ const TicketList: React.FC<TicketListProps> = ({
                     <Body1 className="font-semibold min-w-fit">
                       {issue.name}
                     </Body1>
-                    <Body1 className="w-[20vw] truncate text-ellipsis ">
+                    <Body1 className="truncate text-ellipsis ">
                       {issue.title}
                     </Body1>
                     {issue.isBlocked && <Pill variant="blocked">Blocked</Pill>}
