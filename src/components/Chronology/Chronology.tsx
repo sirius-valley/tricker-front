@@ -43,10 +43,10 @@ const Chronology: React.FC<ChronologyProps> = ({ events, isLoading }) => {
             {events?.map((event, index) => (
               <div
                 key={index}
-                className={`flex min-h-fit z-20 ${events.length === index + 1 ? 'h-full overflow-hidden' : ''} ${index === events.length - 1 ? 'min-h-[60px]' : ''}`}
+                className={`relative flex min-h-fit z-20 ${events.length === index + 1 ? 'h-full overflow-hidden' : ''} ${index === events.length - 1 ? 'min-h-[60px]' : ''}`}
               >
                 <div
-                  className={`flex w-[1px] h-full rounded-full ${event.isBlocker ? 'bg-error-500' : 'bg-primary-400'} relative left-[73px] top-4 z-10`}
+                  className={`flex w-[1px] h-full rounded-full ${event.isBlocker ? 'bg-error-500' : 'bg-primary-400'} absolute left-[72px] top-4 z-10`}
                 />
                 <div className="flex gap-3 items-start py-2 w-full">
                   <div className="flex flex-col items-end">

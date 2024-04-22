@@ -37,6 +37,8 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
   const [chronology, setChronology] = useState<IssueChronologyEventDTO[]>([])
   const { showSnackBar } = useSnackBar()
 
+  const isMobile = screen.width < 768
+
   const deselectCurrentTicket = (): void => {
     dispatch(
       setCurrentTicket({
@@ -135,20 +137,20 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
       {currentTicket.id !== '' && (
         <Modal onClose={deselectCurrentTicket} show={currentTicket.id !== ''}>
           <div className="flex flex-col justify-end mt-[140px]">
-            <div className="max-h-[60vh] flex flex-col bg-gray-700 items-center h-full max-w-screen border-t ">
+            <button
+              onClick={deselectCurrentTicket}
+              className="-rotate-90 hover:bg-gray-500 absolute top-0 left-0 rounded-full m-4"
+            >
+              <Icon name="CaretUpIcon" width="32" height="32" />
+            </button>
+            <div className="relative max-h-[60vh] flex flex-col bg-gray-700 items-center h-full max-w-screen border-t ">
               <div
                 className="overflow-y-auto"
                 style={{
                   boxShadow: 'inset 0px -104px 47px 0px rgba(0,0,0,1);'
                 }}
               >
-                <button
-                  onClick={deselectCurrentTicket}
-                  className="-rotate-90 hover:bg-gray-500 absolute top-0 left-0 rounded-full m-4"
-                >
-                  <Icon name="CaretUpIcon" width="32" height="32" />
-                </button>
-                <div className="w-screen h-full py-[72px] px-8 flex flex-col gap-10">
+                <div className="w-screen h-full pt-[72px] px-8 flex flex-col gap-10">
                   <TicketDisplay
                     isLoading={isLoading}
                     issue={data || undefined}
@@ -161,6 +163,12 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
                   <Chronology isLoading={isLoading} events={chronology} />
                 </div>
               </div>
+              {isMobile && (
+                <div
+                  style={{ width: 'calc(100% - 10px)' }}
+                  className={`absolute bottom-0 h-[64px] bg-gradient-to-b from-black/10 via-black/60 to-[#000000]`}
+                />
+              )}
             </div>
             <Timer
               ticketId={currentTicket.id}
