@@ -84,12 +84,17 @@ const TicketList: React.FC<TicketListProps> = ({
           })
         )
       } else {
-        if (data.length > 0 && currentTicket.id === '') {
-          if (!isMobile) dispatch(setCurrentTicket(data[0]))
+        if (
+          currentTicket.assignee?.id !== user.id ||
+          (data.length > 0 && currentTicket.id === '')
+        ) {
+          if (!isMobile) {
+            dispatch(setCurrentTicket(data[0]))
+          }
         } else if (selectedTicket) dispatch(setCurrentTicket(selectedTicket))
       }
     }
-  }, [data])
+  }, [data, isMobile])
 
   useEffect(() => {
     if (hasToRefetchList) {
