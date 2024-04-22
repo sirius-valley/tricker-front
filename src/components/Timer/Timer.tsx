@@ -48,7 +48,6 @@ const Timer: React.FC<TimerProps> = ({
   const { showSnackBar } = useSnackBar()
   const memoizedShowSnackBar = useCallback(showSnackBar, [])
 
-  const [enabled, setEnabled] = useState<boolean>(false)
   const [paused, setPaused] = useState<boolean>(!currentTicket.isTracking)
   const [time, setTime] = useState<number>(0)
   const [isBlocked, setIsBlocked] = useState<boolean>(currentTicket.isBlocked)
@@ -57,35 +56,6 @@ const Timer: React.FC<TimerProps> = ({
   const [showModalBlock, setShowModalBlock] = useState<boolean>(false)
   const [showModalResume, setShowModalResume] = useState<boolean>(false)
   const [showModalUnblock, setShowModalUnblock] = useState<boolean>(false)
-
-  const dispatch = useAppDispatch()
-  const {
-    data: elapsedTime,
-    isLoading,
-    error: errorElapsedTime,
-    refetch
-  } = useGetTicketElapsedTime(ticketId, enabled)
-
-  useEffect(() => {
-    if (ticketId !== '') {
-      setEnabled(true)
-      refetch()
-    }
-  }, [ticketId])
-
-  useEffect(() => {
-    if (currentTicket.id) {
-      setPaused(!currentTicket.isTracking)
-    }
-  }, [currentTicket.id])
-
-  useEffect(() => {
-    if (elapsedTime) {
-      setTime(elapsedTime.workedTime)
-    }
-  }, [elapsedTime])
-
-  const { showSnackBar } = useSnackBar()
 
   const {
     mutate: mutateTimer,

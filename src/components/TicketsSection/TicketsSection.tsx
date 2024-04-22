@@ -12,13 +12,12 @@ import {
   useUser,
   useUserRole
 } from '@redux/hooks'
-import { setCurrentTicket, initialState } from '@redux/user'
 import {
-  type IssueChronologyEvent,
-  type IssueChronologyEventDTO
-} from '@utils/types'
-import { setCurrentTicket, setHasToRefetchDisplay } from '@redux/user'
-import { type IssueChronologyEventDTO, Priority, StageType } from '@utils/types'
+  setCurrentTicket,
+  initialState,
+  setHasToRefetchDisplay
+} from '@redux/user'
+import { type IssueChronologyEventDTO } from '@utils/types'
 import { useNavigate } from 'react-router-dom'
 import Timer from '@components/Timer/Timer'
 import { useGetIssueById } from '@data-provider/query'
@@ -60,28 +59,6 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
       refetch()
     }
   }, [currentTicket.id])
-    dispatch(
-      setCurrentTicket({
-        id: '',
-        assignee: null,
-        stage: {
-          id: '',
-          name: '',
-          type: StageType.BACKLOG,
-          position: 0,
-          color: ''
-        },
-        name: '',
-        title: '',
-        priority: Priority.NO_PRIORITY,
-        storyPoints: 0,
-        isBlocked: false,
-        isTracking: false
-      })
-    )
-  }
-
-  const { data, isLoading, error, refetch } = useGetIssueById(currentTicket.id)
 
   useEffect(() => {
     if (hasToRefetchDisplay) {
