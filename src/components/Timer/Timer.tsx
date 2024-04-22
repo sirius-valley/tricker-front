@@ -184,7 +184,6 @@ const Timer: React.FC<TimerProps> = ({
     if (successTimer) {
       setPaused(!paused)
       resetTimer()
-      // dispatch(setCurrentTicket({ ...currentTicket, isTracking: !paused }))
       dispatch(
         setCurrentTrackingTicket(
           paused ? { id: ticketId, name: ticketName } : { id: '', name: '' }

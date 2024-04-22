@@ -72,6 +72,9 @@ const TicketList: React.FC<TicketListProps> = ({
   useEffect(() => {
     if (data) {
       const trackingTicket = data.find((ticket) => ticket.isTracking)
+      const selectedTicket = data.find(
+        (ticket) => ticket.id === currentTicket.id
+      )
       if (trackingTicket) {
         if (!isMobile) dispatch(setCurrentTicket(trackingTicket))
         dispatch(
@@ -81,9 +84,9 @@ const TicketList: React.FC<TicketListProps> = ({
           })
         )
       } else {
-        if (data.length > 0) {
+        if (data.length > 0 && currentTicket.id === '') {
           if (!isMobile) dispatch(setCurrentTicket(data[0]))
-        }
+        } else if (selectedTicket) dispatch(setCurrentTicket(selectedTicket))
       }
     }
   }, [data])
