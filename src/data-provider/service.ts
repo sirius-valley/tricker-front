@@ -221,7 +221,7 @@ export const postBlock = async (
 }
 
 export const postUnblock = async (ticketId: string): Promise<any> => {
-  const res = await withInterceptors.post(
+  const res = await withInterceptors.delete(
     `${url}/issue/${ticketId}/flag/remove`,
     {}
   )

@@ -31,7 +31,6 @@ import { type IssueView, type Screen, StageType } from '@utils/types'
 export interface TimerProps {
   ticketId: string
   ticketName: string
-  blocked?: boolean
   handleElapsedTime?: (elapsedTime: number) => void
   myTeam?: boolean
 }
@@ -39,7 +38,6 @@ export interface TimerProps {
 const Timer: React.FC<TimerProps> = ({
   ticketId,
   ticketName,
-  blocked = false,
   handleElapsedTime,
   myTeam = false
 }): JSX.Element => {
@@ -52,7 +50,7 @@ const Timer: React.FC<TimerProps> = ({
 
   const [paused, setPaused] = useState<boolean>(!currentTicket.isTracking)
   const [time, setTime] = useState<number>(0)
-  const [isBlocked, setIsBlocked] = useState<boolean>(blocked)
+  const [isBlocked, setIsBlocked] = useState<boolean>(currentTicket.isBlocked)
   const [modalVariant, setModalVariant] = useState<'add' | 'remove'>('add')
   const [showModalTime, setShowModalTime] = useState<boolean>(false)
   const [showModalBlock, setShowModalBlock] = useState<boolean>(false)
@@ -83,6 +81,7 @@ const Timer: React.FC<TimerProps> = ({
   useEffect(() => {
     if (currentTicket.id) {
       setPaused(!currentTicket.isTracking)
+      setIsBlocked(currentTicket.isBlocked)
     }
   }, [currentTicket.id])
 
