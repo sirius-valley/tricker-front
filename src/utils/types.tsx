@@ -420,6 +420,7 @@ export interface OptionalIssueFilters {
   assigneeIds?: string[]
   isOutOfEstimation?: boolean
   cursor?: string
+  searchedValue?: string
 }
 
 export interface ModifyTimeData {

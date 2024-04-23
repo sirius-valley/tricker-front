@@ -121,6 +121,14 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     handleSelectDebounced(selectedFilters)
   }, [selectedFilters, handleSelectDebounced])
 
+  const handleSearchDebounced = useDebounce((searchedValue: string) => {
+    handleSearch(searchedValue)
+  }, 1000)
+
+  useEffect(() => {
+    handleSearchDebounced(searchedValue)
+  }, [searchedValue])
+
   const handleOutOfEstimationClick = useDebounce((isOutOfEst: boolean) => {
     handleOutOfEstimation(isOutOfEst)
   }, 1000)
@@ -128,10 +136,6 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   useEffect(() => {
     handleOutOfEstimationClick(outOfEstimation)
   }, [outOfEstimation, handleOutOfEstimationClick])
-
-  useEffect(() => {
-    handleSearch(searchedValue)
-  }, [searchedValue, handleSearch])
 
   const handleCheckGridList = (isList: boolean): void => {
     isList ? handleView('list') : handleView('grid')
