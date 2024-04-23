@@ -17,6 +17,7 @@ import {
   type OptionalIssueFilters
 } from '@utils/types'
 import { priorityEnumMap, setPriorityIcon } from './constants'
+import { createPortal } from 'react-dom'
 
 export interface FilterSectionProps {
   handleFilters: (options: OptionalIssueFilters) => void
@@ -48,6 +49,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const screen = useScreenSize()
   const projectId = useCurrentProjectId()
   const filterRef = useRef<HTMLDivElement | null>(null)
+  const portalElement = document.getElementById('portal')
 
   const { data, refetch } = useGetFilters(
     projectId,
@@ -283,24 +285,35 @@ const FilterSection: React.FC<FilterSectionProps> = ({
             icon={<FilterIcon />}
             isMobile
           />
-          {showFilter && (
-            <div
-              className="absolute"
-              style={{ top: filterPosition.top, left: filterPosition.left - 6 }}
-            >
-              <Filter
-                statusOptions={statusOptions}
-                priorityOptions={priorityOptions}
-                preselectedFilters={selectedFilters}
-                assigneeOptions={assigneeOptions}
-                outOfEstimation={outOfEstimation}
-                handleFilters={setSelectedFilters}
-                show={showFilter}
-                handleOutOfEstimation={setOutOfEstimation}
-                userRole={userRole}
-              />
-            </div>
-          )}
+          {portalElement !== null &&
+            createPortal(
+              <>
+                {showFilter && (
+                  <div className="w-screen h-screen top-0 left-0 fixed bg-[#000000] bg-opacity-40 z-50">
+                    <div
+                      className="absolute"
+                      style={{
+                        top: filterPosition.top,
+                        left: filterPosition.left - 4
+                      }}
+                    >
+                      <Filter
+                        statusOptions={statusOptions}
+                        priorityOptions={priorityOptions}
+                        preselectedFilters={selectedFilters}
+                        assigneeOptions={assigneeOptions}
+                        outOfEstimation={outOfEstimation}
+                        handleFilters={setSelectedFilters}
+                        show={showFilter}
+                        handleOutOfEstimation={setOutOfEstimation}
+                        userRole={userRole}
+                      />
+                    </div>
+                  </div>
+                )}
+              </>,
+              portalElement
+            )}
         </div>
       </div>
     </div>
