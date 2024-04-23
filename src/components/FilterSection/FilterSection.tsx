@@ -100,21 +100,6 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     }
   }, [data])
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent): void => {
-      const target = event.target as HTMLElement
-
-      const isClickInside = filterRef.current?.contains(target) ?? false
-      if (!isClickInside) {
-        setShowFilter(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
-
   const handleSelectDebounced = useDebounce((filters: OptionalIssueFilters) => {
     handleFilters(filters)
   }, 700)
@@ -154,6 +139,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       setFilterPosition({ top: filterTop, left: filterLeft - 281 })
     }
   }
+
   const handleRemoveTag = (
     value: string,
     type: 'stage' | 'priority' | 'assignee'
@@ -181,6 +167,12 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           )
         })
         break
+    }
+  }
+
+  const handleClose = (event: React.MouseEvent): void => {
+    if (event.target === event.currentTarget) {
+      setShowFilter(false)
     }
   }
 
@@ -289,7 +281,10 @@ const FilterSection: React.FC<FilterSectionProps> = ({
             createPortal(
               <>
                 {showFilter && (
-                  <div className="w-screen h-screen top-0 left-0 fixed bg-[#000000] bg-opacity-40 z-50">
+                  <div
+                    onClick={handleClose}
+                    className="w-screen h-screen fixed top-0 left-0 bg-[#000000] bg-opacity-40 z-50"
+                  >
                     <div
                       className="absolute"
                       style={{
