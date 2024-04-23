@@ -46,17 +46,21 @@ const TicketList: React.FC<TicketListProps> = ({
   const user = useUser()
   const dispatch = useAppDispatch()
 
+  const lastViewedTicketId = useRef<string | null>(null)
+
   const { data, error, isLoading, fetchMore } =
     useGetIssuesFilteredAndPaginated(
       isProjectManager,
       user.id,
       currentProjectId,
-      { ...filters, isOutOfEstimation }
+      {
+        ...filters,
+        isOutOfEstimation,
+        cursor: lastViewedTicketId.current || undefined
+      }
     )
 
   const [isLoadingMore, setIsLoadingMore] = useState(false)
-  const lastViewedTicketId = useRef<string | null>(null)
-
   const loaderRef = useRef(null)
 
   useEffect(() => {
@@ -65,7 +69,7 @@ const TicketList: React.FC<TicketListProps> = ({
         const lastTicketId = data[data.length - 1]?.id
         if (lastTicketId) {
           lastViewedTicketId.current = lastTicketId
-          fetchMore(lastTicketId)
+          fetchMore()
           setIsLoadingMore(true)
         }
       }

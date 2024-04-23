@@ -1,8 +1,4 @@
-import {
-  useMutation,
-  useQuery,
-  type RefetchOptions
-} from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import * as ApiService from './service'
 
@@ -22,10 +18,6 @@ import type {
   ProjectView,
   MyProjectsOption
 } from '@utils/types'
-
-type CustomRefetchOptions = RefetchOptions & {
-  cursor?: string
-}
 
 export const useGetMe = (): {
   data: User | null | undefined
@@ -149,7 +141,7 @@ export const useGetIssuesFilteredAndPaginated = (
   data: IssueView[] | null | undefined
   error: Error | null
   isLoading: boolean
-  fetchMore: (cursor: string) => void
+  fetchMore: () => void
 } => {
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: [
@@ -169,10 +161,8 @@ export const useGetIssuesFilteredAndPaginated = (
       ),
     retry: false
   })
-  const fetchMore = async (cursor: string): Promise<void> => {
-    await refetch({ ...filters, cursor } as CustomRefetchOptions)
-  }
-  return { data, error, isLoading, fetchMore }
+
+  return { data, error, isLoading, fetchMore: refetch }
 }
 
 export const useGetIssueById = (
