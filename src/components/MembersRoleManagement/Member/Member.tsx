@@ -100,7 +100,7 @@ const Member: React.FC<MemberProps> = ({
   }, [isSuccessRole, errorRole])
 
   return (
-    <div className="flex items-center w-full gap-4 p-2 rounded-lg bg-gray-500 text-white">
+    <div className="flex items-center w-full gap-4 p-2 rounded-lg text-white">
       {isPendingRemove ? (
         <div className="h-[36px] flex w-full items-center justify-center">
           <Spinner variant="white" size={20} />
@@ -124,10 +124,10 @@ const Member: React.FC<MemberProps> = ({
                 />
               )}
             </div>
-            <div className="flex flex-col w-full gap-1">
+            <div className="flex flex-col gap-1">
               <Subtitle className="text-sm">{member.name}</Subtitle>
               {screen.width >= 768 && (
-                <HelperText className="text-sm truncate max-w-40 md:max-w-none">
+                <HelperText className="text-sm truncate">
                   {member.email}
                 </HelperText>
               )}
@@ -140,7 +140,7 @@ const Member: React.FC<MemberProps> = ({
               >
                 {isPendingRole && <Spinner variant="white" size={20} />}
                 <div
-                  className="w-full"
+                  className="min-w-full h-full items-center flex justify-center"
                   style={isPendingRole ? { display: 'none' } : {}}
                 >
                   <SelectInput

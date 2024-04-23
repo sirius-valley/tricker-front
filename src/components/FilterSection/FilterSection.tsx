@@ -41,6 +41,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     {}
   )
   const [statusOptions, setStatusOptions] = useState<OptionAttr[]>([])
+  const [enabled, setEnabled] = useState<boolean>(false)
   const [priorityOptions, setPriorityOptions] = useState<OptionAttr[]>([])
   const [assigneeOptions, setAssigneeOptions] = useState<OptionAttr[]>([])
   const [outOfEstimation, setOutOfEstimation] = useState<boolean>(false)
@@ -48,10 +49,18 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const projectId = useCurrentProjectId()
   const filterRef = useRef<HTMLDivElement | null>(null)
 
-  const { data } = useGetFilters(
+  const { data, refetch } = useGetFilters(
     projectId,
-    userRole === 'Project Manager' ? 'pm' : 'dev'
+    userRole === 'Project Manager' ? 'pm' : 'dev',
+    enabled
   )
+
+  useEffect(() => {
+    if (projectId) {
+      setEnabled(true)
+      refetch()
+    }
+  }, [enabled])
 
   useEffect(() => {
     if (data) {
@@ -175,10 +184,10 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
   return screen.width >= 768 ? (
     <div className="flex flex-col justify-center w-full">
-      <div className="max-w-[467px] h-fit rounded-tl-xl bg-gray-500 border-b border-white/10 flex flex-wrap items-center justify-center gap-8 p-[22px] pl-6">
+      <div className="h-fit rounded-tl-xl bg-gray-500 border-b border-white/10 flex flex-wrap xl:flex-nowrap items-center justify-center gap-8 p-[22px] pl-6">
         <div className="flex w-fit gap-2 items-center">
-          <Body1 className="text-[17px] leading-[22px] text-white">
-            Assigned to me
+          <Body1 className="text-[17px] text-nowrap leading-[22px] text-white">
+            {userRole === 'Project Manager' ? 'My Team' : 'Assigned to me'}
           </Body1>
           <GridList onChecked={handleCheckGridList} />
         </div>
@@ -220,7 +229,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           selectedFilters.priorities.length !== 0) ||
         (selectedFilters.stageIds &&
           selectedFilters.stageIds.length !== 0)) && (
-        <div className="max-w-[467px] h-fit border border-white-10 bg-gray-500 flex flex-wrap items-center gap-2 py-4 px-6">
+        <div className="w-full h-fit border border-white-10 bg-gray-500 flex flex-wrap items-center gap-2 py-4 px-6">
           {statusOptions.map((option: OptionAttr, index: number) =>
             selectedFilters.stageIds &&
             selectedFilters.stageIds.includes(option.id) ? (

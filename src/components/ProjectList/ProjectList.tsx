@@ -10,13 +10,13 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { setSelectedProjectInfo } from '@redux/user'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 
-interface MyProjectSelectProps {
+interface ProjectListProps {
   searchedProject?: string
 }
 
-export const MyProjectSelect: React.FC<MyProjectSelectProps> = ({
+export const ProjectList: React.FC<ProjectListProps> = ({
   searchedProject = ''
-}: MyProjectSelectProps): JSX.Element => {
+}: ProjectListProps): JSX.Element => {
   const [selectedProject, setSelectedProject] = useState<MyProjectsOption>({
     id: '',
     name: '',
@@ -31,19 +31,14 @@ export const MyProjectSelect: React.FC<MyProjectSelectProps> = ({
   const screenSize = useScreenSize()
 
   const isMobile = screenSize.width <= 768
-
-  dispatch(setSelectedProjectInfo(selectedProject))
-
-  if (selectedProject.id === '' && options && !isMobile) {
-    setSelectedProject(
-      options.find((project) => project.id === currentProjectId) || options[0]
-    )
-    dispatch(
-      setSelectedProjectInfo(
+  useEffect(() => {
+    if (options && !isMobile && currentProjectId) {
+      const find =
         options.find((project) => project.id === currentProjectId) || options[0]
-      )
-    )
-  }
+      setSelectedProject(find)
+      dispatch(setSelectedProjectInfo(find))
+    }
+  }, [options, currentProjectId, isMobile, dispatch])
 
   useEffect(() => {
     if (error) {
@@ -80,14 +75,14 @@ export const MyProjectSelect: React.FC<MyProjectSelectProps> = ({
       >
         {options && options.length !== 0 && !error ? (
           <div
-            className={`bg-gray-500 rounded-xl md:rounded-bl-xl w-full rounded-lg md:rounded-none`}
+            className={`bg-gray-500 md:rounded-bl-xl w-full rounded-lg md:rounded-none`}
           >
             {!isMobile && (
               <div
                 style={{
                   width: `calc(100% - 5px - ${isMobile ? '48px' : '0px'})`
                 }}
-                className={`absolute bottom-0 h-[131px] bg-gradient-to-b from-gray-500 via-gray-600 to-gray-700 rounded-b-xl md:rounded-bl-xl`}
+                className={`absolute bottom-0 h-[131px] min-w-full bg-gradient-to-b from-gray-500 via-gray-600 to-gray-700 rounded-bl-xl`}
               />
             )}
             <div className={`list-none`}>

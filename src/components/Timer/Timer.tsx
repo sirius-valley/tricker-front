@@ -35,13 +35,9 @@ const Timer: React.FC<TimerProps> = ({
   blocked = false,
   handleElapsedTime
 }): JSX.Element => {
-  const {
-    data: elapsedTime,
-    isLoading,
-    error: errorElapsedTime
-  } = useGetTicketElapsedTime(ticketId)
   const currentTicket = useCurrentTicket()
 
+  const [enabled, setEnabled] = useState<boolean>(false)
   const [paused, setPaused] = useState<boolean>(!currentTicket.isTracking)
   const [time, setTime] = useState<number>(0)
   const [isBlocked, setIsBlocked] = useState<boolean>(blocked)
@@ -52,6 +48,19 @@ const Timer: React.FC<TimerProps> = ({
   const [showModalUnblock, setShowModalUnblock] = useState<boolean>(false)
 
   const dispatch = useAppDispatch()
+  const {
+    data: elapsedTime,
+    isLoading,
+    error: errorElapsedTime,
+    refetch
+  } = useGetTicketElapsedTime(ticketId, enabled)
+
+  useEffect(() => {
+    if (ticketId !== '') {
+      setEnabled(true)
+      refetch()
+    }
+  }, [ticketId])
 
   useEffect(() => {
     if (currentTicket.id) {
@@ -162,7 +171,7 @@ const Timer: React.FC<TimerProps> = ({
   }, [successUnblock, successTimer, errorUnblock, errorTimer])
 
   return (
-    <div className="w-full h-fit self-end h-32 md:bg-gray-500 bg-gray-700 xl:px-10 py-4 px-5 items-center flex text-white md:rounded-br-xl border-t border-white/10">
+    <div className="w-full self-end h-32 md:bg-gray-500 bg-gray-700 xl:px-10 py-4 px-5 items-center flex text-white md:rounded-br-xl border-t border-white/10">
       <ModalResume
         onResume={() => {
           handleModalResume()
