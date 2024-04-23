@@ -12,7 +12,7 @@ interface InitialStateType {
   user: User
   userRole: string
   stopTracking: boolean
-  currentTrackingTicket: { id: string; name: string }
+  currentTrackingTicket: IssueView
   currentTicket: IssueView
   currentProjectId: string
   currentStep: number
@@ -46,7 +46,20 @@ export const initialState: InitialStateType = {
   stopTracking: false,
   currentTrackingTicket: {
     id: '',
-    name: ''
+    assignee: null,
+    stage: {
+      id: '',
+      name: '',
+      type: StageType.BACKLOG,
+      position: 0,
+      color: ''
+    },
+    name: '',
+    title: '',
+    priority: Priority.NO_PRIORITY,
+    storyPoints: 0,
+    isBlocked: false,
+    isTracking: false
   },
   currentTicket: {
     id: '',
@@ -99,10 +112,7 @@ const userSlice = createSlice({
     setStopTracking: (state, action: PayloadAction<boolean>) => {
       state.stopTracking = action.payload
     },
-    setCurrentTrackingTicket: (
-      state,
-      action: PayloadAction<{ id: string; name: string }>
-    ) => {
+    setCurrentTrackingTicket: (state, action: PayloadAction<IssueView>) => {
       state.currentTrackingTicket = action.payload
     },
     setCurrentTicket: (state, action: PayloadAction<IssueView>) => {

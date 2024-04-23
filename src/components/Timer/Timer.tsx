@@ -21,6 +21,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import useScreenSize from '@hooks/useScreenSize'
 import { useAppDispatch, useCurrentTicket, useStopTracking } from '@redux/hooks'
 import {
+  initialState,
   setCurrentTrackingTicket,
   setHasToRefetchDisplay,
   setHasToRefetchList,
@@ -198,7 +199,7 @@ const Timer: React.FC<TimerProps> = ({
       resetTimer()
       dispatch(
         setCurrentTrackingTicket(
-          paused ? { id: ticketId, name: ticketName } : { id: '', name: '' }
+          paused ? currentTicket : initialState.currentTicket
         )
       )
       dispatch(setHasToRefetchList(true))

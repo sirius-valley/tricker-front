@@ -181,6 +181,7 @@ export const getIssuesFilteredAndPaginated = async (
 export const getIssueById = async (
   issueId: string
 ): Promise<IssueDetail | null> => {
+  if (issueId === '') return null
   const res = await withInterceptors.get(`${url}/issue/${issueId}`)
   if (res.status === 200) {
     return res.data

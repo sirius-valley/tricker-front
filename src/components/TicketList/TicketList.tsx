@@ -79,12 +79,7 @@ const TicketList: React.FC<TicketListProps> = ({
       )
       if (trackingTicket) {
         if (!isMobile) dispatch(setCurrentTicket(trackingTicket))
-        dispatch(
-          setCurrentTrackingTicket({
-            id: trackingTicket.id,
-            name: trackingTicket.name
-          })
-        )
+        dispatch(setCurrentTrackingTicket(trackingTicket))
       } else {
         if (
           currentTicket.assignee?.id !== user.id ||
