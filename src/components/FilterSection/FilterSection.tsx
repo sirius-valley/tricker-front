@@ -117,7 +117,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
   const handleSelectDebounced = useDebounce((filters: OptionalIssueFilters) => {
     handleFilters(filters)
-  }, 2000)
+  }, 700)
 
   useEffect(() => {
     handleSelectDebounced(selectedFilters)
@@ -125,7 +125,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
   const handleSearchDebounced = useDebounce((searchedValue: string) => {
     handleSearch(searchedValue)
-  }, 1000)
+  }, 300)
 
   useEffect(() => {
     handleSearchDebounced(searchedValue)
@@ -133,7 +133,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
   const handleOutOfEstimationClick = useDebounce((isOutOfEst: boolean) => {
     handleOutOfEstimation(isOutOfEst)
-  }, 1000)
+  }, 300)
 
   useEffect(() => {
     handleOutOfEstimationClick(outOfEstimation)
