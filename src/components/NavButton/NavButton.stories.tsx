@@ -20,7 +20,7 @@ const meta: Meta<typeof NavButton> = {
       control: {
         type: 'select'
       }
-    },
+    }
   }
 }
 

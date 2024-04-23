@@ -51,10 +51,7 @@ const NavBar: React.FC<NavBarProps> = ({
         )}
         <NavLink to={`/profile`}>
           {({ isActive }) => (
-            <NavButton
-              variant="profile"
-              state={isActive ? 'on' : 'off'}
-            />
+            <NavButton variant="profile" state={isActive ? 'on' : 'off'} />
           )}
         </NavLink>
       </div>
