@@ -50,7 +50,7 @@ const TicketList: React.FC<TicketListProps> = ({
     isProjectManager,
     user.id,
     currentProjectId,
-    { ...filters, isOutOfEstimation },
+    { ...filters, isOutOfEstimation, searchedValue: searchedTicket },
     enabled
   )
 
@@ -61,17 +61,12 @@ const TicketList: React.FC<TicketListProps> = ({
     }
   }, [currentProjectId])
 
-  const filteredIssues: IssueView[] | undefined = data?.filter(
-    (issue: IssueView) =>
-      issue.name.toLowerCase().includes(searchedTicket.toLowerCase())
-  )
-
   type GroupedIssues = Record<string, IssueView[]>
 
   let groupedByStageName: GroupedIssues = {}
 
-  if (filteredIssues && !error) {
-    groupedByStageName = filteredIssues.reduce((acc: GroupedIssues, issue) => {
+  if (data && !error) {
+    groupedByStageName = data.reduce((acc: GroupedIssues, issue) => {
       if (acc[issue.stage.name] === undefined) {
         acc[issue.stage.name] = []
       }
@@ -81,8 +76,8 @@ const TicketList: React.FC<TicketListProps> = ({
   }
 
   const handleSelectedTicketId = (ticketId: string): void => {
-    if (filteredIssues) {
-      const selectedTicked = filteredIssues.find(
+    if (data) {
+      const selectedTicked = data.find(
         (issue: IssueView) => issue.id === ticketId
       )
       if (selectedTicked && !currentTicket.isTracking) {
@@ -104,7 +99,7 @@ const TicketList: React.FC<TicketListProps> = ({
 
   return variant === 'list' ? (
     <div
-      className={`w-full max-w-full h-full bg-gray-500 ${filteredIssues ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-full max-w-[467px] h-full bg-gray-500 ${data ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-1">
@@ -115,7 +110,7 @@ const TicketList: React.FC<TicketListProps> = ({
           </SkeletonTheme>
         </div>
       )}
-      {filteredIssues && filteredIssues.length !== 0 && !error ? (
+      {data && data.length !== 0 && !error ? (
         Object.entries(groupedByStageName).map(([key, issues]) => (
           <div key={key} className="text-white w-full">
             <div className="h-[51px] w-full bg-white/5 items-center flex py-4 px-6 gap-2">
@@ -179,7 +174,7 @@ const TicketList: React.FC<TicketListProps> = ({
     </div>
   ) : (
     <div
-      className={`w-full max-w-full h-full bg-gray-500 ${filteredIssues ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-full max-w-full md:max-w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-6 w-full">
@@ -194,7 +189,7 @@ const TicketList: React.FC<TicketListProps> = ({
           </SkeletonTheme>
         </div>
       )}
-      {filteredIssues && filteredIssues.length !== 0 && !error ? (
+      {data && data.length !== 0 && !error ? (
         Object.entries(groupedByStageName).map(([key, issues]) => (
           <div key={key} className="text-white">
             <div className="w-full h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">

@@ -170,7 +170,8 @@ export const getIssuesFilteredAndPaginated = async (
           ? filters.assigneeIds
           : undefined,
       isOutOfEstimation: filters.isOutOfEstimation === true ? true : undefined,
-      cursor: filters.cursor
+      cursor: filters.cursor,
+      name: filters.searchedValue === '' ? undefined : filters.searchedValue
     }
   )
   if (res.status === 200) {
