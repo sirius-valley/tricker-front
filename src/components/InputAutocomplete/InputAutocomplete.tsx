@@ -17,7 +17,7 @@ const InputAutocomplete = ({
   defaultValue = ''
 }: InputProps): JSX.Element => {
   const [query, setQuery] = useState<string>('')
-  const [showModal, setShowModal] = useState<boolean>(false)
+  const [showModal, setShowModal] = useState<boolean>(true)
 
   const handleSearchDebounced = useDebounce((query: string) => {
     console.log(query)
@@ -37,11 +37,11 @@ const InputAutocomplete = ({
 
   const handleSelect = (option: string): void => {
     setQuery(option)
-    setShowModal(false)
+    setShowModal(true)
   }
 
   return (
-    <div>
+    <div className="relative">
       <Input
         value={value}
         className={className}
@@ -59,7 +59,7 @@ const InputAutocomplete = ({
       {query !== '' && showModal && (
         <ModalSearchResult
           show={showModal}
-          results={[]}
+          results={['opcion 1', 'opcion 2', 'opcion 3', 'opcion 4', 'opcion 5']}
           handleClick={handleSelect}
           onClose={() => {
             setShowModal(false)
