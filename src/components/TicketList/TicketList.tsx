@@ -118,7 +118,6 @@ const TicketList: React.FC<TicketListProps> = ({
     observer.current = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && canLoad) {
-          console.log('load more tickets')
           refetch()
         }
       },
@@ -127,7 +126,7 @@ const TicketList: React.FC<TicketListProps> = ({
       }
     )
 
-    // Don't know what this if does, but do NOT delete it 🤡
+    // Don't know what this IF does, but do NOT delete it 🤡
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (loader.current) {
       observer.current.observe(loader.current)
