@@ -1,3 +1,5 @@
+import Body1 from '@utils/typography/body1/body1'
+
 interface ItemDataBoxProps {
   key: number
   label: string
@@ -10,15 +12,13 @@ const ItemDataBox: React.FC<ItemDataBoxProps> = ({
 }: ItemDataBoxProps): JSX.Element => {
   return (
     <li
-      className="flex items-center relative cursor-pointer select-none rounded-xl px-4 hover:bg-gray-400/10 transition-colors duration-200"
+      className="flex w-full items-center relative cursor-pointer rounded hover:bg-gray-400 transition-colors duration-200 p-2 px-4 hover:shadow-button active:shadow-buttonClicked"
       onClick={() => {
         onClick(label)
       }}
       key={key}
     >
-      <span className="text-gray-600 leading-[22px] text-sm font-inter italic">
-        {label}
-      </span>
+      <Body1 className="text-white">{label}</Body1>
     </li>
   )
 }

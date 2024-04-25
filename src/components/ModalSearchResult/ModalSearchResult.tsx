@@ -1,14 +1,13 @@
+import Body1 from '@utils/typography/body1/body1'
 import ItemDataBox from './ItemDataBox/ItemDataBox'
 
 interface ModalSearchResultProps {
-  show: boolean
   results: string[]
   handleClick: (value: string) => void
   onClose: () => void
 }
 
 const ModalSearchResult: React.FC<ModalSearchResultProps> = ({
-  show,
   results,
   handleClick,
   onClose
@@ -20,31 +19,22 @@ const ModalSearchResult: React.FC<ModalSearchResultProps> = ({
   }
 
   return (
-    <>
-      {show && (
-        <div
-          className="w-full flex flex-col w-full h-fit gap-2.5 justify-center"
-          onClick={handleClose}
-        >
-          <div className="flex flex-col gap-2 w-full bg-gray-300 rounded-b-3xl p-4">
-            <ul className="flex flex-col gap-2.5 h-full w-full">
-              {results.map((item: string, index: number) => {
-                return (
-                  <ItemDataBox key={index} label={item} onClick={handleClick} />
-                )
-              })}
-            </ul>
-          </div>
-          {results.length === 0 && (
-            <div className="flex items-center box-border h-fit pt-2.5 gap-2.5">
-              <p className="font-bold text-sm italic font-inter leading-[22px] text-gray-600">
-                No options matches with your search.
-              </p>
-            </div>
-          )}
-        </div>
+    <div
+      className="w-full bg-gray-500 rounded-b-xl py-2 border border-white/15"
+      onClick={handleClose}
+    >
+      {results.length === 0 ? (
+        <Body1 className="text-white">
+          No options matches with your search.
+        </Body1>
+      ) : (
+        <ul className="flex flex-col gap-1 w-full p-0">
+          {results.map((item: string, index: number) => (
+            <ItemDataBox key={index} label={item} onClick={handleClick} />
+          ))}
+        </ul>
       )}
-    </>
+    </div>
   )
 }
 

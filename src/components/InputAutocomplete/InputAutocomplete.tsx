@@ -18,7 +18,7 @@ const InputAutocomplete = ({
 }: InputProps): JSX.Element => {
   const [query, setQuery] = useState<string>('')
   const [showModal, setShowModal] = useState<boolean>(true)
-
+  console.log(showModal)
   const handleSearchDebounced = useDebounce((query: string) => {
     console.log(query)
     // mutate({query})
@@ -56,9 +56,8 @@ const InputAutocomplete = ({
         tooltip={tooltip}
         defaultValue={defaultValue}
       />
-      {query !== '' && showModal && (
+      {query !== '' && (
         <ModalSearchResult
-          show={showModal}
           results={['opcion 1', 'opcion 2', 'opcion 3', 'opcion 4', 'opcion 5']}
           handleClick={handleSelect}
           onClose={() => {
