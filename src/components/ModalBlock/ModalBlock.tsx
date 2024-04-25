@@ -139,7 +139,7 @@ const ModalBlock: React.FC<ModalBlockProps> = ({
                 handleValue={handleComment}
                 placeholder="Blocked by TIK-292"
                 variant={'default'}
-                required={selectedReason === 'Other'}
+                required
                 helpertext={
                   selectedReason === 'Other' ? 'Please specify the reason' : ''
                 }
