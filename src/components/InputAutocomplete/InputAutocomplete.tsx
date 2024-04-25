@@ -1,13 +1,11 @@
 import Input, { type InputProps } from '@components/Input/Input'
 import ModalSearchResult from '@components/ModalSearchResult/ModalSearchResult'
 import useDebounce from '@hooks/useDebounce'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const InputAutocomplete = ({
-  value = '',
   className,
   variant,
-  type = 'text',
   helpertext = '',
   label = '',
   required = false,
@@ -17,8 +15,10 @@ const InputAutocomplete = ({
   defaultValue = ''
 }: InputProps): JSX.Element => {
   const [query, setQuery] = useState<string>('')
-  const [showModal, setShowModal] = useState<boolean>(true)
-  console.log(showModal)
+  const [showModal, setShowModal] = useState<boolean>(false)
+
+  const resultsRef = useRef<HTMLDivElement | null>(null)
+
   const handleSearchDebounced = useDebounce((query: string) => {
     console.log(query)
     // mutate({query})
@@ -28,25 +28,36 @@ const InputAutocomplete = ({
     handleSearchDebounced(query)
   }, [query])
 
-  //   const handleClick = () => {
-  //     if (inputRef.current) {
-  //       inputRef.current.focus()
-  //       setIsOpen(true)
-  //     }
-  //   }
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent): void => {
+      if (
+        resultsRef.current &&
+        !resultsRef.current.contains(event.target as Node)
+      ) {
+        setShowModal(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   const handleSelect = (option: string): void => {
     setQuery(option)
-    setShowModal(true)
+    setShowModal(false)
   }
 
   return (
-    <div className="relative">
+    <div className="relative" ref={resultsRef}>
       <Input
-        value={value}
+        onFocus={() => {
+          setShowModal(true)
+        }}
+        value={query}
         className={className}
         variant={variant}
-        type={type}
+        type={'text'}
         helpertext={helpertext}
         label={label}
         required={required}
@@ -58,6 +69,7 @@ const InputAutocomplete = ({
       />
       {query !== '' && (
         <ModalSearchResult
+          show={showModal}
           results={['opcion 1', 'opcion 2', 'opcion 3', 'opcion 4', 'opcion 5']}
           handleClick={handleSelect}
           onClose={() => {

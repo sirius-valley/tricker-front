@@ -53,7 +53,9 @@ const Input = ({
   handleValue,
   placeholder = '',
   tooltip = '',
-  defaultValue = ''
+  defaultValue = '',
+  onFocus,
+  onBlur
 }: InputProps): JSX.Element => {
   const [inputValue, setInputValue] = useState<string>(value)
 
@@ -106,6 +108,8 @@ const Input = ({
         placeholder={placeholder}
         onChange={handleChange}
         disabled={variant === 'disabled'}
+        onFocus={onFocus}
+        onBlur={onBlur}
       />
 
       {helpertext !== '' && (
