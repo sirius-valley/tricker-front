@@ -146,7 +146,7 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
               <div
                 className="overflow-y-auto"
                 style={{
-                  boxShadow: 'inset 0px -104px 47px 0px rgba(0,0,0,1);'
+                  boxShadow: 'inset 0px -104px 47px 0px rgba(0,0,0,1)'
                 }}
               >
                 <div className="w-screen h-full pt-[72px] px-8 flex flex-col gap-10">
