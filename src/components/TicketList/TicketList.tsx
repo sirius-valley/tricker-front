@@ -42,61 +42,32 @@ const TicketList: React.FC<TicketListProps> = ({
   const [openModal, setOpenModal] = useState(false)
   const { showSnackBar } = useSnackBar()
   const currentProjectId = useCurrentProjectId()
+  const [enabled, setEnabled] = useState(false)
 
   const user = useUser()
   const dispatch = useAppDispatch()
 
-  const lastViewedTicketId = useRef<string | null>(null)
-
-  const { data, error, isLoading, fetchMore } =
-    useGetIssuesFilteredAndPaginated(
-      isProjectManager,
-      user.id,
-      currentProjectId,
-      {
-        ...filters,
-        isOutOfEstimation,
-        cursor: lastViewedTicketId.current || undefined
-      }
-    )
-
-  const [isLoadingMore, setIsLoadingMore] = useState(false)
-  const loaderRef = useRef(null)
+  const { data, error, isLoading, refetch } = useGetIssuesFilteredAndPaginated(
+    isProjectManager,
+    user.id,
+    currentProjectId,
+    { ...filters, isOutOfEstimation, searchedValue: searchedTicket },
+    enabled
+  )
 
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && !isLoading && data && !error) {
-        const lastTicketId = data[data.length - 1]?.id
-        if (lastTicketId) {
-          lastViewedTicketId.current = lastTicketId
-          fetchMore()
-          setIsLoadingMore(true)
-        }
-      }
-    })
-
-    if (loaderRef.current !== null && loaderRef.current !== undefined) {
-      observer.observe(loaderRef.current)
+    if (currentProjectId !== '') {
+      setEnabled(true)
+      refetch()
     }
-
-    return () => {
-      if (loaderRef.current !== null && loaderRef.current !== undefined) {
-        observer.unobserve(loaderRef.current)
-      }
-    }
-  }, [isLoading, data, error, fetchMore])
-
-  const filteredIssues: IssueView[] | undefined = data?.filter(
-    (issue: IssueView) =>
-      issue.name.toLowerCase().includes(searchedTicket.toLowerCase())
-  )
+  }, [currentProjectId])
 
   type GroupedIssues = Record<string, IssueView[]>
 
   let groupedByStageName: GroupedIssues = {}
 
-  if (filteredIssues && !error) {
-    groupedByStageName = filteredIssues.reduce((acc: GroupedIssues, issue) => {
+  if (data && !error) {
+    groupedByStageName = data.reduce((acc: GroupedIssues, issue) => {
       if (acc[issue.stage.name] === undefined) {
         acc[issue.stage.name] = []
       }
@@ -106,8 +77,8 @@ const TicketList: React.FC<TicketListProps> = ({
   }
 
   const handleSelectedTicketId = (ticketId: string): void => {
-    if (filteredIssues) {
-      const selectedTicked = filteredIssues.find(
+    if (data) {
+      const selectedTicked = data.find(
         (issue: IssueView) => issue.id === ticketId
       )
       if (selectedTicked && !currentTicket.isTracking) {
@@ -129,7 +100,7 @@ const TicketList: React.FC<TicketListProps> = ({
 
   return variant === 'list' ? (
     <div
-      className={`w-full max-w-[467px] h-full bg-gray-500 ${filteredIssues ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-full max-w-[467px] h-full bg-gray-500 ${data ? 'overflow-y-scroll' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-1">
@@ -140,70 +111,59 @@ const TicketList: React.FC<TicketListProps> = ({
           </SkeletonTheme>
         </div>
       )}
-      {filteredIssues && filteredIssues.length !== 0 && !error ? (
-        <>
-          {Object.entries(groupedByStageName).map(([key, issues]) => (
-            <div key={key} className="text-white">
-              <div className="h-[51px] w-full bg-white/5 items-center flex py-4 px-6 gap-2">
-                <div
-                  className={`w-3 h-3 rounded-full`}
-                  style={{ backgroundColor: issues[0].stage.color }}
-                />
-                <Body2>{issues[0].stage.name}</Body2>
-                <Body1>{issues?.length}</Body1>
-              </div>
-              {issues?.map((issue) => (
-                <div
-                  key={issue.id}
-                  className={`h-[51px] border-l-[2px] w-full items-center flex py-4 px-6 gap-2 cursor-pointer ${currentTicket.id === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
-                  onClick={() => {
-                    handleSelectedTicketId(issue.id)
-                  }}
-                >
-                  <div className="flex gap-1">
-                    <PriorityIcon
-                      variant={
-                        Priority[
-                          issue.priority as unknown as keyof typeof Priority
-                        ]
-                      }
+      {data && data.length !== 0 && !error ? (
+        Object.entries(groupedByStageName).map(([key, issues]) => (
+          <div key={key} className="text-white w-full">
+            <div className="h-[51px] w-full bg-white/5 items-center flex py-4 px-6 gap-2">
+              <div
+                className={`w-3 h-3 rounded-full`}
+                style={{ backgroundColor: issues[0].stage.color }}
+              />
+              <Body2>{issues[0].stage.name}</Body2>
+              <Body1>{issues?.length}</Body1>
+            </div>
+            {issues?.map((issue) => (
+              <div
+                key={issue.id}
+                className={`h-[51px] border-l-[2px] w-full items-center flex py-4 px-6 gap-2 cursor-pointer ${currentTicket.id === issue.id ? 'bg-primary-400/5 border-primary-400 text-primary-400' : 'bg-gray-500 border-gray-500'} `}
+                onClick={() => {
+                  handleSelectedTicketId(issue.id)
+                }}
+              >
+                <div className="flex gap-1">
+                  <PriorityIcon
+                    variant={
+                      Priority[
+                        issue.priority as unknown as keyof typeof Priority
+                      ]
+                    }
+                    fillColor={
+                      currentTicket.id === issue.id
+                        ? colors.primary[400]
+                        : 'white'
+                    }
+                  />
+                  {issue.storyPoints && (
+                    <StoryPointsIcon
+                      points={issue.storyPoints}
                       fillColor={
                         currentTicket.id === issue.id
                           ? colors.primary[400]
                           : 'white'
                       }
                     />
-                    {issue.storyPoints && (
-                      <StoryPointsIcon
-                        points={issue.storyPoints}
-                        fillColor={
-                          currentTicket.id === issue.id
-                            ? colors.primary[400]
-                            : 'white'
-                        }
-                      />
-                    )}
-                  </div>
-                  <Body1 className="font-semibold min-w-fit">
-                    {issue.name}
-                  </Body1>
-                  <Body1 className="w-[20vw] truncate text-ellipsis ">
-                    {issue.title}
-                  </Body1>
-                  {issue.isBlocked && <Pill variant="blocked">Blocked</Pill>}
-                  {issue.isTracking && (
-                    <Pill variant="tracking">Tracking time</Pill>
                   )}
                 </div>
-              ))}
-            </div>
-          ))}
-          {isLoadingMore && (
-            <div className="text-center py-4">
-              <Spinner variant={'primary'} size={1} />
-            </div>
-          )}
-        </>
+                <Body1 className="font-semibold min-w-fit">{issue.name}</Body1>
+                <Body1 className="truncate text-ellipsis ">{issue.title}</Body1>
+                {issue.isBlocked && <Pill variant="blocked">Blocked</Pill>}
+                {issue.isTracking && (
+                  <Pill variant="tracking">Tracking time</Pill>
+                )}
+              </div>
+            ))}
+          </div>
+        ))
       ) : !data ? (
         <NoTicketMessage />
       ) : (
@@ -215,7 +175,7 @@ const TicketList: React.FC<TicketListProps> = ({
     </div>
   ) : (
     <div
-      className={`w-full max-w-full md:max-w-[467px] h-[770px] bg-gray-500 ${filteredIssues ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
+      className={`w-full max-w-full md:max-w-[467px] h-[770px] bg-gray-500 ${data ? 'overflow-y-auto' : 'overflow-y-hidden'} scrollbar-hide rounded-bl-xl`}
     >
       {isLoading && (
         <div className="p-6 w-full">
@@ -230,7 +190,7 @@ const TicketList: React.FC<TicketListProps> = ({
           </SkeletonTheme>
         </div>
       )}
-      {filteredIssues && filteredIssues.length !== 0 && !error ? (
+      {data && data.length !== 0 && !error ? (
         Object.entries(groupedByStageName).map(([key, issues]) => (
           <div key={key} className="text-white">
             <div className="w-full h-[51px] bg-white/5 items-center flex py-4 px-6 gap-2">

@@ -1,5 +1,5 @@
 import { type Meta, type StoryObj } from '@storybook/react'
-import { MyProjectSelect } from './MyProjectSelection'
+import { ProjectList } from './ProjectList'
 import { Provider } from 'react-redux'
 import { store } from '@redux/store'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -7,9 +7,9 @@ import { SnackBarProvider } from '@components/SnackBarProvider/SnackBarProvider'
 
 const queryClient = new QueryClient()
 
-const meta: Meta<typeof MyProjectSelect> = {
-  title: 'Components/MyProjectSelection',
-  component: MyProjectSelect,
+const meta: Meta<typeof ProjectList> = {
+  title: 'Components/ProjectListion',
+  component: ProjectList,
   tags: ['autodocs'],
   argTypes: {
     searchedProject: {
@@ -24,7 +24,7 @@ const meta: Meta<typeof MyProjectSelect> = {
 
 export default meta
 
-type Story = StoryObj<typeof MyProjectSelect>
+type Story = StoryObj<typeof ProjectList>
 
 export const Primary: Story = {
   tags: ['autodocs'],
@@ -35,7 +35,7 @@ export const Primary: Story = {
     <SnackBarProvider>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <MyProjectSelect {...args} />
+          <ProjectList {...args} />
         </Provider>
       </QueryClientProvider>
     </SnackBarProvider>

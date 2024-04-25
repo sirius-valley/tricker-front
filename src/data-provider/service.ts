@@ -13,6 +13,7 @@ import type {
   IssueChronologyEvent,
   DevProjectFiltersDTO,
   PMProjectFiltersDTO,
+  PendingProjectInfoDTO,
   ProjectView,
   UpdateRoleReponse,
   MyProjectsOption
@@ -128,7 +129,7 @@ export const postModifyTime = async (
 export const postProjectIntegrationRequest = async (
   provider: string,
   authorizationRequest: AuthorizationRequest
-): Promise<null> => {
+): Promise<boolean | null> => {
   const res = await withInterceptors.post(
     `${url}/integration/${provider.toLowerCase()}/authorization`,
     {
@@ -140,7 +141,7 @@ export const postProjectIntegrationRequest = async (
       issueProviderName: authorizationRequest.issueProviderName
     }
   )
-  if (res.status === 200) {
+  if (res.status === 201) {
     return res.data
   }
   return null
@@ -169,7 +170,8 @@ export const getIssuesFilteredAndPaginated = async (
           ? filters.assigneeIds
           : undefined,
       isOutOfEstimation: filters.isOutOfEstimation === true ? true : undefined,
-      cursor: filters.cursor
+      cursor: filters.cursor,
+      name: filters.searchedValue === '' ? undefined : filters.searchedValue
     }
   )
   if (res.status === 200) {
@@ -330,7 +332,7 @@ export const postRefreshProject = async (
   apiToken: string
 ): Promise<Date | null> => {
   // const res = await withInterceptors.post(
-  //   `${url}/project/${projectId}/synchronize`,
+  //   `${url}/projects/${projectId}/synchronize`,
   //   { apiToken }
   // )
   // if (res.status === 200) {
@@ -345,35 +347,25 @@ export const postRefreshProject = async (
   })
 }
 
-export const deleteProject = async (projectId: string): Promise<void> => {
-  // const res = await withInterceptors.delete(`${url}/project/${projectId}`)
-  // if (res.status === 204) {
-  //   return
-  // }
-
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      console.log(projectId)
-      resolve(null)
-    }, 2000)
-  })
+export const deleteProject = async (projectId: string): Promise<boolean> => {
+  const res = await withInterceptors.delete(`${url}/projects/${projectId}`)
+  if (res.status === 204) {
+    return true
+  }
+  return false
 }
 
 export const deleteTeamMember = async (
   projectId: string,
   userId: string
-): Promise<void> => {
-  // const res = await withInterceptors.delete(`${url}/project/${projectId}/member/${userId}`)
-  // if (res.status === 204) {
-  //   return
-  // }
-
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      console.log(projectId, userId)
-      resolve(null)
-    }, 2000)
-  })
+): Promise<boolean> => {
+  const res = await withInterceptors.delete(
+    `${url}/projects/${projectId}/member/${userId}`
+  )
+  if (res.status === 204) {
+    return true
+  }
+  return false
 }
 
 export const postModifyMemberRole = async (
@@ -399,4 +391,54 @@ export const getProject = async (
     return res.data
   }
   return null
+}
+
+export const getEmailInformation = async (
+  projectId: string,
+  token: string
+): Promise<PendingProjectInfoDTO | null> => {
+  const res = await withInterceptors.get(
+    `${url}/integration/linear/${projectId}/information?token=${token}`
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+  // await new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     console.log(projectId, token)
+  //     resolve(null)
+  //   }, 2000)
+  // })
+  // return {
+  //   projectName: 'Fede',
+  //   projectImage: '',
+  //   pmName: 'Tricker',
+  //   pmImage: ''
+  // }
+}
+export const acceptOrDeclineEmail = async (
+  projectId: string,
+  token: string,
+  decline: boolean
+): Promise<PendingProjectInfoDTO | null> => {
+  const res = await withInterceptors.get(
+    `${url}/integration/linear/${projectId}/${decline ? 'decline' : 'accept'}?token=${token}`
+  )
+  if (res.status === 200) {
+    return res.data
+  }
+  return null
+  // await new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     console.log(projectId, token)
+  //     resolve(null)
+  //   }, 2000)
+  // })
+  // return {
+  //   projectName: 'Fede',
+  //   projectImage: '',
+  //   pmName: 'Tricker',
+  //   pmImage: ''
+  // }
 }

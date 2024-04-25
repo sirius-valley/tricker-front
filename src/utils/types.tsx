@@ -425,12 +425,20 @@ export interface OptionalIssueFilters {
   assigneeIds?: string[]
   isOutOfEstimation?: boolean
   cursor?: string
+  searchedValue?: string
 }
 
 export interface ModifyTimeData {
   timeAmount: number
   reason: string
   date: string
+}
+
+export interface PendingProjectInfoDTO {
+  projectName: string
+  projectImage: string | null
+  pmName: string
+  pmImage: string | null
 }
 
 export interface DevProjectFiltersDTO {

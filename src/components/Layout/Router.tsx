@@ -9,7 +9,8 @@ import LoginPage from '@pages/Login/LoginPage'
 import RoleValidation from './RoleValidation/RoleValidation'
 import TicketsSection from '@components/TicketsSection/TicketsSection'
 import LoginFlowValidation from './LoginFlowValidation/LoginFlowValidation'
-import ProjectWrapper from '@components/ProjectWrapper/ProjectWrapper'
+import ProjectsSection from '@components/ProjectsSection/ProjectsSection'
+import ConfirmationPage from '@pages/EmailConfirmation/ConfirmationPage'
 
 export const ROUTER = createBrowserRouter([
   {
@@ -34,6 +35,14 @@ export const ROUTER = createBrowserRouter([
       {
         path: '/setup/loader',
         element: <LoadingPage />
+      },
+      {
+        path: '/accept',
+        element: <ConfirmationPage />
+      },
+      {
+        path: '/decline',
+        element: <ConfirmationPage decline />
       }
     ]
   },
@@ -66,7 +75,7 @@ export const ROUTER = createBrowserRouter([
           },
           {
             path: '/projects',
-            element: <ProjectWrapper />
+            element: <ProjectsSection />
           }
         ]
       }

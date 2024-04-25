@@ -15,8 +15,9 @@ import type {
   IssueChronologyEvent,
   DevProjectFiltersDTO,
   PMProjectFiltersDTO,
-  ProjectView,
-  MyProjectsOption
+  PendingProjectInfoDTO,
+  MyProjectsOption,
+  ProjectView
 } from '@utils/types'
 
 export const useGetMe = (): {
@@ -105,8 +106,9 @@ export const usePostProjectIntegrationRequest = (): {
   error: Error | null
   isPending: boolean
   isSuccess: boolean
+  data: boolean | null | undefined
 } => {
-  const { mutate, error, isPending, isSuccess } = useMutation({
+  const { mutate, error, isPending, isSuccess, data } = useMutation({
     mutationFn: async ({
       provider,
       request
@@ -117,7 +119,7 @@ export const usePostProjectIntegrationRequest = (): {
       return await ApiService.postProjectIntegrationRequest(provider, request)
     }
   })
-  return { mutate, error, isPending, isSuccess }
+  return { mutate, error, isPending, isSuccess, data }
 }
 
 export const useGetUserProjects = (): {
@@ -136,12 +138,13 @@ export const useGetIssuesFilteredAndPaginated = (
   isProjectManager: boolean,
   userId: string,
   projectId: string,
-  filters: OptionalIssueFilters
+  filters: OptionalIssueFilters,
+  enabled?: boolean
 ): {
   data: IssueView[] | null | undefined
   error: Error | null
   isLoading: boolean
-  fetchMore: () => void
+  refetch: () => void
 } => {
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: [
@@ -151,7 +154,7 @@ export const useGetIssuesFilteredAndPaginated = (
       projectId,
       filters
     ],
-
+    enabled,
     queryFn: async () =>
       await ApiService.getIssuesFilteredAndPaginated(
         isProjectManager,
@@ -161,22 +164,24 @@ export const useGetIssuesFilteredAndPaginated = (
       ),
     retry: false
   })
-
-  return { data, error, isLoading, fetchMore: refetch }
+  return { data, error, isLoading, refetch }
 }
 
 export const useGetIssueById = (
-  issueId: string
+  issueId: string,
+  enabled?: boolean
 ): {
   data: IssueDetail | null | undefined
   error: Error | null
   isLoading: boolean
+  refetch: () => void
 } => {
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, refetch } = useQuery({
     queryKey: ['getIssueById', issueId],
-    queryFn: async () => await ApiService.getIssueById(issueId)
+    queryFn: async () => await ApiService.getIssueById(issueId),
+    enabled
   })
-  return { data, error, isLoading }
+  return { data, refetch, error, isLoading }
 }
 
 export const usePostModifyTime = (): {
@@ -276,32 +281,38 @@ export const usePostUnblock = (): {
 }
 
 export const useGetTicketElapsedTime = (
-  issueId: string
+  issueId: string,
+  enabled?: boolean
 ): {
   data: { workedTime: number } | null | undefined
   error: Error | null
   isLoading: boolean
+  refetch: () => void
 } => {
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, refetch } = useQuery({
     queryKey: ['getTicketElapsedTime', issueId],
-    queryFn: async () => await ApiService.getTicketElapsedTime(issueId)
+    queryFn: async () => await ApiService.getTicketElapsedTime(issueId),
+    enabled
   })
-  return { data, error, isLoading }
+  return { data, error, isLoading, refetch }
 }
 
 export const useGetFilters = (
   projectId: string,
-  userRole: 'pm' | 'dev'
+  userRole: 'pm' | 'dev',
+  enabled: boolean
 ): {
   data: DevProjectFiltersDTO | PMProjectFiltersDTO | null | undefined
   error: Error | null
   isLoading: boolean
+  refetch: () => void
 } => {
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading, refetch } = useQuery({
     queryKey: ['getFilters', projectId, userRole],
-    queryFn: async () => await ApiService.getFilters(projectId, userRole)
+    queryFn: async () => await ApiService.getFilters(projectId, userRole),
+    enabled
   })
-  return { data, error, isLoading }
+  return { data, refetch, error, isLoading }
 }
 
 export const useGetChronology = (
@@ -425,6 +436,40 @@ export const useGetMyProjects = (
   const { data, error, isLoading } = useQuery({
     queryKey: ['getMyProjects', projectName],
     queryFn: async () => await ApiService.getMyProjects(projectName)
+  })
+  return { data, error, isLoading }
+}
+
+export const useGetEmailInformation = (
+  projectId: string,
+  token: string
+): {
+  data: PendingProjectInfoDTO | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['getEmailInformation', projectId, token],
+    queryFn: async () => await ApiService.getEmailInformation(projectId, token),
+    retry: false
+  })
+  return { data, error, isLoading }
+}
+
+export const useAcceptOrDeclineEmail = (
+  projectId: string,
+  token: string,
+  decline: boolean
+): {
+  data: PendingProjectInfoDTO | null | undefined
+  error: Error | null
+  isLoading: boolean
+} => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['acceptOrDeclineEmail', projectId, token, decline],
+    queryFn: async () =>
+      await ApiService.acceptOrDeclineEmail(projectId, token, decline),
+    retry: false
   })
   return { data, error, isLoading }
 }

@@ -39,20 +39,22 @@ const AddProject: React.FC<AddProjectProps> = ({
       />
       {screen.width >= 768 ? (
         <div className="flex flex-col justify-center w-full">
-          <div className="max-w-[467px] h-fit rounded-tl-xl bg-gray-500 border-b border-white/10 flex flex-wrap items-center justify-between gap-8 p-[22px] pl-6">
-            <div className="flex w-fit gap-2 items-center">
-              <Body1 className="text-[18px] leading-[22px] text-white">
+          <div className="max-w-[467px] h-fit rounded-tl-xl bg-gray-500 border-b border-white/10 flex flex-wrap xl:flex-nowrap items-center justify-between gap-2 p-[22px] pl-6">
+            <div className="flex w-fit items-center">
+              <Body1 className="text-[18px] leading-[22px] text-white text-nowrap">
                 My Projects
               </Body1>
+            </div>
+            <div className="flex items-center w-full gap-2 lg: justify-between">
               <SquaredIconButton
                 onClick={() => {
                   setShowModal(true)
                 }}
                 icon={<AddTimeIcon />}
-              />{' '}
-            </div>
-            <div className="flex gap-2 items-center">
-              <SearchBar handleValue={setSearchedValue} variant={'desktop'} />
+              />
+              <div className="xl:max-w-[150px] max-w-full">
+                <SearchBar handleValue={setSearchedValue} variant={'desktop'} />
+              </div>
             </div>
           </div>
         </div>

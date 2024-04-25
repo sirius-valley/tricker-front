@@ -109,7 +109,7 @@ const SelectInput = ({
   }
 
   return (
-    <div className="gap-2 flex w-full">
+    <div className="gap-2 flex flex-col w-full">
       {label !== '' && (
         <div className="flex w-fit">
           <Body2
@@ -177,7 +177,9 @@ const SelectInput = ({
           </div>
         )}
       </div>
-      <HelperText className={textColor}>{helperText}</HelperText>
+      {helperText !== '' && (
+        <HelperText className={textColor}>{helperText}</HelperText>
+      )}
     </div>
   )
 }
