@@ -14,7 +14,7 @@ export const ProjectMail: React.FC<ProjectMailProps> = ({
     <div className="flex flex-col items-center justify-center w-[329px] md:w-fit lg:w-[1048px] bg-gray-600 gap-12 md:gap-10 ">
       <div className="flex w-full shadow-2 bg-gray-600/30 border border-primary-400 py-10 px-2 md:py-10 md:px-2 rounded-xl">
         <div className="flex flex-col w-full gap-4 px-4 lg:px-[136px]">
-          <H1 className="lg:text-[34px] leading-[41.15px] text-center text-white font-medium lg:whitespace-nowrap">
+          <H1 className="lg:text-[34px] leading-[41.15px] text-center text-white font-medium">
             We&apos;ve{' '}
             {isAdmin ? `started integrating ` : `sent your request to add `}
             {projectName} into Tricker!
