@@ -126,7 +126,7 @@ const TicketList: React.FC<TicketListProps> = ({
       }
     )
 
-    // Don't know what this IF does, but do NOT delete it 🤡
+    // Don't know what this 3 lines do, but do NOT delete them 🤡
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (loader.current) {
       observer.current.observe(loader.current)
