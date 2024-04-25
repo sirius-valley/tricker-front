@@ -8,17 +8,20 @@ import type * as icons from '@components/Icon/index.ts'
 
 const selectInputVariants = cva(
   [
-    'outline-none placeholder-gray-300 bg-transparent border rounded-lg text-gray-300'
+    'outline placeholder-gray-300 bg-transparent border-none rounded-lg text-gray-300'
   ],
   {
     variants: {
       variant: {
         default: [
           'text-white cursor-pointer px-4 h-[43px]',
-          'hover:border-2 border-gray-300',
-          'focus:border-primary-400'
+          'hover:outline-2 outline-gray-300',
+          'focus:outline-primary-400'
         ],
-        error: ['border-error-500  px-4', 'focus:border-primary-400 h-[43px]'],
+        error: [
+          'outline-error-500  px-4',
+          'focus:outline-primary-400 h-[43px]'
+        ],
         disabled: ['disabled:bg-gray-300/20  ', 'cursor-not-allowed h-[43px]'],
         small: ['h-[29px] px-[6px] text-sm']
       }
