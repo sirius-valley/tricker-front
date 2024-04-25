@@ -34,11 +34,9 @@ const ModalSearchResult: React.FC<ModalSearchResultProps> = ({
           ) : (
             <ul className="flex flex-col gap-1 w-full p-0">
               {results.map((item: { id: string; name: string }) => (
-                <ItemDataBox
-                  key={item.id}
-                  label={item.name}
-                  onClick={handleClick}
-                />
+                <div key={item.id}>
+                  <ItemDataBox label={item.name} onClick={handleClick} />
+                </div>
               ))}
             </ul>
           )}

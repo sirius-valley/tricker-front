@@ -88,16 +88,14 @@ const InputAutocomplete = ({
         tooltip={tooltip}
         defaultValue={defaultValue}
       />
-      {query !== '' && (
-        <ModalSearchResult
-          show={showModal}
-          results={data ?? []}
-          handleClick={handleSelect}
-          onClose={() => {
-            setShowModal(false)
-          }}
-        />
-      )}
+      <ModalSearchResult
+        show={showModal}
+        results={data ?? []}
+        handleClick={handleSelect}
+        onClose={() => {
+          setShowModal(false)
+        }}
+      />
     </div>
   )
 }

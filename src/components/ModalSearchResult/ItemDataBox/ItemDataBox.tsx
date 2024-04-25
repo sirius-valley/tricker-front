@@ -1,13 +1,11 @@
 import Body1 from '@utils/typography/body1/body1'
 
 interface ItemDataBoxProps {
-  key: string
   label: string
   onClick: (option: string) => void
 }
 const ItemDataBox: React.FC<ItemDataBoxProps> = ({
   label,
-  key,
   onClick
 }: ItemDataBoxProps): JSX.Element => {
   return (
@@ -16,7 +14,6 @@ const ItemDataBox: React.FC<ItemDataBoxProps> = ({
       onClick={() => {
         onClick(label)
       }}
-      key={key}
     >
       <Body1 className="text-white">{label}</Body1>
     </li>

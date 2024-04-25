@@ -87,7 +87,6 @@ const Input = ({
             className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex items-center text-sm font-normal`}
           >
             {label}
-            &nbsp;
           </Body2>
           {tooltip !== '' && (
             <Tooltip content={tooltip} iconWidth="16" iconHeight="16" />
