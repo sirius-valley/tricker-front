@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
 import {
+  initialState,
   setCurrentTicket,
   setCurrentTrackingTicket,
   setHasToRefetchList,
@@ -88,6 +89,7 @@ const TicketList: React.FC<TicketListProps> = ({
           if (!isMobile) {
             dispatch(setCurrentTicket(data[0]))
           }
+          dispatch(setCurrentTrackingTicket(initialState.currentTrackingTicket))
         } else if (selectedTicket) dispatch(setCurrentTicket(selectedTicket))
       }
     }

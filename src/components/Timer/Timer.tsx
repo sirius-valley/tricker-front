@@ -19,7 +19,12 @@ import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import useScreenSize from '@hooks/useScreenSize'
-import { useAppDispatch, useCurrentTicket, useStopTracking } from '@redux/hooks'
+import {
+  useAppDispatch,
+  useCurrentTicket,
+  useCurrentTrackingTicket,
+  useStopTracking
+} from '@redux/hooks'
 import {
   initialState,
   setCurrentTrackingTicket,
@@ -43,6 +48,7 @@ const Timer: React.FC<TimerProps> = ({
   myTeam = false
 }): JSX.Element => {
   const currentTicket: IssueView = useCurrentTicket()
+  const currentTrackingTicket: IssueView = useCurrentTrackingTicket()
   const stopTracking: boolean = useStopTracking()
   const screen: Screen = useScreenSize()
   const dispatch = useAppDispatch()
@@ -57,6 +63,8 @@ const Timer: React.FC<TimerProps> = ({
   const [showModalBlock, setShowModalBlock] = useState<boolean>(false)
   const [showModalResume, setShowModalResume] = useState<boolean>(false)
   const [showModalUnblock, setShowModalUnblock] = useState<boolean>(false)
+
+  const isMobile = screen.width < 768
 
   const {
     mutate: mutateTimer,
@@ -80,12 +88,21 @@ const Timer: React.FC<TimerProps> = ({
   } = useGetTicketElapsedTime(ticketId)
 
   useEffect(() => {
-    if (currentTicket.id) {
+    if (currentTicket.id !== '') {
       setPaused(!currentTicket.isTracking)
       setIsBlocked(currentTicket.isBlocked)
+      if (currentTicket.isTracking) setPaused(!currentTicket.isTracking)
     }
-    if (currentTicket.isTracking) setPaused(!currentTicket.isTracking)
   }, [currentTicket.id, currentTicket.isTracking])
+
+  useEffect(() => {
+    if (isMobile && currentTrackingTicket.id !== '') {
+      setPaused(!currentTrackingTicket.isTracking)
+      setIsBlocked(currentTrackingTicket.isBlocked)
+      if (currentTrackingTicket.isTracking)
+        setPaused(!currentTrackingTicket.isTracking)
+    }
+  }, [currentTrackingTicket.id, currentTrackingTicket.isTracking])
 
   useEffect(() => {
     if (elapsedTime && elapsedTime.workedTime !== time) {
@@ -137,23 +154,25 @@ const Timer: React.FC<TimerProps> = ({
     if (paused && isBlocked) {
       setShowModalResume(true)
     } else if (
-      (currentTicket.stage.type as unknown as string) !==
-      StageType[StageType.STARTED]
+      (currentTicket.id !== '' &&
+        (currentTicket.stage.type as unknown as string) !==
+          StageType[StageType.STARTED]) ||
+      (currentTrackingTicket.id !== '' &&
+        (currentTrackingTicket.stage.type as unknown as string) !==
+          StageType[StageType.STARTED])
     ) {
       memoizedShowSnackBar(
         "This issue needs to be 'In Progress' or 'In Review' in order to be able to track time",
         'error'
       )
-    } else {
-      if (!pendingTimer) {
-        mutateTimer({
-          ticketId,
-          date: new Date(),
-          action: paused ? 'resume' : 'pause'
-        })
-        dispatch(setHasToRefetchList(true))
-        dispatch(setHasToRefetchDisplay(true))
-      }
+    } else if (!pendingTimer) {
+      mutateTimer({
+        ticketId,
+        date: new Date(),
+        action: paused ? 'resume' : 'pause'
+      })
+      dispatch(setHasToRefetchList(true))
+      dispatch(setHasToRefetchDisplay(true))
     }
   }
 

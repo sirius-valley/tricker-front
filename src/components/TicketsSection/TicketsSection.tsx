@@ -90,8 +90,7 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
       })
     }
   }, [data])
-  console.log('Current Ticket: ', currentTicket)
-  console.log('Current Tracking Ticket: ', currentTrackingTicket)
+
   return screen.width >= 768 ? (
     <div className="h-full w-full flex items-center">
       <div className="max-w-[467px] w-full h-full">
