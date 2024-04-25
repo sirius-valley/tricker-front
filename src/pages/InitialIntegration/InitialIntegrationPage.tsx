@@ -170,6 +170,7 @@ const InitialIntegrationPage = (): JSX.Element => {
           {currentStep === 0 && (
             <ProjectAddition
               token={providerKey}
+              error={projectsError ? handleErrorMessage(projectsError) : ''}
               providers={['Linear']}
               handleToken={(key) => {
                 setProviderKey(key)
