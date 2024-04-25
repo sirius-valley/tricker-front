@@ -4,10 +4,11 @@ import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
 import { ProfilePicture } from '@components/ProfilePicture/ProfilePicture'
 import Body1 from '@utils/typography/body1/body1'
 import Body2 from '@utils/typography/body2/body2'
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import config from '../../../tailwind.config'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 import { Priority, type UserIssue } from '@utils/types'
+import { Tooltip } from '@components/Tooltip/Tooltip'
 
 export interface TicketCardProps {
   ticketId: string
@@ -36,27 +37,37 @@ const TicketCard: React.FC<TicketCardProps> = ({
   storyPoints,
   handleClick
 }): JSX.Element => {
+  const textRef = useRef<HTMLParagraphElement | null>(null)
+  const [isTruncated, setIsTruncated] = useState<boolean>(false)
   const colors = config.theme.extend.colors
   const activeColor = (color: string): string => {
     return selectedCard ? 'primary-400' : color
   }
+
+  useEffect(() => {
+    if (textRef.current) {
+      setIsTruncated(textRef.current.scrollWidth > textRef.current.clientWidth)
+    }
+  }, [name])
+
   return (
     <button
       className={`w-full h-[114px] bg-${activeColor(`white`)} bg-opacity-5 border border-${activeColor(`gray-400`)} py-4 px-6 gap-4 rounded-xl flex flex-col`}
       onClick={handleClick}
     >
       <div className={`flex justify-start items-start gap-1 w-full`}>
-        <span
-          className={`flex flex-col text-left gap-2 w-full md:w-full h-[46px]`}
-        >
+        <span className={`flex flex-col text-left gap-2 w-full h-[46px]`}>
           <Body2 className={`leading-[19.36px] text-${activeColor(`white`)}`}>
             {ticketId}
           </Body2>
-          <Body1
-            className={`max-w-[22vw] xl:max-w-[70vw] xl:w-[10vw] min-w-full leading-[19.36px] truncate text-${activeColor(`white`)}`}
-          >
-            {name}
-          </Body1>
+          <Tooltip content={isTruncated ? name : ''}>
+            <p
+              ref={textRef}
+              className={`xl:w-[12vw] lg:w-[25vw] md:w-[35vw] w-[70vw] min-w-full leading-[19.36px] truncate text-${activeColor(`white`)} font-inter font-normal text-base`}
+            >
+              {name}
+            </p>
+          </Tooltip>
         </span>
         {isProjectManager && (
           <div className="min-w-7">
