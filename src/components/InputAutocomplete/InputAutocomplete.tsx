@@ -12,7 +12,8 @@ const InputAutocomplete = ({
   readonly = false,
   placeholder = '',
   tooltip = '',
-  defaultValue = ''
+  defaultValue = '',
+  handleValue
 }: InputProps): JSX.Element => {
   const [query, setQuery] = useState<string>('')
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -45,6 +46,7 @@ const InputAutocomplete = ({
 
   const handleSelect = (option: string): void => {
     setQuery(option)
+    handleValue(option)
     setShowModal(false)
   }
 

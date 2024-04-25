@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import Input from '@components/Input/Input'
 import SelectInput from '@components/SelectInput/SelectInput'
 import Icon from '@components/Icon/Icon'
 import Body2 from '@utils/typography/body2/body2'
@@ -9,6 +8,7 @@ import { usePostBlock } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Spinner from '@components/Spinner/Spinner'
 import { useCurrentTicket } from '@redux/hooks'
+import InputAutocomplete from '@components/InputAutocomplete/InputAutocomplete'
 
 interface ModalBlockProps {
   onClose: () => void
@@ -124,10 +124,10 @@ const ModalBlock: React.FC<ModalBlockProps> = ({ onClose, show }) => {
                   required
                 />
               </div>
-              <Input
+              <InputAutocomplete
                 label="Other reason or Clarifications"
                 handleValue={handleComment}
-                placeholder="Blocked by TIK-292"
+                placeholder="TIK-292"
                 variant={'default'}
                 required={selectedReason === 'Other'}
                 helpertext={
