@@ -84,7 +84,8 @@ const Timer: React.FC<TimerProps> = ({
       setPaused(!currentTicket.isTracking)
       setIsBlocked(currentTicket.isBlocked)
     }
-  }, [currentTicket.id])
+    if (currentTicket.isTracking) setPaused(!currentTicket.isTracking)
+  }, [currentTicket.id, currentTicket.isTracking])
 
   useEffect(() => {
     if (elapsedTime && elapsedTime.workedTime !== time) {
