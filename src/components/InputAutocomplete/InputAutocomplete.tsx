@@ -38,7 +38,7 @@ const InputAutocomplete = ({
       projectId: currentProjectId,
       issueName: query
     })
-  }, 300)
+  }, 600)
 
   useEffect(() => {
     handleSearchDebounced(query)

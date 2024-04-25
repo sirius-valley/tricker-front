@@ -24,7 +24,7 @@ const ModalSearchResult: React.FC<ModalSearchResultProps> = ({
     <>
       {show && (
         <div
-          className="w-full bg-gray-500 rounded-b-xl py-2 border border-white/15"
+          className="absolute w-full bg-gray-500 rounded-b-xl py-2 border border-white/15"
           onClick={handleClose}
         >
           {results.length === 0 ? (
