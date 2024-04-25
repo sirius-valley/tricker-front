@@ -138,8 +138,7 @@ export const postProjectIntegrationRequest = async (
       projectId: authorizationRequest.projectId,
       integratorId: authorizationRequest.integratorId,
       members: authorizationRequest.members,
-      organizationName: authorizationRequest.organizationName,
-      issueProviderName: authorizationRequest.issueProviderName
+      organizationName: authorizationRequest.organizationName
     }
   )
   if (res.status === 201) {
