@@ -6,17 +6,17 @@ import { Tooltip } from '@components/Tooltip/Tooltip'
 
 const inputVariants = cva(
   [
-    'placeholder:italic outline-none placeholder-gray-400 bg-transparent border rounded-lg py-3 px-4 w-full h-[43px] text-gray-300'
+    'placeholder:italic outline placeholder-gray-400 bg-transparent border-none rounded-lg py-3 px-4 w-full h-[43px] text-gray-300'
   ],
   {
     variants: {
       variant: {
         default: [
           'text-white cursor-pointer',
-          'hover:border-2 border-gray-300',
-          'focus:border-primary-400'
+          'hover:outline-2 outline-gray-300',
+          'focus:outline-primary-400'
         ],
-        error: ['border-error-500', 'focus:border-primary-400'],
+        error: ['outline-error-500', 'focus:outline-primary-400'],
         disabled: ['disabled:bg-gray-300/20', 'cursor-not-allowed']
       }
     },
