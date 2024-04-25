@@ -4,6 +4,7 @@ import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import { handleErrorMessage } from '@data-provider/AxiosError'
 import { useGetIssuesByTitle } from '@data-provider/query'
 import useDebounce from '@hooks/useDebounce'
+import { useCurrentProjectId, useUser, useUserRole } from '@redux/hooks'
 import { useState, useEffect, useRef, useCallback } from 'react'
 
 const InputAutocomplete = ({
@@ -19,6 +20,9 @@ const InputAutocomplete = ({
   handleValue
 }: InputProps): JSX.Element => {
   const { showSnackBar } = useSnackBar()
+  const userRole = useUserRole()
+  const user = useUser()
+  const currentProjectId = useCurrentProjectId()
   const memoizedShowSnackBar = useCallback(showSnackBar, [showSnackBar])
   const [query, setQuery] = useState<string>('')
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -28,7 +32,12 @@ const InputAutocomplete = ({
   const { mutate, error, data } = useGetIssuesByTitle()
 
   const handleSearchDebounced = useDebounce((query: string) => {
-    mutate({ issueName: query })
+    mutate({
+      isProjectManager: userRole === 'Project Manager',
+      userId: user.id,
+      projectId: currentProjectId,
+      issueName: query
+    })
   }, 300)
 
   useEffect(() => {
