@@ -2,7 +2,6 @@ import FilterSection from '@components/FilterSection/FilterSection'
 import TicketList from '@components/TicketList/TicketList'
 import { useState } from 'react'
 import { type OptionalIssueFilters, type IssueView } from '@utils/types'
-import Timer from '@components/Timer/Timer'
 import useScreenSize from '@hooks/useScreenSize'
 import { useCurrentTrackingTicket } from '@redux/hooks'
 
@@ -15,17 +14,22 @@ const TicketListWrapper: React.FC<TicketListWrapperProps> = ({
   currentTicket,
   userRole
 }: TicketListWrapperProps): JSX.Element => {
+  const screen = useScreenSize()
+  const currentTrackingTicket = useCurrentTrackingTicket()
   const [selectedFilters, setSelectedFilters] = useState<OptionalIssueFilters>(
     {}
   )
   const [searchedTicket, setSearchedTicket] = useState<string>('')
   const [outOfEstimation, setOutOfEstimation] = useState<boolean>(false)
   const [view, setView] = useState<'grid' | 'list'>('grid')
-  const screen = useScreenSize()
-  const currentTrackingTicket = useCurrentTrackingTicket()
 
   return (
-    <div className="flex flex-col w-full items-center justify-center h-full border-r border-white/10 md:my-0 my-[70px]">
+    <div
+      style={{
+        height: `${screen.width >= 768 || (currentTicket.id === '' && currentTrackingTicket.id === '') ? '100%' : 'calc(100% - 84px)'}`
+      }}
+      className="flex flex-col w-full items-center justify-center border-r border-white/10 md:my-0"
+    >
       <FilterSection
         handleFilters={(options: OptionalIssueFilters) => {
           setSelectedFilters(options)
@@ -43,12 +47,6 @@ const TicketListWrapper: React.FC<TicketListWrapperProps> = ({
         isProjectManager={userRole === 'Project Manager'}
         currentTicket={currentTicket}
       />
-      {screen.width < 768 && currentTrackingTicket.id !== '' && (
-        <Timer
-          ticketId={currentTrackingTicket.id}
-          ticketName={currentTrackingTicket.name}
-        />
-      )}
     </div>
   )
 }

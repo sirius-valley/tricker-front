@@ -218,7 +218,7 @@ const Timer: React.FC<TimerProps> = ({
   }, [successUnblock, successTimer, errorUnblock, errorTimer])
 
   return (
-    <div className="w-full self-end h-32 md:bg-gray-500 bg-gray-700 xl:px-10 py-4 px-5 items-center flex text-white md:rounded-br-xl border-t border-white/10">
+    <div className="w-full self-end md:bg-gray-500 bg-gray-700 xl:px-10 py-4 px-5 items-center flex text-white md:rounded-br-xl border-t border-white/10">
       <ModalResume
         onResume={() => {
           handleModalResume()

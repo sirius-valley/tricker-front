@@ -8,6 +8,7 @@ import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import {
   useAppDispatch,
   useCurrentTicket,
+  useCurrentTrackingTicket,
   useHasToRefetchDisplay,
   useUser,
   useUserRole
@@ -35,14 +36,13 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
   const userRole = useUserRole()
   const screen = useScreenSize()
   const currentTicket = useCurrentTicket()
+  const currentTrackingTicket = useCurrentTrackingTicket()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   if (user.id === '') navigate('/login')
   const [chronology, setChronology] = useState<IssueChronologyEventDTO[]>([])
   const [enabled, setEnabled] = useState<boolean>(false)
   const { showSnackBar } = useSnackBar()
-
-  const isMobile = screen.width < 768
 
   const deselectCurrentTicket = (): void => {
     dispatch(setCurrentTicket(initialState.currentTicket))
@@ -90,7 +90,8 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
       })
     }
   }, [data])
-
+  console.log('Current Ticket: ', currentTicket)
+  console.log('Current Tracking Ticket: ', currentTrackingTicket)
   return screen.width >= 768 ? (
     <div className="h-full w-full flex items-center">
       <div className="max-w-[467px] w-full h-full">
@@ -126,23 +127,42 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
       )}
     </div>
   ) : (
-    <div className="h-full w-full flex flex-col justify-center">
+    <div className="h-full w-full flex flex-col">
       <TicketListWrapper
         currentTicket={currentTicket}
         userRole={
           myTeam && userRole === 'Project Manager' ? userRole : 'Developer'
         }
       />
+      {(currentTicket.id !== '' || currentTrackingTicket.id !== '') && (
+        <Timer
+          ticketId={
+            currentTicket.id !== ''
+              ? currentTicket.id
+              : currentTrackingTicket.id
+          }
+          ticketName={
+            currentTicket.name !== ''
+              ? currentTicket.name
+              : currentTrackingTicket.name
+          }
+          myTeam={myTeam}
+        />
+      )}
       {currentTicket.id !== '' && (
-        <Modal onClose={deselectCurrentTicket} show={currentTicket.id !== ''}>
-          <div className="flex flex-col justify-end mt-[140px]">
+        <Modal
+          onClose={deselectCurrentTicket}
+          show={currentTicket.id !== ''}
+          isTicketDisplay
+        >
+          <div className="flex flex-col justify-end mt-[90px]">
             <button
               onClick={deselectCurrentTicket}
               className="-rotate-90 hover:bg-gray-500 absolute top-0 left-0 rounded-full m-4"
             >
               <Icon name="CaretUpIcon" width="32" height="32" />
             </button>
-            <div className="relative max-h-[60vh] flex flex-col bg-gray-700 items-center h-full max-w-screen border-t ">
+            <div className="relative max-h-[70vh] flex flex-col bg-gray-700 items-center h-full max-w-screen border-y border-white/15">
               <div
                 className="overflow-y-auto"
                 style={{
@@ -162,18 +182,11 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
                   <Chronology isLoading={isLoading} events={chronology} />
                 </div>
               </div>
-              {isMobile && (
-                <div
-                  style={{ width: 'calc(100% - 10px)' }}
-                  className={`absolute bottom-0 h-[64px] bg-gradient-to-b from-black/10 via-black/60 to-[#000000]`}
-                />
-              )}
+              <div
+                style={{ width: 'calc(100% - 10px)' }}
+                className={`absolute bottom-0 h-[64px] bg-gradient-to-b from-black/10 via-black/60 to-[#000000]`}
+              />
             </div>
-            <Timer
-              ticketId={currentTicket.id}
-              ticketName={currentTicket.name}
-              myTeam={myTeam}
-            />
           </div>
         </Modal>
       )}
