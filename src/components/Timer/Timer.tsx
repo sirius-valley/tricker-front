@@ -322,7 +322,7 @@ const Timer: React.FC<TimerProps> = ({
                   !paused ? 'disabled' : isBlocked ? 'blocked' : 'default'
                 }
                 onClick={
-                  !paused && pendingUnblock
+                  !paused || pendingUnblock
                     ? () => {}
                     : isBlocked
                       ? handleUnblock
