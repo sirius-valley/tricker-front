@@ -3,7 +3,7 @@ import ItemDataBox from './ItemDataBox/ItemDataBox'
 
 interface ModalSearchResultProps {
   show: boolean
-  results: string[]
+  results: Array<{ id: string; name: string }>
   handleClick: (value: string) => void
   onClose: () => void
 }
@@ -28,13 +28,17 @@ const ModalSearchResult: React.FC<ModalSearchResultProps> = ({
           onClick={handleClose}
         >
           {results.length === 0 ? (
-            <Body1 className="text-white">
+            <Body1 className="text-white w-full flex items-center p-2 px-4">
               No options matches with your search.
             </Body1>
           ) : (
             <ul className="flex flex-col gap-1 w-full p-0">
-              {results.map((item: string, index: number) => (
-                <ItemDataBox key={index} label={item} onClick={handleClick} />
+              {results.map((item: { id: string; name: string }) => (
+                <ItemDataBox
+                  key={item.id}
+                  label={item.name}
+                  onClick={handleClick}
+                />
               ))}
             </ul>
           )}

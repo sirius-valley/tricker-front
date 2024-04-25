@@ -442,3 +442,13 @@ export const acceptOrDeclineEmail = async (
   //   pmImage: ''
   // }
 }
+
+export const getIssuesByTitle = async (
+  issueName: string
+): Promise<Array<{ id: string; name: string }>> => {
+  const res = await withInterceptors.get(`${url}/issue/${issueName}`)
+  if (res.status === 200) {
+    return res.data
+  }
+  return []
+}

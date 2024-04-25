@@ -1,7 +1,7 @@
 import Body1 from '@utils/typography/body1/body1'
 
 interface ItemDataBoxProps {
-  key: number
+  key: string
   label: string
   onClick: (option: string) => void
 }

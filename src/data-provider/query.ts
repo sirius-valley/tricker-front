@@ -472,3 +472,20 @@ export const useAcceptOrDeclineEmail = (
   })
   return { data, error, isLoading }
 }
+
+export const useGetIssuesByTitle = (): {
+  mutate: (args: { issueName: string }) => void
+  data: Array<{ id: string; name: string }> | undefined
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, error, isPending, isSuccess, data } = useMutation({
+    mutationFn: async ({ issueName }: { issueName: string }) => {
+      return await ApiService.getIssuesByTitle(issueName)
+    },
+    retry: false
+  })
+
+  return { mutate, error, isPending, isSuccess, data }
+}

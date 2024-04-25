@@ -1,7 +1,10 @@
 import Input, { type InputProps } from '@components/Input/Input'
 import ModalSearchResult from '@components/ModalSearchResult/ModalSearchResult'
+import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import { handleErrorMessage } from '@data-provider/AxiosError'
+import { useGetIssuesByTitle } from '@data-provider/query'
 import useDebounce from '@hooks/useDebounce'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 const InputAutocomplete = ({
   className,
@@ -15,19 +18,26 @@ const InputAutocomplete = ({
   defaultValue = '',
   handleValue
 }: InputProps): JSX.Element => {
+  const { showSnackBar } = useSnackBar()
+  const memoizedShowSnackBar = useCallback(showSnackBar, [showSnackBar])
   const [query, setQuery] = useState<string>('')
   const [showModal, setShowModal] = useState<boolean>(false)
 
   const resultsRef = useRef<HTMLDivElement | null>(null)
 
+  const { mutate, error, data } = useGetIssuesByTitle()
+
   const handleSearchDebounced = useDebounce((query: string) => {
-    console.log(query)
-    // mutate({query})
+    mutate({ issueName: query })
   }, 300)
 
   useEffect(() => {
     handleSearchDebounced(query)
   }, [query])
+
+  useEffect(() => {
+    if (error) memoizedShowSnackBar(handleErrorMessage(error), 'error')
+  }, [error])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
@@ -72,7 +82,7 @@ const InputAutocomplete = ({
       {query !== '' && (
         <ModalSearchResult
           show={showModal}
-          results={['opcion 1', 'opcion 2', 'opcion 3', 'opcion 4', 'opcion 5']}
+          results={data ?? []}
           handleClick={handleSelect}
           onClose={() => {
             setShowModal(false)
