@@ -66,7 +66,7 @@ const TicketList: React.FC<TicketListProps> = ({
     false
   )
 
-  const loader = useRef(null)
+  const loader = useRef<HTMLDivElement | null>(null)
   const observer = useRef<IntersectionObserver | null>(null)
 
   useEffect(() => {
@@ -126,8 +126,6 @@ const TicketList: React.FC<TicketListProps> = ({
       }
     )
 
-    // Don't know what this 3 lines do, but do NOT delete them 🤡
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (loader.current) {
       observer.current.observe(loader.current)
     }
