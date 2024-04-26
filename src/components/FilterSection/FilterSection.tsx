@@ -62,7 +62,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       setEnabled(true)
       refetch()
     }
-  }, [enabled])
+  }, [enabled, projectId])
 
   useEffect(() => {
     if (data) {
