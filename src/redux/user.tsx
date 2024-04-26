@@ -85,6 +85,9 @@ const userSlice = createSlice({
     setUserRole: (state, action: PayloadAction<string>) => {
       state.userRole = action.payload
     },
+    setReceivedProjectId: (state, action: PayloadAction<string>) => {
+      state.userRole = action.payload
+    },
     setCurrentTicket: (state, action: PayloadAction<IssueView>) => {
       state.currentTicket = action.payload
     },
@@ -115,6 +118,7 @@ const userSlice = createSlice({
 export const {
   setUser,
   setUserRole,
+  setReceivedProjectId,
   setCurrentTicket,
   setCurrentProjectId,
   setCurrentStep,

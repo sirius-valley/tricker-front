@@ -1,19 +1,38 @@
 import { useEffect, useState } from 'react'
 import PageWrapper from './PrivateRouteWrapper'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate, useLocation } from 'react-router-dom'
 import { useAppDispatch } from '@redux/hooks'
-import { setUser } from '@redux/user'
+import { setUser, setReceivedProjectId } from '@redux/user'
 import { useGetOrCreateUser } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import uuid from 'uuid'
 
 const PrivateRoute = (): JSX.Element => {
   const [isAuthorized, setIsAuthorized] = useState<boolean>(true)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { showSnackBar } = useSnackBar()
+  const location = useLocation()
 
   const { data, isLoading, error } = useGetOrCreateUser()
   data && dispatch(setUser(data))
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const projectId = params.get('projectId')
+
+    if (projectId) {
+      if (!uuid.validate(projectId)) {
+        navigate('/')
+        showSnackBar(
+          'Invalid project ID, reverting to the default project',
+          'error'
+        )
+      } else {
+        dispatch(setReceivedProjectId(projectId))
+      }
+    }
+  }, [location.search, navigate, showSnackBar])
 
   useEffect(() => {
     if (error) {
