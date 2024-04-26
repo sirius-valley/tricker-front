@@ -11,6 +11,7 @@ import {
 interface InitialStateType {
   user: User
   userRole: string
+  receivedProjectId: string
   currentTicket: IssueView
   currentProjectId: string
   currentStep: number
@@ -39,6 +40,7 @@ export const initialState: InitialStateType = {
     emittedManualTimeModification: []
   },
   userRole: '',
+  receivedProjectId: '',
   currentTicket: {
     id: '',
     assignee: null,
@@ -86,7 +88,7 @@ const userSlice = createSlice({
       state.userRole = action.payload
     },
     setReceivedProjectId: (state, action: PayloadAction<string>) => {
-      state.userRole = action.payload
+      state.receivedProjectId = action.payload
     },
     setCurrentTicket: (state, action: PayloadAction<IssueView>) => {
       state.currentTicket = action.payload
