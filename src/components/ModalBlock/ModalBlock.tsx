@@ -15,12 +15,14 @@ interface ModalBlockProps {
   setIsBlocked: (isBlocked: boolean) => void
   onClose: () => void
   show: boolean
+  issueName: string
 }
 
 const ModalBlock: React.FC<ModalBlockProps> = ({
   setIsBlocked,
   onClose,
-  show
+  show,
+  issueName
 }) => {
   const [selectedReason, setSelectedReason] = useState<string>('')
   const [selectedComment, setSelectedComment] = useState<string>('')
@@ -145,6 +147,7 @@ const ModalBlock: React.FC<ModalBlockProps> = ({
                 placeholder="TIK-292"
                 variant={'default'}
                 required
+                issueName={issueName}
                 helpertext={
                   selectedReason === 'Other' ? 'Please specify the reason' : ''
                 }

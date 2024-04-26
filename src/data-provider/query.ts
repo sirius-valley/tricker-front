@@ -480,6 +480,7 @@ export const useGetIssuesByTitle = (): {
     userId: string
     projectId: string
     issueName: string
+    searchedText: string
   }) => void
   data: Array<{ id: string; name: string }> | undefined
   error: Error | null
@@ -491,18 +492,21 @@ export const useGetIssuesByTitle = (): {
       isProjectManager,
       userId,
       projectId,
-      issueName
+      issueName,
+      searchedText
     }: {
       isProjectManager: boolean
       userId: string
       projectId: string
       issueName: string
+      searchedText: string
     }) => {
       return await ApiService.getIssuesByTitle(
         isProjectManager,
         userId,
         projectId,
-        issueName
+        issueName,
+        searchedText
       )
     },
     retry: false

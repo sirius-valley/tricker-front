@@ -7,6 +7,10 @@ import useDebounce from '@hooks/useDebounce'
 import { useCurrentProjectId, useUser, useUserRole } from '@redux/hooks'
 import { useState, useEffect, useRef, useCallback } from 'react'
 
+interface InputAutocompleteProps extends InputProps {
+  issueName: string
+}
+
 const InputAutocomplete = ({
   className,
   variant,
@@ -17,8 +21,9 @@ const InputAutocomplete = ({
   placeholder = '',
   tooltip = '',
   defaultValue = '',
-  handleValue
-}: InputProps): JSX.Element => {
+  handleValue,
+  issueName
+}: InputAutocompleteProps): JSX.Element => {
   const { showSnackBar } = useSnackBar()
   const userRole = useUserRole()
   const user = useUser()
@@ -36,7 +41,8 @@ const InputAutocomplete = ({
       isProjectManager: userRole === 'Project Manager',
       userId: user.id,
       projectId: currentProjectId,
-      issueName: query
+      issueName,
+      searchedText: query
     })
   }, 600)
 

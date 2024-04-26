@@ -266,6 +266,11 @@ const Timer: React.FC<TimerProps> = ({
         }}
       />
       <ModalBlock
+        issueName={
+          currentTicket.name !== ''
+            ? currentTicket.name
+            : currentTrackingTicket.name
+        }
         setIsBlocked={setIsBlocked}
         show={showModalBlock}
         onClose={() => {
