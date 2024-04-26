@@ -203,7 +203,7 @@ export interface ProjectView {
 }
 
 export interface ProjectPreIntegrated {
-  alreadyIntegrated?: boolean
+  state: 'ADDED' | 'NOT_ADDED'
   providerProjectId: string
   name: string
   image: string | null

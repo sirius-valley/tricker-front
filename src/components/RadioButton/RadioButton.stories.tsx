@@ -33,7 +33,7 @@ export const Primary: Story = {
     selectedValue: '0'
   },
   render: (args) => (
-    <>
+    <div className="flex gap-1">
       <RadioButton
         id={'0'}
         selectedValue={args.selectedValue}
@@ -49,6 +49,35 @@ export const Primary: Story = {
         selectedValue={args.selectedValue}
         handleChecked={() => {}}
       />
-    </>
+    </div>
+  )
+}
+
+export const Disabled: Story = {
+  tags: ['autodocs'],
+  args: {
+    selectedValue: '0'
+  },
+  render: (args) => (
+    <div className="flex gap-1">
+      <RadioButton
+        id={'0'}
+        selectedValue={args.selectedValue}
+        handleChecked={() => {}}
+        disabled
+      />
+      <RadioButton
+        id={'1'}
+        selectedValue={args.selectedValue}
+        handleChecked={() => {}}
+        disabled
+      />
+      <RadioButton
+        id={'2'}
+        selectedValue={args.selectedValue}
+        handleChecked={() => {}}
+        disabled
+      />
+    </div>
   )
 }
