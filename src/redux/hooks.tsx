@@ -18,12 +18,16 @@ export const useSteps = (): Step[] =>
   useAppSelector((state) => state.user.steps)
 export const useProjectName = (): string =>
   useAppSelector((state) => state.user.projectName)
+export const useCurrentTrackingTicket = (): IssueView =>
+  useAppSelector((state) => state.user.currentTrackingTicket)
 export const useCurrentTicket = (): IssueView =>
   useAppSelector((state) => state.user.currentTicket)
 export const useCurrentProjectId = (): string =>
   useAppSelector((state) => state.user.currentProjectId)
 export const useUserRole = (): string =>
   useAppSelector((state) => state.user.userRole)
+export const useStopTracking = (): boolean =>
+  useAppSelector((state) => state.user.stopTracking)
 export const useReceivedProjectId = (): string =>
   useAppSelector((state) => state.user.receivedProjectId)
 export const useUser = (): User => useAppSelector((state) => state.user.user)
@@ -31,3 +35,7 @@ export const useApiKey = (): { provider: string; value: string } =>
   useAppSelector((state) => state.user.apiKey)
 export const useSelectedProjectInfo = (): MyProjectsOption =>
   useAppSelector((state) => state.user.selectedProjectInfo)
+export const useHasToRefetchList = (): boolean =>
+  useAppSelector((state) => state.user.hasToRefetchList)
+export const useHasToRefetchDisplay = (): boolean =>
+  useAppSelector((state) => state.user.hasToRefetchDisplay)

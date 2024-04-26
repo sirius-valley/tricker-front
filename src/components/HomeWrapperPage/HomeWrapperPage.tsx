@@ -90,7 +90,7 @@ const HomeWrapperPage: React.FC = (): JSX.Element => {
         dropdownOptions={dropdownOptions}
         handleDropdownSelect={handleDropdownSelect}
       />
-      <div className="w-full h-full flex-1 flex items-center justify-center bg-gray-700 py-[71px]">
+      <div className="w-full h-full flex justify-center bg-gray-700 py-[71px]">
         <div className="w-full h-full bg-gray-700">
           <Outlet />
         </div>

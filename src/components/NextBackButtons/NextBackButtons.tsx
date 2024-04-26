@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from '@components/Button/Button'
+import Spinner from '@components/Spinner/Spinner'
 
 export enum StepType {
   FIRST = 'First',
@@ -13,6 +14,7 @@ export interface NavProps {
   onNext?: () => void
   nextDisabled?: boolean
   showBackButton?: boolean
+  isLoading: boolean | null
 }
 
 const StepNavigation: React.FC<NavProps> = ({
@@ -20,12 +22,13 @@ const StepNavigation: React.FC<NavProps> = ({
   onBack,
   onNext,
   nextDisabled,
-  showBackButton = true
+  showBackButton = true,
+  isLoading
 }) => {
   const isLastStep = currentStep === StepType.LAST
 
   const handleNext = (): void => {
-    onNext && onNext()
+    ;(isLoading === null || !isLoading) && onNext && onNext()
   }
 
   const handleBack = (): void => {
@@ -50,7 +53,11 @@ const StepNavigation: React.FC<NavProps> = ({
           onClick={handleNext}
           disabled={nextDisabled}
         >
-          Next
+          {isLoading === true ? (
+            <Spinner variant={'black'} size={16} />
+          ) : (
+            'Next'
+          )}
         </Button>
       )}
     </div>
