@@ -83,7 +83,6 @@ export const getPreIntegratedProjects = async (
   key: string,
   provider: string
 ): Promise<ProjectPreIntegrated[] | null> => {
-  console.log(key, provider)
   const res = await withInterceptors.post(
     `${url}/integration/${provider.toLocaleLowerCase()}/projects`,
     {

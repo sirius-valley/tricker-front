@@ -34,7 +34,7 @@ const StepNavigation: React.FC<NavProps> = ({
   const handleBack = (): void => {
     onBack && onBack()
   }
-  console.log(isLoading)
+
   return (
     <div className="flex justify-center gap-6">
       {showBackButton && (
