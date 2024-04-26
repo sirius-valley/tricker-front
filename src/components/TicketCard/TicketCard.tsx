@@ -81,7 +81,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
       </div>
       <div className="flex justify-between items-center w-full">
         <div className="flex items-center w-fit gap-4">
-          <div className="flex gap-1">
+          <div className="flex gap-1 items-center">
             {priority != null && (
               <PriorityIcon
                 fillColor={selectedCard ? colors.primary[400] : 'white'}
@@ -100,16 +100,16 @@ const TicketCard: React.FC<TicketCardProps> = ({
                 points={storyPoints}
               />
             )}
+            {status && (
+              <Pill variant={status}>
+                {status === 'blocked'
+                  ? 'Blocked'
+                  : status === 'label'
+                    ? 'Completed'
+                    : 'Tracking Time'}
+              </Pill>
+            )}
           </div>
-          {status && (
-            <Pill variant={status}>
-              {status === 'blocked'
-                ? 'Blocked'
-                : status === 'label'
-                  ? 'Completed'
-                  : 'Tracking Time'}
-            </Pill>
-          )}
         </div>
         <div className="flex justify-end w-fit items-center">
           {elapsedTime && (
