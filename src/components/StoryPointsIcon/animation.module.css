@@ -1,0 +1,10 @@
+.animation {
+  animation: 1s ease-in-out 1s infinite normal none running pulse;
+  overflow: hidden;
+  max-width: fit-content;
+}
+.animation:hover {
+  width: 100%;
+  transition: all 0.5s ease;
+}
+

@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from './animation.module.css'
 
 export interface StoryPointsIconProps {
   points: number
@@ -13,20 +14,25 @@ const StoryPointsIcon: React.FC<StoryPointsIconProps> = ({
 }) => {
   return (
     <div
-      className={`${className} flex justify-center items-center gap-2.5 rounded-full h-5 w-5 hover:w-fit text-nowrap`}
+      className={
+        `${className} flex  items-center gap-2.5 rounded-full h-5 w-5 hover:w-fit text-nowrap ` +
+        styles.animation
+      }
       style={{ color: fillColor }}
     >
       <div
         style={{ width: '100%', height: '100%', borderColor: fillColor }}
-        className="group rounded-full border py-1 px-2 flex gap-1 items-center justify-center"
+        className="group hover:p-2 rounded-full border flex gap-2 items-center"
       >
+        <div className="min-w-full group-hover:min-w-fit">
+          <p
+            className={`font-semibold font-inter leading-[14.52px] text-${fillColor} w-full text-center`}
+          >
+            {points}
+          </p>
+        </div>
         <p
-          className={`font-semibold font-inter leading-[14.52px] text-${fillColor}`}
-        >
-          {points}
-        </p>
-        <p
-          className={`duration-500 font-semibold font-inter leading-[14.52px] text-${fillColor} hidden group-hover:block `}
+          className={`font-semibold font-inter leading-[14.52px] text-${fillColor} `}
         >
           Story Points
         </p>
