@@ -6,7 +6,7 @@ import { Tooltip } from '@components/Tooltip/Tooltip'
 
 const inputVariants = cva(
   [
-    'placeholder:italic outline placeholder-gray-400 bg-transparent border-none rounded-lg py-3 px-4 w-full h-[43px] text-gray-300'
+    'placeholder:italic outline outline-1 placeholder-gray-400 bg-transparent border-none rounded-lg py-3 px-4 w-full h-[43px] text-gray-300'
   ],
   {
     variants: {
