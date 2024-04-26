@@ -306,7 +306,7 @@ const TicketList: React.FC<TicketListProps> = ({
               <Spinner variant="primary" size={20} />
             </div>
           )}
-          <div ref={loader}></div>
+          <div ref={loader} className="h-[1px]"></div>
         </>
       ) : !data ? (
         <NoTicketMessage />
