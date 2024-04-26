@@ -17,17 +17,11 @@ const meta: Meta<typeof SelectProjectScreen> = {
     handleSelection: {
       action: 'handleSelection'
     },
-    providerKey: {
+    projects: {
       control: {
-        type: 'text'
+        type: 'Array'
       },
-      defaultValue: 'providerKey_1'
-    },
-    provider: {
-      control: {
-        type: 'text'
-      },
-      defaultValue: 'Provider'
+      defaultValue: []
     }
   }
 }
@@ -40,8 +34,7 @@ export const Default: Story = {
   tags: ['autodocs'],
   args: {
     handleSelection: () => {},
-    provider: 'Provider',
-    providerKey: 'ProviderKey_1'
+    projects: []
   },
   render: (args) => <SelectProjectScreen {...args} />
 }

@@ -59,6 +59,21 @@ export const useVerifyToken = (
   return { data, error, isLoading }
 }
 
+export const useGetProjectsToIntegrate = (): {
+  mutate: (args: { key: string; provider: string }) => void
+  data: ProjectPreIntegrated[] | null | undefined
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, error, isPending, isSuccess, data } = useMutation({
+    mutationFn: async ({ key, provider }: { key: string; provider: string }) =>
+      await ApiService.getPreIntegratedProjects(key, provider),
+    retry: false
+  })
+  return { mutate, error, isPending, isSuccess, data }
+}
+
 export const useGetPreIntegratedProjects = (
   key: string,
   provider: string,

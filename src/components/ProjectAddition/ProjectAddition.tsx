@@ -12,6 +12,7 @@ interface ProjectAdditionProps extends React.HTMLAttributes<HTMLDivElement> {
   handleSelectedProvider: (provider: string) => void
   preselectedProvider: string
   providers: string[]
+  error: string
 }
 
 export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
@@ -19,7 +20,8 @@ export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
   handleToken,
   handleSelectedProvider,
   preselectedProvider,
-  providers
+  providers,
+  error
 }): JSX.Element => {
   const screen: Screen = useScreenSize()
   const handleInputValue = (token: string): void => {
@@ -59,9 +61,16 @@ export const ProjectAddition: React.FC<ProjectAdditionProps> = ({
             defaultValue={token}
             handleValue={handleInputValue}
             label="User Token"
+            variant={error.includes('key is not valid') ? 'error' : 'default'}
             required
             tooltip={`${screen.width >= 768 ? 'You can find this under Team Settings > My Account > API > Personal Api Keys' : ''}`}
-            helpertext={`${screen.width < 768 ? 'You can find this under Team Settings > My Account > API > Personal Api Keys' : ''}`}
+            helpertext={
+              error.includes('key is not valid')
+                ? 'The entered token is not valid'
+                : screen.width < 768
+                  ? 'You can find this under Team Settings > My Account > API > Personal Api Keys'
+                  : ''
+            }
             className="h-10 md:h-[69px]"
             placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
           />
