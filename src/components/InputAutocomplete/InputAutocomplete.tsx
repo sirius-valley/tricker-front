@@ -69,6 +69,11 @@ const InputAutocomplete = ({
     setShowModal(false)
   }
 
+  const handleChange = (value: string): void => {
+    setQuery(value)
+    handleValue(value)
+  }
+
   return (
     <div className="relative" ref={resultsRef}>
       <Input
@@ -83,7 +88,7 @@ const InputAutocomplete = ({
         label={label}
         required={required}
         readonly={readonly}
-        handleValue={setQuery}
+        handleValue={handleChange}
         placeholder={placeholder}
         tooltip={tooltip}
         defaultValue={defaultValue}

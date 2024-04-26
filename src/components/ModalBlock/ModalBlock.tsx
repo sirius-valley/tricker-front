@@ -57,10 +57,7 @@ const ModalBlock: React.FC<ModalBlockProps> = ({
   }
 
   useEffect(() => {
-    if (
-      selectedReason === '' ||
-      (selectedReason === 'Other' && selectedComment === '')
-    ) {
+    if (selectedReason === '' || selectedComment === '') {
       setButtonDisabled(true)
     } else {
       setButtonDisabled(false)
@@ -82,7 +79,15 @@ const ModalBlock: React.FC<ModalBlockProps> = ({
       setToInitialValues()
       reset()
     }
-  }, [isSuccess, error, reset, memoizedShowSnackBar, onClose, selectedReason])
+  }, [
+    isSuccess,
+    error,
+    reset,
+    memoizedShowSnackBar,
+    onClose,
+    selectedReason,
+    selectedComment
+  ])
 
   const handleSubmitBlock = (): void => {
     if (selectedReason) {
