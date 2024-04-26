@@ -13,6 +13,7 @@ interface InitialStateType {
   userRole: string
   stopTracking: boolean
   currentTrackingTicket: IssueView
+  receivedProjectId: string
   currentTicket: IssueView
   currentProjectId: string
   currentStep: number
@@ -61,6 +62,7 @@ export const initialState: InitialStateType = {
     isBlocked: false,
     isTracking: false
   },
+  receivedProjectId: '',
   currentTicket: {
     id: '',
     assignee: null,
@@ -115,6 +117,9 @@ const userSlice = createSlice({
     setCurrentTrackingTicket: (state, action: PayloadAction<IssueView>) => {
       state.currentTrackingTicket = action.payload
     },
+    setReceivedProjectId: (state, action: PayloadAction<string>) => {
+      state.receivedProjectId = action.payload
+    },
     setCurrentTicket: (state, action: PayloadAction<IssueView>) => {
       state.currentTicket = action.payload
     },
@@ -153,6 +158,7 @@ export const {
   setUserRole,
   setStopTracking,
   setCurrentTrackingTicket,
+  setReceivedProjectId,
   setCurrentTicket,
   setCurrentProjectId,
   setCurrentStep,
