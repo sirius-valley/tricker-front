@@ -11,7 +11,7 @@ import type {
   IssueView,
   IssueDetail,
   ModifyTimeData,
-  IssueChronologyEvent,
+  IssueChronologyEventDTO,
   DevProjectFiltersDTO,
   PMProjectFiltersDTO,
   PendingProjectInfoDTO,
@@ -193,9 +193,10 @@ export const useGetIssueById = (
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ['getIssueById', issueId],
     queryFn: async () => await ApiService.getIssueById(issueId),
-    enabled
+    enabled,
+    retry: false
   })
-  return { data, refetch, error, isLoading }
+  return { data, error, isLoading, refetch }
 }
 
 export const usePostModifyTime = (): {
@@ -332,7 +333,7 @@ export const useGetFilters = (
 export const useGetChronology = (
   issueId: string
 ): {
-  data: IssueChronologyEvent[] | null | undefined
+  data: IssueChronologyEventDTO[] | null | undefined
   error: Error | null
   isLoading: boolean
 } => {

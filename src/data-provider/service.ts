@@ -10,7 +10,6 @@ import type {
   IssueDetail,
   ModifyTimeData,
   IssueChronologyEventDTO,
-  IssueChronologyEvent,
   DevProjectFiltersDTO,
   PMProjectFiltersDTO,
   PendingProjectInfoDTO,
@@ -182,6 +181,7 @@ export const getIssuesFilteredAndPaginated = async (
 export const getIssueById = async (
   issueId: string
 ): Promise<IssueDetail | null> => {
+  if (issueId === '') return null
   const res = await withInterceptors.get(`${url}/issue/${issueId}`)
   if (res.status === 200) {
     return res.data
@@ -222,7 +222,7 @@ export const postBlock = async (
 }
 
 export const postUnblock = async (ticketId: string): Promise<any> => {
-  const res = await withInterceptors.post(
+  const res = await withInterceptors.delete(
     `${url}/issue/${ticketId}/flag/remove`,
     {}
   )
@@ -269,8 +269,9 @@ export const getMyProjects = async (
 
 export const getChronology = async (
   issueId: string
-): Promise<IssueChronologyEvent[]> => {
+): Promise<IssueChronologyEventDTO[]> => {
   const res = await withInterceptors.get(`${url}/issue/${issueId}/chronology`)
+
   if (res.status === 200) {
     ;(res.data as IssueChronologyEventDTO[]).forEach((element) => {
       element.date = new Date(element.date)

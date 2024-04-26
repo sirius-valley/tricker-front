@@ -11,6 +11,8 @@ import {
 interface InitialStateType {
   user: User
   userRole: string
+  stopTracking: boolean
+  currentTrackingTicket: IssueView
   currentTicket: IssueView
   currentProjectId: string
   currentStep: number
@@ -21,6 +23,8 @@ interface InitialStateType {
     provider: string
     value: string
   }
+  hasToRefetchList: boolean
+  hasToRefetchDisplay: boolean
 }
 
 export const initialState: InitialStateType = {
@@ -39,6 +43,24 @@ export const initialState: InitialStateType = {
     emittedManualTimeModification: []
   },
   userRole: '',
+  stopTracking: false,
+  currentTrackingTicket: {
+    id: '',
+    assignee: null,
+    stage: {
+      id: '',
+      name: '',
+      type: StageType.BACKLOG,
+      position: 0,
+      color: ''
+    },
+    name: '',
+    title: '',
+    priority: Priority.NO_PRIORITY,
+    storyPoints: 0,
+    isBlocked: false,
+    isTracking: false
+  },
   currentTicket: {
     id: '',
     assignee: null,
@@ -72,7 +94,9 @@ export const initialState: InitialStateType = {
   apiKey: {
     provider: '',
     value: ''
-  }
+  },
+  hasToRefetchList: false,
+  hasToRefetchDisplay: false
 }
 
 const userSlice = createSlice({
@@ -84,6 +108,12 @@ const userSlice = createSlice({
     },
     setUserRole: (state, action: PayloadAction<string>) => {
       state.userRole = action.payload
+    },
+    setStopTracking: (state, action: PayloadAction<boolean>) => {
+      state.stopTracking = action.payload
+    },
+    setCurrentTrackingTicket: (state, action: PayloadAction<IssueView>) => {
+      state.currentTrackingTicket = action.payload
     },
     setCurrentTicket: (state, action: PayloadAction<IssueView>) => {
       state.currentTicket = action.payload
@@ -108,6 +138,12 @@ const userSlice = createSlice({
       action: PayloadAction<{ provider: string; value: string }>
     ) => {
       state.apiKey = action.payload
+    },
+    setHasToRefetchList: (state, action: PayloadAction<boolean>) => {
+      state.hasToRefetchList = action.payload
+    },
+    setHasToRefetchDisplay: (state, action: PayloadAction<boolean>) => {
+      state.hasToRefetchDisplay = action.payload
     }
   }
 })
@@ -115,11 +151,15 @@ const userSlice = createSlice({
 export const {
   setUser,
   setUserRole,
+  setStopTracking,
+  setCurrentTrackingTicket,
   setCurrentTicket,
   setCurrentProjectId,
   setCurrentStep,
   setProjectName,
   setSelectedProjectInfo,
-  setApiKey
+  setApiKey,
+  setHasToRefetchList,
+  setHasToRefetchDisplay
 } = userSlice.actions
 export default userSlice.reducer

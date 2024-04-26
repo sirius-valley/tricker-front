@@ -4,70 +4,48 @@ import Icon from '@components/Icon/Icon'
 import Body2 from '@utils/typography/body2/body2'
 import { Modal } from '@components/Modal/Modal'
 import Button from '@components/Button/Button'
-import { type ModifyTimeData } from '@utils/types'
+import { StageType, type ModifyTimeData } from '@utils/types'
 import { usePostModifyTime } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Spinner from '@components/Spinner/Spinner'
-import { useCurrentTicket } from '@redux/hooks'
+import { useAppDispatch, useCurrentTicket } from '@redux/hooks'
 import DatePicker from '@components/DatePicker/DatePicker'
+import { addReasons, subtractReasons, timesInSeconds } from './Constants'
+import { handleErrorMessage } from '@data-provider/AxiosError'
+import { setHasToRefetchDisplay } from '@redux/user'
 
 interface ModalModifyTimeProps {
   onClose: () => void
   show: boolean
   variant: 'add' | 'remove'
+  refetchTime: () => void
+  elapsedTime: number
 }
 
 const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
   onClose,
   show,
-  variant
+  variant,
+  refetchTime,
+  elapsedTime
 }) => {
   const [selectedTime, setSelectedTime] = useState<number>(0)
   const [selectedReason, setSelectedReason] = useState<string>('')
   const [inputDate, setInputDate] = useState<Date>(new Date())
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
 
+  const dispatch = useAppDispatch()
   const currentTicket = useCurrentTicket()
-
-  const timesInSeconds: Record<string, number> = {
-    '10 minutes': 600,
-    '30 minutes': 1800,
-    '45 minutes': 2700,
-    '1 hour': 3600,
-    '2 hours': 7200,
-    '3 hours': 10800,
-    '4 hours': 14400,
-    '5 hours': 18000,
-    '6 hours': 21600,
-    '7 hours': 25200,
-    '8 hours': 28800,
-    '10 hours': 36000,
-    '11 hours': 39600,
-    '12 hours': 43200
-  }
-
-  const addReasons: string[] = [
-    'I forgot to track time',
-    'Misestimated the task',
-    'Internet connection issues',
-    'Additional research required',
-    'Technical issues',
-    'Other unforeseen circumstances'
-  ]
-
-  const subtractReasons: string[] = [
-    'I forgot to stop tracking time',
-    'Misestimated the task',
-    'Internet connection issues',
-    'Technical issues',
-    'Other unforeseen circumstances'
-  ]
 
   const { mutate, reset, isPending, error, isSuccess } = usePostModifyTime()
   const { showSnackBar } = useSnackBar()
 
   const handleSelectedTime = (time: string): void => {
-    setSelectedTime(timesInSeconds[time])
+    if (time === 'All elapsed time') {
+      setSelectedTime(elapsedTime)
+    } else {
+      setSelectedTime(timesInSeconds[time])
+    }
   }
 
   const handleSelectedReason = (reason: string): void => {
@@ -98,14 +76,13 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
     if (isSuccess) {
       memoizedShowSnackBar('Time change submitted successfully', 'success')
       setToInitialValues()
+      refetchTime()
+      dispatch(setHasToRefetchDisplay(true))
       reset()
       onClose()
     }
     if (error) {
-      memoizedShowSnackBar(
-        'An error occurred while submitting the time',
-        'error'
-      )
+      memoizedShowSnackBar(handleErrorMessage(error), 'error')
       setToInitialValues()
       reset()
     }
@@ -113,7 +90,6 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
     isSuccess,
     error,
     reset,
-    memoizedShowSnackBar,
     onClose,
     selectedTime,
     selectedReason,
@@ -127,8 +103,16 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
         reason: selectedReason,
         date: inputDate.toISOString()
       }
-
-      mutate({ ticketId: currentTicket.id, data, variant })
+      if (
+        (currentTicket.stage.type as unknown as string) !==
+        StageType[StageType.STARTED]
+      ) {
+        memoizedShowSnackBar(
+          "This issue needs to be 'In Progress' or 'In Review' in order to be able to add or substract time",
+          'error'
+        )
+        onClose()
+      } else mutate({ ticketId: currentTicket.id, data, variant })
     }
   }
 
@@ -170,10 +154,25 @@ const ModalModifyTime: React.FC<ModalModifyTimeProps> = ({
               <div className="z-10">
                 <SelectInput
                   handleSelectedOption={handleSelectedTime}
-                  options={Object.keys(timesInSeconds).map((time: string) => ({
-                    value: time,
-                    label: time
-                  }))}
+                  options={
+                    variant === 'add'
+                      ? Object.keys(timesInSeconds).map((time: string) => ({
+                          value: time,
+                          label: time
+                        }))
+                      : [
+                          ...Object.entries(timesInSeconds)
+                            .filter(([_, value]) => value <= elapsedTime)
+                            .map(([time, _]) => ({
+                              value: time,
+                              label: time
+                            })),
+                          {
+                            value: 'All elapsed time',
+                            label: 'All elapsed time'
+                          }
+                        ]
+                  }
                   label="Amount of time"
                   required
                 />

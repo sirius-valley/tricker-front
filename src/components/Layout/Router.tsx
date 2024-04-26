@@ -62,7 +62,7 @@ export const ROUTER = createBrowserRouter([
             ]
           },
           {
-            path: '/stats',
+            path: '/statistics',
             element: <></>
           },
           {

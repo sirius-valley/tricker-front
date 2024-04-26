@@ -17,6 +17,7 @@ import {
   type OptionalIssueFilters
 } from '@utils/types'
 import { priorityEnumMap, setPriorityIcon } from './constants'
+import { createPortal } from 'react-dom'
 
 export interface FilterSectionProps {
   handleFilters: (options: OptionalIssueFilters) => void
@@ -48,6 +49,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   const screen = useScreenSize()
   const projectId = useCurrentProjectId()
   const filterRef = useRef<HTMLDivElement | null>(null)
+  const portalElement = document.getElementById('portal')
 
   const { data, refetch } = useGetFilters(
     projectId,
@@ -60,7 +62,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       setEnabled(true)
       refetch()
     }
-  }, [enabled])
+  }, [enabled, projectId])
 
   useEffect(() => {
     if (data) {
@@ -98,24 +100,9 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     }
   }, [data])
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent): void => {
-      const target = event.target as HTMLElement
-
-      const isClickInside = filterRef.current?.contains(target) ?? false
-      if (!isClickInside) {
-        setShowFilter(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
-
   const handleSelectDebounced = useDebounce((filters: OptionalIssueFilters) => {
     handleFilters(filters)
-  }, 2000)
+  }, 700)
 
   useEffect(() => {
     handleSelectDebounced(selectedFilters)
@@ -123,7 +110,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
   const handleSearchDebounced = useDebounce((searchedValue: string) => {
     handleSearch(searchedValue)
-  }, 1000)
+  }, 300)
 
   useEffect(() => {
     handleSearchDebounced(searchedValue)
@@ -131,7 +118,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
   const handleOutOfEstimationClick = useDebounce((isOutOfEst: boolean) => {
     handleOutOfEstimation(isOutOfEst)
-  }, 1000)
+  }, 300)
 
   useEffect(() => {
     handleOutOfEstimationClick(outOfEstimation)
@@ -152,6 +139,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       setFilterPosition({ top: filterTop, left: filterLeft - 281 })
     }
   }
+
   const handleRemoveTag = (
     value: string,
     type: 'stage' | 'priority' | 'assignee'
@@ -179,6 +167,12 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           )
         })
         break
+    }
+  }
+
+  const handleClose = (event: React.MouseEvent): void => {
+    if (event.target === event.currentTarget) {
+      setShowFilter(false)
     }
   }
 
@@ -283,24 +277,38 @@ const FilterSection: React.FC<FilterSectionProps> = ({
             icon={<FilterIcon />}
             isMobile
           />
-          {showFilter && (
-            <div
-              className="absolute"
-              style={{ top: filterPosition.top, left: filterPosition.left - 6 }}
-            >
-              <Filter
-                statusOptions={statusOptions}
-                priorityOptions={priorityOptions}
-                preselectedFilters={selectedFilters}
-                assigneeOptions={assigneeOptions}
-                outOfEstimation={outOfEstimation}
-                handleFilters={setSelectedFilters}
-                show={showFilter}
-                handleOutOfEstimation={setOutOfEstimation}
-                userRole={userRole}
-              />
-            </div>
-          )}
+          {portalElement !== null &&
+            createPortal(
+              <>
+                {showFilter && (
+                  <div
+                    onClick={handleClose}
+                    className="w-screen h-screen fixed top-0 left-0 bg-[#000000] bg-opacity-40 z-50"
+                  >
+                    <div
+                      className="absolute"
+                      style={{
+                        top: filterPosition.top,
+                        left: filterPosition.left - 4
+                      }}
+                    >
+                      <Filter
+                        statusOptions={statusOptions}
+                        priorityOptions={priorityOptions}
+                        preselectedFilters={selectedFilters}
+                        assigneeOptions={assigneeOptions}
+                        outOfEstimation={outOfEstimation}
+                        handleFilters={setSelectedFilters}
+                        show={showFilter}
+                        handleOutOfEstimation={setOutOfEstimation}
+                        userRole={userRole}
+                      />
+                    </div>
+                  </div>
+                )}
+              </>,
+              portalElement
+            )}
         </div>
       </div>
     </div>

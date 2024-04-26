@@ -6,12 +6,6 @@ const meta: Meta<typeof Timer> = {
   component: Timer,
   tags: ['autodocs'],
   argTypes: {
-    blocked: {
-      defaultValue: true,
-      control: {
-        type: 'boolean'
-      }
-    },
     ticketId: {
       defaultValue: 'TKT-000',
       control: {
