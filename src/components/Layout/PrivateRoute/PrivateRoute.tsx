@@ -5,7 +5,7 @@ import { useAppDispatch } from '@redux/hooks'
 import { setUser, setReceivedProjectId } from '@redux/user'
 import { useGetOrCreateUser } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
-import uuid from 'uuid'
+import { validate } from 'uuid'
 
 const PrivateRoute = (): JSX.Element => {
   const [isAuthorized, setIsAuthorized] = useState<boolean>(true)
@@ -22,7 +22,7 @@ const PrivateRoute = (): JSX.Element => {
     const projectId = params.get('projectId')
 
     if (projectId) {
-      if (!uuid.validate(projectId)) {
+      if (!validate(projectId)) {
         navigate('/')
         showSnackBar(
           'Invalid project ID, reverting to the default project',
@@ -30,6 +30,9 @@ const PrivateRoute = (): JSX.Element => {
         )
       } else {
         dispatch(setReceivedProjectId(projectId))
+        const newParams = new URLSearchParams(location.search)
+        newParams.delete('projectId')
+        navigate(`?${newParams.toString()}`, { replace: true })
       }
     }
   }, [location.search, navigate, showSnackBar])
