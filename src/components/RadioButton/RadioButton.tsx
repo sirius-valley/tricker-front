@@ -11,7 +11,7 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
   id,
   handleChecked,
   selectedValue,
-  disabled = true
+  disabled = false
 }) => {
   const checked = selectedValue === id
   const handleChange = (): void => {
