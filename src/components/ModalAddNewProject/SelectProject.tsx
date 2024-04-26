@@ -47,7 +47,7 @@ const SelectProject: React.FC<SelectProjectProps> = ({
       apiKey.value,
       enabled
     )
-
+  console.log(projects)
   const handleSelection = (project: ProjectPreIntegrated): void => {
     setSelectedProject(project)
   }
