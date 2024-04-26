@@ -7,20 +7,27 @@ import Button from '@components/Button/Button'
 import { usePostBlock } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Spinner from '@components/Spinner/Spinner'
-import { useCurrentTicket } from '@redux/hooks'
+import { useAppDispatch, useCurrentTicket } from '@redux/hooks'
+import { setHasToRefetchDisplay, setHasToRefetchList } from '@redux/user'
 import InputAutocomplete from '@components/InputAutocomplete/InputAutocomplete'
 
 interface ModalBlockProps {
+  setIsBlocked: (isBlocked: boolean) => void
   onClose: () => void
   show: boolean
 }
 
-const ModalBlock: React.FC<ModalBlockProps> = ({ onClose, show }) => {
+const ModalBlock: React.FC<ModalBlockProps> = ({
+  setIsBlocked,
+  onClose,
+  show
+}) => {
   const [selectedReason, setSelectedReason] = useState<string>('')
   const [selectedComment, setSelectedComment] = useState<string>('')
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
 
   const currentTicket = useCurrentTicket()
+  const dispatch = useAppDispatch()
 
   const blockReasons: string[] = [
     'Blocked by another ticket',
@@ -34,8 +41,8 @@ const ModalBlock: React.FC<ModalBlockProps> = ({ onClose, show }) => {
   const { mutate, reset, isPending, error, isSuccess } = usePostBlock()
   const { showSnackBar } = useSnackBar()
 
-  const handleComment = (Comment: string): void => {
-    setSelectedComment(Comment)
+  const handleComment = (comment: string): void => {
+    setSelectedComment(comment)
   }
 
   const handleSelectedReason = (reason: string): void => {
@@ -60,6 +67,9 @@ const ModalBlock: React.FC<ModalBlockProps> = ({ onClose, show }) => {
     }
     if (isSuccess) {
       memoizedShowSnackBar('Ticket blocked successfully', 'success')
+      dispatch(setHasToRefetchDisplay(true))
+      dispatch(setHasToRefetchList(true))
+      setIsBlocked(true)
       setToInitialValues()
       reset()
       onClose()

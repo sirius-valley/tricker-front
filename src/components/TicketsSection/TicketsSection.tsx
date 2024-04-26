@@ -8,14 +8,17 @@ import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import {
   useAppDispatch,
   useCurrentTicket,
+  useCurrentTrackingTicket,
+  useHasToRefetchDisplay,
   useUser,
   useUserRole
 } from '@redux/hooks'
-import { setCurrentTicket, initialState } from '@redux/user'
 import {
-  type IssueChronologyEvent,
-  type IssueChronologyEventDTO
-} from '@utils/types'
+  setCurrentTicket,
+  initialState,
+  setHasToRefetchDisplay
+} from '@redux/user'
+import { type IssueChronologyEventDTO } from '@utils/types'
 import { useNavigate } from 'react-router-dom'
 import Timer from '@components/Timer/Timer'
 import { useGetIssueById } from '@data-provider/query'
@@ -28,14 +31,16 @@ export interface TicketsSectionProps {
 const TicketsSection: React.FC<TicketsSectionProps> = ({
   myTeam = false
 }: TicketsSectionProps): JSX.Element => {
+  const hasToRefetchDisplay: boolean = useHasToRefetchDisplay()
   const user = useUser()
   const userRole = useUserRole()
   const screen = useScreenSize()
   const currentTicket = useCurrentTicket()
+  const currentTrackingTicket = useCurrentTrackingTicket()
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   if (user.id === '') navigate('/login')
-  const [chronology, setChronology] = useState<IssueChronologyEvent[]>([])
+  const [chronology, setChronology] = useState<IssueChronologyEventDTO[]>([])
   const [enabled, setEnabled] = useState<boolean>(false)
   const { showSnackBar } = useSnackBar()
 
@@ -56,6 +61,13 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
   }, [currentTicket.id])
 
   useEffect(() => {
+    if (hasToRefetchDisplay) {
+      refetch()
+      dispatch(setHasToRefetchDisplay(false))
+    }
+  }, [hasToRefetchDisplay])
+
+  useEffect(() => {
     if (error) {
       showSnackBar('Error loading the ticket', 'error')
     }
@@ -70,7 +82,7 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
           if (typeof event.date === 'string') {
             event.date = new Date(event.date)
           }
-          return event as IssueChronologyEvent
+          return event
         })
       )
       chronology.sort((a, b) => {
@@ -105,45 +117,74 @@ const TicketsSection: React.FC<TicketsSectionProps> = ({
               <Chronology isLoading={isLoading} events={chronology} />
             </div>
           </div>
-          <Timer ticketId={currentTicket.id} ticketName={currentTicket.name} />
+          <Timer
+            ticketId={currentTicket.id}
+            ticketName={currentTicket.name}
+            myTeam={myTeam}
+          />
         </div>
       )}
     </div>
   ) : (
-    <div className="h-full w-full flex flex-col justify-center">
+    <div className="h-full w-full flex flex-col">
       <TicketListWrapper
         currentTicket={currentTicket}
         userRole={
           myTeam && userRole === 'Project Manager' ? userRole : 'Developer'
         }
       />
+      {(currentTicket.id !== '' || currentTrackingTicket.id !== '') && (
+        <Timer
+          ticketId={
+            currentTicket.id !== ''
+              ? currentTicket.id
+              : currentTrackingTicket.id
+          }
+          ticketName={
+            currentTicket.name !== ''
+              ? currentTicket.name
+              : currentTrackingTicket.name
+          }
+          myTeam={myTeam}
+        />
+      )}
       {currentTicket.id !== '' && (
-        <Modal onClose={deselectCurrentTicket} show={currentTicket.id !== ''}>
-          <div className="max-h-[70vh] flex flex-col bg-gray-700 items-center h-full max-w-screen border-t ">
-            <div
-              className="overflow-y-auto"
-              style={{
-                boxShadow: 'inset 0px -104px 47px 0px rgba(0,0,0,1)'
-              }}
+        <Modal
+          onClose={deselectCurrentTicket}
+          show={currentTicket.id !== ''}
+          isTicketDisplay
+        >
+          <div className="flex flex-col justify-end mt-[90px]">
+            <button
+              onClick={deselectCurrentTicket}
+              className="-rotate-90 hover:bg-gray-500 absolute top-0 left-0 rounded-full m-4"
             >
-              <button
-                onClick={deselectCurrentTicket}
-                className="-rotate-90 hover:bg-gray-500 absolute top-0 left-0 rounded-full m-4"
+              <Icon name="CaretUpIcon" width="32" height="32" />
+            </button>
+            <div className="relative max-h-[70vh] flex flex-col bg-gray-700 items-center h-full max-w-screen border-y border-white/15">
+              <div
+                className="overflow-y-auto"
+                style={{
+                  boxShadow: 'inset 0px -104px 47px 0px rgba(0,0,0,1)'
+                }}
               >
-                <Icon name="CaretUpIcon" width="32" height="32" />
-              </button>
-              <div className="w-screen h-full py-[72px] px-8 flex flex-col gap-10">
-                <TicketDisplay
-                  isLoading={isLoading}
-                  issue={data || undefined}
-                  variant={
-                    myTeam && userRole === 'Project Manager'
-                      ? userRole
-                      : 'Developer'
-                  }
-                />
-                <Chronology isLoading={isLoading} events={chronology} />
+                <div className="w-screen h-full pt-[72px] px-8 flex flex-col gap-10">
+                  <TicketDisplay
+                    isLoading={isLoading}
+                    issue={data || undefined}
+                    variant={
+                      myTeam && userRole === 'Project Manager'
+                        ? userRole
+                        : 'Developer'
+                    }
+                  />
+                  <Chronology isLoading={isLoading} events={chronology} />
+                </div>
               </div>
+              <div
+                style={{ width: 'calc(100% - 10px)' }}
+                className={`absolute bottom-0 h-[64px] bg-gradient-to-b from-black/10 via-black/60 to-[#000000]`}
+              />
             </div>
           </div>
         </Modal>
