@@ -31,6 +31,7 @@ import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 import config from '../../../tailwind.config'
 import Spinner from '@components/Spinner/Spinner'
 import useScreenSize from '@hooks/useScreenSize'
+import { Tooltip } from '@components/Tooltip/Tooltip'
 
 export interface TicketListProps {
   filters: OptionalIssueFilters
@@ -51,6 +52,8 @@ const TicketList: React.FC<TicketListProps> = ({
   filters,
   isOutOfEstimation
 }: TicketListProps): JSX.Element => {
+  const textRef = useRef<HTMLParagraphElement | null>(null)
+  const [isTruncated, setIsTruncated] = useState<boolean>(false)
   const [openModal, setOpenModal] = useState(false)
   const { showSnackBar } = useSnackBar()
   const screen = useScreenSize()
@@ -210,6 +213,12 @@ const TicketList: React.FC<TicketListProps> = ({
     }
   }, [error])
 
+  useEffect(() => {
+    if (textRef.current) {
+      setIsTruncated(textRef.current.scrollWidth > textRef.current.clientWidth)
+    }
+  }, [name])
+
   return variant === 'list' ? (
     <div
       className={`w-full max-w-[467px] h-full bg-gray-500 overflow-y-scroll scrollbar-hide rounded-bl-xl`}
@@ -270,9 +279,14 @@ const TicketList: React.FC<TicketListProps> = ({
                   <Body1 className="font-semibold min-w-fit">
                     {issue.name}
                   </Body1>
-                  <Body1 className="truncate text-ellipsis ">
-                    {issue.title}
-                  </Body1>
+                  <Tooltip content={isTruncated ? issue.title : ''}>
+                    <p
+                      ref={textRef}
+                      className={`max-w-[22vw] xl:max-w-[70vw] xl:w-[10vw] min-w-full leading-[19.36px] truncate font-inter font-normal text-base`}
+                    >
+                      {issue.title}
+                    </p>
+                  </Tooltip>
                   {issue.isBlocked && <Pill variant="blocked">Blocked</Pill>}
                   {issue.isTracking && (
                     <Pill variant="tracking">Tracking time</Pill>
