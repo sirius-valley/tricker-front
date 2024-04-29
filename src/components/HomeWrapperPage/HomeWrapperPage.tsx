@@ -1,7 +1,12 @@
 import NavBar from '@components/NavBar/NavBar'
 import { SidebarNav } from '@components/SidebarNav/SidebarNav'
 import useScreenSize from '@hooks/useScreenSize'
-import { useAppDispatch, useCurrentProjectId, useUser } from '@redux/hooks'
+import {
+  useAppDispatch,
+  useCurrentProjectId,
+  useReceivedProjectId,
+  useUser
+} from '@redux/hooks'
 import { setCurrentProjectId, setUserRole } from '@redux/user'
 import { type UserProjectRole, type DropdownOption } from '@utils/types'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -9,6 +14,7 @@ import { Outlet, useNavigate } from 'react-router-dom'
 
 const HomeWrapperPage: React.FC = (): JSX.Element => {
   const user = useUser()
+  const receivedProjectId = useReceivedProjectId()
   const navigate = useNavigate()
   if (user.id === '') navigate('/login')
   const dispatch = useAppDispatch()
@@ -22,7 +28,9 @@ const HomeWrapperPage: React.FC = (): JSX.Element => {
     })
   )
   const currentProject = dropdownOptions.find(
-    (option: DropdownOption) => option.id === currentProjectId
+    (option: DropdownOption) =>
+      option.id ===
+      (receivedProjectId !== '' ? receivedProjectId : currentProjectId)
   )
 
   const [currentUserRole, setCurrentUserRole] = useState<string>('Developer')
@@ -82,7 +90,7 @@ const HomeWrapperPage: React.FC = (): JSX.Element => {
         dropdownOptions={dropdownOptions}
         handleDropdownSelect={handleDropdownSelect}
       />
-      <div className="w-full h-full flex-1 flex items-center justify-center bg-gray-700 py-[71px]">
+      <div className="w-full h-full flex justify-center bg-gray-700 py-[71px]">
         <div className="w-full h-full bg-gray-700">
           <Outlet />
         </div>

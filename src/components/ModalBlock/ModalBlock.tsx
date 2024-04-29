@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import Input from '@components/Input/Input'
 import SelectInput from '@components/SelectInput/SelectInput'
 import Icon from '@components/Icon/Icon'
 import Body2 from '@utils/typography/body2/body2'
@@ -8,19 +7,29 @@ import Button from '@components/Button/Button'
 import { usePostBlock } from '@data-provider/query'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Spinner from '@components/Spinner/Spinner'
-import { useCurrentTicket } from '@redux/hooks'
+import { useAppDispatch, useCurrentTicket } from '@redux/hooks'
+import { setHasToRefetchDisplay, setHasToRefetchList } from '@redux/user'
+import InputAutocomplete from '@components/InputAutocomplete/InputAutocomplete'
 
 interface ModalBlockProps {
+  setIsBlocked: (isBlocked: boolean) => void
   onClose: () => void
   show: boolean
+  issueName: string
 }
 
-const ModalBlock: React.FC<ModalBlockProps> = ({ onClose, show }) => {
+const ModalBlock: React.FC<ModalBlockProps> = ({
+  setIsBlocked,
+  onClose,
+  show,
+  issueName
+}) => {
   const [selectedReason, setSelectedReason] = useState<string>('')
   const [selectedComment, setSelectedComment] = useState<string>('')
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false)
 
   const currentTicket = useCurrentTicket()
+  const dispatch = useAppDispatch()
 
   const blockReasons: string[] = [
     'Blocked by another ticket',
@@ -34,8 +43,8 @@ const ModalBlock: React.FC<ModalBlockProps> = ({ onClose, show }) => {
   const { mutate, reset, isPending, error, isSuccess } = usePostBlock()
   const { showSnackBar } = useSnackBar()
 
-  const handleComment = (Comment: string): void => {
-    setSelectedComment(Comment)
+  const handleComment = (comment: string): void => {
+    setSelectedComment(comment)
   }
 
   const handleSelectedReason = (reason: string): void => {
@@ -50,16 +59,16 @@ const ModalBlock: React.FC<ModalBlockProps> = ({ onClose, show }) => {
   }
 
   useEffect(() => {
-    if (
-      selectedReason === '' ||
-      (selectedReason === 'Other' && selectedComment === '')
-    ) {
+    if (selectedReason === '' || selectedComment === '') {
       setButtonDisabled(true)
     } else {
       setButtonDisabled(false)
     }
     if (isSuccess) {
       memoizedShowSnackBar('Ticket blocked successfully', 'success')
+      dispatch(setHasToRefetchDisplay(true))
+      dispatch(setHasToRefetchList(true))
+      setIsBlocked(true)
       setToInitialValues()
       reset()
       onClose()
@@ -72,7 +81,15 @@ const ModalBlock: React.FC<ModalBlockProps> = ({ onClose, show }) => {
       setToInitialValues()
       reset()
     }
-  }, [isSuccess, error, reset, memoizedShowSnackBar, onClose, selectedReason])
+  }, [
+    isSuccess,
+    error,
+    reset,
+    memoizedShowSnackBar,
+    onClose,
+    selectedReason,
+    selectedComment
+  ])
 
   const handleSubmitBlock = (): void => {
     if (selectedReason) {
@@ -124,12 +141,13 @@ const ModalBlock: React.FC<ModalBlockProps> = ({ onClose, show }) => {
                   required
                 />
               </div>
-              <Input
+              <InputAutocomplete
                 label="Other reason or Clarifications"
                 handleValue={handleComment}
-                placeholder="Blocked by TIK-292"
+                placeholder="TIK-292"
                 variant={'default'}
-                required={selectedReason === 'Other'}
+                required
+                issueName={issueName}
                 helpertext={
                   selectedReason === 'Other' ? 'Please specify the reason' : ''
                 }

@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
+
 import * as ApiService from './service'
 
 import type {
@@ -11,7 +12,7 @@ import type {
   IssueView,
   IssueDetail,
   ModifyTimeData,
-  IssueChronologyEvent,
+  IssueChronologyEventDTO,
   DevProjectFiltersDTO,
   PMProjectFiltersDTO,
   PendingProjectInfoDTO,
@@ -57,6 +58,21 @@ export const useVerifyToken = (
     retry: false
   })
   return { data, error, isLoading }
+}
+
+export const useGetProjectsToIntegrate = (): {
+  mutate: (args: { key: string; provider: string }) => void
+  data: ProjectPreIntegrated[] | null | undefined
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, error, isPending, isSuccess, data } = useMutation({
+    mutationFn: async ({ key, provider }: { key: string; provider: string }) =>
+      await ApiService.getPreIntegratedProjects(key, provider),
+    retry: false
+  })
+  return { mutate, error, isPending, isSuccess, data }
 }
 
 export const useGetPreIntegratedProjects = (
@@ -178,9 +194,10 @@ export const useGetIssueById = (
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ['getIssueById', issueId],
     queryFn: async () => await ApiService.getIssueById(issueId),
-    enabled
+    enabled,
+    retry: false
   })
-  return { data, refetch, error, isLoading }
+  return { data, error, isLoading, refetch }
 }
 
 export const usePostModifyTime = (): {
@@ -317,7 +334,7 @@ export const useGetFilters = (
 export const useGetChronology = (
   issueId: string
 ): {
-  data: IssueChronologyEvent[] | null | undefined
+  data: IssueChronologyEventDTO[] | null | undefined
   error: Error | null
   isLoading: boolean
 } => {
@@ -471,4 +488,45 @@ export const useAcceptOrDeclineEmail = (
     retry: false
   })
   return { data, error, isLoading }
+}
+
+export const useGetIssuesByTitle = (): {
+  mutate: (args: {
+    isProjectManager: boolean
+    userId: string
+    projectId: string
+    issueName: string
+    searchedText: string
+  }) => void
+  data: Array<{ id: string; name: string }> | undefined
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, error, isPending, isSuccess, data } = useMutation({
+    mutationFn: async ({
+      isProjectManager,
+      userId,
+      projectId,
+      issueName,
+      searchedText
+    }: {
+      isProjectManager: boolean
+      userId: string
+      projectId: string
+      issueName: string
+      searchedText: string
+    }) => {
+      return await ApiService.getIssuesByTitle(
+        isProjectManager,
+        userId,
+        projectId,
+        issueName,
+        searchedText
+      )
+    },
+    retry: false
+  })
+
+  return { mutate, error, isPending, isSuccess, data }
 }

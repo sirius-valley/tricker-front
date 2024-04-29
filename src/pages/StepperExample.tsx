@@ -38,7 +38,8 @@ const StepperExample = (): JSX.Element => {
         currentStep={stepType}
         onBack={handleBackButton}
         onNext={handleNextButton}
-      ></StepNavigation>
+        isLoading={null}
+      />
     </div>
   )
 }

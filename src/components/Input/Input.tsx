@@ -16,7 +16,7 @@ const inputVariants = cva(
           'hover:outline-2 outline-gray-300',
           'focus:outline-primary-400'
         ],
-        error: ['outline-error-500', 'focus:outline-primary-400'],
+        error: ['text-white outline-error-500', 'focus:outline-primary-400'],
         disabled: ['disabled:bg-gray-300/20', 'cursor-not-allowed']
       }
     },
@@ -53,7 +53,9 @@ const Input = ({
   handleValue,
   placeholder = '',
   tooltip = '',
-  defaultValue = ''
+  defaultValue = '',
+  onFocus,
+  onBlur
 }: InputProps): JSX.Element => {
   const [inputValue, setInputValue] = useState<string>(value)
 
@@ -85,7 +87,6 @@ const Input = ({
             className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex items-center text-sm font-normal`}
           >
             {label}
-            &nbsp;
           </Body2>
           {tooltip !== '' && (
             <Tooltip content={tooltip} iconWidth="16" iconHeight="16" />
@@ -106,6 +107,8 @@ const Input = ({
         placeholder={placeholder}
         onChange={handleChange}
         disabled={variant === 'disabled'}
+        onFocus={onFocus}
+        onBlur={onBlur}
       />
 
       {helpertext !== '' && (

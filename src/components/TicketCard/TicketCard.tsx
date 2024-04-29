@@ -81,7 +81,7 @@ const TicketCard: React.FC<TicketCardProps> = ({
       </div>
       <div className="flex justify-between items-center w-full">
         <div className="flex items-center w-fit gap-4">
-          <div className="flex gap-1 items-center">
+          <div className="flex items-center gap-1 min-h-[23px]">
             {priority != null && (
               <PriorityIcon
                 fillColor={selectedCard ? colors.primary[400] : 'white'}

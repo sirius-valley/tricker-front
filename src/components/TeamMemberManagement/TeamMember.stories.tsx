@@ -15,7 +15,8 @@ const actualUser: MemberPreIntegrated = {
 const project: ProjectPreIntegrated = {
   providerProjectId: 'projectId',
   name: 'Tricker',
-  image: null
+  image: null,
+  state: 'NOT_ADDED'
 }
 
 const queryClient = new QueryClient()

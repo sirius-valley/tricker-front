@@ -19,80 +19,109 @@ import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import useScreenSize from '@hooks/useScreenSize'
-import { useAppDispatch, useCurrentTicket } from '@redux/hooks'
-import { setCurrentTicket } from '@redux/user'
+import {
+  useAppDispatch,
+  useCurrentTicket,
+  useCurrentTrackingTicket,
+  useStopTracking
+} from '@redux/hooks'
+import {
+  initialState,
+  setCurrentTrackingTicket,
+  setHasToRefetchDisplay,
+  setHasToRefetchList,
+  setStopTracking
+} from '@redux/user'
+import { type IssueView, type Screen, StageType } from '@utils/types'
 
 export interface TimerProps {
   ticketId: string
   ticketName: string
-  blocked?: boolean
   handleElapsedTime?: (elapsedTime: number) => void
+  myTeam?: boolean
 }
 
 const Timer: React.FC<TimerProps> = ({
   ticketId,
   ticketName,
-  blocked = false,
-  handleElapsedTime
+  handleElapsedTime,
+  myTeam = false
 }): JSX.Element => {
-  const currentTicket = useCurrentTicket()
+  const currentTicket: IssueView = useCurrentTicket()
+  const currentTrackingTicket: IssueView = useCurrentTrackingTicket()
+  const stopTracking: boolean = useStopTracking()
+  const screen: Screen = useScreenSize()
+  const dispatch = useAppDispatch()
+  const { showSnackBar } = useSnackBar()
+  const memoizedShowSnackBar = useCallback(showSnackBar, [])
 
-  const [enabled, setEnabled] = useState<boolean>(false)
   const [paused, setPaused] = useState<boolean>(!currentTicket.isTracking)
   const [time, setTime] = useState<number>(0)
-  const [isBlocked, setIsBlocked] = useState<boolean>(blocked)
+  const [isBlocked, setIsBlocked] = useState<boolean>(currentTicket.isBlocked)
   const [modalVariant, setModalVariant] = useState<'add' | 'remove'>('add')
   const [showModalTime, setShowModalTime] = useState<boolean>(false)
   const [showModalBlock, setShowModalBlock] = useState<boolean>(false)
   const [showModalResume, setShowModalResume] = useState<boolean>(false)
   const [showModalUnblock, setShowModalUnblock] = useState<boolean>(false)
 
-  const dispatch = useAppDispatch()
-  const {
-    data: elapsedTime,
-    isLoading,
-    error: errorElapsedTime,
-    refetch
-  } = useGetTicketElapsedTime(ticketId, enabled)
-
-  useEffect(() => {
-    if (ticketId !== '') {
-      setEnabled(true)
-      refetch()
-    }
-  }, [ticketId])
-
-  useEffect(() => {
-    if (currentTicket.id) {
-      setPaused(!currentTicket.isTracking)
-    }
-  }, [currentTicket.id])
-
-  useEffect(() => {
-    if (elapsedTime) {
-      setTime(elapsedTime.workedTime)
-    }
-  }, [elapsedTime])
-
-  const { showSnackBar } = useSnackBar()
+  const isMobile = screen.width < 768
 
   const {
     mutate: mutateTimer,
     reset: resetTimer,
-    // isPending: pendingTimer,
+    isPending: pendingTimer,
     isSuccess: successTimer,
     error: errorTimer
   } = usePostTimerAction()
   const {
     mutate: mutateUnblock,
     reset: resetUnblock,
-    // isPending: pendingUnblock,
+    isPending: pendingUnblock,
     isSuccess: successUnblock,
     error: errorUnblock
   } = usePostUnblock()
+  const {
+    data: elapsedTime,
+    isLoading,
+    error: errorElapsedTime,
+    refetch: refetchElapsedTime
+  } = useGetTicketElapsedTime(ticketId)
 
-  const memoizedShowSnackBar = useCallback(showSnackBar, [])
-  const screen = useScreenSize()
+  useEffect(() => {
+    if (currentTicket.id !== '') {
+      setPaused(!currentTicket.isTracking)
+      setIsBlocked(currentTicket.isBlocked)
+      if (currentTicket.isTracking) setPaused(!currentTicket.isTracking)
+    }
+  }, [currentTicket.id, currentTicket.isTracking])
+
+  useEffect(() => {
+    if (isMobile && currentTrackingTicket.id !== '') {
+      setPaused(!currentTrackingTicket.isTracking)
+      setIsBlocked(currentTrackingTicket.isBlocked)
+      if (currentTrackingTicket.isTracking)
+        setPaused(!currentTrackingTicket.isTracking)
+    }
+  }, [currentTrackingTicket.id, currentTrackingTicket.isTracking])
+
+  useEffect(() => {
+    if (elapsedTime && elapsedTime.workedTime !== time) {
+      setTime(elapsedTime.workedTime)
+    }
+  }, [elapsedTime])
+
+  useEffect(() => {
+    if (stopTracking) {
+      mutateTimer({
+        ticketId,
+        date: new Date(),
+        action: 'pause'
+      })
+      dispatch(setHasToRefetchList(true))
+      dispatch(setHasToRefetchDisplay(true))
+      dispatch(setStopTracking(false))
+    }
+  }, [stopTracking])
 
   useEffect(() => {
     if (errorElapsedTime) {
@@ -104,60 +133,97 @@ const Timer: React.FC<TimerProps> = ({
   }, [errorElapsedTime, memoizedShowSnackBar])
 
   useEffect(() => {
-    // window.onbeforeunload = function (e) {
-    //   return e
-    // }
     let interval: NodeJS.Timeout | undefined
-    if (!paused)
+
+    if (!paused) {
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime + 1)
+        setTime((prevTime) => {
+          const newTime = prevTime + 1
+          handleElapsedTime && handleElapsedTime(newTime)
+          return newTime
+        })
       }, 1000)
-    else {
-      clearInterval(interval)
-      handleElapsedTime && handleElapsedTime(time)
     }
+
     return () => {
-      clearInterval(interval)
+      if (interval) clearInterval(interval)
     }
-  })
+  }, [paused])
 
   const handleTrackingButton = (): void => {
     if (paused && isBlocked) {
-      setShowModalTime(true)
-    } else {
+      setShowModalResume(true)
+    } else if (
+      (currentTicket.id !== '' &&
+        (currentTicket.stage.type as unknown as string) !==
+          StageType[StageType.STARTED]) ||
+      (currentTrackingTicket.id !== '' &&
+        (currentTrackingTicket.stage.type as unknown as string) !==
+          StageType[StageType.STARTED])
+    ) {
+      memoizedShowSnackBar(
+        "This issue needs to be 'In Progress' or 'In Review' in order to be able to track time",
+        'error'
+      )
+    } else if (!pendingTimer) {
       mutateTimer({
         ticketId,
         date: new Date(),
         action: paused ? 'resume' : 'pause'
       })
+      dispatch(setHasToRefetchList(true))
+      dispatch(setHasToRefetchDisplay(true))
     }
   }
 
   const handleModalResume = (): void => {
-    mutateUnblock({ ticketId })
-    mutateTimer({
-      ticketId,
-      date: new Date(),
-      action: 'resume'
-    })
-    setShowModalTime(false)
+    if (
+      (currentTicket.stage.type as unknown as string) !==
+      StageType[StageType.STARTED]
+    ) {
+      memoizedShowSnackBar(
+        "This issue needs to be 'In Progress' or 'In Review' in order to be able to track time",
+        'error'
+      )
+      setShowModalResume(false)
+    } else if (!pendingTimer) {
+      mutateUnblock({ ticketId })
+      mutateTimer({
+        ticketId,
+        date: new Date(),
+        action: 'resume'
+      })
+      setShowModalResume(false)
+      dispatch(setHasToRefetchList(true))
+      dispatch(setHasToRefetchDisplay(true))
+    }
   }
 
   const handleUnblock = (): void => {
     mutateUnblock({ ticketId })
     setShowModalUnblock(false)
+    dispatch(setHasToRefetchList(true))
+    dispatch(setHasToRefetchDisplay(true))
   }
 
   useEffect(() => {
     if (successUnblock) {
       showSnackBar('The ticket is now Unblocked', 'success')
+      dispatch(setHasToRefetchList(true))
+      dispatch(setHasToRefetchDisplay(true))
       setIsBlocked(false)
       resetUnblock()
     }
     if (successTimer) {
       setPaused(!paused)
       resetTimer()
-      dispatch(setCurrentTicket({ ...currentTicket, isTracking: !paused }))
+      dispatch(
+        setCurrentTrackingTicket(
+          paused ? currentTicket : initialState.currentTicket
+        )
+      )
+      dispatch(setHasToRefetchList(true))
+      dispatch(setHasToRefetchDisplay(true))
     }
     if (errorUnblock) {
       showSnackBar('An error occurred while unblocking the ticket', 'error')
@@ -171,7 +237,7 @@ const Timer: React.FC<TimerProps> = ({
   }, [successUnblock, successTimer, errorUnblock, errorTimer])
 
   return (
-    <div className="w-full self-end h-32 md:bg-gray-500 bg-gray-700 xl:px-10 py-4 px-5 items-center flex text-white md:rounded-br-xl border-t border-white/10">
+    <div className="w-full self-end md:bg-gray-500 bg-gray-700 xl:px-10 py-4 px-5 items-center flex text-white md:rounded-br-xl border-t border-white/10">
       <ModalResume
         onResume={() => {
           handleModalResume()
@@ -193,11 +259,19 @@ const Timer: React.FC<TimerProps> = ({
       <ModalModifyTime
         variant={modalVariant}
         show={showModalTime}
+        elapsedTime={time}
+        refetchTime={refetchElapsedTime}
         onClose={() => {
           setShowModalTime(false)
         }}
       />
       <ModalBlock
+        issueName={
+          currentTicket.name !== ''
+            ? currentTicket.name
+            : currentTrackingTicket.name
+        }
+        setIsBlocked={setIsBlocked}
         show={showModalBlock}
         onClose={() => {
           setShowModalBlock(false)
@@ -223,83 +297,79 @@ const Timer: React.FC<TimerProps> = ({
             </div>
           )}
         </div>
-        <div className="flex w-fit gap-4 items-center justify-center">
-          {!paused ? (
-            <Tooltip content={'Stop the timer before substracting time'}>
+        {!myTeam && (
+          <div className="flex w-fit gap-4 items-center justify-center">
+            <Tooltip
+              content={!paused ? 'Stop the timer before substracting time' : ''}
+            >
               <RoundedIconButton
                 className="w-11 h-11"
                 icon={<SubstractTimeIcon />}
                 size={screen.width > 1024 ? 'lg' : 'sm'}
-                variant={'disabled'}
+                variant={!paused ? 'disabled' : 'default'}
+                onClick={
+                  !paused
+                    ? () => {}
+                    : () => {
+                        setModalVariant('remove')
+                        setShowModalTime(true)
+                      }
+                }
               />
             </Tooltip>
-          ) : (
-            <RoundedIconButton
-              className="w-11 h-11"
-              icon={<SubstractTimeIcon />}
-              size={screen.width > 1024 ? 'lg' : 'sm'}
-              variant={'default'}
-              onClick={() => {
-                setModalVariant('remove')
-                setShowModalTime(true)
-              }}
-            />
-          )}
-          {!paused ? (
-            <Tooltip content={'Stop the timer before adding time'}>
+            <Tooltip
+              content={!paused ? 'Stop the timer before adding time' : ''}
+            >
               <RoundedIconButton
                 className="w-11 h-11"
                 icon={<AddTimeIcon />}
                 size={screen.width > 1024 ? 'lg' : 'sm'}
-                variant={'disabled'}
+                variant={!paused ? 'disabled' : 'default'}
+                onClick={
+                  !paused
+                    ? () => {}
+                    : () => {
+                        setModalVariant('add')
+                        setShowModalTime(true)
+                      }
+                }
               />
             </Tooltip>
-          ) : (
-            <RoundedIconButton
-              className="w-11 h-11"
-              icon={<AddTimeIcon />}
-              size={screen.width > 1024 ? 'lg' : 'sm'}
-              variant={'default'}
-              onClick={() => {
-                setModalVariant('add')
-                setShowModalTime(true)
-              }}
-            />
-          )}
-          {!paused ? (
-            <Tooltip content={'Stop the timer before setting a blocker'}>
+            <Tooltip
+              content={!paused ? 'Stop the timer before setting a blocker' : ''}
+            >
               <RoundedIconButton
                 className="w-11 h-11"
                 icon={<BlockedIcon />}
                 size={screen.width > 1024 ? 'lg' : 'sm'}
-                variant={'disabled'}
+                variant={
+                  !paused ? 'disabled' : isBlocked ? 'blocked' : 'default'
+                }
+                onClick={
+                  !paused || pendingUnblock
+                    ? () => {}
+                    : isBlocked
+                      ? handleUnblock
+                      : () => {
+                          setShowModalBlock(true)
+                        }
+                }
               />
             </Tooltip>
-          ) : (
-            <RoundedIconButton
-              className="w-11 h-11"
-              icon={<BlockedIcon />}
-              size={screen.width > 1024 ? 'lg' : 'sm'}
-              variant={isBlocked ? 'blocked' : 'default'}
-              onClick={
-                isBlocked
-                  ? handleUnblock
-                  : () => {
-                      setShowModalBlock(true)
-                    }
+            <GradientRoundedButton
+              size={screen.width > 1024 ? 'lg' : 'md'}
+              icon={
+                <Icon
+                  name={paused ? 'PlayIcon' : 'StopIcon'}
+                  fillColor="black"
+                />
               }
+              onClick={() => {
+                handleTrackingButton()
+              }}
             />
-          )}
-          <GradientRoundedButton
-            size={screen.width > 1024 ? 'lg' : 'md'}
-            icon={
-              <Icon name={paused ? 'PlayIcon' : 'StopIcon'} fillColor="black" />
-            }
-            onClick={() => {
-              handleTrackingButton()
-            }}
-          />
-        </div>
+          </div>
+        )}
       </div>
     </div>
   )

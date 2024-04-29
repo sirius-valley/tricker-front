@@ -16,13 +16,6 @@ const meta: Meta<typeof NavBar> = {
       control: {
         type: 'boolean'
       }
-    },
-    profilePicture: {
-      type: 'string',
-      control: {
-        type: 'text'
-      },
-      defaultValue: ''
     }
   }
 }
