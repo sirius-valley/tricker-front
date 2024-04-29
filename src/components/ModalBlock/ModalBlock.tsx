@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import Input from '@components/Input/Input'
 import SelectInput from '@components/SelectInput/SelectInput'
 import Icon from '@components/Icon/Icon'
 import Body2 from '@utils/typography/body2/body2'
@@ -10,17 +9,20 @@ import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import Spinner from '@components/Spinner/Spinner'
 import { useAppDispatch, useCurrentTicket } from '@redux/hooks'
 import { setHasToRefetchDisplay, setHasToRefetchList } from '@redux/user'
+import InputAutocomplete from '@components/InputAutocomplete/InputAutocomplete'
 
 interface ModalBlockProps {
   setIsBlocked: (isBlocked: boolean) => void
   onClose: () => void
   show: boolean
+  issueName: string
 }
 
 const ModalBlock: React.FC<ModalBlockProps> = ({
   setIsBlocked,
   onClose,
-  show
+  show,
+  issueName
 }) => {
   const [selectedReason, setSelectedReason] = useState<string>('')
   const [selectedComment, setSelectedComment] = useState<string>('')
@@ -57,10 +59,7 @@ const ModalBlock: React.FC<ModalBlockProps> = ({
   }
 
   useEffect(() => {
-    if (
-      selectedReason === '' ||
-      (selectedReason === 'Other' && selectedComment === '')
-    ) {
+    if (selectedReason === '' || selectedComment === '') {
       setButtonDisabled(true)
     } else {
       setButtonDisabled(false)
@@ -82,7 +81,15 @@ const ModalBlock: React.FC<ModalBlockProps> = ({
       setToInitialValues()
       reset()
     }
-  }, [isSuccess, error, reset, memoizedShowSnackBar, onClose, selectedReason])
+  }, [
+    isSuccess,
+    error,
+    reset,
+    memoizedShowSnackBar,
+    onClose,
+    selectedReason,
+    selectedComment
+  ])
 
   const handleSubmitBlock = (): void => {
     if (selectedReason) {
@@ -134,12 +141,13 @@ const ModalBlock: React.FC<ModalBlockProps> = ({
                   required
                 />
               </div>
-              <Input
+              <InputAutocomplete
                 label="Other reason or Clarifications"
                 handleValue={handleComment}
-                placeholder="Blocked by TIK-292"
+                placeholder="TIK-292"
                 variant={'default'}
                 required
+                issueName={issueName}
                 helpertext={
                   selectedReason === 'Other' ? 'Please specify the reason' : ''
                 }

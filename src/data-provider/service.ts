@@ -442,3 +442,31 @@ export const acceptOrDeclineEmail = async (
   //   pmImage: ''
   // }
 }
+
+export const getIssuesByTitle = async (
+  isProjectManager: boolean,
+  userId: string,
+  projectId: string,
+  issueName: string,
+  searchedText: string
+): Promise<Array<{ id: string; name: string }>> => {
+  // const res = await withInterceptors.get(`${url}/issue/${issueName}`)
+  // if (res.status === 200) {
+  //   return res.data
+  // }
+  // return []
+
+  const issues = await getIssuesFilteredAndPaginated(
+    isProjectManager,
+    userId,
+    projectId,
+    { searchedValue: searchedText }
+  )
+  console.log(issueName)
+  return issues
+    .filter((issue) => issue.name !== issueName)
+    .map((issue: IssueView) => ({
+      id: issue.id,
+      name: issue.name
+    }))
+}

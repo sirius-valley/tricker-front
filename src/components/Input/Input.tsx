@@ -53,7 +53,9 @@ const Input = ({
   handleValue,
   placeholder = '',
   tooltip = '',
-  defaultValue = ''
+  defaultValue = '',
+  onFocus,
+  onBlur
 }: InputProps): JSX.Element => {
   const [inputValue, setInputValue] = useState<string>(value)
 
@@ -85,7 +87,6 @@ const Input = ({
             className={`${variant === 'disabled' ? 'text-gray-300' : 'text-white'} flex items-center text-sm font-normal`}
           >
             {label}
-            &nbsp;
           </Body2>
           {tooltip !== '' && (
             <Tooltip content={tooltip} iconWidth="16" iconHeight="16" />
@@ -106,6 +107,8 @@ const Input = ({
         placeholder={placeholder}
         onChange={handleChange}
         disabled={variant === 'disabled'}
+        onFocus={onFocus}
+        onBlur={onBlur}
       />
 
       {helpertext !== '' && (

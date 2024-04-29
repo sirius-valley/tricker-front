@@ -489,3 +489,44 @@ export const useAcceptOrDeclineEmail = (
   })
   return { data, error, isLoading }
 }
+
+export const useGetIssuesByTitle = (): {
+  mutate: (args: {
+    isProjectManager: boolean
+    userId: string
+    projectId: string
+    issueName: string
+    searchedText: string
+  }) => void
+  data: Array<{ id: string; name: string }> | undefined
+  error: Error | null
+  isPending: boolean
+  isSuccess: boolean
+} => {
+  const { mutate, error, isPending, isSuccess, data } = useMutation({
+    mutationFn: async ({
+      isProjectManager,
+      userId,
+      projectId,
+      issueName,
+      searchedText
+    }: {
+      isProjectManager: boolean
+      userId: string
+      projectId: string
+      issueName: string
+      searchedText: string
+    }) => {
+      return await ApiService.getIssuesByTitle(
+        isProjectManager,
+        userId,
+        projectId,
+        issueName,
+        searchedText
+      )
+    },
+    retry: false
+  })
+
+  return { mutate, error, isPending, isSuccess, data }
+}
