@@ -1,5 +1,11 @@
 import { useGetIssuesFilteredAndPaginated } from '@data-provider/query'
-import { useAppDispatch, useCurrentProjectId, useUser } from '@redux/hooks'
+import {
+  useAppDispatch,
+  useCurrentProjectId,
+  useCurrentTrackingTicket,
+  useHasToRefetchList,
+  useUser
+} from '@redux/hooks'
 import {
   type IssueView,
   type OptionalIssueFilters,
@@ -10,7 +16,13 @@ import Body2 from '@utils/typography/body2/body2'
 import { useEffect, useState, useRef } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import TicketCard from '@components/TicketCard/TicketCard'
-import { setCurrentTicket } from '@redux/user'
+import {
+  initialState,
+  setCurrentTicket,
+  setCurrentTrackingTicket,
+  setHasToRefetchList,
+  setStopTracking
+} from '@redux/user'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
 import ModalStop from '@components/ModalStopTracking/ModalStopTracking'
@@ -19,6 +31,7 @@ import PriorityIcon from '@components/PriorityIcon/PriorityIcon'
 import StoryPointsIcon from '@components/StoryPointsIcon/StoryPointsIcon'
 import config from '../../../tailwind.config'
 import Spinner from '@components/Spinner/Spinner'
+import useScreenSize from '@hooks/useScreenSize'
 
 export interface TicketListProps {
   filters: OptionalIssueFilters
@@ -41,6 +54,7 @@ const TicketList: React.FC<TicketListProps> = ({
 }: TicketListProps): JSX.Element => {
   const [openModal, setOpenModal] = useState(false)
   const { showSnackBar } = useSnackBar()
+  const screen = useScreenSize()
   const currentProjectId = useCurrentProjectId()
   const [cursor, setCursor] = useState('')
   const [canLoad, setCanLoad] = useState(true)
@@ -49,9 +63,13 @@ const TicketList: React.FC<TicketListProps> = ({
   const [filteredIssues, setFilteredIssues] = useState<IssueView[]>([])
   const [groupedByStageName, setGroupedByStageName] = useState<
     Record<string, IssueView[]>
-  >({})
+  >({})  const currentTrackingTicket = useCurrentTrackingTicket()
+  const hasToRefetchList: boolean = useHasToRefetchList()
+
   const user = useUser()
   const dispatch = useAppDispatch()
+
+  const isMobile = screen.width < 768
 
   const { data, error, isLoading, refetch } = useGetIssuesFilteredAndPaginated(
     isProjectManager,
@@ -68,6 +86,36 @@ const TicketList: React.FC<TicketListProps> = ({
 
   const loader = useRef<HTMLDivElement | null>(null)
   const observer = useRef<IntersectionObserver | null>(null)
+
+  useEffect(() => {
+    if (data) {
+      const trackingTicket = data.find((ticket) => ticket.isTracking)
+      const selectedTicket = data.find(
+        (ticket) => ticket.id === currentTicket.id
+      )
+      if (trackingTicket) {
+        if (!isMobile) dispatch(setCurrentTicket(trackingTicket))
+        dispatch(setCurrentTrackingTicket(trackingTicket))
+      } else {
+        if (
+          currentTicket.assignee?.id !== user.id ||
+          (data.length > 0 && currentTicket.id === '')
+        ) {
+          if (!isMobile) {
+            dispatch(setCurrentTicket(data[0]))
+          }
+          dispatch(setCurrentTrackingTicket(initialState.currentTrackingTicket))
+        } else if (selectedTicket) dispatch(setCurrentTicket(selectedTicket))
+      }
+    }
+  }, [data, isMobile])
+
+  useEffect(() => {
+    if (hasToRefetchList) {
+      refetch()
+      dispatch(setHasToRefetchList(false))
+    }
+  }, [hasToRefetchList])
 
   useEffect(() => {
     if (firstLoad) {
@@ -142,7 +190,10 @@ const TicketList: React.FC<TicketListProps> = ({
       const selectedTicked = issues.find(
         (issue: IssueView) => issue.id === ticketId
       )
-      if (selectedTicked && !currentTicket.isTracking) {
+      if (
+        (selectedTicked && currentTrackingTicket.id === '') ||
+        currentTrackingTicket.id === selectedTicked?.id
+      ) {
         dispatch(setCurrentTicket(selectedTicked))
       } else {
         setOpenModal(true)
@@ -325,7 +376,7 @@ const TicketList: React.FC<TicketListProps> = ({
           show={openModal}
         />
       )}
-    </div>
+    </>
   )
 }
 

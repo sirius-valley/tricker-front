@@ -103,6 +103,7 @@ const TicketDisplay: React.FC<TicketDisplayProps> = ({
                         {label.name}
                       </Pill>
                     ))}
+                    {issue.isBlocked && <Pill variant="blocked">Blocked</Pill>}
                   </div>
                 </div>
               </div>

@@ -102,9 +102,9 @@ const SelectProject: React.FC<SelectProjectProps> = ({
                   {projects?.map((project: ProjectPreIntegrated) => (
                     <div
                       key={project.providerProjectId}
-                      className={`flex items-center gap-4 p-4 hover:bg-gray-500 ${project.alreadyIntegrated === true ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                      className={`flex items-center gap-4 p-4 hover:bg-gray-500 ${project.state === 'ADDED' ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                       onClick={() => {
-                        if (project.alreadyIntegrated === true) return
+                        if (project.state === 'ADDED') return
                         setSelectedProject(project)
                         handleSelection(project)
                       }}
@@ -113,6 +113,7 @@ const SelectProject: React.FC<SelectProjectProps> = ({
                         handleChecked={() => {}}
                         id={project.providerProjectId}
                         selectedValue={selectedProject?.providerProjectId || ''}
+                        disabled={project.state === 'ADDED'}
                       />
                       {project.image && project.image !== '' ? (
                         <img
@@ -131,12 +132,12 @@ const SelectProject: React.FC<SelectProjectProps> = ({
                       )}
                       <div className="flex w-full justify-between items-center">
                         <Body1
-                          className={`${project.alreadyIntegrated === true ? 'text-gray-300/80 ' : 'text-white '}`}
+                          className={`${project.state === 'ADDED' ? 'text-gray-300/80 ' : 'text-white '}`}
                         >
                           {project.name}
                         </Body1>
                         <HelperText className="text-gray-300/80">
-                          {project.alreadyIntegrated === true ? 'Added' : ''}
+                          {project.state === 'ADDED' ? 'Added' : ''}
                         </HelperText>
                       </div>
                     </div>

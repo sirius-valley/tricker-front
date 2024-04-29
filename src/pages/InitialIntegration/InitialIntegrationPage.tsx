@@ -26,11 +26,15 @@ import Icon from '@components/Icon/Icon'
 import { TeamMemberManagement } from '@components/TeamMemberManagement/TeamMemberManagement'
 import Button from '@components/Button/Button'
 import { useNavigate } from 'react-router-dom'
-import { usePostProjectIntegrationRequest } from '@data-provider/query'
+import {
+  useGetProjectsToIntegrate,
+  usePostProjectIntegrationRequest
+} from '@data-provider/query'
 import { ProjectMail } from '@components/ProjectMail/ProjectMail'
 import NotificationBadge from '@components/NotificationBadge/NotificationBadge'
 import LoadingPage from '@pages/Loader/LoadingPage'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
+import { handleErrorMessage } from '@data-provider/AxiosError'
 
 const InitialIntegrationPage = (): JSX.Element => {
   const steps: Step[] = useSteps()
@@ -43,6 +47,8 @@ const InitialIntegrationPage = (): JSX.Element => {
   const [providerKey, setProviderKey] = useState<string>(apiKey.value || '')
   const [provider, setProvider] = useState<string>(apiKey.provider || '')
   const { showSnackBar } = useSnackBar()
+
+  const memoizedShowSnackBar = useCallback(showSnackBar, [showSnackBar])
 
   let stepType: StepType
   if (currentStep === 0) {
@@ -63,7 +69,9 @@ const InitialIntegrationPage = (): JSX.Element => {
     }
   }
   const handleNextButton = (): void => {
-    if (currentStep < steps.length - 1) {
+    if (currentStep === 0) {
+      projectsMutate({ key: providerKey, provider })
+    } else if (currentStep < steps.length - 1) {
       dispatch(setCurrentStep(currentStep + 1))
     }
   }
@@ -103,6 +111,20 @@ const InitialIntegrationPage = (): JSX.Element => {
   const { mutate, isPending, error, isSuccess, data } =
     usePostProjectIntegrationRequest()
 
+  const {
+    mutate: projectsMutate,
+    isPending: isPendingProjects,
+    data: projects,
+    error: projectsError,
+    isSuccess: projectsSuccess
+  } = useGetProjectsToIntegrate()
+
+  useEffect(() => {
+    if (projectsError)
+      memoizedShowSnackBar(handleErrorMessage(projectsError), 'error')
+    if (projectsSuccess) dispatch(setCurrentStep(currentStep + 1))
+  }, [projectsError, projectsSuccess])
+
   const handleSubmit = (): void => {
     if (
       !providerKey ||
@@ -111,7 +133,7 @@ const InitialIntegrationPage = (): JSX.Element => {
       !teamMembers ||
       !actualMemberProviderId
     ) {
-      showSnackBar(
+      memoizedShowSnackBar(
         'It seems that we are missing some information. Please try again.',
         'error'
       )
@@ -148,6 +170,7 @@ const InitialIntegrationPage = (): JSX.Element => {
           {currentStep === 0 && (
             <ProjectAddition
               token={providerKey}
+              error={projectsError ? handleErrorMessage(projectsError) : ''}
               providers={['Linear']}
               handleToken={(key) => {
                 setProviderKey(key)
@@ -160,8 +183,7 @@ const InitialIntegrationPage = (): JSX.Element => {
           )}
           {currentStep === 1 && providerKey && provider && (
             <SelectProject
-              providerKey={providerKey}
-              provider={provider}
+              projects={projects ?? []}
               handleSelection={(project: ProjectPreIntegrated) => {
                 setSelectedProject(project)
               }}
@@ -177,6 +199,7 @@ const InitialIntegrationPage = (): JSX.Element => {
           )}
           <div className="flex gap-0 md:gap-6">
             <StepNavigation
+              isLoading={currentStep === 0 ? isPendingProjects : null}
               currentStep={stepType}
               onBack={handleBackButton}
               onNext={handleNextButton}
@@ -240,6 +263,7 @@ const InitialIntegrationPage = (): JSX.Element => {
               </button>
             ) : (
               <StepNavigation
+                isLoading={null}
                 currentStep={StepType.LAST}
                 onBack={() => {
                   navigate('/login/role')

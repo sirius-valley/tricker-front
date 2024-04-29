@@ -16,7 +16,7 @@ const inputVariants = cva(
           'hover:border-2 border-gray-300',
           'focus:border-primary-400'
         ],
-        error: ['border-error-500', 'focus:border-primary-400'],
+        error: ['text-white border-error-500', 'focus:border-primary-400'],
         disabled: ['disabled:bg-gray-300/20', 'cursor-not-allowed']
       }
     },

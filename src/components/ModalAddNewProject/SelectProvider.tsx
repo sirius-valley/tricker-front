@@ -60,10 +60,10 @@ const SelectProvider: React.FC<SelectProviderProps> = ({
   useEffect(() => {
     if (isSuccess && data && enabled) {
       data.sort((a, b) => {
-        if (a.alreadyIntegrated === true && b.alreadyIntegrated === false) {
+        if (a.state === 'ADDED' && b.state === 'NOT_ADDED') {
           return -1
         }
-        if (a.alreadyIntegrated === false && b.alreadyIntegrated === true) {
+        if (a.state === 'NOT_ADDED' && b.state === 'ADDED') {
           return 1
         }
         return 0
