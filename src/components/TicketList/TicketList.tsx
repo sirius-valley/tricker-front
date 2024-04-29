@@ -20,8 +20,7 @@ import {
   initialState,
   setCurrentTicket,
   setCurrentTrackingTicket,
-  setHasToRefetchList,
-  setStopTracking
+  setHasToRefetchList
 } from '@redux/user'
 import { useSnackBar } from '@components/SnackBarProvider/SnackBarProvider'
 import NoTicketMessage from '@components/NoTicketMessage/NoTicketMessage'
@@ -63,7 +62,8 @@ const TicketList: React.FC<TicketListProps> = ({
   const [filteredIssues, setFilteredIssues] = useState<IssueView[]>([])
   const [groupedByStageName, setGroupedByStageName] = useState<
     Record<string, IssueView[]>
-  >({})  const currentTrackingTicket = useCurrentTrackingTicket()
+  >({})
+  const currentTrackingTicket = useCurrentTrackingTicket()
   const hasToRefetchList: boolean = useHasToRefetchList()
 
   const user = useUser()
@@ -376,7 +376,7 @@ const TicketList: React.FC<TicketListProps> = ({
           show={openModal}
         />
       )}
-    </>
+    </div>
   )
 }
 
